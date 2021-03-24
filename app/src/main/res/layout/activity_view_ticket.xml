@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F5F8"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ViewTicket">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:tint="@color/colorPrimary"
+                android:src="@drawable/iconfinder_chevron_left_4781844"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="15dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Check Out"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/clannews"
+                android:gravity="center|left"
+                android:textColor="@color/colorPrimary"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bus_background_busview_design">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/iconfinder_check_mark_checklist_complete_done"
+                    android:layout_marginTop="20dp"
+                    android:tint="@color/green"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Done"
+                    android:textSize="25dp"
+                    android:fontFamily="@font/clanbold"
+                    android:gravity="center"
+                    android:textColor="@color/White"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:fontFamily="@font/clannews"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Your Ticket Purchase was Completed Successfully"
+                    android:textColor="#EEFFFFFF"
+                    android:textSize="18dp" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sample_ticket"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="20dp"
+                    app:cornerRadius="7dp"
+                    android:text="Download Ticket"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/clannews"
+                    android:textSize="18dp"
+                    android:textAllCaps="false"
+                    app:backgroundTint="@color/pinkypinky"/>
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="60dp"
+                     android:layout_marginLeft="30dp"
+                     android:layout_marginRight="30dp">
+                     <TextView
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                         android:text="Print Ticket"
+                         android:textColor="@color/White"
+                         android:gravity="center"
+                         android:textSize="20dp"
+                         android:background="@drawable/print_ticket_background"
+                         android:fontFamily="@font/clannews"/>
+                 </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</LinearLayout>

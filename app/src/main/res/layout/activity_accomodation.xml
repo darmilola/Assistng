@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#F6F5F8"
+    tools:context=".Accomodation">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="40dp"
+        android:textSize="23dp"
+        android:lineSpacingExtra="1dp"
+        android:fontFamily="@font/clannews"
+        android:textColor="@color/colorPrimary"
+        android:text="Let's Find the perfect Apartment for you."/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="40dp"
+        android:textSize="17dp"
+        android:lineSpacingExtra="1dp"
+        android:fontFamily="@font/clannews"
+        android:textColor="@color/colorPrimary"
+        android:text="Your Profession."/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:weightSum="3"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bus_type_selected_background">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/iconfinder_badge"
+                android:tint="@color/White"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Corp Member"
+                android:gravity="center"
+                android:textColor="@color/White"
+                android:fontFamily="@font/clannews"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="#FFE1E1E7"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/bus_type_selected_background">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/employee"
+                android:tint="@color/colorPrimary"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Employee"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/clannews"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:backgroundTint="#FFE1E1E7"
+            android:background="@drawable/bus_type_selected_background">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/other"
+                android:tint="@color/colorPrimary"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Other"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/clannews"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="40dp"
+        android:textSize="17dp"
+        android:lineSpacingExtra="1dp"
+        android:fontFamily="@font/clannews"
+        android:textColor="@color/colorPrimary"
+        android:text="Your Preferred Location."/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:weightSum="5"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:gravity="center|left">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:tint="@color/light_text_color"
+                android:src="@drawable/location_pin_1_2x"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3.4">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/clannews"
+                android:gravity="center|left"
+                android:hint="Lagos,Nigeria"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="#8D8C8C"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|right">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:tint="@color/colorPrimary"
+                android:rotation="-90"
+                android:src="@drawable/iconfinder_chevron_left_4781844"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/colorPrimary"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="40dp"
+            android:textSize="17dp"
+            android:lineSpacingExtra="1dp"
+            android:fontFamily="@font/clannews"
+            android:textColor="@color/colorPrimary"
+            android:layout_alignParentLeft="true"
+            android:text="Price Range"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="20dp"
+            android:textSize="17dp"
+            android:lineSpacingExtra="1dp"
+            android:fontFamily="@font/clannews"
+            android:textColor="@color/pinkypinky"
+            android:layout_alignParentRight="true"
+            android:text="$800 - $2000"/>
+
+
+
+    </RelativeLayout>
+
+    <it.sephiroth.android.library.rangeseekbar.RangeSeekBar
+        android:id="@+id/rangeSeekBar"
+        style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:max="100"
+        app:range_progress_endValue="60"
+        app:range_progress_startEnd_minDiff="1"
+        app:range_progress_startValue="50" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/check_homes"
+        android:text="Check Homes"
+        android:textSize="18dp"
+        android:textAllCaps="false"
+        android:fontFamily="@font/clannews"
+        app:cornerRadius="5dp"/>
+
+
+
+</LinearLayout>

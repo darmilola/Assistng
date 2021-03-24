@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F6F5F8"
+    android:orientation="vertical"
+    tools:context=".ServiceProviderDetails">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:weightSum="5"
+        android:layout_marginTop="5dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/iconfinder_chevron_left_4781844"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:text="Profile"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/clannews"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center|top">
+
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="5dp"
+        app:cardElevation="0dp"
+        android:focusableInTouchMode="true"
+        app:cardCornerRadius="10dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/model"
+            android:scaleType="centerCrop"/>
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="23dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorPrimary"
+        android:text="llham Maulana"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:fontFamily="@font/clannews"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/light_text_color"
+        android:text="Software Developer"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:fontFamily="@font/clannews"/>
+
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/service_provider_hireme"
+        android:background="@drawable/search_background"
+        android:backgroundTint="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:tint="@color/special_activity_background"
+            android:padding="3dp"
+            android:layout_marginTop="2dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_message_black_24dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:textColor="@color/White"
+            android:text="Hire Me"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/clannews"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:weightSum="3"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Rating"
+                android:textColor="#ADADAD"
+                android:textSize="12dp"
+                android:gravity="center|left"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/clannews"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Jobs"
+                android:textColor="#ADADAD"
+                android:textSize="12dp"
+                android:gravity="center"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/clannews"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/clannews"
+                android:gravity="center|right"
+                android:maxLines="1"
+                android:text="Rate\\hr"
+                android:textColor="#ADADAD"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:weightSum="3"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="4dp"
+                    android:tint="@color/yellow"
+                    android:src="@drawable/iconfinderstarfilled"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="4.2"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14dp"
+                    android:gravity="center|left"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/clanmed"/>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="176"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/clanmed"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="N10,000"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14dp"
+                android:gravity="center|right"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/clanmed"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"
+            android:textColor="@color/White"
+            android:fontFamily="@font/clannews"
+            android:text="Portfolio"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_marginTop="10dp"
+            tools:itemCount="1"
+            android:id="@+id/portfolio_recyclerview"
+            tools:listitem="@layout/portfolio_image_recycler_item_design"/>
+
+    </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

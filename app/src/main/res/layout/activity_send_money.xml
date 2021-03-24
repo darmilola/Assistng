@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/special_activity_background"
+    tools:context=".SendMoney">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="1dp"
+        app:strokeWidth="0.5dp"
+        app:cardBackgroundColor="@color/white"
+        app:strokeColor="#c8c8c8">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send Money"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28dp"
+            android:gravity="center"
+            android:fontFamily="@font/clannews"/>
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:id="@+id/send_money_viewpager"/>
+
+</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

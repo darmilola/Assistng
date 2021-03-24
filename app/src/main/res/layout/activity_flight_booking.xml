@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/special_activity_background"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".FlightBooking">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="25dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/iconfinder_chevron_left_4781844"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="22dp"
+            android:layout_marginRight="56dp"
+            android:fontFamily="@font/clannews"
+            android:text="Flights"/>
+    </LinearLayout>
+    <com.asksira.webviewsuite.WebViewSuite
+        android:id="@+id/webViewSuite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:url="https://assisthq.bubbleapps.io/version-test/travelstart"
+        app:webViewProgressBarStyle="linear"
+        app:inflationDelay="100"
+        android:background="@color/special_activity_background"
+        app:enableJavaScript="true"
+        app:overrideTelLink="true"
+        app:overrideEmailLink="true"
+        app:overridePdfLink="true"
+        app:showZoomControl="false"
+        android:layout_marginBottom="55dp"
+        app:enableVerticalScrollBar="false"
+        app:enableHorizontalScrollBar="false"/>
+
+</LinearLayout>

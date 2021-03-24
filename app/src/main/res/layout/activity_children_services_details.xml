@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/special_activity_background"
+    tools:context=".ChildrenServicesDetails">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:focusableInTouchMode="true">
+
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:src="@drawable/glitters"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="-20dp"
+            android:tint="#FF1087AD"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center|top"/>
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/babysitting"
+            android:scaleType="centerInside"
+            android:elevation="2dp"
+            android:layout_marginRight="-10dp"
+            android:layout_gravity="right|center"/>
+
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/yellow_circle"
+            android:scaleType="centerCrop"
+            android:paddingLeft="0dp"
+            android:paddingTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:tint="#FF1087AD"
+            android:layout_marginRight="-80dp"
+            android:layout_marginTop="35dp"
+            android:rotation="1"
+            android:layout_gravity="right|center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|left"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="70dp"
+                android:fontFamily="@font/clanmed"
+                android:gravity="left"
+                android:text="Children Services"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/clannews"
+                android:gravity="left"
+                android:lineSpacingExtra="5dp"
+                android:text="we provide services\nto improve quality of life"
+                android:textColor="#4C576B"
+                android:textSize="13dp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="17dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Experts(500)"
+            android:textSize="15dp"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/clannews"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/colorPrimary"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/toggles_1_2x"
+            android:tint="@color/colorPrimary"/>
+
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
+        android:id="@+id/child_services_experts_recyclerview"
+        tools:listitem="@layout/service_provider_item"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

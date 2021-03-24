@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/special_activity_background"
+    tools:context=".EditProfileActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:weightSum="5"
+        android:focusableInTouchMode="true"
+        android:layout_marginTop="25dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/iconfinder_chevron_left_4781844"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:text="Edit Profile"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/clannews"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="right|center">
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/edit_profile_edittext_background"
+        android:layout_marginTop="30dp"
+        android:weightSum="2">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:gravity="center"
+            android:inputType="text"
+            android:padding="2dp"
+            android:hint="Firstname"
+            android:textColorHint="@color/light_text_color"
+            android:fontFamily="@font/clannews"
+            android:textSize="17dp"
+            android:background="@drawable/search_edit_background"
+            android:layout_height="match_parent"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:gravity="center"
+            android:inputType="text"
+            android:textColor="@color/colorPrimary"
+            android:hint="Lastname"
+            android:textColorHint="@color/light_text_color"
+            android:fontFamily="@font/clannews"
+            android:textSize="17dp"
+            android:background="@drawable/edittext_background_type2"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:inputType="text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:padding="2dp"
+        android:hint="Profession"
+        android:textColorHint="@color/light_text_color"
+        android:fontFamily="@font/clannews"
+        android:textSize="17dp"
+        android:background="@drawable/edit_profile_edittext_background"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center|left"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorPrimary"
+        android:text="What do you want to do on Assist?"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:fontFamily="@font/clannews"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Get Assist from Providers"
+            android:textSize="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/clannews"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Provide Service"
+            android:textSize="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/clannews"/>
+
+    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:text="Update Profile"
+        android:textAllCaps="false"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/clannews"
+        app:cornerRadius="5dp"/>
+
+</LinearLayout>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:context=".PaymentActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:weightSum="5"
+        android:layout_marginTop="5dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/iconfinder_chevron_left_4781844"
+                android:layout_gravity="center"
+                android:tint="@color/white"
+                android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="Payments Process"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/clannews"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="550dp"
+            android:paddingBottom="40dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="7dp"
+            app:strokeColor="@color/warm_grey_four"
+            app:strokeWidth="0.5dp"
+            app:cardElevation="0dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+
+
+   <com.transferwise.sequencelayout.SequenceLayout
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        app:progressForegroundColor="@color/green">
+
+        <com.transferwise.sequencelayout.SequenceStep
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:anchor="Service Charge"
+            app:title="50,000"
+            app:anchorTextAppearance="@style/SequenceDesc"
+            app:titleTextAppearance="@style/SequenceTitle"
+            app:subtitleTextAppearance="@style/SequenceDesc"
+            app:subtitle="Service charge to be decided by the Provider"/>
+
+        <com.transferwise.sequencelayout.SequenceStep
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Awaiting Confirmation"
+            app:anchorTextAppearance="@style/SequenceDesc"
+            app:titleTextAppearance="@style/SequenceTitle"
+            app:subtitleTextAppearance="@style/SequenceDesc"
+            app:anchor="Service Charge Confirmation"/>
+
+        <com.transferwise.sequencelayout.SequenceStep
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:anchor="Payment"
+            app:subtitle="Payment will be fixed pending release by client"
+            app:title="Fixed"
+            app:anchorTextAppearance="@style/SequenceDesc"
+            app:titleTextAppearance="@style/SequenceTitle"
+            app:subtitleTextAppearance="@style/SequenceDesc"/>
+
+        <com.transferwise.sequencelayout.SequenceStep
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Awaiting Delivery"
+            app:anchor="Service Status"
+            app:anchorTextAppearance="@style/SequenceDesc"
+            app:titleTextAppearance="@style/SequenceTitle"
+            app:subtitleTextAppearance="@style/SequenceDesc"/>
+
+       <com.transferwise.sequencelayout.SequenceStep
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:title="Pending Release"
+           app:active="true"
+           app:subtitle="Client needs to release the fund"
+           app:anchor="Service Charge Status"
+           app:anchorTextAppearance="@style/SequenceDesc"
+           app:titleTextAppearance="@style/SequenceTitle"
+           app:subtitleTextAppearance="@style/SequenceDesc"/>
+
+        <com.transferwise.sequencelayout.SequenceStep
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:anchor="Ratings"
+            app:title="Rate the Provider"
+            app:anchorTextAppearance="@style/SequenceDesc"
+            app:titleTextAppearance="@style/SequenceTitle"
+            app:subtitleTextAppearance="@style/SequenceDesc"/>
+   </com.transferwise.sequencelayout.SequenceLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="250dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Confirm Service Charge"
+                    android:textColor="@color/white"
+                    app:cornerRadius="5dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/clannews"
+                    android:textAllCaps="false"
+                    android:textSize="16dp"/>
+            </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+ </LinearLayout>
+</LinearLayout>

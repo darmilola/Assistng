@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#F6F5F8"
+    tools:context=".ServicesLanding">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:weightSum="5"
+        android:orientation="horizontal"
+        android:background="@drawable/search_background">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:layout_marginLeft="10dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:tint="@color/colorPrimary"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/iconfinder_searchicon"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/search_edit_background"
+                android:hint="Search for Anything"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15dp"
+                android:textColorHint="@color/light_text_color"
+                android:fontFamily="@font/clannews"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        app:cardCornerRadius="7dp"
+        app:cardBackgroundColor="#EDEDF3"
+        app:cardElevation="0dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/gardening_tools"
+                android:scaleType="centerCrop"
+                android:paddingLeft="160dp"
+                android:paddingTop="20dp"
+                android:layout_gravity="right|center"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center|left">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:gravity="left"
+                    android:fontFamily="@font/clanmed"
+                    android:text="You are in Good\nhands with us."
+                    android:layout_marginRight="70dp"
+                    android:layout_marginLeft="15dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="90dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/clannews"
+                    android:gravity="left"
+                    android:lineSpacingExtra="5dp"
+                    android:text="we are delighted to provide\nyou the best services"
+                    android:textColor="#4C576B"
+                    android:textSize="13dp" />
+
+            </LinearLayout>
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        tools:listitem="@layout/services_tags_layout"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        android:id="@+id/services_landing_recyclerview"
+        tools:itemCount="3"/>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="7dp"
+                app:cardBackgroundColor="#F7EABF"
+                app:cardElevation="0dp">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/home_services_layout">
+
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/glitters"
+                        android:scaleType="centerCrop"
+                        android:layout_marginRight="-20dp"
+                        android:tint="#FFFFCA28"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center|top"/>
+
+                    <ImageView
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/vacuum"
+                        android:scaleType="centerInside"
+                        android:elevation="2dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="-30dp"
+                        android:layout_gravity="right|center"/>
+
+                    <ImageView
+                        android:layout_width="180dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/yellow_circle"
+                        android:scaleType="centerCrop"
+                        android:paddingLeft="0dp"
+                        android:paddingTop="20dp"
+                        android:layout_marginRight="-60dp"
+                        android:layout_marginTop="35dp"
+                        android:rotation="5"
+                        android:layout_gravity="right|center"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="70dp"
+                            android:fontFamily="@font/clanmed"
+                            android:gravity="left"
+                            android:text="Home Services"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="70dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/clannews"
+                            android:gravity="left"
+                            android:lineSpacingExtra="5dp"
+                            android:text="we provide services\nto improve quality of life"
+                            android:textColor="#4C576B"
+                            android:textSize="13dp" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                app:cardCornerRadius="7dp"
+                app:cardBackgroundColor="#FDD9E2"
+                app:cardElevation="0dp">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/glitters"
+                        android:scaleType="centerInside"
+                        android:layout_marginRight="-20dp"
+                        android:tint="@color/pinkypinky"
+                        android:layout_gravity="center|top"/>
+
+                    <ImageView
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/makeuptool"
+                        android:scaleType="centerInside"
+                        android:elevation="2dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="-30dp"
+                        android:layout_gravity="right|center"/>
+
+                    <ImageView
+                        android:layout_width="180dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/yellow_circle"
+                        android:scaleType="centerCrop"
+                        android:paddingLeft="0dp"
+                        android:tint="@color/pinkypinky"
+                        android:paddingTop="20dp"
+                        android:layout_marginRight="-60dp"
+                        android:layout_marginTop="35dp"
+                        android:rotation="5"
+                        android:layout_gravity="right|center"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="70dp"
+                            android:fontFamily="@font/clanmed"
+                            android:gravity="left"
+                            android:text="Personal Services"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="70dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/clannews"
+                            android:gravity="left"
+                            android:lineSpacingExtra="5dp"
+                            android:text="we provide services\nto improve quality of life"
+                            android:textColor="#4C576B"
+                            android:textSize="13dp" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                app:cardCornerRadius="7dp"
+                app:cardBackgroundColor="#D9F4FD"
+                app:cardElevation="0dp">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/baby_sitting_layout">
+
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/glitters"
+                        android:scaleType="centerCrop"
+                        android:layout_marginRight="-20dp"
+                        android:tint="#FF1087AD"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center|top"/>
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/babysitting"
+                        android:scaleType="centerInside"
+                        android:elevation="2dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="-20dp"
+                        android:layout_gravity="right|center"/>
+
+                    <ImageView
+                        android:layout_width="180dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/yellow_circle"
+                        android:scaleType="centerCrop"
+                        android:paddingLeft="0dp"
+                        android:paddingTop="20dp"
+                        android:tint="#FF1087AD"
+                        android:layout_marginRight="-60dp"
+                        android:layout_marginTop="35dp"
+                        android:rotation="5"
+                        android:layout_gravity="right|center"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="70dp"
+                            android:fontFamily="@font/clanmed"
+                            android:gravity="left"
+                            android:text="Children Services"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="70dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/clannews"
+                            android:gravity="left"
+                            android:lineSpacingExtra="5dp"
+                            android:text="we provide services\nto improve quality of life"
+                            android:textColor="#4C576B"
+                            android:textSize="13dp" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="60dp"
+                app:cardCornerRadius="7dp"
+                app:cardBackgroundColor="#E6DEFD"
+                app:cardElevation="0dp">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/glitters"
+                        android:scaleType="centerCrop"
+                        android:layout_marginRight="-20dp"
+                        android:tint="#3E17B1"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center|top"/>
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/repairservices"
+                        android:scaleType="centerInside"
+                        android:elevation="2dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="-10dp"
+                        android:layout_gravity="right|center"/>
+
+                    <ImageView
+                        android:layout_width="180dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/yellow_circle"
+                        android:scaleType="centerCrop"
+                        android:paddingLeft="0dp"
+                        android:paddingTop="20dp"
+                        android:tint="#3E17B1"
+                        android:layout_marginRight="-60dp"
+                        android:layout_marginTop="35dp"
+                        android:rotation="5"
+                        android:layout_gravity="right|center"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="70dp"
+                            android:fontFamily="@font/clanmed"
+                            android:gravity="left"
+                            android:text="Repairs Services"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="70dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/clannews"
+                            android:gravity="left"
+                            android:lineSpacingExtra="5dp"
+                            android:text="we provide services\nto improve quality of life"
+                            android:textColor="#4C576B"
+                            android:textSize="13dp" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

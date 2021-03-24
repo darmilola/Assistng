@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="130dp"
+    android:layout_height="50dp"
+    android:layout_marginLeft="20dp"
+    android:gravity="center|left"
+    android:background="@drawable/search_background">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/briefcase_2x"
+        android:padding="3dp"
+        android:tint="@color/colorPrimary"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="Cleaning"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/clannews"
+        android:textSize="12dp"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+</LinearLayout>

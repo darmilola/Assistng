@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/special_activity_background"
+    tools:context=".KopasAidVerifications">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        app:contentInsetEnd="0dp"
+        android:layout_marginTop="20dp"
+        app:contentInsetStart="0dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:tint="@color/colorPrimary"
+                android:src="@drawable/iconfinder_chevron_left_4781844"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="15dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Assist Provider Verifications"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/clannews"
+                android:gravity="center|left"
+                android:textColor="@color/colorPrimary"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/edit_profile_edittext_background"
+        android:layout_marginTop="15dp"
+        android:weightSum="2">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:gravity="center"
+            android:inputType="text"
+            android:padding="2dp"
+            android:hint="Firstname"
+            android:textColorHint="@color/light_text_color"
+            android:fontFamily="@font/clannews"
+            android:textSize="17dp"
+            android:background="@drawable/search_edit_background"
+            android:layout_height="match_parent"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:gravity="center"
+            android:inputType="text"
+            android:textColor="@color/colorPrimary"
+            android:hint="Lastname"
+            android:textColorHint="@color/light_text_color"
+            android:fontFamily="@font/clannews"
+            android:textSize="17dp"
+            android:background="@drawable/edittext_background_type2"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:inputType="text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:padding="2dp"
+        android:hint="State of Residence"
+        android:textColorHint="@color/light_text_color"
+        android:fontFamily="@font/clannews"
+        android:textSize="17dp"
+        android:background="@drawable/edit_profile_edittext_background"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:inputType="text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:padding="2dp"
+        android:hint="Professsion"
+        android:textColorHint="@color/light_text_color"
+        android:fontFamily="@font/clannews"
+        android:textSize="17dp"
+        android:background="@drawable/edit_profile_edittext_background"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:inputType="text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:padding="2dp"
+        android:hint="Assist Type"
+        android:textColorHint="@color/light_text_color"
+        android:fontFamily="@font/clannews"
+        android:textSize="17dp"
+        android:background="@drawable/edit_profile_edittext_background"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload Valid ID"
+        android:textSize="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/clanmed"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:fontFamily="@font/clannews"
+        android:gravity="center"
+        android:text="Max Image size 300kb"
+        android:textColor="#7A7A7A"
+        android:textSize="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:background="@drawable/upload_background">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="#376992"
+            android:src="@drawable/cloud_upload_2x"/>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="Apply"
+        android:paddingLeft="10dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="17dp"
+        android:fontFamily="@font/clannews"
+        android:textAllCaps="false"
+        app:cornerRadius="25dp"/>
+</LinearLayout>

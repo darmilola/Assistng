@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ng.assist">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".CabHailingActivity"></activity>
+        <activity android:name=".FlightBooking" />
+        <activity android:name=".Settings" />
+        <activity android:name=".EmployeeVerifications" />
+        <activity android:name=".ServiceProviderVerifications" />
+        <activity android:name=".KopasAidVerifications" />
+        <activity android:name=".VerificationDashBoard" />
+        <activity android:name=".QuickCreditApplication" />
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".SendMoney" />
+        <activity android:name=".PaymentActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".ServiceProviderDetails" />
+        <activity android:name=".ChildrenServicesDetails" />
+        <activity android:name=".HomeServicesDetails" />
+        <activity android:name=".ServicesLanding" />
+        <activity android:name=".AccomodationBooking" />
+        <activity android:name=".AccomodationListings" />
+        <activity android:name=".Accomodation" />
+        <activity android:name=".GroceryCart" />
+        <activity android:name=".GroceryStoreListing" />
+        <activity android:name=".Grocery" />
+        <activity android:name=".GroceryLanding" />
+        <activity android:name=".ViewTicket" />
+        <activity android:name=".BusCheckOut" />
+        <activity android:name=".BusTransport" />
+        <activity android:name=".BuildLocation" />
+        <activity android:name=".Transportation" />
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/FinestWebViewTheme.Light" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA4CbzsmnlH4ggjW30jPlbtxMeCtvAtvLA"/>
+    </application>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+     <uses-permission android:name="android.permission.INTERNET" />
+     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+</manifest>

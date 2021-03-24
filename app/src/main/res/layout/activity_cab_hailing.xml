@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/special_activity_background"
+    tools:context=".CabHailingActivity">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal"
+                android:weightSum="4"
+                android:layout_marginTop="30dp"
+                android:gravity="center|left">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:layout_marginTop="5dp"
+                    android:gravity="top|right">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/drawer_toggle"
+                        android:layout_marginTop="4dp"
+                        android:src="@drawable/iconfinder_map_location_pin_map_marker_glyph"
+                        android:tint="@color/pinkypinky"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/clannews"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginTop="10dp"
+                        android:maxLines="1"
+                        android:text="Parker Road Allen Town"
+                        android:id="@+id/current_location_name"
+                        android:ellipsize="end"
+                        android:textSize="18dp"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/refresh_location_layout">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Change Location"
+                            android:fontFamily="@font/clannews"
+                            android:textColor="@color/light_text_color"
+                            android:textSize="14dp"/>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="15dp"
+                            android:layout_marginTop="3dp"
+                            android:tint="@color/light_text_color"
+                            android:src="@drawable/iconfinder_chevron_left_4781844"
+                            android:rotation="180"/>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="25dp"
+                            android:tint="@color/colorPrimary"
+                            android:rotation="180"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center|top">
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
+            app:cardCornerRadius="20dp">
+
+            <fragment
+                android:id="@+id/cab_hailing_map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:mapType="normal"/>
+
+        </androidx.cardview.widget.CardView>
+        <include layout="@layout/cab_hailing_select_location"/>
+        <include layout="@layout/ride_display_view"/>
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

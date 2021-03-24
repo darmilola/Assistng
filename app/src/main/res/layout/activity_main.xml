@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ng.assist.NoSwipeViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/content_frame"
+            android:layout_marginBottom="105.5dp"
+            android:orientation="vertical"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/White"
+            android:layout_gravity="bottom"
+            android:paddingBottom="50dp"
+            android:id="@+id/bottomnav_root_layout"
+            android:layout_alignParentBottom="true">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#605A5959" />
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:id="@+id/chip_navigation"
+                app:menu="@menu/main_menu"
+                app:itemIconSize="24dp"
+                android:paddingTop="10dp"
+                style="@style/Widget.BottomNavigationStyle"
+                app:labelVisibilityMode="labeled"/>
+
+        </LinearLayout>
+    </FrameLayout>
+
+
+</LinearLayout>

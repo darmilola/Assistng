@@ -1,0 +1,77 @@
+JvmtiExport can_access_local_variables 0
+JvmtiExport can_hotswap_or_post_breakpoint 0
+JvmtiExport can_post_on_exceptions 0
+# 670 ciObject found
+ciMethod java/lang/Object <init> ()V 4097 1 19252555 0 0
+ciMethod java/lang/Object getClass ()Ljava/lang/Class; 2049 1 256 0 -1
+ciMethod java/lang/String length ()I 3089 1 1443182 0 -1
+ciMethod java/lang/Class forName (Ljava/lang/String;)Ljava/lang/Class; 113 1 1445 47 -1
+ciMethod java/lang/Class isAssignableFrom (Ljava/lang/Class;)Z 2049 1 256 0 -1
+ciMethod java/lang/System arraycopy (Ljava/lang/Object;ILjava/lang/Object;II)V 5121 1 640 0 -1
+ciMethod java/util/Map get (Ljava/lang/Object;)Ljava/lang/Object; 0 0 1 0 -1
+ciMethod java/util/Map put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object; 0 0 1 0 -1
+ciMethod java/util/Map keySet ()Ljava/util/Set; 0 0 1 0 -1
+ciMethod java/lang/invoke/DirectMethodHandle internalMemberName (Ljava/lang/Object;)Ljava/lang/Object; 2089 1 1407976 0 -1
+ciMethod java/lang/StringBuilder <init> ()V 945 1 270040 0 -1
+ciMethod java/lang/StringBuilder append (Ljava/lang/Object;)Ljava/lang/StringBuilder; 817 1 14986 0 -1
+ciMethod java/lang/StringBuilder append (Ljava/lang/String;)Ljava/lang/StringBuilder; 2065 1 632032 0 -1
+ciMethod java/lang/StringBuilder append (I)Ljava/lang/StringBuilder; 1 1 55583 0 -1
+ciMethod java/lang/StringBuilder toString ()Ljava/lang/String; 1025 1 293246 0 -1
+ciMethod java/nio/Buffer capacity ()I 1025 1 128 0 0
+ciMethod java/nio/Buffer position ()I 1073 1 134 0 0
+ciMethod java/nio/Buffer position (I)Ljava/nio/Buffer; 1361 1 6319 0 128
+ciMethod java/nio/Buffer remaining ()I 2057 1 1335680 0 0
+ciMethod java/nio/Buffer nextPutIndex (I)I 3113 1 5518 0 96
+ciMethod java/lang/Number <init> ()V 3193 1 140384 0 32
+ciMethod java/lang/Integer valueOf (I)Ljava/lang/Integer; 449 1 1408093 0 192
+ciMethod java/lang/Integer <init> (I)V 2281 1 124067 0 0
+ciMethod java/lang/Integer numberOfLeadingZeros (I)I 217 1 5167 0 -1
+ciMethod java/lang/NullPointerException <init> ()V 0 0 1 0 -1
+ciMethod java/lang/Iterable iterator ()Ljava/util/Iterator; 0 0 1 0 -1
+ciMethod java/lang/Iterable forEach (Ljava/util/function/Consumer;)V 2153 8537 42051 0 -1
+ciMethod java/util/Collection size ()I 0 0 1 0 -1
+ciMethod java/util/Collection isEmpty ()Z 0 0 1 0 -1
+ciMethod java/util/Collection iterator ()Ljava/util/Iterator; 0 0 1 0 -1
+ciMethod java/util/List iterator ()Ljava/util/Iterator; 0 0 1 0 -1
+ciMethod java/util/ArrayList access$000 (Ljava/util/ArrayList;)I 1049 1 131 0 0
+ciMethod java/util/Collections emptyList ()Ljava/util/List; 1105 1 24521 0 0
+ciMethod java/util/Collections$EmptyList size ()I 1025 1 128 0 -1
+ciMethod java/lang/Math max (II)I 537 1 356644 0 -1
+ciMethod java/util/Objects requireNonNull (Ljava/lang/Object;)Ljava/lang/Object; 2049 1 1469827 0 64
+ciMethod java/util/Iterator hasNext ()Z 0 0 1 0 -1
+ciMethod java/util/Iterator next ()Ljava/lang/Object; 0 0 1 0 -1
+ciMethod java/nio/ByteBuffer put ([BII)Ljava/nio/ByteBuffer; 1 1 3 0 -1
+ciMethod java/nio/ByteBuffer put ([B)Ljava/nio/ByteBuffer; 1 1 7299 0 -1
+ciMethod java/nio/ByteBuffer array ()[B 1393 1 25923 0 96
+ciMethod java/nio/ByteBuffer _put (IB)V 0 0 1 0 -1
+ciMethod java/nio/ByteBuffer putShort (S)Ljava/nio/ByteBuffer; 0 0 1 0 -1
+ciMethod java/nio/ByteBuffer putInt (I)Ljava/nio/ByteBuffer; 0 0 1 0 -1
+ciMethod java/nio/HeapByteBuffer ix (I)I 481 1 378629 0 0
+ciMethod java/nio/HeapByteBuffer _put (IB)V 2049 1 1324 0 0
+ciMethod java/nio/HeapByteBuffer putInt (I)Ljava/nio/ByteBuffer; 3481 1 127388 0 320
+ciMethod java/nio/Bits int3 (I)B 3649 1 5563 0 0
+ciMethod java/nio/Bits int2 (I)B 3649 1 5563 0 0
+ciMethod java/nio/Bits int1 (I)B 3649 1 5562 0 0
+ciMethod java/nio/Bits int0 (I)B 3649 1 5564 0 0
+ciMethod java/nio/Bits putIntL (Ljava/nio/ByteBuffer;II)V 3481 1 5562 0 288
+ciMethod java/nio/Bits putIntB (Ljava/nio/ByteBuffer;II)V 0 0 1 0 0
+ciMethod java/nio/Bits putInt (Ljava/nio/ByteBuffer;IIZ)V 3481 1 127395 0 0
+ciMethod java/lang/Enum ordinal ()I 1025 1 128 0 -1
+ciMethodData java/lang/Object <init> ()V 2 19252555 orig 264 8 206 102 104 0 0 0 0 128 4 179 21 0 0 0 0 32 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 89 26 46 9 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 3 0 1 0 0 0 0 0 0 0 255 255 255 255 0 0 0 0 0 0 0 0 data 0 oops 0
+ciMethod java/lang/IllegalArgumentException <init> (Ljava/lang/String;)V 0 0 21 0 -1
+ciMethod sun/security/util/Debug println (Ljava/lang/String;)V 0 0 1 0 -1
+ciMethodData java/lang/String length ()I 2 1443182 orig 264 8 206 102 104 0 0 0 0 96 60 179 21 0 0 0 0 32 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 130 1 0 0 97 31 176 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 3 0 1 0 0 0 0 0 0 0 255 255 255 255 0 0 0 0 0 0 0 0 data 0 oops 0
+ciMethod java/security/Security getSpiClass (Ljava/lang/String;)Ljava/lang/Class; 3417 1 426 0 -1
+ciMethod java/security/Security getImpl (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)[Ljava/lang/Object; 2905 1 363 0 -1
+ciMethod java/lang/AssertionError <init> ()V 0 0 1 0 -1
+ciMethod java/lang/AssertionError <init> (Ljava/lang/Object;)V 0 0 1 0 -1
+ciMethod java/lang/AssertionError <init> (Ljava/lang/String;Ljava/lang/Throwable;)V 0 0 1 0 -1
+ciMethod java/util/ArrayList$Itr hasNext ()Z 3105 1 145148 0 96
+ciMethod java/util/ArrayList$Itr next ()Ljava/lang/Object; 3161 1 5557 0 224
+ciMethod java/util/ArrayList$Itr checkForComodification ()V 3161 1 10204 0 0
+ciMethodData java/nio/Buffer position (I)Ljava/nio/Buffer; 2 6319 orig 264 8 206 102 104 0 0 0 0 48 99 188 21 0 0 0 0 152 1 0 0 64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 27 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 170 0 0 0 41 192 0 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 11 0 2 0 0 0 112 0 0 0 255 255 255 255 7 0 5 0 0 0 0 0 data 14 0x50007 0x0 0x40 0x1805 0x90007 0x1805 0x30 0x0 0x100002 0x0 0x210007 0x1805 0x20 0x0 oops 0
+ciMethodData java/lang/Number <init> ()V 2 140384 orig 264 8 206 102 104 0 0 0 0 8 249 188 21 0 0 0 0 48 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 143 1 0 0 137 22 17 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 3 0 2 0 0 0 16 0 0 0 255 255 255 255 2 0 1 0 0 0 0 0 data 2 0x10002 0x222d1 oops 0
+ciMethod java/lang/invoke/MethodHandle linkToStatic (Ljava/lang/Object;Ljava/lang/invoke/MemberName;)Ljava/lang/Object; 0 0 1 0 -1
+ciMethodData java/util/ArrayList$Itr hasNext ()Z 2 145148 orig 264 8 206 102 104 0 0 0 0 8 240 220 21 0 0 0 0 144 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 17 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 132 1 0 0 193 171 17 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 6 0 2 0 0 0 72 0 0 0 255 255 255 255 2 0 8 0 0 0 0 0 data 9 0x80002 0x23574 0xb0007 0x5961 0x38 0x1dc27 0xf0003 0x1dc29 0x18 oops 0
+ciMethodData java/util/Objects requireNonNull (Ljava/lang/Object;)Ljava/lang/Object; 2 1469827 orig 264 8 206 102 104 0 0 0 0 56 203 194 21 0 0 0 0 80 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 27 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 25 100 179 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 5 0 2 0 0 0 48 0 0 0 255 255 255 255 7 0 1 0 0 0 0 0 data 6 0x10007 0x166dd8 0x30 0x0 0x80002 0x0 oops 0
+ciMethodData java/util/ArrayList$Itr next ()Ljava/lang/Object; 2 5557 orig 264 8 206 102 104 0 0 0 0 232 240 220 21 0 0 0 0 232 1 0 0 96 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 139 1 0 0 81 161 0 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 10 0 2 0 0 0 160 0 0 0 255 255 255 255 5 0 1 0 0 0 0 0 data 20 0x10005 0xd3 0x1eddd840 0x1357 0x0 0x0 0xe0002 0x142a 0x110007 0x142a 0x30 0x0 0x180002 0x0 0x270007 0x142a 0x30 0x0 0x2e0002 0x0 oops 1
