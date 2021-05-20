@@ -100,7 +100,11 @@ public class LoanApply extends Fragment {
 
                     @Override
                     public void onMandatePrintReady(String message) {
-                        new FinestWebView.Builder(getContext()).load(message);
+                        new FinestWebView.Builder(getContext())
+                                .webViewAllowContentAccess(true)
+                                .webViewAllowFileAccess(true)
+                                .webViewJavaScriptCanOpenWindowsAutomatically(true)
+                                .webViewAllowUniversalAccessFromFileURLs(true).load(message);
                     }
                 });
                 standingOrder.ProcessStandingOrder();
