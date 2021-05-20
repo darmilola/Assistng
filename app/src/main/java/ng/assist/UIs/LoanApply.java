@@ -1,6 +1,7 @@
 package ng.assist.UIs;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.thefinestartist.finestwebview.FinestWebView;
 import com.tiper.MaterialSpinner;
 
 import org.json.JSONException;
@@ -20,6 +22,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import ng.assist.PrintMandatePage;
 import ng.assist.R;
 import ng.assist.UIs.model.StandingOrder;
 import okhttp3.MediaType;
@@ -66,7 +69,7 @@ public class LoanApply extends Fragment {
             @Override
             public void onClick(View v) {
 
-                standingOrder = new StandingOrder(getContext(),"Damilola Akinterinwa","damilolaakinterinwa@gmail.com","08102853533","058","0178871016","2000","19/04/2021","19/06/2021");
+                standingOrder = new StandingOrder(getContext(),"Damilola Akinterinwa","damilolaakinterinwa@gmail.com","08102853533","058","0178871016","2000","19/07/2021","19/09/2021");
                 standingOrder.setStandingOrderGenerationListener(new StandingOrder.StandingOrderGenerationListener() {
                     @Override
                     public void onInitialGenerationCompleted(String statusCode, String requestId, String mandateId, String status) {
@@ -97,8 +100,7 @@ public class LoanApply extends Fragment {
 
                     @Override
                     public void onMandatePrintReady(String message) {
-                        Toast.makeText(getContext(),"ready  "+ message, Toast.LENGTH_LONG).show();
-                        Log.e("onMandatePrintReady: ",message);
+                        new FinestWebView.Builder(getContext()).load(message);
                     }
                 });
                 standingOrder.ProcessStandingOrder();

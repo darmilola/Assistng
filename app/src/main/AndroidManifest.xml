@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CabHailingActivity"></activity>
+        <activity android:name=".PrintMandatePage"></activity>
+        <activity android:name=".CabHailingActivity" />
         <activity android:name=".FlightBooking" />
         <activity android:name=".Settings" />
         <activity android:name=".EmployeeVerifications" />
@@ -53,10 +54,11 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA4CbzsmnlH4ggjW30jPlbtxMeCtvAtvLA"/>
+            android:value="AIzaSyA4CbzsmnlH4ggjW30jPlbtxMeCtvAtvLA" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-     <uses-permission android:name="android.permission.INTERNET" />
-     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

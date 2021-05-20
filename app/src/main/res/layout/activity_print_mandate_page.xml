@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PrintMandatePage">
+
+    <com.asksira.webviewsuite.WebViewSuite
+        android:id="@+id/print_mandate_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:webViewProgressBarStyle="linear"
+        app:inflationDelay="100"
+        app:enableJavaScript="false"
+        app:overrideTelLink="true"
+        app:overrideEmailLink="true"
+        app:overridePdfLink="true"
+        app:showZoomControl="false"
+        app:enableVerticalScrollBar="false"
+        app:enableHorizontalScrollBar="false"/>
+
+</LinearLayout>

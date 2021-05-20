@@ -186,14 +186,14 @@ public class StandingOrder {
     public class PrintMandateRequest{
 
         public String send(String mandateId, String requestId, String hash_mandate_view, String merchantId) {
-            Log.e("The Url is ", "https://remitademo.net/remita/exapp/api/v1/send/api/mandate/form/"+merchantId+"/"+hash_mandate_view+"/"+mandateId+"/"+requestId+"/"+"rest");
+            Log.e("The Url is ", "https://www.remitademo.net/remita/ecomm/mandate/form/"+merchantId+"/"+hash_mandate_view+"/"+mandateId+"/"+requestId+"/"+"rest");
             try {
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 Request request = new Request.Builder()
-                        .url("https://www.remitademo.net/remita/ecomm/mandate/form/"+merchantId+"/"+hash_mandate_view+"/"+mandateId+"/"+requestId+"/"+"rest")
-                        .method("GET", null)
+                        .url("http://remitademo.net/remita/ecomm/mandate/form/"+merchantId+"/"+hash_mandate_view+"/"+mandateId+"/"+requestId+"/"+"rest.reg")
                         .addHeader("Content-Type", "application/json")
+                        .method("GET",null)
                         .build();
                 Response response = client.newCall(request).execute();
                 return response. body().string();
@@ -223,6 +223,7 @@ public class StandingOrder {
         jsonObject.put("mandateType", MANDATE_TYPE);
         jsonObject.put("frequency", FREQUENCY);
         return jsonObject.toString();
+
     }
 
     private String jsonfyAuthRequest(String mandateId, String requestId) throws JSONException {
@@ -422,6 +423,9 @@ public class StandingOrder {
     }
 
 
+    private void openBrowserToPrintMandate(String htmlString){
+
+    }
 
     private void ProcessInitialSetupJsonResponse(Object result, String customerBankCode){
 
