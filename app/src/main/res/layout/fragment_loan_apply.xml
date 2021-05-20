@@ -134,6 +134,7 @@
         android:layout_height="60dp"
         android:text="Apply"
         android:textSize="17dp"
+        android:id="@+id/loan_apply_button"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/clannews"
         android:textAllCaps="false"
