@@ -1,6 +1,7 @@
 package ng.assist.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import ng.assist.ProductTransaction;
 import ng.assist.R;
 
 public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.itemViewHolder> {
@@ -46,6 +48,12 @@ public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     public itemViewHolder(View ItemView){
         super(ItemView);
+        ItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, ProductTransaction.class));
+            }
+        });
 
     }
     @Override

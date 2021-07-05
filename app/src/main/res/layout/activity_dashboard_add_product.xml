@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".DashboardAddProduct"
+    android:orientation="vertical"
+    android:background="@color/special_activity_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:weightSum="5">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/iconfinder_close"
+                android:tint="@color/colorPrimary"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Add Product"
+                android:gravity="center"
+                android:textSize="23dp"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/clannews"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|right">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/iconfinder_check_mark_checklist_complete_done"
+                android:tint="@color/colorPrimary"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+          <include layout="@layout/product_image_scrollview"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        app:backgroundTint="@color/colorPrimary"
+        android:text="* Upload Product Images"
+        android:textAllCaps="false"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="* Product Name"
+        android:layout_marginLeft="16dp"
+        android:textSize="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:fontFamily="@font/clanmed"
+        android:textColor="@color/colorPrimary"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/edit_profile_edittext_background"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="* Product Price"
+        android:layout_marginLeft="16dp"
+        android:textSize="18dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="20dp"
+        android:fontFamily="@font/clanmed"
+        android:textColor="@color/colorPrimary"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/edit_profile_edittext_background"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="* Product Description"
+        android:layout_marginLeft="16dp"
+        android:textSize="18dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="20dp"
+        android:fontFamily="@font/clanmed"
+        android:textColor="@color/colorPrimary"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/edit_profile_edittext_background"/>
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Make this Product Available"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:textSize="16dp"
+        android:checked="true"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

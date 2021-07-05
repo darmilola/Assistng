@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:padding="3dp"
+    android:layout_margin="5dp"
+    android:layout_height="100dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:strokeColor="@color/light_text_color"
+        app:cardCornerRadius="5dp"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vendrezza, Kano State"
+                android:textSize="18dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorPrimary"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:textSize="14dp"
+                android:text="Remove"
+                android:layout_marginTop="5dp"
+                android:textAllCaps="false"/>
+
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

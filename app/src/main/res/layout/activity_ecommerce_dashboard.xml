@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#F6F5F8">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/ecommerce_dashboard_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:fitsSystemWindows="true"
+        android:focusableInTouchMode="true"
+        android:background="#F6F5F8"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/ecommerce_collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorOnPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/course_activity_toolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:text="Shoprite Supermarket"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:text="Akure techub, botanical Garden federal university of technology Akure"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/light_text_color"/>
+            </LinearLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/transparent"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/pinkypinky"
+                app:tabMode="auto"
+                android:id="@+id/ecommerce_dashboard_tabs"
+                app:tabIndicatorHeight="7dp"
+                app:tabPaddingEnd="30dp"
+                app:tabPaddingStart="30dp"
+                android:layout_gravity="bottom"
+                app:tabIndicator="@drawable/grocery_tab_indicator"
+                app:tabIndicatorGravity="bottom"
+                app:tabIndicatorFullWidth="false"
+                app:tabSelectedTextColor="@color/colorPrimary"
+                app:tabTextAppearance="@style/TabTextAppearance"
+                app:tabTextColor="#c8c8c8"/>
+
+
+
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/wallet_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                app:layout_collapseMode="pin"
+                app:contentInsetLeft="0dp"
+                android:gravity="center"
+                app:contentInsetStart="0dp"
+                app:contentInsetEnd="0dp"
+                app:contentInsetRight="0dp"
+                android:background="#F6F5F8"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+                <com.google.android.material.tabs.TabLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/transparent"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@color/pinkypinky"
+                    app:tabMode="auto"
+                    android:id="@+id/ecommerce_dashboard_tabs1"
+                    app:tabIndicatorHeight="7dp"
+                    app:tabPaddingEnd="30dp"
+                    android:visibility="gone"
+                    app:tabPaddingStart="30dp"
+                    android:layout_gravity="bottom"
+                    app:tabIndicator="@drawable/grocery_tab_indicator"
+                    app:tabIndicatorGravity="bottom"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabSelectedTextColor="@color/colorPrimary"
+                    app:tabTextAppearance="@style/TabTextAppearance"
+                    app:tabTextColor="#c8c8c8"/>
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include layout="@layout/ecommerce_dashboard_tab_layout"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

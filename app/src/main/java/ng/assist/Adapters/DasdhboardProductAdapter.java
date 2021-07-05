@@ -10,17 +10,18 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import ng.assist.BillPayment;
+import ng.assist.DashboardProductDetails;
+import ng.assist.GroceryStoreListing;
 import ng.assist.R;
 
-public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHolder> {
+public class DasdhboardProductAdapter extends RecyclerView.Adapter<DasdhboardProductAdapter.itemViewHolder> {
 
-    ArrayList<String> billsList;
+    ArrayList<String> groceryList;
     Context context;
 
 
-    public BillsAdapter(ArrayList<String> billsList, Context context){
-        this.billsList = billsList;
+    public DasdhboardProductAdapter(ArrayList<String> groceryList, Context context){
+        this.groceryList = groceryList;
         this.context = context;
     }
 
@@ -28,18 +29,19 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
     @NonNull
     @Override
     public itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.bills_recycler_item, parent, false);
+        View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.dashboard_grocery_item, parent, false);
         return new itemViewHolder(view2);
     }
 
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
+
     }
 
 
     @Override
     public int getItemCount() {
-        return billsList.size();
+        return groceryList.size();
     }
 
     public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -53,8 +55,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
         @Override
         public void onClick(View view) {
 
-            context.startActivity(new Intent(context, BillPayment.class));
-
+            context.startActivity(new Intent(context, DashboardProductDetails.class));
         }
     }
 }

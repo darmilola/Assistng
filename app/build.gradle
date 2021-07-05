@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -46,4 +50,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.asksira.android:webviewsuite:1.0.3'
     implementation 'com.thefinestartist:finestwebview:1.2.7'
+    implementation "com.github.10bis:compactCreditInput:2.0.3"
+    implementation 'me.relex:circleindicator:2.1.6'
 }

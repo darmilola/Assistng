@@ -24,8 +24,11 @@ import java.util.ArrayList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.WalletAdapter;
+import ng.assist.Bills;
 import ng.assist.R;
+import ng.assist.RequestWithdrawal;
 import ng.assist.SendMoney;
+import ng.assist.TopUp;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,7 +44,7 @@ public class Wallet extends Fragment {
     Toolbar toolbar;
     AppBarLayout walletAppbar;
     TextView toolbarTitle;
-    LinearLayout walletTransfer;
+    LinearLayout walletTransfer,topUp,withdrawals,bills;
 
     public Wallet() {
         // Required empty public constructor
@@ -65,6 +68,16 @@ public class Wallet extends Fragment {
         walletAppbar = view.findViewById(R.id.wallet_app_bar);
         toolbarTitle = view.findViewById(R.id.wallet_toolbar_title);
         walletTransfer = view.findViewById(R.id.wallet_transfer_money);
+        topUp = view.findViewById(R.id.top_up_layout);
+        withdrawals = view.findViewById(R.id.withdrawals);
+        bills = view.findViewById(R.id.bills);
+
+        topUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), TopUp.class));
+            }
+        });
 
         walletTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +85,20 @@ public class Wallet extends Fragment {
                 startActivity(new Intent(getContext(), SendMoney.class));
             }
         });
+
+        bills.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), Bills.class));
+            }
+        });
+        withdrawals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), RequestWithdrawal.class));
+            }
+        });
+        
         for(int  i = 0; i < 15; i++){
             walletHistoryList.add("");
         }

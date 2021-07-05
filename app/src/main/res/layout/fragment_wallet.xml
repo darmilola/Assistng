@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:background="#F6F5F8">
 
@@ -61,7 +62,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:id="@+id/top_up_layout">
 
 
                         <LinearLayout
@@ -139,6 +141,7 @@
                             android:layout_height="50dp"
                             android:background="@drawable/home_skills_background"
                             android:backgroundTint="#DA9711"
+                            android:id="@+id/bills"
                             android:layout_marginBottom="7dp"
                             android:gravity="center">
 
@@ -167,6 +170,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
+                        android:id="@+id/withdrawals"
                         android:layout_marginLeft="15dp">
 
 

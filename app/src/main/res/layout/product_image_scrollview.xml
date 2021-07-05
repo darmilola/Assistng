@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        android:background="@color/special_activity_background">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="#F1F1F1"
+            app:spanCount="2"
+            tools:listitem="@layout/product_image_recycler_item"
+            android:id="@+id/product_image_recyclerview"/>
+        <me.relex.circleindicator.CircleIndicator2
+            android:id="@+id/product_image_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            app:ci_drawable="@drawable/pink_radius"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"/>
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -2,10 +2,12 @@ package ng.assist.UIs;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.tiper.MaterialSpinner;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 
 import ng.assist.PrintMandatePage;
@@ -100,11 +103,13 @@ public class LoanApply extends Fragment {
 
                     @Override
                     public void onMandatePrintReady(String message) {
-                        new FinestWebView.Builder(getContext())
-                                .webViewAllowContentAccess(true)
-                                .webViewAllowFileAccess(true)
-                                .webViewJavaScriptCanOpenWindowsAutomatically(true)
-                                .webViewAllowUniversalAccessFromFileURLs(true).load(message);
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://jamaicanmuscle.000webhostapp.com/print_mandate.php?html_string =" + Html.escapeHtml(message)));
+                     try {
+                         Log.e("onMandatePrintReady: ", Html.escapeHtml("http://jamaicanmuscle.000webhostapp.com/print_mandate.php?html_string =" + message).replaceAll(" \" "," \' "));
+                     }catch (Exception e){
+
+                     }
+                        startActivity(browserIntent);
                     }
                 });
                 standingOrder.ProcessStandingOrder();

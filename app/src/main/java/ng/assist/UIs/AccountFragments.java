@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import ng.assist.EcommerceDashboard;
 import ng.assist.EditProfileActivity;
 import ng.assist.R;
 import ng.assist.Settings;
@@ -28,7 +29,7 @@ public class AccountFragments extends Fragment {
 
 
     View view;
-    LinearLayout settingsLayout;
+    LinearLayout settingsLayout,dashboardLayout;
     LinearLayout getVerified;
 
     public AccountFragments() {
@@ -48,14 +49,16 @@ public class AccountFragments extends Fragment {
     }
 
     private void initView() {
-        settingsLayout = view.findViewById(R.id.settings_layout);
+        //settingsLayout = view.findViewById(R.id.settings_layout);
+        dashboardLayout = view.findViewById(R.id.users_dashboard);
 
-        settingsLayout.setOnClickListener(new View.OnClickListener() {
+        dashboardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), Settings.class));
+                startActivity(new Intent(getContext(), EcommerceDashboard.class));
             }
         });
+
     }
 
     @Override

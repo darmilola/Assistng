@@ -47,16 +47,16 @@
             android:gravity="right|center">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/settings_1_2x"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/ic_mode_edit_black_24dp"
                 android:tint="@color/colorPrimary"/>
 
         </LinearLayout>
     </LinearLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -109,504 +109,332 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/clanbook"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/switch_account"
+                        android:tint="#454647" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center|left">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center|left"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Switch Account"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/clanbook"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:orientation="vertical"
+                    android:gravity="right|center">
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:rotation="180"
+                        android:src="@drawable/iconfinder_chevron_left_4781844"
+                        android:tint="@color/colorPrimary"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/verification_symbol"
+                        android:tint="#454647"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center|left">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center|left"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Verification Status"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/clanbook"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:orientation="vertical"
+                    android:gravity="right|center">
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:rotation="180"
+                        android:src="@drawable/iconfinder_chevron_left_4781844"
+                        android:tint="@color/colorPrimary"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/users_dashboard"
+                android:layout_marginTop="15dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/verification_symbol"
+                        android:tint="#454647"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center|left">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center|left"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Dashboard"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/clanbook"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:orientation="vertical"
+                    android:gravity="right|center">
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:rotation="180"
+                        android:src="@drawable/iconfinder_chevron_left_4781844"
+                        android:tint="@color/colorPrimary"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/dms"
+                        android:tint="#454647" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center|left">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center|left"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Help Desk"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/clanbook"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:orientation="vertical"
+                    android:gravity="right|center">
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:rotation="180"
+                        android:src="@drawable/iconfinder_chevron_left_4781844"
+                        android:tint="@color/colorPrimary"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/grey"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:gravity="center|left"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/clannews"
+                    android:gravity="center|left"
+                    android:maxLines="1"
+                    android:text="Privacy Policy"
+                    android:textColor="#4F565A"
+                    android:textSize="12dp" />
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/verification_symbol"
-                    android:tint="#14AC69" />
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:rotation="180"
+                    android:layout_marginTop="1dp"
+                    android:src="@drawable/iconfinder_chevron_left_4781844"
+                    android:tint="@color/colorPrimary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/clannews"
+                    android:gravity="center|left"
+                    android:maxLines="1"
+                    android:text="Terms and Conditions"
+                    android:textColor="#4F565A"
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:rotation="180"
+                    android:layout_marginTop="1dp"
+                    android:src="@drawable/iconfinder_chevron_left_4781844"
+                    android:tint="@color/colorPrimary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/clannews"
+                    android:gravity="center|left"
+                    android:maxLines="1"
+                    android:text="Contact us"
+                    android:textColor="#4F565A"
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:rotation="180"
+                    android:layout_marginTop="1dp"
+                    android:src="@drawable/iconfinder_chevron_left_4781844"
+                    android:tint="@color/colorPrimary"/>
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/light_text_color"
-                android:text="Employed"
-                android:maxLines="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:ellipsize="end"
-                android:fontFamily="@font/clannews"/>
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/clannews"
+                android:gravity="center"
+                android:maxLines="1"
+                android:layout_marginBottom="70dp"
+                android:text="\u00A9 Assist 2020"
+                android:textColor="#4F565A"
+                android:textSize="15dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:weightSum="5"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="19dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/verification_symbol"
-                        android:tint="#454647"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center|left">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="17dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center|left"
-                        android:textColor="@color/colorPrimary"
-                        android:text="Instant Bill Payment"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/clanbook"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:orientation="vertical"
-                    android:gravity="right|center">
-                    <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="19dp"
-                        android:layout_marginRight="5dp"
-                        android:rotation="180"
-                        android:src="@drawable/iconfinder_chevron_left_4781844"
-                        android:tint="@color/colorPrimary"/>
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:weightSum="5"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="19dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/verification_symbol"
-                        android:tint="#454647"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center|left">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="17dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center|left"
-                        android:textColor="@color/colorPrimary"
-                        android:text="Delivery Status"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/clanbook"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:orientation="vertical"
-                    android:gravity="right|center">
-                    <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="19dp"
-                        android:layout_marginRight="5dp"
-                        android:rotation="180"
-                        android:src="@drawable/iconfinder_chevron_left_4781844"
-                        android:tint="@color/colorPrimary"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:weightSum="5"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="19dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/verification_symbol"
-                        android:tint="#454647"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center|left">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="17dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center|left"
-                        android:textColor="@color/colorPrimary"
-                        android:text="Service Check-In"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/clanbook"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:orientation="vertical"
-                    android:gravity="right|center">
-                    <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="19dp"
-                        android:layout_marginRight="5dp"
-                        android:rotation="180"
-                        android:src="@drawable/iconfinder_chevron_left_4781844"
-                        android:tint="@color/colorPrimary"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:weightSum="5"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="19dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/verification_symbol"
-                        android:tint="#454647"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center|left">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="17dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center|left"
-                        android:textColor="@color/colorPrimary"
-                        android:text="Loan Application Status"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/clanbook"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:orientation="vertical"
-                    android:gravity="right|center">
-                    <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="19dp"
-                        android:layout_marginRight="5dp"
-                        android:rotation="180"
-                        android:src="@drawable/iconfinder_chevron_left_4781844"
-                        android:tint="@color/colorPrimary"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:visibility="gone"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="100dp"
-                    android:layout_marginRight="50dp"
-                    android:weightSum="2"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Ratings"
-                        android:textColor="#ADADAD"
-                        android:textSize="16dp"
-                        android:gravity="center|left"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/clannews"/>
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Hired"
-                        android:textColor="#ADADAD"
-                        android:textSize="16dp"
-                        android:gravity="center"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/clannews"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="100dp"
-                    android:layout_marginRight="50dp"
-                    android:weightSum="2"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="3dp"
-                            android:layout_marginRight="4dp"
-                            android:tint="@color/yellow"
-                            android:src="@drawable/iconfinderstarfilled"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="4.2"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="18dp"
-                            android:gravity="center|left"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/clannews"/>
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="176"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18dp"
-                        android:gravity="center"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/clannews"/>
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:weightSum="3"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Rating"
-                        android:textColor="#ADADAD"
-                        android:textSize="12dp"
-                        android:gravity="center|left"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/clannews"/>
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Jobs"
-                        android:textColor="#ADADAD"
-                        android:textSize="12dp"
-                        android:gravity="center"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/clannews"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/clannews"
-                        android:gravity="center|right"
-                        android:maxLines="1"
-                        android:text="Rate\\hr"
-                        android:textColor="#ADADAD"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:weightSum="3"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="3dp"
-                            android:layout_marginRight="4dp"
-                            android:tint="@color/yellow"
-                            android:src="@drawable/iconfinderstarfilled"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="4.2"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="14dp"
-                            android:gravity="center|left"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/clanmed"/>
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="176"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14dp"
-                        android:gravity="center"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/clanmed"/>
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="N10,000"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14dp"
-                        android:gravity="center|right"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/clanmed"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:background="@color/colorPrimary">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="20dp"
-                    android:textSize="20dp"
-                    android:textColor="@color/White"
-                    android:fontFamily="@font/clannews"
-                    android:text="Portfolio"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="280dp"
-                    android:layout_marginTop="10dp"
-                    tools:itemCount="1"
-                    android:id="@+id/portfolio_recyclerview"
-                    tools:listitem="@layout/portfolio_image_recycler_item_design"/>
-
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -90,7 +90,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="20dp"
                 app:cardCornerRadius="15dp"
                 app:strokeWidth="0.5dp"
                 app:cardElevation="0dp"
@@ -228,7 +228,7 @@
                             android:layout_marginRight="20dp"
                             android:gravity="center"
                             android:textColor="@color/White"
-                            android:text="Chat with the delivery"
+                            android:text="Chat with Customer"
                             android:maxLines="1"
                             android:layout_gravity="center"
                             android:ellipsize="end"
@@ -236,10 +236,40 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-
             </com.google.android.material.card.MaterialCardView>
 
-       </LinearLayout>
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Set this Order as delivered"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Danger Zone*"
+                android:layout_marginLeft="16dp"
+                android:textSize="18dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/clanmed"
+                android:textColor="@color/colorPrimary"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                app:backgroundTint="@color/pinkypinky"
+                android:text="Delete this Order"
+                android:textAllCaps="false"/>
+
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+
+
+
 </LinearLayout>

@@ -8,9 +8,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:testOnly="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PrintMandatePage"></activity>
+        <activity android:name=".DashboardAddProduct"></activity>
+        <activity android:name=".DashboardViewOrder" />
+        <activity android:name=".DashboardProductDetails" />
+        <activity android:name=".EcommerceDashboard" />
+        <activity android:name=".ProductTransaction" />
+        <activity android:name=".BillPayment" />
+        <activity android:name=".Bills" />
+        <activity android:name=".RequestWithdrawal" />
+        <activity android:name=".TopUp" />
+        <activity android:name=".PrintMandatePage" />
         <activity android:name=".CabHailingActivity" />
         <activity android:name=".FlightBooking" />
         <activity android:name=".Settings" />
@@ -56,9 +66,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA4CbzsmnlH4ggjW30jPlbtxMeCtvAtvLA" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
