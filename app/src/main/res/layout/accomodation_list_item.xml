@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:layout_margin="5dp"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="0dp">
         <FrameLayout
             android:layout_width="match_parent"
@@ -26,29 +26,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/accomodation_gradient_background">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="right"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_alignParentTop="true">
-
-                    <LinearLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:background="@drawable/like_listing_background"
-                        android:layout_gravity="right">
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/iconfinder_streamline"
-                            android:tint="@color/pinkypinky"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
@@ -89,34 +66,6 @@
                             android:textSize="14dp" />
 
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="150dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center|right"
-                        android:layout_marginRight="10dp">
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginTop="7dp"
-                            android:src="@drawable/iconfinder_like"
-                            android:tint="@color/pinkypinky"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:fontFamily="@font/clannews"
-                            android:gravity="center"
-                            android:text="290"
-                            android:maxLength="5"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:textColor="@color/White"
-                            android:textSize="14dp" />
-
-
-                    </LinearLayout>
-
                 </RelativeLayout>
 
             </RelativeLayout>

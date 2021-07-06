@@ -11,7 +11,12 @@
         android:testOnly="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DashboardAddProduct"></activity>
+        <activity android:name=".DriversDashboard"></activity>
+        <activity android:name=".RealEsateAgentAddListing" />
+        <activity android:name=".EstateDashboardListingDetails" />
+        <activity android:name=".EstateListingDashboard" />
+        <activity android:name=".ServiceProviderDashboard" />
+        <activity android:name=".DashboardAddProduct" />
         <activity android:name=".DashboardViewOrder" />
         <activity android:name=".DashboardProductDetails" />
         <activity android:name=".EcommerceDashboard" />
@@ -66,10 +71,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA4CbzsmnlH4ggjW30jPlbtxMeCtvAtvLA" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>

@@ -43,7 +43,6 @@ public class DashboardProductDetails extends AppCompatActivity {
         pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
         imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
         adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
-
     }
 
     @Override

@@ -5,35 +5,44 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.AccomodationListingsAdapter;
+import ng.assist.Adapters.RealEstateDashboardListingAdapter;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
-public class AccomodationListings extends AppCompatActivity {
+public class EstateListingDashboard extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    AccomodationListingsAdapter adapter;
+    RealEstateDashboardListingAdapter adapter;
     ArrayList<String> accomdationList = new ArrayList<>();
-
+    MaterialButton addAccomodation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accomodation_listings);
+        setContentView(R.layout.activity_estate_listing_dashboard);
         initView();
     }
 
     private void initView(){
 
-        recyclerView = findViewById(R.id.accomodation_recyclerview);
-
+        recyclerView = findViewById(R.id.real_estate_dashboard_recyclerview);
+        addAccomodation = findViewById(R.id.dashboard_add_accomodation);
+        addAccomodation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(EstateListingDashboard.this,RealEsateAgentAddListing.class));
+            }
+        });
         for(int i = 0; i < 20; i++){
             accomdationList.add("");
         }
-        adapter = new AccomodationListingsAdapter(accomdationList,AccomodationListings.this);
+        adapter = new RealEstateDashboardListingAdapter(accomdationList,this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

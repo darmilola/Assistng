@@ -6,65 +6,11 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_accomodation_listings"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/special_activity_background"
     android:orientation="vertical">
 
 
 
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:backgroundTint="#F6F5F8"
-        android:background="@drawable/bus_background_busview_design">
 
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="30dp"
-                android:ellipsize="end"
-                android:focusableInTouchMode="true"
-                android:fontFamily="@font/clanmed"
-                android:maxLines="2"
-                android:text="Best Suited Properties"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20dp" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/clannews"
-                android:maxLines="3"
-                android:text="The following are the best home options available based on search criteria"
-                android:textColor="@color/light_text_color"
-                android:textSize="14dp" />
-
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:id="@+id/accomodation_recyclerview"
-                tools:listitem="@layout/accomodation_list_item"
-                android:nestedScrollingEnabled="false"/>
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
 </FrameLayout>

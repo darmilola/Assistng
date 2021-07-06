@@ -135,6 +135,64 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="3.3"
+                    android:gravity="center|left">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center|left"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Switch to Business Account"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/clanbook"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.9"
+                    android:orientation="vertical"
+                    android:gravity="right|center">
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:rotation="180"
+                        android:src="@drawable/iconfinder_chevron_left_4781844"
+                        android:tint="@color/colorPrimary"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/account_about_us"
+                android:layout_marginTop="15dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/verification_symbol"
+                        android:tint="#454647"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:gravity="center|left">
 
@@ -146,7 +204,7 @@
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"
                         android:textColor="@color/colorPrimary"
-                        android:text="Switch Account"
+                        android:text="About us"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:fontFamily="@font/clanbook"/>
@@ -166,6 +224,121 @@
                         android:tint="@color/colorPrimary"/>
                 </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/account_rate_us"
+                android:layout_marginTop="15dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/verification_symbol"
+                        android:tint="#454647"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center|left">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center|left"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Rate us"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/clanbook"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:orientation="vertical"
+                    android:gravity="right|center">
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:rotation="180"
+                        android:src="@drawable/iconfinder_chevron_left_4781844"
+                        android:tint="@color/colorPrimary"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:id="@+id/help_desk">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/dms"
+                        android:tint="#454647" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center|left">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center|left"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Help Desk"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/clanbook"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:orientation="vertical"
+                    android:gravity="right|center">
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="19dp"
+                        android:layout_marginRight="5dp"
+                        android:rotation="180"
+                        android:src="@drawable/iconfinder_chevron_left_4781844"
+                        android:tint="@color/colorPrimary"/>
+                </LinearLayout>
+            </LinearLayout>
+
 
 
             <LinearLayout
@@ -203,7 +376,7 @@
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"
                         android:textColor="@color/colorPrimary"
-                        android:text="Verification Status"
+                        android:text="Verification"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:fontFamily="@font/clanbook"/>
@@ -282,61 +455,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:weightSum="5"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:gravity="center">
 
-                    <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="19dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/dms"
-                        android:tint="#454647" />
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center|left">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="17dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center|left"
-                        android:textColor="@color/colorPrimary"
-                        android:text="Help Desk"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/clanbook"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:orientation="vertical"
-                    android:gravity="right|center">
-                    <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="19dp"
-                        android:layout_marginRight="5dp"
-                        android:rotation="180"
-                        android:src="@drawable/iconfinder_chevron_left_4781844"
-                        android:tint="@color/colorPrimary"/>
-                </LinearLayout>
-            </LinearLayout>
 
 
 

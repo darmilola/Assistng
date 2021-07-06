@@ -6,20 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import me.relex.circleindicator.CircleIndicator2;
-import ng.assist.Adapters.AccomodationBookingHomeDisplayAdapter;
 import ng.assist.Adapters.ProductImageScrollAdapter;
-import ng.assist.UIs.ItemDecorator;
 
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.WindowManager;
 
 import java.util.ArrayList;
 
-public class AccomodationBooking extends AppCompatActivity {
+public class EstateDashboardListingDetails extends AppCompatActivity {
 
     RecyclerView imagesRecyclerview;
     ProductImageScrollAdapter adapter;
@@ -28,7 +23,7 @@ public class AccomodationBooking extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accomodation_booking);
+        setContentView(R.layout.activity_estate_dashboard_listing_details);
         initProductImageView();
     }
 
@@ -46,11 +41,6 @@ public class AccomodationBooking extends AppCompatActivity {
         pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
         imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
         adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
-    }
-
-
-    public static int dpToPx(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
     }
 
     @Override

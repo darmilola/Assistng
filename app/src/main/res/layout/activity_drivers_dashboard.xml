@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ServiceProviderDashboard"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/special_activity_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:text="Mark Chaulics"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="Driver"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/light_text_color"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="Customer Care Line: +2348102853533"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/dark_text_color"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="Location: Kano"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/dark_text_color"/>
+        <CheckBox
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Available for hiring"
+            android:checked="true"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
