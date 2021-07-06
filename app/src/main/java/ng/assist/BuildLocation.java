@@ -26,7 +26,7 @@ public class BuildLocation extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(BuildLocation.this,BusTransport.class));
+                startActivity(new Intent(BuildLocation.this,CabHailingActivity.class));
             }
         });
 

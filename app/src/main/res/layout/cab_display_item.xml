@@ -65,16 +65,44 @@
                     android:fontFamily="@font/clanbook"/>
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:fontFamily="@font/clanmed"
-                android:gravity="center"
-                android:text="$45.21"
-                android:textColor="#3CB982"
-                android:textSize="25dp" />
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+                <LinearLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:backgroundTint="@color/proposed_color"
+                    android:background="@drawable/transport_mode_unselected_background">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:tint="@color/white"
+                        android:src="@drawable/ic_local_phone_black_24dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:backgroundTint="@color/proposed_color"
+                    android:background="@drawable/transport_mode_unselected_background">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:tint="@color/white"
+                        android:src="@drawable/iconfinder_chat"/>
+                </LinearLayout>
+
+            </LinearLayout>
 
 
         </LinearLayout>

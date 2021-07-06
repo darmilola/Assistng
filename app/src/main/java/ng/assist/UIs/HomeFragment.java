@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import ng.assist.Accomodation;
+import ng.assist.BuildLocation;
 import ng.assist.GroceryLanding;
 import ng.assist.QuickCreditApplication;
 import ng.assist.R;
@@ -62,7 +63,7 @@ public class HomeFragment extends Fragment {
         transportationLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), Transportation.class));
+                startActivity(new Intent(getContext(), BuildLocation.class));
             }
         });
 
