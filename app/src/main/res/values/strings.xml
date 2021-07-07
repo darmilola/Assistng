@@ -6,6 +6,9 @@
     <string name="long_text">Material is the metaphor For example, position the FAB to one side of stream of a cards so the FAB won’t interfere"when a user tries to pick up one of cards.Material is the metaphor For example, position the FAB to one side of stream of a cards so the FAB won’t interfere"when a user tries to pick up one of cards.
         Material is thinterfample, position the FAB to one side of stream of a cards so the FAB won’t interfere"when a user tries to pick up one of cards</string>
 
+    <string name="already_have_account"><u>Already have account</u></string>
+    <string name="dont_have_account"><u>Do not have account?</u></string>
+    <string name="forgot_password"><u>Forgot Password</u></string>
     <string-array name="quick_credits_type">
         <item>KopasAids Loans for Corp Members</item>
         <item>Civil Servants Loans</item>

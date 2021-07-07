@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/familypic"
+        android:src="@drawable/welcome_background"
         android:elevation="1dp"
         android:scaleType="centerCrop"
         android:id="@+id/welcome_background_image"/>
@@ -15,7 +15,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#90000000"
+        android:background="@drawable/black_gradient"
+        android:alpha="0.99"
         android:elevation="2dp"/>
 
     <LinearLayout
@@ -39,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="60dp"
+                android:textSize="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:lineSpacingExtra="5dp"
@@ -50,9 +51,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="70dp"
                 android:lineSpacingExtra="4dp"
-                android:textSize="24dp"
+                android:textSize="20dp"
                 android:layout_marginTop="20dp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/airreg"
@@ -138,7 +139,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/airreg"
-                    android:text="Login with Email"
+                    android:text="Connect with Email"
                     android:layout_weight="3"
                     android:textColor="@color/white"
                     android:textSize="17dp" />

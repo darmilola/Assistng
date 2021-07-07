@@ -75,15 +75,6 @@ import java.util.concurrent.TimeUnit;
 public class CabHailingActivity extends AppCompatActivity {
 
 
-    LocationRequest mLocationRequest;
-    Location mLastLocation;
-    Marker mCurrLocationMarker;
-    LocationSettingsRequest mLocationSettingsRequest;
-    LocationSettingsRequest.Builder builder;
-    FusedLocationProviderClient mFusedLocationClient;
-    static final int REQUEST_CHECK_SETTINGS = 0x1;
-    static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    GoogleApiClient mGoogleApiClient;
     RecyclerView recyclerView;
     TextView currentLocationTextView;
     ArrayList<String> rideList = new ArrayList<>();
