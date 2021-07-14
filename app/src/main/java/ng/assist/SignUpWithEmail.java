@@ -3,6 +3,7 @@ package ng.assist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import de.hdodenhof.circleimageview.CircleImageView;
+import ng.assist.UIs.Utils.LoadingDialogUtils;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,6 +23,7 @@ public class SignUpWithEmail extends AppCompatActivity {
     MaterialButton signupWithEmail;
     ImageView selectProfileImageButton;
     CircleImageView circleImageView;
+    LoadingDialogUtils loadingDialogUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class SignUpWithEmail extends AppCompatActivity {
         signupWithEmail = findViewById(R.id.signup_with_email_button);
         selectProfileImageButton = findViewById(R.id.select_profile_image_button);
         circleImageView = findViewById(R.id.signup_profile_image);
+        loadingDialogUtils = new LoadingDialogUtils(SignUpWithEmail.this);
         selectProfileImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +50,8 @@ public class SignUpWithEmail extends AppCompatActivity {
         signupWithEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignUpWithEmail.this,MainActivity.class));
+                loadingDialogUtils.showLoadingDialog("Creating account...");
+                //startActivity(new Intent(SignUpWithEmail.this,MainActivity.class));
             }
         });
     }

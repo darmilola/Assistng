@@ -16,23 +16,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
-import com.thefinestartist.finestwebview.FinestWebView;
 import com.tiper.MaterialSpinner;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.concurrent.TimeUnit;
-
-import ng.assist.PrintMandatePage;
 import ng.assist.R;
-import ng.assist.UIs.model.StandingOrder;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,7 +30,7 @@ public class LoanApply extends Fragment {
     MaterialSpinner materialSpinner;
     ArrayAdapter<CharSequence> adapter;
     MaterialButton apply;
-    StandingOrder standingOrder;
+    //StandingOrder standingOrder;
 
 
     public LoanApply() {
@@ -61,14 +47,14 @@ public class LoanApply extends Fragment {
         return  view;
     }
 
-    private void initView(){
+    private void initView() {
         apply = view.findViewById(R.id.loan_apply_button);
         adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.loan_payback_period, android.R.layout.simple_spinner_item);
         materialSpinner = view.findViewById(R.id.loan_apply_payback_period);
         materialSpinner.setAdapter(adapter);
 
-        apply.setOnClickListener(new View.OnClickListener() {
+     /*   apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -116,5 +102,6 @@ public class LoanApply extends Fragment {
 
             }
         });
+    }*/
     }
 }
