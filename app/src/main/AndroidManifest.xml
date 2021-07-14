@@ -11,15 +11,19 @@
         android:testOnly="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SignUpWithEmail"></activity>
-        <activity android:name=".ConnectWithEmail" />
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".ProfileImageCrop"></activity>
+        <activity android:name=".ResetPassword" />
+        <activity android:name=".ForgotPassword" />
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SignUpWithEmail" />
+        <activity android:name=".ConnectWithEmail" />
+        <activity android:name=".WelcomeActivity" />
         <activity android:name=".DriversDashboard" />
         <activity android:name=".RealEsateAgentAddListing" />
         <activity android:name=".EstateDashboardListingDetails" />
