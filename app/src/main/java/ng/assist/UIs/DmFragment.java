@@ -24,7 +24,6 @@ import ng.assist.R;
  */
 public class DmFragment extends Fragment {
 
-
     View view;
     DirectMessagesAdapter adapter;
     RecyclerView recyclerView;

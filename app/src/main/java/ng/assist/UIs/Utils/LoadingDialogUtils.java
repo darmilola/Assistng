@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
 
 import ng.assist.R;
 
@@ -18,7 +17,7 @@ public class LoadingDialogUtils {
         this.mContext = context;
         loadingDialog = new Dialog(mContext);
         loadingDialog.setContentView(R.layout.loading_dialog);
-        loadingDialog.setCancelable(false);
+        //loadingDialog.setCancelable(false);
         loadingText = loadingDialog.findViewById(R.id.loading_dialog_text);
     }
 

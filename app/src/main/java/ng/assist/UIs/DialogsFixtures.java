@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import ng.assist.UIs.model.Dialog;
-import ng.assist.UIs.model.Message;
-import ng.assist.UIs.model.User;
+import ng.assist.UIs.ViewModel.Dialog;
+import ng.assist.UIs.ViewModel.Message;
+import ng.assist.UIs.ViewModel.User;
 
 /*
  * Created by Anton Bevza on 07.09.16.

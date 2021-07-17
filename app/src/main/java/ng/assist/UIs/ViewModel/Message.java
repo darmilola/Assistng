@@ -1,4 +1,4 @@
-package ng.assist.UIs.model;
+package ng.assist.UIs.ViewModel;
 
 import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.commons.models.MessageContentType;

@@ -3,7 +3,7 @@ package ng.assist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import ng.assist.UIs.MessagesFixtures;
-import ng.assist.UIs.model.Message;
+import ng.assist.UIs.ViewModel.Message;
 
 import android.content.Intent;
 import android.os.Build;

@@ -1,6 +1,4 @@
-package ng.assist.UIs.model;
-
-import android.util.Log;
+package ng.assist.UIs.ViewModel;
 
 import com.google.android.gms.maps.model.LatLng;
 

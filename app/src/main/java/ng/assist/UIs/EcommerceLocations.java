@@ -19,6 +19,7 @@ import ng.assist.Adapters.GroceryDisplayAdapter;
 import ng.assist.R;
 
 
+
 public class EcommerceLocations extends Fragment {
 
 
@@ -48,6 +49,7 @@ public class EcommerceLocations extends Fragment {
             recyclerView.setLayoutManager(layoutManager);
             adapter = new DashBoardLocationsAdapter(locationList,getContext());
             recyclerView.setAdapter(adapter);
+
 
         }
 

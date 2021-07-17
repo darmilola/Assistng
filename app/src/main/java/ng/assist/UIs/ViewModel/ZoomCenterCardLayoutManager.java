@@ -1,4 +1,4 @@
-package ng.assist.UIs.model;
+package ng.assist.UIs.ViewModel;
 
 import android.content.Context;
 import android.view.View;

@@ -2,6 +2,7 @@ package ng.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import ng.assist.UIs.ViewModel.SignupModel;
 
 import android.content.Intent;
 import android.os.Build;
@@ -9,10 +10,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
+import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.auth.api.identity.SignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.Task;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     LinearLayout googleSignInLayout,emailSigninLayout;
+    private static final int GC_SIGN_IN = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +39,7 @@ public class WelcomeActivity extends AppCompatActivity {
         googleSignInLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+                startGoogleSignIn();
             }
         });
         emailSigninLayout.setOnClickListener(new View.OnClickListener() {
@@ -46,5 +59,56 @@ public class WelcomeActivity extends AppCompatActivity {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.black));
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
+    }
+
+    private void startGoogleSignIn(){
+
+        GoogleSignInClient mSignInClient;
+        GoogleSignInOptions options =
+                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestProfile()
+                        .build();
+        mSignInClient = GoogleSignIn.getClient(this, options);
+        Intent intent = mSignInClient.getSignInIntent();
+        startActivityForResult(intent, GC_SIGN_IN);
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GC_SIGN_IN){
+            Task<GoogleSignInAccount> task =
+                    GoogleSignIn.getSignedInAccountFromIntent(data);
+            if (task.isSuccessful()) {
+                GoogleSignInAccount acct = task.getResult();
+                handleSignInResult(acct);
+            } else {
+
+                Toast.makeText(this, "Error Signing in Please try again", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+    private void handleSignInResult(GoogleSignInAccount account){
+        String firstname = account.getGivenName();
+        String lastname = account.getFamilyName();
+        String userEmail = account.getEmail();
+        String userPhotoUrl = String.valueOf(account.getPhotoUrl());
+
+        SignupModel signupModel = new SignupModel(firstname,lastname,userEmail,userPhotoUrl,WelcomeActivity.this);
+        signupModel.SignupUsingGmail();
+        signupModel.setSignupListener(new SignupModel.SignupListener() {
+            @Override
+            public void isSuccessful(String message) {
+                startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+            }
+
+            @Override
+            public void isFailed(String message) {
+                 Toast.makeText(WelcomeActivity.this, message, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
