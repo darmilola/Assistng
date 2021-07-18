@@ -2,12 +2,17 @@ package ng.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import ng.assist.UIs.Utils.NetworkUtils;
+import ng.assist.UIs.ViewModel.LoginModel;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -15,6 +20,8 @@ public class ConnectWithEmail extends AppCompatActivity {
 
     TextView dontHaveAccount;
     MaterialButton loginButton;
+    EditText emailEdit,passwordEdit;
+    String mEmail,mPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +32,9 @@ public class ConnectWithEmail extends AppCompatActivity {
     private void initView(){
         dontHaveAccount = findViewById(R.id.login_dont_have_account);
         loginButton = findViewById(R.id.login_with_email);
+        emailEdit = findViewById(R.id.login_email);
+        passwordEdit = findViewById(R.id.login_password);
+
 
         dontHaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +46,32 @@ public class ConnectWithEmail extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ConnectWithEmail.this,MainActivity.class));
+                mEmail = emailEdit.getText().toString().trim();
+                mPassword = passwordEdit.getText().toString().trim();
+
+                if(isValidForm()){
+                    if(!NetworkUtils.isNetworkAvailable()){
+                        Toast.makeText(ConnectWithEmail.this, "No Network", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        LoginModel loginModel = new LoginModel(mEmail,mPassword,ConnectWithEmail.this);
+                        loginModel.LoginUser();
+                        loginModel.setLoginListener(new LoginModel.LoginListener() {
+                            @Override
+                            public boolean isLoginSuccessful(String email) {
+                                startActivity(new Intent(ConnectWithEmail.this,MainActivity.class));
+                                return true;
+                            }
+
+                            @Override
+                            public boolean isLoginFailed(String message) {
+                                Toast.makeText(ConnectWithEmail.this, message, Toast.LENGTH_SHORT).show();
+                                return true;
+                            }
+                        });
+                    }
+
+                }
             }
         });
 
@@ -46,7 +81,7 @@ public class ConnectWithEmail extends AppCompatActivity {
     public void onResume() {
 
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
@@ -54,4 +89,20 @@ public class ConnectWithEmail extends AppCompatActivity {
 
         }
     }
+
+    private boolean isValidForm() {
+        boolean valid = true;
+        if (TextUtils.isEmpty(mEmail)) {
+            emailEdit.setError("Required");
+            valid = false;
+            return valid;
+        }
+        if (TextUtils.isEmpty(mPassword)) {
+            passwordEdit.setError("Required");
+            valid = false;
+            return valid;
+        }
+        return valid;
+    }
+
 }

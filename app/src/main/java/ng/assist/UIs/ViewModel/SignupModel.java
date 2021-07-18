@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Looper;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -57,6 +56,7 @@ public class SignupModel {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                signupListener.isFailed("Error Occured please try again");
             }
         }
     };
@@ -83,6 +83,7 @@ public class SignupModel {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                signupListener.isFailed("Error Occured please try again");
             }
 
 
@@ -109,6 +110,7 @@ public class SignupModel {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                signupListener.isFailed("Error Occured please try again");
             }
             loadingDialogUtils.cancelLoadingDialog();
         }
@@ -133,6 +135,7 @@ public class SignupModel {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+               signupListener.isFailed("Error Occured please try again");
             }
 
         }
@@ -279,7 +282,7 @@ public class SignupModel {
         myThread.start();
     }
 
-    public void signupWithGmail(){
+    private void signupWithGmail(){
 
         Runnable runnable = () -> {
             String mResponse = "";

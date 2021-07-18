@@ -2,6 +2,7 @@ package ng.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import ng.assist.UIs.Utils.NetworkUtils;
 import ng.assist.UIs.ViewModel.SignupModel;
 
 import android.content.Intent;
@@ -98,7 +99,12 @@ public class WelcomeActivity extends AppCompatActivity {
         String userPhotoUrl = String.valueOf(account.getPhotoUrl());
 
         SignupModel signupModel = new SignupModel(firstname,lastname,userEmail,userPhotoUrl,WelcomeActivity.this);
-        signupModel.SignupUsingGmail();
+        if(!NetworkUtils.isNetworkAvailable()) {
+            Toast.makeText(WelcomeActivity.this, "No Network", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            signupModel.SignupUsingGmail();
+        }
         signupModel.setSignupListener(new SignupModel.SignupListener() {
             @Override
             public void isSuccessful(String message) {

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ng.assist.UIs.Utils.LoadingDialogUtils;
+import ng.assist.UIs.Utils.NetworkUtils;
 import ng.assist.UIs.ViewModel.SignupModel;
 
 import android.content.Intent;
@@ -74,13 +75,17 @@ public class SignUpWithEmail extends AppCompatActivity {
              mPasswordRetype = retypePassword.getText().toString().trim();
              if(isValidForm()){
                  SignupModel signupModel = new SignupModel(mFirstname,mLastname,mEmailaddress,mPassword,mProfileImage,SignUpWithEmail.this);
-                 signupModel.SignupUser();
+                 if(!NetworkUtils.isNetworkAvailable()) {
+                     Toast.makeText(SignUpWithEmail.this, "No Network", Toast.LENGTH_SHORT).show();
+                 }
+                 else {
+                     signupModel.SignupUser();
+                 }
                  signupModel.setSignupListener(new SignupModel.SignupListener() {
                      @Override
                      public void isSuccessful(String message) {
                          startActivity(new Intent(SignUpWithEmail.this,MainActivity.class));
                      }
-
                      @Override
                      public void isFailed(String message) {
                          Toast.makeText(SignUpWithEmail.this, message, Toast.LENGTH_SHORT).show();
