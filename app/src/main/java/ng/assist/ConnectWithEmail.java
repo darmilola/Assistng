@@ -31,7 +31,7 @@ public class ConnectWithEmail extends AppCompatActivity {
 
     private void initView(){
         dontHaveAccount = findViewById(R.id.login_dont_have_account);
-        loginButton = findViewById(R.id.login_with_email);
+        loginButton = findViewById(R.id.login_with_email_button);
         emailEdit = findViewById(R.id.login_email);
         passwordEdit = findViewById(R.id.login_password);
 
@@ -50,7 +50,7 @@ public class ConnectWithEmail extends AppCompatActivity {
                 mPassword = passwordEdit.getText().toString().trim();
 
                 if(isValidForm()){
-                    if(!NetworkUtils.isNetworkAvailable()){
+                    if(!new NetworkUtils(ConnectWithEmail.this).isNetworkAvailable()){
                         Toast.makeText(ConnectWithEmail.this, "No Network", Toast.LENGTH_SHORT).show();
                     }
                     else{

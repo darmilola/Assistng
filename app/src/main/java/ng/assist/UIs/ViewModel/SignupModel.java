@@ -1,10 +1,12 @@
 package ng.assist.UIs.ViewModel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Looper;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -13,6 +15,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import ng.assist.MainActivity;
 import ng.assist.UIs.Utils.*;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -76,6 +79,20 @@ public class SignupModel {
                 }
                 else if(status.equalsIgnoreCase("failure")){
                     //mail exist login
+                    LoginModel loginModel = new LoginModel(emailAddress,context);
+                    loginModel.setLoginListener(new LoginModel.LoginListener() {
+                        @Override
+                        public boolean isLoginSuccessful(String email) {
+                            context.startActivity(new Intent(context, MainActivity.class));
+                            return true;
+                        }
+
+                        @Override
+                        public boolean isLoginFailed(String message) {
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                    });
                 }
                 else{
                     signupListener.isFailed("Error Occured please try again");

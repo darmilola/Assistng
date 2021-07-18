@@ -99,7 +99,7 @@ public class WelcomeActivity extends AppCompatActivity {
         String userPhotoUrl = String.valueOf(account.getPhotoUrl());
 
         SignupModel signupModel = new SignupModel(firstname,lastname,userEmail,userPhotoUrl,WelcomeActivity.this);
-        if(!NetworkUtils.isNetworkAvailable()) {
+        if(!new NetworkUtils(WelcomeActivity.this).isNetworkAvailable()) {
             Toast.makeText(WelcomeActivity.this, "No Network", Toast.LENGTH_SHORT).show();
         }
         else {

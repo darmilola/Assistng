@@ -75,7 +75,7 @@ public class SignUpWithEmail extends AppCompatActivity {
              mPasswordRetype = retypePassword.getText().toString().trim();
              if(isValidForm()){
                  SignupModel signupModel = new SignupModel(mFirstname,mLastname,mEmailaddress,mPassword,mProfileImage,SignUpWithEmail.this);
-                 if(!NetworkUtils.isNetworkAvailable()) {
+                 if(!new NetworkUtils(SignUpWithEmail.this).isNetworkAvailable()) {
                      Toast.makeText(SignUpWithEmail.this, "No Network", Toast.LENGTH_SHORT).show();
                  }
                  else {

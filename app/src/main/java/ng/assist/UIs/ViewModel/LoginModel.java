@@ -27,6 +27,7 @@ public class LoginModel {
     private LoadingDialogUtils loadingDialogUtils;
     private String baseUrl = new URL().getBaseUrl();
     private String loginUrl = baseUrl+"users/auth";
+    private String gmailLoginUrl = baseUrl+"users/auth/gmail/login/credential";
 
     public interface LoginListener{
         boolean isLoginSuccessful(String email);
@@ -40,8 +41,18 @@ public class LoginModel {
            loadingDialogUtils = new LoadingDialogUtils(mContext);
     }
 
+    public LoginModel(String email,Context context){
+        this.mEmail = email;
+        this.mContext = context;
+        loadingDialogUtils = new LoadingDialogUtils(mContext);
+    }
+
     public void LoginUser(){
        LoginWithCredentials();
+    }
+
+    public void loginWithGmail(){
+        LoginWithGmailCredentials();
     }
 
     public void setLoginListener(LoginListener loginListener) {
@@ -63,6 +74,35 @@ public class LoginModel {
                 }
                 else if(status.equalsIgnoreCase("failure")){
                     loginListener.isLoginFailed("Incorrect Email or Password");
+                }
+                else{
+                    loginListener.isLoginFailed("Error occurred please try again");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                loginListener.isLoginFailed("Error occurred please try again");
+            }
+
+        }
+    };
+
+
+
+    private Handler gmailLoginHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            loadingDialogUtils.cancelLoadingDialog();
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                    //mail does not exist continue with registration
+                    loginListener.isLoginSuccessful(mEmail);
+                }
+                else if(status.equalsIgnoreCase("failure")){
+                    loginListener.isLoginFailed("Error occurred please try again");
                 }
                 else{
                     loginListener.isLoginFailed("Error occurred please try again");
@@ -104,12 +144,50 @@ public class LoginModel {
         myThread.start();
     }
 
+    private void LoginWithGmailCredentials(){
+        loadingDialogUtils.showLoadingDialog("Login In...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildGmailLoginCredentials(mEmail));
+            Request request = new Request.Builder()
+                    .url(gmailLoginUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = gmailLoginHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            gmailLoginHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
 
     private String buildLoginCredentials(String email,String password){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("email",email);
             jsonObject.put("password",password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildGmailLoginCredentials(String email){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("email",email);
         } catch (JSONException e) {
             e.printStackTrace();
         }
