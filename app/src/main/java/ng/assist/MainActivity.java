@@ -10,14 +10,19 @@ import androidx.viewpager.widget.ViewPager;
 import ng.assist.UIs.AccountFragments;
 import ng.assist.UIs.DmFragment;
 import ng.assist.UIs.HomeFragment;
+import ng.assist.UIs.ViewModel.MainActivityModel;
 import ng.assist.UIs.Wallet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,24 +34,48 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     viewPagerAdapter adapter = new viewPagerAdapter(getSupportFragmentManager());
     NoSwipeViewPager viewPager;
+    ProgressBar mainActivityContentProgressbar;
+    LinearLayout bottomBarLayout;
+    String userWalletBalance,userFirstname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        setupViewPager(viewPager);
+
     }
 
 
     private void initView() {
-
+        mainActivityContentProgressbar = findViewById(R.id.mainactivity_content_loader_progress);
+        bottomBarLayout = findViewById(R.id.bottomnav_root_layout);
         bottomNavigationView = findViewById(R.id.chip_navigation);
         viewPager = findViewById(R.id.content_frame);
         viewPager.setOffscreenPageLimit(3);
         viewPager.setCurrentItem(0, false);
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setSelected(true);
+        String userEmail = getIntent().getStringExtra("email");
+        MainActivityModel mainActivityModel = new MainActivityModel(userEmail,MainActivity.this);
+        mainActivityModel.getUserInfo();
+        mainActivityModel.setMainactivityContentListener(new MainActivityModel.MainactivityContentListener() {
+            @Override
+            public void onContentReady(MainActivityModel mainActivityModel) {
+                viewPager.setVisibility(View.VISIBLE);
+                bottomBarLayout.setVisibility(View.VISIBLE);
+                mainActivityContentProgressbar.setVisibility(View.GONE);
+                MainActivity.this.userFirstname = mainActivityModel.getUserFirstname();
+                MainActivity.this.userWalletBalance = mainActivityModel.getUserWalletBalance();
+                setupViewPager(viewPager);
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -88,7 +117,14 @@ public class MainActivity extends AppCompatActivity {
             switch (position) {
 
                 case 0:
-                    return new HomeFragment();
+
+                    HomeFragment homeFragment = new HomeFragment();
+                    Bundle data = new Bundle();
+                    data.putString("walletBalance", MainActivity.this.userWalletBalance);
+                    data.putString("firstname",MainActivity.this.userFirstname);
+                    homeFragment.setArguments(data);
+
+                    return homeFragment;
                 case 1:
                     return new Wallet();
                 case 2:
@@ -124,7 +160,13 @@ public class MainActivity extends AppCompatActivity {
     }
     private void setupViewPager(ViewPager viewPager) {
 
-        adapter.addFragment(new HomeFragment(), "Home");
+        HomeFragment homeFragment = new HomeFragment();
+        Bundle data = new Bundle();
+        data.putString("walletBalance", MainActivity.this.userWalletBalance);
+        data.putString("firstname",MainActivity.this.userFirstname);
+        homeFragment.setArguments(data);
+        adapter.addFragment(homeFragment, "Home");
+
         adapter.addFragment(new Wallet(), "Wallet");
         adapter.addFragment(new DmFragment(), "Dm");
         adapter.addFragment(new AccountFragments(), "Accounts");
@@ -146,6 +188,8 @@ public class MainActivity extends AppCompatActivity {
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
     }
+
+
 
 
 

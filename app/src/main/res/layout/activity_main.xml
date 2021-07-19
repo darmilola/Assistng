@@ -11,10 +11,18 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:id="@+id/mainactivity_content_loader_progress"
+            android:indeterminateTint="@color/colorPrimary"/>
         <ng.assist.NoSwipeViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/content_frame"
+            android:visibility="gone"
             android:layout_marginBottom="55.5dp"
             android:orientation="vertical"/>
 
@@ -25,6 +33,7 @@
             android:orientation="vertical"
             android:background="@color/White"
             android:layout_gravity="bottom"
+            android:visibility="gone"
             android:id="@+id/bottomnav_root_layout">
 
             <View

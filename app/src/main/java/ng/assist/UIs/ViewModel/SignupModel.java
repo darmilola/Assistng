@@ -79,20 +79,9 @@ public class SignupModel {
                 }
                 else if(status.equalsIgnoreCase("failure")){
                     //mail exist login
-                    LoginModel loginModel = new LoginModel(emailAddress,context);
-                    loginModel.setLoginListener(new LoginModel.LoginListener() {
-                        @Override
-                        public boolean isLoginSuccessful(String email) {
-                            context.startActivity(new Intent(context, MainActivity.class));
-                            return true;
-                        }
-
-                        @Override
-                        public boolean isLoginFailed(String message) {
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                            return true;
-                        }
-                    });
+                    Intent intent = new Intent(context,MainActivity.class);
+                    intent.putExtra("email",SignupModel.this.emailAddress);
+                    context.startActivity(intent);
                 }
                 else{
                     signupListener.isFailed("Error Occured please try again");

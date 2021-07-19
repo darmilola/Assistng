@@ -59,7 +59,9 @@ public class ConnectWithEmail extends AppCompatActivity {
                         loginModel.setLoginListener(new LoginModel.LoginListener() {
                             @Override
                             public boolean isLoginSuccessful(String email) {
-                                startActivity(new Intent(ConnectWithEmail.this,MainActivity.class));
+                                Intent intent = new Intent(ConnectWithEmail.this,MainActivity.class);
+                                intent.putExtra("email",email);
+                                startActivity(intent);
                                 return true;
                             }
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import ng.assist.Accomodation;
 import ng.assist.BuildLocation;
@@ -32,6 +33,8 @@ public class HomeFragment extends Fragment {
     LinearLayout accomodationLayout;
     LinearLayout homeServicesLayout;
     LinearLayout applyForQucikCredit;
+    TextView userFirstname,userWalletBalance;
+    String mFirstname,mWalletBalance;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -53,7 +56,12 @@ public class HomeFragment extends Fragment {
         accomodationLayout = view.findViewById(R.id.home_accomodation_layout);
         homeServicesLayout = view.findViewById(R.id.home_services_layout);
         applyForQucikCredit = view.findViewById(R.id.quick_credit_create_application_layout);
-
+        userFirstname = view.findViewById(R.id.home_user_firstname);
+        userWalletBalance = view.findViewById(R.id.home_user_wallet_balance);
+        mFirstname = getArguments().getString("firstname");
+        mWalletBalance = getArguments().getString("walletBalance");
+        userFirstname.setText("Hi "+mFirstname+"!");
+        userWalletBalance.setText(mWalletBalance);
         applyForQucikCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
