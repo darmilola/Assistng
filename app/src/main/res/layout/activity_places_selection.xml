@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlacesSelection"
+    android:orientation="vertical"
+    android:background="@color/special_activity_background">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:weightSum="5"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:background="@drawable/search_background">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:layout_marginLeft="10dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:tint="@color/colorPrimary"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/iconfinder_searchicon"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/search_edit_background"
+                android:hint="Search location"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15dp"
+                android:id="@+id/places_search_location"
+                android:textColorHint="@color/light_text_color"
+                android:fontFamily="@font/clannews"/>
+        </LinearLayout>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        tools:listitem="@layout/location_item"
+        android:id="@+id/places_location_recyclerview"
+        tools:itemCount="20"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"/>
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:id="@+id/places_selection_progress"
+        android:layout_marginTop="70dp"
+        android:visibility="gone"/>
+    <fragment android:id="@+id/autocomplete_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"/>
+
+</LinearLayout>

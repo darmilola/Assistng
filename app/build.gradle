@@ -54,4 +54,5 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.6'
     implementation 'com.github.takusemba:cropme:2.0.8'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.google.android.libraries.places:places:2.4.0'
 }

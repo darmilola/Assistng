@@ -11,13 +11,15 @@
         android:testOnly="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ProfileImageCrop"></activity>
+        <activity android:name=".PlacesSelection"></activity>
+        <activity android:name=".ProfileImageCrop" />
         <activity android:name=".ResetPassword" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER"/>
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".SignUpWithEmail" />
@@ -75,12 +77,12 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA4CbzsmnlH4ggjW30jPlbtxMeCtvAtvLA" />
+            android:value="AIzaSyDhWEtH-spkmhAaeLLTN-8Oaest6Gq4y50" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>
