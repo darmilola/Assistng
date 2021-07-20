@@ -7,10 +7,17 @@
     android:background="@color/special_activity_background"
     tools:context=".CabHailingActivity">
 
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:id="@+id/cab_hailing_progressbar"/>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/cab_hailing_root"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,7 +75,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Change deatination"
+                            android:text="Change destination"
                             android:fontFamily="@font/clannews"
                             android:textColor="@color/light_text_color"
                             android:textSize="14dp"/>

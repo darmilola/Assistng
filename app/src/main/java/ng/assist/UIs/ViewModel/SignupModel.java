@@ -89,13 +89,12 @@ public class SignupModel {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                loadingDialogUtils.cancelLoadingDialog();
                 signupListener.isFailed("Error Occured please try again");
             }
-
-
-
         }
     };
+
 
     private Handler registerUserHandler = new Handler(Looper.getMainLooper()) {
         @Override

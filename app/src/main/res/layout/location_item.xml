@@ -3,20 +3,23 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="50dp">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:ellipsize="end"
+        android:id="@+id/location_city"
         android:gravity="left|center"
         android:maxLines="1"
-        android:ellipsize="end"
-        android:textSize="18dp"
         android:text="East Central London"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@color/colorPrimary"
+        android:textSize="18dp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
-        android:background="@color/light_text_color"/>
+        android:layout_marginTop="5dp"
+        android:background="#C0C0C0" />
 
 </LinearLayout>

@@ -41,28 +41,33 @@
         android:weightSum="3"
         android:layout_marginTop="10dp">
 
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_weight="1"
-            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
+            android:id="@+id/employee_layout"
+            android:orientation="vertical"
             android:background="@drawable/bus_type_selected_background">
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/iconfinder_badge"
-                android:tint="@color/White"/>
+                android:src="@drawable/employee"
+                android:id="@+id/employee_image"
+                android:tint="@color/white"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:id="@+id/employee_text"
                 android:layout_marginTop="10dp"
-                android:text="Corp Member"
+                android:text="Employee"
                 android:gravity="center"
-                android:textColor="@color/White"
+                android:textColor="@color/white"
                 android:fontFamily="@font/clannews"
                 android:textSize="15dp"/>
 
@@ -71,16 +76,17 @@
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="#FFE1E1E7"
-            android:gravity="center"
             android:orientation="vertical"
-            android:background="@drawable/bus_type_selected_background">
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/corp_member_layout"
+            android:background="@drawable/accomodation_background_unselected">
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/employee"
+                android:id="@+id/corp_member_image"
+                android:src="@drawable/iconfinder_badge"
                 android:tint="@color/colorPrimary"/>
             <TextView
                 android:layout_width="match_parent"
@@ -88,8 +94,9 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
-                android:text="Employee"
+                android:text="Corp Member"
                 android:gravity="center"
+                android:id="@+id/corp_member_text"
                 android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/clannews"
                 android:textSize="15dp"/>
@@ -99,16 +106,17 @@
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_weight="1"
+            android:id="@+id/others_layout"
             android:layout_marginLeft="10dp"
             android:orientation="vertical"
             android:gravity="center"
-            android:backgroundTint="#FFE1E1E7"
-            android:background="@drawable/bus_type_selected_background">
+            android:background="@drawable/accomodation_background_unselected">
 
             <ImageView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/other"
+                android:id="@+id/others_image"
                 android:tint="@color/colorPrimary"/>
             <TextView
                 android:layout_width="match_parent"
@@ -117,6 +125,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
                 android:text="Other"
+                android:id="@+id/others_text"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/clannews"
@@ -143,6 +152,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:weightSum="5"
+        android:id="@+id/preferred_location_layout"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="0dp"
@@ -168,6 +178,7 @@
                 android:fontFamily="@font/clannews"
                 android:gravity="center|left"
                 android:hint="Lagos,Nigeria"
+                android:id="@+id/preferred_location_text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="#8D8C8C"
                 android:textSize="16dp" />
@@ -218,17 +229,18 @@
             android:layout_marginRight="20dp"
             android:textSize="17dp"
             android:lineSpacingExtra="1dp"
+            android:id="@+id/price_range_text"
             android:fontFamily="@font/clannews"
             android:textColor="@color/pinkypinky"
             android:layout_alignParentRight="true"
-            android:text="$800 - $2000"/>
+            android:text="$0 - $100,000"/>
 
 
 
     </RelativeLayout>
 
     <it.sephiroth.android.library.rangeseekbar.RangeSeekBar
-        android:id="@+id/rangeSeekBar"
+        android:id="@+id/price_range_progress"
         style="@style/Base.Sephiroth.Widget.RangeSeekBar"
         android:layout_width="match_parent"
         android:layout_height="30dp"

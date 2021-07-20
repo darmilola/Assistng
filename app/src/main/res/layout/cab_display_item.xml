@@ -21,19 +21,8 @@
             <ImageView
                 android:layout_width="170dp"
                 android:layout_height="120dp"
-                android:src="@drawable/car_demo"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="25dp"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:text="Minivan"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:fontFamily="@font/clanmed"/>
+                android:id="@+id/cab_item_image"
+                android:src="@drawable/bus_transportation_vehicle_icon"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -41,26 +30,28 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:textColor="@color/light_text_color"
+                    android:textSize="15dp"
+                    android:id="@+id/cab_item_type"
+                    android:textColor="@color/dark_text_color"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="2 min"
+                    android:text="Bus"
                     android:gravity="center"
                     android:fontFamily="@font/clanbook"/>
                 <ImageView
-                    android:layout_width="3dp"
-                    android:layout_height="3dp"
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
                     android:src="@drawable/yellow_circle"
-                    android:tint="@color/light_text_color"/>
+                    android:tint="@color/dark_text_color"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:textColor="@color/light_text_color"
+                    android:textSize="15dp"
+                    android:id="@+id/cab_item_passenger"
+                    android:textColor="@color/dark_text_color"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="5 pass"
+                    android:text="5 Seats"
                     android:gravity="center"
                     android:fontFamily="@font/clanbook"/>
             </LinearLayout>
@@ -76,6 +67,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:id="@+id/cab_item_phone"
                     android:backgroundTint="@color/proposed_color"
                     android:background="@drawable/transport_mode_unselected_background">
 
@@ -92,6 +84,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:id="@+id/cab_item_chat"
                     android:backgroundTint="@color/proposed_color"
                     android:background="@drawable/transport_mode_unselected_background">
 
@@ -103,9 +96,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 </LinearLayout>
