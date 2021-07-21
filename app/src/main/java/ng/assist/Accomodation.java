@@ -34,7 +34,6 @@ public class Accomodation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accomodation);
         initView();
-
     }
 
     private void initDialog(){
