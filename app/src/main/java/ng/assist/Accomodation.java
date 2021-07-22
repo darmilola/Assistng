@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ public class Accomodation extends AppCompatActivity {
     boolean isCorpmemberSelected = false, isEmployeeSelected = true, isOthersSelected = false;
     RangeSeekBar priceRangebar;
     TextView priceRangeText;
+    String selectedCity,type = "employee",min_price,max_price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class Accomodation extends AppCompatActivity {
         listDialog.setCityClickedListener(new ListDialog.OnCityClickedListener() {
             @Override
             public void onCityClicked(String city) {
+                selectedCity = city;
                 preferredLocationText.setText(city);
             }
         });
@@ -81,19 +84,20 @@ public class Accomodation extends AppCompatActivity {
         priceRangebar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onProgressChanged(RangeSeekBar rangeSeekBar, int i, int i1, boolean b) {
+                min_price = Integer.toString(i);
+                max_price = Integer.toString(i1);
                 priceRangeText.setText("$"+Integer.toString(i)+" - "+"$"+Integer.toString(i1));
             }
-
             @Override
             public void onStartTrackingTouch(RangeSeekBar rangeSeekBar) {
 
             }
-
             @Override
             public void onStopTrackingTouch(RangeSeekBar rangeSeekBar) {
 
             }
         });
+
         priceRangeText = findViewById(R.id.price_range_text);
         preferredLocationLayout = findViewById(R.id.preferred_location_layout);
         preferredLocationLayout.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +121,14 @@ public class Accomodation extends AppCompatActivity {
         checkHomes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Accomodation.this,AccomodationListings.class));
+                if(isValidForm()){
+                    Intent intent = new Intent(Accomodation.this,AccomodationListings.class);
+                    intent.putExtra("city",selectedCity);
+                    intent.putExtra("type",type);
+                    intent.putExtra("max_price",max_price);
+                    intent.putExtra("min_price",min_price);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -127,6 +138,7 @@ public class Accomodation extends AppCompatActivity {
                 authCorpmemberSelection();
                 unSelEmployee();
                 unSelOthers();
+                type = "corper";
             }
         });
 
@@ -136,6 +148,7 @@ public class Accomodation extends AppCompatActivity {
                 authEmployeeSelection();
                 unSelCorpmemebers();
                 unSelOthers();
+                type = "employee";
             }
         });
 
@@ -145,6 +158,7 @@ public class Accomodation extends AppCompatActivity {
                 authOthersSelection();
                 unSelEmployee();
                 unSelCorpmemebers();
+                type = "others";
             }
         });
 
@@ -207,4 +221,15 @@ public class Accomodation extends AppCompatActivity {
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
     }
+
+    private boolean isValidForm() {
+        boolean valid = true;
+        if (TextUtils.isEmpty(preferredLocationText.getText().toString().trim())) {
+            preferredLocationText.setError("Required");
+            valid = false;
+            return valid;
+        }
+        return valid;
+    }
+
 }

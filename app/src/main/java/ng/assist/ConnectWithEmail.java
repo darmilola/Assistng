@@ -35,7 +35,6 @@ public class ConnectWithEmail extends AppCompatActivity {
         emailEdit = findViewById(R.id.login_email);
         passwordEdit = findViewById(R.id.login_password);
 
-
         dontHaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

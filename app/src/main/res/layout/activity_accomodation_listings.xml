@@ -4,7 +4,22 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
+    android:gravity="center"
     android:orientation="vertical">
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/accommodation_loading_progress"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/accommodation_root_layout">
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -106,4 +121,5 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 </LinearLayout>

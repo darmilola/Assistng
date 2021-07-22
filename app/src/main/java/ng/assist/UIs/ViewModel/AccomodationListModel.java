@@ -21,6 +21,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class AccomodationListModel {
+
     private String houseId;
     private String houseTitle;
     private String beds;
@@ -34,19 +35,21 @@ public class AccomodationListModel {
     private String address;
     private String agentId;
     private AgentModel agentModel;
+    private String nextPageUrl;
+    private String totalPage;
     private int viewType = 0;
     private AccomodationListReadyListener accomodationListReadyListener;
     private String baseUrl = new URL().getBaseUrl();
     private String getAccomodationUrl = baseUrl+"house_listings/filter/by/details";
     private String accomodationType,location,maxPrice,minPrice;
-    private ArrayList<AccomodationListModel> listModelArrayList;
+    private ArrayList<AccomodationListModel> listModelArrayList = new ArrayList<>();
 
     public interface AccomodationListReadyListener{
-        void onListReady(ArrayList<AccomodationListModel> listModelArrayList,String nextPageUrl);
+        void onListReady(ArrayList<AccomodationListModel> listModelArrayList,String nextPageUrl,String totalPage);
         void onEmpty(String message);
     }
 
-    public AccomodationListModel(String houseId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings){
+    public AccomodationListModel(String houseId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth){
         this.houseId = houseId;
         this.houseDisplayImage = houseDisplayImage;
         this.houseTitle = houseTitle;
@@ -54,6 +57,8 @@ public class AccomodationListModel {
         this.baths = baths;
         this.totalRaters = totalRaters;
         this.totalRatings = totalRatings;
+        this.pricesPerMonth = pricePerMonth;
+        this.houseDesc = description;
     }
     public AccomodationListModel(int viewType){
         this.viewType = viewType;
@@ -77,30 +82,32 @@ public class AccomodationListModel {
                 String status = jsonObject.getString("status");
                 if(status.equalsIgnoreCase("success")){
                     JSONObject dataInfo = jsonObject.getJSONObject("dataInfo");
+                    nextPageUrl = dataInfo.getString("next_page_url");
+                    totalPage = dataInfo.getString("last_page");
                     JSONArray data = dataInfo.getJSONArray("data");
-
                     for(int i = 0; i < data.length(); i++){
-                        String userId = data.getJSONObject(i).getString("userId");
-                        String phonenumber = data.getJSONObject(i).getString("phonenumber");
-                        String carType   = data.getJSONObject(i).getString("carType");
-                        String passenger = data.getJSONObject(i).getString("passenger");
-                        CabHailingModel cabHailingModel = new CabHailingModel(userId,phonenumber,carType,passenger);
-                        cabHailingModelArrayList.add(cabHailingModel);
+                        String houseId = data.getJSONObject(i).getString("id");
+                        String houseTitle = data.getJSONObject(i).getString("houseTitle");
+                        String pricePerMonth = data.getJSONObject(i).getString("pricePerMonth");
+                        String totalRaters = data.getJSONObject(i).getString("totalRaters");
+                        String totalRatings   = data.getJSONObject(i).getString("totalRatings");
+                        String bed = data.getJSONObject(i).getString("bed");
+                        String bath = data.getJSONObject(i).getString("bath");
+                        String displayImage = data.getJSONObject(i).getString("displayImg");
+                        String description = data.getJSONObject(i).getString("description");
+                        AccomodationListModel accomodationListModel = new AccomodationListModel(houseId,displayImage,houseTitle,bed,bath,totalRaters,totalRatings,description,pricePerMonth);
+                        listModelArrayList.add(accomodationListModel);
                     }
-                    cabHailingListener.onReady(cabHailingModelArrayList);
-
+                    accomodationListReadyListener.onListReady(listModelArrayList,nextPageUrl,totalPage);
 
                 }
                 else if(status.equalsIgnoreCase("failure")){
-                    cabHailingListener.onError("No Cab Available at these time ");
+                    accomodationListReadyListener.onEmpty("No Accommodation to Show");
                 }
-                else{
-                    cabHailingListener.onError("Error Occurred");
-                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
-                cabHailingListener.onError("Error Occurred");
-
+                accomodationListReadyListener.onEmpty("Error Occurred");
             }
 
         }
@@ -140,6 +147,36 @@ public class AccomodationListModel {
     }
 
 
+    public void getAccomodationsNextPage(String url) {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildSearchCredentials(accomodationType,location,maxPrice,minPrice));
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = accomodationHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            accomodationHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
 
 
 

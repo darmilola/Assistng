@@ -177,7 +177,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/clannews"
                 android:gravity="center|left"
-                android:hint="Lagos,Nigeria"
+                android:hint="Select City"
                 android:id="@+id/preferred_location_text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="#8D8C8C"
@@ -249,7 +249,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:max="100"
+        android:max="500"
         app:range_progress_endValue="60"
         app:range_progress_startEnd_minDiff="1"
         app:range_progress_startValue="50" />

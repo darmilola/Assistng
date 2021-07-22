@@ -70,6 +70,7 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<RecyclerVi
 
     }
 
+
     @Override
     public int getItemViewType(int position) {
         if (isLoaderVisible) {
@@ -79,15 +80,17 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    public void addItems(List<AccomodationListModel> postItems) {
-        accomodationList.addAll(postItems);
+    public void addItems(List<AccomodationListModel> Items) {
+        accomodationList.addAll(Items);
         notifyDataSetChanged();
     }
+
     public void addLoading() {
         isLoaderVisible = true;
         accomodationList.add(new AccomodationListModel(2));
         notifyItemInserted(accomodationList.size() - 1);
     }
+
     public void removeLoading() {
         isLoaderVisible = false;
         int position = accomodationList.size() - 1;
