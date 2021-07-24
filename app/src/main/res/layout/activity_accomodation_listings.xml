@@ -118,8 +118,17 @@
                 android:id="@+id/accomodation_recyclerview"
                 tools:listitem="@layout/accomodation_list_item"
                 android:nestedScrollingEnabled="false"/>
+
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
     </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="gone"
+        android:id="@+id/accommodation_recycler_progress"/>
+
 </LinearLayout>

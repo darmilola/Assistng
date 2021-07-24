@@ -10,15 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:orientation="vertical"
+        android:focusableInTouchMode="true"
         android:background="@color/special_activity_background">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:background="#F1F1F1"
-            app:spanCount="2"
+            app:spanCount="1"
+            android:nestedScrollingEnabled="false"
             tools:listitem="@layout/product_image_recycler_item"
             android:id="@+id/product_image_recyclerview"/>
+
         <me.relex.circleindicator.CircleIndicator2
             android:id="@+id/product_image_indicator"
             android:layout_width="match_parent"

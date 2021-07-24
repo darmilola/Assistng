@@ -1,6 +1,8 @@
 package ng.assist.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +16,12 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import ng.assist.AccomodationBooking;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
 
-public class AccomodationListingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AccomodationListingsAdapter extends RecyclerView.Adapter<AccomodationListingsAdapter.AccomodationItemViewHolder> {
 
-    private static final int TYPE_ACCOMMODATION = 1;
-    private static final int TYPE_LOADING = 2;
-    private boolean isLoaderVisible = false;
     ArrayList<AccomodationListModel> accomodationList;
     Context context;
 
@@ -34,78 +34,32 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public  AccomodationItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        switch (viewType) {
-            case TYPE_LOADING:
-                View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.loading_item_progress, parent, false);
-                return new LoadingItemViewHolder(view2);
-
-            case TYPE_ACCOMMODATION:
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.accomodation_list_item, parent, false);
-                return new AccomodationItemViewHolder(view);
-        }
-        View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.loading_item_progress, parent, false);
-        return new LoadingItemViewHolder(view2);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.accomodation_list_item, parent, false);
+        return new AccomodationItemViewHolder(view);
     }
-
-
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-          AccomodationListModel accomodationListModel = accomodationList.get(position);
-          if(holder instanceof AccomodationItemViewHolder){
-              AccomodationItemViewHolder viewHolder = (AccomodationItemViewHolder) holder;
-              viewHolder.ratings.setText(accomodationListModel.getTotalRatings());
-              viewHolder.baths.setText(accomodationListModel.getBaths());
-              viewHolder.beds.setText(accomodationListModel.getBeds());
-              viewHolder.houseTitle.setText(accomodationListModel.getHouseTitle());
-              viewHolder.pricePerMonth.setText(accomodationListModel.getPricesPerMonth());
-              Glide.with(context)
-                      .load(accomodationListModel.getHouseDisplayImage())
-                      .placeholder(R.drawable.background_image)
-                      .error(R.drawable.background_image)
-                      .into(viewHolder.displayImage);
-          }
-
-    }
-
-
-    @Override
-    public int getItemViewType(int position) {
-        if (isLoaderVisible) {
-            return position == accomodationList.size() - 1 ? TYPE_LOADING : TYPE_ACCOMMODATION;
-        } else {
-            return TYPE_ACCOMMODATION;
+    public void onBindViewHolder(@NonNull AccomodationItemViewHolder viewHolder, int position) {
+        AccomodationListModel accomodationListModel = accomodationList.get(position);
+            viewHolder.ratings.setText(accomodationListModel.getTotalRatings());
+            viewHolder.baths.setText(accomodationListModel.getBaths());
+            viewHolder.beds.setText(accomodationListModel.getBeds());
+            viewHolder.houseTitle.setText(accomodationListModel.getHouseTitle());
+            viewHolder.pricePerMonth.setText(accomodationListModel.getPricesPerMonth());
+            Glide.with(context)
+                    .load(accomodationListModel.getHouseDisplayImage())
+                    .placeholder(R.drawable.background_image)
+                    .error(R.drawable.background_image)
+                    .into(viewHolder.displayImage);
         }
-    }
 
-    public void addItems(List<AccomodationListModel> Items) {
-        accomodationList.addAll(Items);
-        notifyDataSetChanged();
-    }
 
-    public void addLoading() {
-        isLoaderVisible = true;
-        accomodationList.add(new AccomodationListModel(2));
-        notifyItemInserted(accomodationList.size() - 1);
-    }
-
-    public void removeLoading() {
-        isLoaderVisible = false;
-        int position = accomodationList.size() - 1;
-        AccomodationListModel item = getItem(position);
-        if (item != null) {
-            accomodationList.remove(position);
-            notifyItemRemoved(position);
+        public void addItem(ArrayList<AccomodationListModel> accList){
+              accomodationList.addAll(accList);
+              notifyDataSetChanged();
         }
-    }
-
-    private AccomodationListModel getItem(int position) {
-        return accomodationList.get(position);
-    }
-
-
     @Override
     public int getItemCount() {
         return accomodationList == null ? 0 : accomodationList.size();
@@ -115,7 +69,6 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<RecyclerVi
         TextView houseTitle,beds,baths,pricePerMonth,ratings,rateCount;
         ImageView displayImage;
         public AccomodationItemViewHolder(View ItemView){
-
             super(ItemView);
             houseTitle = ItemView.findViewById(R.id.accomodation_title);
             beds = ItemView.findViewById(R.id.accomodation_beds);
@@ -125,12 +78,15 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<RecyclerVi
             rateCount = ItemView.findViewById(R.id.accomodation_rate_counts);
             displayImage = ItemView.findViewById(R.id.accomodation_display_image);
 
-        }
-    }
-
-    public class LoadingItemViewHolder extends RecyclerView.ViewHolder{
-        public LoadingItemViewHolder(View ItemView){
-            super(ItemView);
+            ItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AccomodationListModel accomodationListModel = accomodationList.get(getAdapterPosition());
+                    Intent intent = new Intent(context, AccomodationBooking.class);
+                    intent.putExtra("accModel", accomodationListModel);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

@@ -1,9 +1,13 @@
 package ng.assist.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -22,7 +26,6 @@ public class ProductImageScrollAdapter extends RecyclerView.Adapter<ProductImage
         this.context = context;
     }
 
-
     @NonNull
     @Override
     public itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -32,6 +35,11 @@ public class ProductImageScrollAdapter extends RecyclerView.Adapter<ProductImage
 
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
+        Glide.with(context)
+                .load(imagesList.get(position))
+                .placeholder(R.drawable.background_image)
+                .error(R.drawable.background_image)
+                .into(holder.imageView);
     }
 
 
@@ -42,9 +50,10 @@ public class ProductImageScrollAdapter extends RecyclerView.Adapter<ProductImage
 
     public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-
+        ImageView imageView;
         public itemViewHolder(View ItemView){
             super(ItemView);
+            imageView = ItemView.findViewById(R.id.recycler_image_item);
             ItemView.setOnClickListener(this);
 
         }

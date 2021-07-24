@@ -1,5 +1,6 @@
 package ng.assist;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,14 +26,13 @@ public class AccomodationListings extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private AccomodationListingsAdapter adapter;
-    private ArrayList<String> accomdationList = new ArrayList<>();
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private String totalPage;
     private boolean isLoading = false;
     private String nextPageUrl;
     private String selectedCity,houseType,maxPrice,minPrice;
-    private ProgressBar progressBar;
+    private ProgressBar progressBar,recyclerProgressbar;
     private LinearLayout rootLayout;
 
     @Override
@@ -43,6 +43,8 @@ public class AccomodationListings extends AppCompatActivity {
     }
 
     private void initView(){
+        recyclerProgressbar = findViewById(R.id.accommodation_recycler_progress);
+        recyclerProgressbar.setVisibility(View.GONE);
         progressBar = findViewById(R.id.accommodation_loading_progress);
         rootLayout = findViewById(R.id.accommodation_root_layout);
         recyclerView = findViewById(R.id.accomodation_recyclerview);
@@ -75,55 +77,42 @@ public class AccomodationListings extends AppCompatActivity {
             }
         });
 
-
-        recyclerView.addOnScrollListener(new PaginationScrollListener(layoutManager) {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            protected void loadMoreItems() {
-                isLoading = true;
-                if(nextPageUrl.equalsIgnoreCase("null")){
-                    isLastPage = true;
-                    return;
-                }
-                else{
-                    adapter.addLoading();
-                    isLoading = false;
-                }
-
-                AccomodationListModel accomodationListModel = new AccomodationListModel(houseType,selectedCity,maxPrice,minPrice);
-                accomodationListModel.getAccomodationsNextPage(AccomodationListings.this.nextPageUrl);
-                accomodationListModel.setAccomodationListReadyListener(new AccomodationListModel.AccomodationListReadyListener() {
-                    @Override
-                    public void onListReady(ArrayList<AccomodationListModel> listModelArrayList, String nextPageUrl,String totalPage) {
-                        AccomodationListings.this.totalPage = totalPage;
-                        AccomodationListings.this.nextPageUrl = nextPageUrl;
-                        adapter.removeLoading();
-                        adapter.addItems(listModelArrayList);
-                        adapter.notifyDataSetChanged();
-
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!recyclerView.canScrollVertically(1)){ //1 for down
+                   if(nextPageUrl.equalsIgnoreCase("null")){
+                        return;
                     }
-                    @Override
-                    public void onEmpty(String message) {
-                        Toast.makeText(AccomodationListings.this, message, Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
 
-            @Override
-            public boolean isLastPage() {
-                return isLastPage;
-            }
-            @Override
-            public boolean isLoading() {
-                return isLoading;
+                    recyclerProgressbar.setVisibility(View.VISIBLE);
+                    AccomodationListModel accomodationListModel = new AccomodationListModel(houseType,selectedCity,maxPrice,minPrice);
+                    accomodationListModel.getAccomodationsNextPage(AccomodationListings.this.nextPageUrl);
+                    accomodationListModel.setAccomodationListReadyListener(new AccomodationListModel.AccomodationListReadyListener() {
+                        @Override
+                        public void onListReady(ArrayList<AccomodationListModel> listModelArrayList, String nextPageUrl,String totalPage) {
+                            AccomodationListings.this.totalPage = totalPage;
+                            AccomodationListings.this.nextPageUrl = nextPageUrl;
+                            recyclerProgressbar.setVisibility(View.GONE);
+                            adapter.addItem(listModelArrayList);
+                        }
+                        @Override
+                        public void onEmpty(String message) {
+                            Toast.makeText(AccomodationListings.this, message, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
         });
+
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
