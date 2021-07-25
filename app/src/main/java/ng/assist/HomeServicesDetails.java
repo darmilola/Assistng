@@ -11,17 +11,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
 public class HomeServicesDetails extends AppCompatActivity {
 
     RecyclerView serviceProviderRecyclerview;
-    RecyclerView serviceTypeRecyclerview;
     ArrayList<String> serviceProviderList = new ArrayList<>();
-    ArrayList<String> serviceTypeList = new ArrayList<>();
-    HomeServicesTypesAdapter homeServicesTypesAdapter;
     ServiceProvidersAdapter serviceProvidersAdapter;
+    ProgressBar recyclerProgress, loadingProgress;
+    LinearLayout rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,25 +33,15 @@ public class HomeServicesDetails extends AppCompatActivity {
 
     private void initView(){
 
+        recyclerProgress = findViewById(R.id.home_services_recycler_progress);
+        rootLayout = findViewById(R.id.home_services_root_layout);
+        loadingProgress = findViewById(R.id.home_services_progressbar);
         serviceProviderRecyclerview = findViewById(R.id.home_services_experts_recyclerview);
-        serviceTypeRecyclerview = findViewById(R.id.home_services_types_recyclerview);
 
-        for(int i = 0; i < 15; i++){
-
-            serviceProviderList.add("");
-            serviceTypeList.add("");
-        }
-
-        homeServicesTypesAdapter = new HomeServicesTypesAdapter(serviceTypeList,this);
         serviceProvidersAdapter = new ServiceProvidersAdapter(serviceProviderList,this);
         LinearLayoutManager providersLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        LinearLayoutManager serviceTypesLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-
-        serviceTypeRecyclerview.setLayoutManager(serviceTypesLayoutManager);
         serviceProviderRecyclerview.setLayoutManager(providersLayoutManager);
-
         serviceProviderRecyclerview.setAdapter(serviceProvidersAdapter);
-        serviceTypeRecyclerview.setAdapter(homeServicesTypesAdapter);
 
     }
 
@@ -58,7 +49,7 @@ public class HomeServicesDetails extends AppCompatActivity {
     public void onResume() {
 
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);

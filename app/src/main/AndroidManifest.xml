@@ -16,7 +16,11 @@
         <activity android:name=".ResetPassword" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".SignUpWithEmail" />
         <activity android:name=".ConnectWithEmail" />
@@ -54,13 +58,7 @@
         <activity android:name=".ServicesLanding" />
         <activity android:name=".AccomodationBooking" />
         <activity android:name=".AccomodationListings" />
-        <activity android:name=".Accomodation">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".Accomodation"></activity>
         <activity android:name=".GroceryCart" />
         <activity android:name=".GroceryStoreListing" />
         <activity android:name=".Grocery" />

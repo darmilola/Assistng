@@ -17,47 +17,6 @@
             android:orientation="vertical">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:weightSum="5"
-        android:orientation="horizontal"
-        android:background="@drawable/search_background">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.7"
-            android:layout_marginLeft="10dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:tint="@color/colorPrimary"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/iconfinder_searchicon"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/search_edit_background"
-                android:hint="Search for Anything"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15dp"
-                android:textColorHint="@color/light_text_color"
-                android:fontFamily="@font/clannews"/>
-        </LinearLayout>
-    </LinearLayout>
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -110,17 +69,6 @@
             </LinearLayout>
         </FrameLayout>
     </androidx.cardview.widget.CardView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
-        tools:listitem="@layout/services_tags_layout"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="3"
-        android:id="@+id/services_landing_recyclerview"
-        tools:itemCount="3"/>
-
 
 
             <androidx.cardview.widget.CardView

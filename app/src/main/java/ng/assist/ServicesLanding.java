@@ -18,9 +18,7 @@ import java.util.ArrayList;
 
 public class ServicesLanding extends AppCompatActivity {
 
-    ServicesLandingAdapter adapter;
-    ArrayList<String> servicesLandingList = new ArrayList<>();
-    RecyclerView recyclerView;
+
     FrameLayout homeServicesLayout;
     FrameLayout babySittingLayout;
     @Override
@@ -34,7 +32,7 @@ public class ServicesLanding extends AppCompatActivity {
     public void onResume() {
 
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.transparent));
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -43,14 +41,6 @@ public class ServicesLanding extends AppCompatActivity {
         }
     }
     private void initView(){
-        recyclerView = findViewById(R.id.services_landing_recyclerview);
-        for(int i = 0; i < 10; i++){
-            servicesLandingList.add("");
-        }
-        adapter = new ServicesLandingAdapter(servicesLandingList,this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
 
         homeServicesLayout = findViewById(R.id.home_services_layout);
         homeServicesLayout.setOnClickListener(new View.OnClickListener() {
