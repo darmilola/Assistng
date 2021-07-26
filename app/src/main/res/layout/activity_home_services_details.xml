@@ -151,19 +151,8 @@
                 android:layout_marginRight="17dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="500 Handymen"
-                    android:textSize="15dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="15dp"
-                    android:fontFamily="@font/clannews"
-                    android:layout_alignParentLeft="true"
-                    android:textColor="@color/colorPrimary"/>
-
             </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -180,7 +169,5 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-
     </LinearLayout>
 </LinearLayout>

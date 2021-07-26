@@ -53,8 +53,16 @@
         </LinearLayout>
     </LinearLayout>
 
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:id="@+id/service_provider_details_progress"/>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:visibility="gone"
+        android:id="@+id/service_provider_details_root"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,6 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/model"
+            android:id="@+id/provider_details_image"
             android:scaleType="centerCrop"/>
     </androidx.cardview.widget.CardView>
     <TextView
@@ -86,6 +95,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="center"
+        android:id="@+id/provider_details_name"
         android:layout_marginTop="10dp"
         android:textColor="@color/colorPrimary"
         android:text="llham Maulana"
@@ -97,6 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14dp"
+        android:id="@+id/provider_details_title"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="center"
@@ -107,39 +118,46 @@
         android:ellipsize="end"
         android:fontFamily="@font/clannews"/>
 
-    <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:id="@+id/service_provider_hireme"
-        android:background="@drawable/search_background"
-        android:backgroundTint="@color/colorPrimary">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+                <LinearLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:id="@+id/cab_item_phone"
+                    android:backgroundTint="@color/proposed_color"
+                    android:background="@drawable/transport_mode_unselected_background">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:tint="@color/special_activity_background"
-            android:padding="3dp"
-            android:layout_marginTop="2dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_message_black_24dp"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:tint="@color/white"
+                        android:src="@drawable/ic_local_phone_black_24dp"/>
+                </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="17dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:textColor="@color/White"
-            android:text="Hire Me"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:fontFamily="@font/clannews"/>
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:id="@+id/cab_item_chat"
+                    android:backgroundTint="@color/proposed_color"
+                    android:background="@drawable/transport_mode_unselected_background">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:tint="@color/white"
+                        android:src="@drawable/iconfinder_chat"/>
+                </LinearLayout>
+
+            </LinearLayout>
 
 
     <LinearLayout
@@ -227,6 +245,7 @@
                     android:text="4.2"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14dp"
+                    android:id="@+id/provider_details_rating"
                     android:gravity="center|left"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -241,6 +260,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="176"
+                android:id="@+id/provider_details_jobs"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14dp"
                 android:gravity="center"
@@ -256,6 +276,7 @@
                 android:text="N10,000"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14dp"
+                android:id="@+id/provider_details_rate_per_hour"
                 android:gravity="center|right"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -269,8 +290,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:background="@color/colorPrimary">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -278,21 +298,14 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
             android:textSize="20dp"
-            android:textColor="@color/White"
+            android:textColor="@color/colorPrimary"
             android:fontFamily="@font/clannews"
             android:text="Portfolio"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:layout_marginTop="10dp"
-            tools:itemCount="1"
-            android:id="@+id/portfolio_recyclerview"
-            tools:listitem="@layout/portfolio_image_recycler_item_design"/>
-
+     <include layout="@layout/product_image_scrollview"/>
     </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </LinearLayout>

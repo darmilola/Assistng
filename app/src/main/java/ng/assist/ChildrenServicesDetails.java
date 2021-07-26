@@ -37,10 +37,10 @@ public class ChildrenServicesDetails extends AppCompatActivity {
 
         }
 
-        serviceProvidersAdapter = new ServiceProvidersAdapter(serviceProviderList,this);
+       // serviceProvidersAdapter = new ServiceProvidersAdapter(serviceProviderList,this);
         LinearLayoutManager providersLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         serviceProviderRecyclerview.setLayoutManager(providersLayoutManager);
-        serviceProviderRecyclerview.setAdapter(serviceProvidersAdapter);
+       // serviceProviderRecyclerview.setAdapter(serviceProvidersAdapter);
 
 
     }

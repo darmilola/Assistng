@@ -2,6 +2,6 @@ package ng.assist.UIs.ViewModel;
 
  public class URL {
     public String getBaseUrl(){
-         return "https://fb7ebf5e2350.ngrok.io/api/";
+         return "https://8be2eac58bd1.ngrok.io/api/";
      }
 }

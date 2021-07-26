@@ -2,12 +2,17 @@ package ng.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import me.relex.circleindicator.CircleIndicator2;
 import ng.assist.Adapters.PortfolioAdapter;
+import ng.assist.Adapters.ProductImageScrollAdapter;
 import ng.assist.Adapters.ServiceProvidersAdapter;
 import ng.assist.UIs.ItemDecorator;
+import ng.assist.UIs.ViewModel.ProviderDetailsModel;
+import ng.assist.UIs.ViewModel.ServicesModel;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +22,13 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -25,9 +36,17 @@ public class ServiceProviderDetails extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
-    PortfolioAdapter adapter;
+    ProductImageScrollAdapter adapter;
     ArrayList<String> portfolioItemList = new ArrayList<>();
-    LinearLayout hireMe;
+    LinearLayout chat,call;
+    TextView name, jobTitle;
+    TextView ratings, jobsCount, ratePerHour;
+    ServicesModel servicesModel;
+    ProviderDetailsModel providerDetailsModel;
+    CircleIndicator2 imagesIndicator;
+    NestedScrollView rootLayout;
+    ProgressBar portfolioLoadingProgress;
+    ImageView profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,27 +56,55 @@ public class ServiceProviderDetails extends AppCompatActivity {
     }
 
     private void initView() {
+        rootLayout = findViewById(R.id.service_provider_details_root);
+        portfolioLoadingProgress = findViewById(R.id.service_provider_details_progress);
+        servicesModel = getIntent().getParcelableExtra("provider_info");
+        name = findViewById(R.id.provider_details_name);
+        jobTitle = findViewById(R.id.provider_details_title);
+        ratings = findViewById(R.id.provider_details_rating);
+        profileImage = findViewById(R.id.provider_details_image);
+        jobsCount = findViewById(R.id.provider_details_jobs);
+        ratePerHour = findViewById(R.id.provider_details_rate_per_hour);
+        imagesIndicator = findViewById(R.id.product_image_indicator);
+        recyclerView = findViewById(R.id.product_image_recyclerview);
 
-        hireMe = findViewById(R.id.service_provider_hireme);
-        recyclerView = findViewById(R.id.portfolio_recyclerview);
-        for (int i = 0; i < 10; i++) {
-            portfolioItemList.add("");
-        }
-        adapter = new PortfolioAdapter(portfolioItemList, this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        new PagerSnapHelper().attachToRecyclerView(recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator(dpToPx(3), dpToPx(5), dpToPx(30), ContextCompat.getColor(this, R.color.White), ContextCompat.getColor(this, R.color.pinkypinky)));
+        Glide.with(ServiceProviderDetails.this)
+                .load(servicesModel.getHandymanImage())
+                .placeholder(R.drawable.background_image)
+                .error(R.drawable.background_image)
+                .into(profileImage);
 
+        name.setText(servicesModel.getHandymanFirstname()+" "+ servicesModel.getHandymanLastname());
+        jobTitle.setText(servicesModel.getJobTitle());
+        ratePerHour.setText(servicesModel.getRatePerHour());
+        jobsCount.setText(servicesModel.getHandymanJobs());
+        ratings.setText(servicesModel.getHandymanRatings());
 
-        hireMe.setOnClickListener(new View.OnClickListener() {
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        LinearLayoutManager imagesManager = new LinearLayoutManager(ServiceProviderDetails.this, LinearLayoutManager.HORIZONTAL,false);
+        recyclerView.setLayoutManager(imagesManager);
+
+        providerDetailsModel = new ProviderDetailsModel(servicesModel.getHandymanId());
+        providerDetailsModel.getProviderPortfolio();
+        providerDetailsModel.setImagesReadyListener(new ProviderDetailsModel.ImagesReadyListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ServiceProviderDetails.this,ChatActivity.class));
+            public void onImageReady(ArrayList<String> imagesList) {
+                adapter = new ProductImageScrollAdapter(imagesList,ServiceProviderDetails.this);
+                recyclerView.setAdapter(adapter);
+                pagerSnapHelper.attachToRecyclerView(recyclerView);
+                imagesIndicator.attachToRecyclerView(recyclerView, pagerSnapHelper);
+                adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
+                rootLayout.setVisibility(View.VISIBLE);
+                portfolioLoadingProgress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(ServiceProviderDetails.this, message, Toast.LENGTH_SHORT).show();
+                rootLayout.setVisibility(View.VISIBLE);
+                portfolioLoadingProgress.setVisibility(View.GONE);
             }
         });
-
     }
 
     public static int dpToPx(int dp) {
