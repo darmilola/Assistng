@@ -6,19 +6,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F6F5F8"
     tools:context=".UIs.GroceryFastFoods">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+     <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+         android:id="@+id/grocery_fastfoods_progressbar"
+         android:layout_marginTop="300dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
+        android:visibility="gone"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:id="@+id/grocery_recyclerview"
+        android:id="@+id/grocery_fastfoods_recyclerview"
         tools:listitem="@layout/grocery_recycler_item">
-
     </androidx.recyclerview.widget.RecyclerView>
-
+        <ProgressBar
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="30dp"
+            android:id="@+id/grocery_fastfoods_recycler_progress"/>
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
