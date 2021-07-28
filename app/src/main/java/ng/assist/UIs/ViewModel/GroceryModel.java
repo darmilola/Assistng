@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -20,7 +22,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class GroceryModel {
+public class GroceryModel implements Parcelable {
 
     private String itemId;
     private String category;
@@ -36,6 +38,56 @@ public class GroceryModel {
     private String baseUrl = new URL().getBaseUrl();
     private String groceryUrl = baseUrl+"products/list/category";
     private ProductReadyListener productReadyListener;
+
+    protected GroceryModel(Parcel in) {
+        itemId = in.readString();
+        category = in.readString();
+        productName = in.readString();
+        price = in.readString();
+        displayImage = in.readString();
+        description = in.readString();
+        userCity = in.readString();
+        nextPageUrl = in.readString();
+        totalPage = in.readString();
+        retailerId = in.readString();
+        groceryModelArrayList = in.createTypedArrayList(GroceryModel.CREATOR);
+        baseUrl = in.readString();
+        groceryUrl = in.readString();
+    }
+
+    public static final Creator<GroceryModel> CREATOR = new Creator<GroceryModel>() {
+        @Override
+        public GroceryModel createFromParcel(Parcel in) {
+            return new GroceryModel(in);
+        }
+
+        @Override
+        public GroceryModel[] newArray(int size) {
+            return new GroceryModel[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(itemId);
+        dest.writeString(category);
+        dest.writeString(productName);
+        dest.writeString(price);
+        dest.writeString(displayImage);
+        dest.writeString(description);
+        dest.writeString(userCity);
+        dest.writeString(nextPageUrl);
+        dest.writeString(totalPage);
+        dest.writeString(retailerId);
+        dest.writeTypedList(groceryModelArrayList);
+        dest.writeString(baseUrl);
+        dest.writeString(groceryUrl);
+    }
 
     public interface ProductReadyListener{
         void onProductReady(ArrayList<GroceryModel> groceryModels, String nextPageUrl);

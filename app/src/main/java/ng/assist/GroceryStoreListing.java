@@ -7,48 +7,98 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import me.relex.circleindicator.CircleIndicator2;
+import ng.assist.Adapters.GroceryDisplayAdapter;
 import ng.assist.Adapters.GroceryStoreListingAdapter;
 import ng.assist.Adapters.ProductImageScrollAdapter;
+import ng.assist.UIs.ViewModel.GroceryListingDetailsModel;
+import ng.assist.UIs.ViewModel.GroceryModel;
+import ng.assist.UIs.ViewModel.RetailerInfoModel;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class GroceryStoreListing extends AppCompatActivity {
 
+    RecyclerView imagesRecyclerview;
+    ProductImageScrollAdapter adapter;
     RecyclerView recyclerView;
     ArrayList<String> storeProductList = new ArrayList<>();
     GroceryStoreListingAdapter groceryStoreListingAdapter;
-    LinearLayout cartLayout;
-    RecyclerView imagesRecyclerview;
-    ProductImageScrollAdapter adapter;
+    FrameLayout cartLayout;
     ArrayList<String> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
+    TextView productName,description,price,shopname;
+    GroceryDisplayAdapter groceryDisplayAdapter;
+    ProgressBar detailsProgressbar;
+    LinearLayout detailsRootLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grocery_store_listing);
         initView();
-        initProductImageView();
     }
 
     private void initView(){
+        detailsProgressbar = findViewById(R.id.details_progressbar);
+        detailsRootLayout = findViewById(R.id.details_root_layout);
+        imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
+        imagesIndicator = findViewById(R.id.product_image_indicator);
         cartLayout = findViewById(R.id.store_listing_cart);
-        recyclerView = findViewById(R.id.store_listing_recyclerview);
+        recyclerView = findViewById(R.id.details_recyclerview);
+        productName = findViewById(R.id.details_product_name);
+        shopname = findViewById(R.id.details_shopname);
+        description = findViewById(R.id.details_product_description);
+        price = findViewById(R.id.details_product_price);
+        GroceryModel groceryModel = getIntent().getParcelableExtra("product");
 
-        for(int i = 0; i < 10; i++){
-            storeProductList.add("");
-        }
+        productName.setText(groceryModel.getProductName());
+        description.setText(groceryModel.getDescription());
+        price.setText(groceryModel.getPrice());
 
-        groceryStoreListingAdapter = new GroceryStoreListingAdapter(storeProductList,this);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        LinearLayoutManager imagesManager = new LinearLayoutManager(GroceryStoreListing.this, LinearLayoutManager.HORIZONTAL,false);
+        imagesRecyclerview.setLayoutManager(imagesManager);
+        pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
+        imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
+        GridLayoutManager layoutManager = new GridLayoutManager(GroceryStoreListing.this,2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(groceryStoreListingAdapter);
+
+        GroceryListingDetailsModel groceryListingDetailsModel = new GroceryListingDetailsModel(groceryModel.getRetailerId(),groceryModel.getItemId());
+
+        groceryListingDetailsModel.getGroceryDetails();
+        groceryListingDetailsModel.setDetailsReadyListener(new GroceryListingDetailsModel.DetailsReadyListener() {
+            @Override
+            public void onDetailsReady(ArrayList<String> images, ArrayList<GroceryModel> groceryModelArrayList, RetailerInfoModel retailerInfoModel) {
+
+                detailsProgressbar.setVisibility(View.GONE);
+                detailsRootLayout.setVisibility(View.VISIBLE);
+                adapter = new ProductImageScrollAdapter(images,GroceryStoreListing.this);
+                imagesRecyclerview.setAdapter(adapter);
+                pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
+                imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
+                adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
+                shopname.setText(retailerInfoModel.getShopName());
+                groceryDisplayAdapter = new GroceryDisplayAdapter(groceryModelArrayList,GroceryStoreListing.this);
+                recyclerView.setAdapter(groceryDisplayAdapter);
+            }
+            @Override
+            public void onError(String message) {
+                detailsProgressbar.setVisibility(View.VISIBLE);
+                detailsRootLayout.setVisibility(View.GONE);
+                Toast.makeText(GroceryStoreListing.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         cartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,36 +108,14 @@ public class GroceryStoreListing extends AppCompatActivity {
         });
     }
 
+
     @Override
     public void onResume() {
-
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
-    private void initProductImageView(){
-        imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
-        imagesIndicator = findViewById(R.id.product_image_indicator);
-        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
-        for(int i = 0; i < 5; i++){
-            imagesList.add("");
-        }
-        adapter = new ProductImageScrollAdapter(imagesList,this);
-        LinearLayoutManager imagesManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
-        imagesRecyclerview.setLayoutManager(imagesManager);
-        imagesRecyclerview.setAdapter(adapter);
-        pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
-        imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
-        adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
-
-    }
-
-
 }

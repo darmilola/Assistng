@@ -13,8 +13,8 @@
         android:layout_height="match_parent">
 
         <ProgressBar
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:id="@+id/mainactivity_content_loader_progress"
             android:indeterminateTint="@color/colorPrimary"/>

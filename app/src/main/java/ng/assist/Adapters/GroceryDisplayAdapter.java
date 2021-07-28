@@ -80,7 +80,9 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
         @Override
         public void onClick(View view) {
 
-            context.startActivity(new Intent(context, GroceryStoreListing.class));
+            Intent intent = new Intent(context,GroceryStoreListing.class);
+            intent.putExtra("product",groceryList.get(getAdapterPosition()));
+            context.startActivity(intent);
         }
     }
 }
