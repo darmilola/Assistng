@@ -60,6 +60,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:elevation="3dp"
+                    android:id="@+id/cart_indicator"
                     android:background="@drawable/store_listing_cart_background"
                     android:backgroundTint="@color/pinkypinky"/>
                 <ImageView
@@ -264,7 +265,6 @@
                 android:textSize="15dp"
                 android:textColor="@color/White"
                 android:fontFamily="@font/clannews"/>
-
         </LinearLayout>
     </RelativeLayout>
     </LinearLayout>

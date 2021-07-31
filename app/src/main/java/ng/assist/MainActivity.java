@@ -15,8 +15,10 @@ import ng.assist.UIs.Wallet;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setSelected(true);
         String userEmail = getIntent().getStringExtra("email");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        preferences.edit().putString("userEmail",userEmail).apply();
         MainActivityModel mainActivityModel = new MainActivityModel(userEmail,MainActivity.this);
         mainActivityModel.getUserInfo();
         mainActivityModel.setMainactivityContentListener(new MainActivityModel.MainactivityContentListener() {

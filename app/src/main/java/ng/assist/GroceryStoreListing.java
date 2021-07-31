@@ -17,6 +17,7 @@ import ng.assist.UIs.ViewModel.RetailerInfoModel;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -41,6 +42,9 @@ public class GroceryStoreListing extends AppCompatActivity {
     GroceryDisplayAdapter groceryDisplayAdapter;
     ProgressBar detailsProgressbar;
     LinearLayout detailsRootLayout;
+    LinearLayout addToCart;
+    GroceryModel groceryModel;
+    View cartIndicator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,9 @@ public class GroceryStoreListing extends AppCompatActivity {
     }
 
     private void initView(){
+        cartIndicator = findViewById(R.id.cart_indicator);
+        cartIndicator.setVisibility(View.GONE);
+        addToCart = findViewById(R.id.details_add_to_cart);
         detailsProgressbar = findViewById(R.id.details_progressbar);
         detailsRootLayout = findViewById(R.id.details_root_layout);
         imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
@@ -59,7 +66,7 @@ public class GroceryStoreListing extends AppCompatActivity {
         shopname = findViewById(R.id.details_shopname);
         description = findViewById(R.id.details_product_description);
         price = findViewById(R.id.details_product_price);
-        GroceryModel groceryModel = getIntent().getParcelableExtra("product");
+        groceryModel = getIntent().getParcelableExtra("product");
 
         productName.setText(groceryModel.getProductName());
         description.setText(groceryModel.getDescription());
@@ -90,6 +97,7 @@ public class GroceryStoreListing extends AppCompatActivity {
                 shopname.setText(retailerInfoModel.getShopName());
                 groceryDisplayAdapter = new GroceryDisplayAdapter(groceryModelArrayList,GroceryStoreListing.this);
                 recyclerView.setAdapter(groceryDisplayAdapter);
+
             }
             @Override
             public void onError(String message) {
@@ -103,11 +111,33 @@ public class GroceryStoreListing extends AppCompatActivity {
         cartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GroceryStoreListing.this,GroceryCart.class));
+                Intent intent = new Intent(GroceryStoreListing.this,GroceryCart.class);
+                intent.putExtra("retailerId",groceryModel.getRetailerId());
+                startActivity(intent);
+            }
+        });
+
+
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userEmail = PreferenceManager.getDefaultSharedPreferences(GroceryStoreListing.this).getString("userEmail","");
+                GroceryModel CartModel = new GroceryModel(groceryModel.getItemId(),groceryModel.getRetailerId(),userEmail,"1",GroceryStoreListing.this);
+                CartModel.addToCart();
+                CartModel.setCartListener(new GroceryModel.CartListener() {
+                    @Override
+                    public void onAdded() {
+                        cartIndicator.setVisibility(View.VISIBLE);
+                        Toast.makeText(GroceryStoreListing.this, "Added to Cart", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onError() {
+                        Toast.makeText(GroceryStoreListing.this, "Error adding to Cart", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
-
 
     @Override
     public void onResume() {
