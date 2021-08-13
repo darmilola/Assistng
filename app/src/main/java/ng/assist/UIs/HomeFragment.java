@@ -15,18 +15,22 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 import ng.assist.Accomodation;
 import ng.assist.BuildLocation;
 import ng.assist.GroceryLanding;
 import ng.assist.QuickCreditApplication;
 import ng.assist.R;
 import ng.assist.ServicesLanding;
+import ng.assist.TopUp;
 import ng.assist.Transportation;
 
 
 public class HomeFragment extends Fragment {
 
 
+    private static  int TOP_UP_REQ = 1;
     View view;
     LinearLayout transportationLayout;
     LinearLayout groceryLayout;
@@ -35,6 +39,7 @@ public class HomeFragment extends Fragment {
     LinearLayout applyForQucikCredit;
     TextView userFirstname,userWalletBalance;
     String mFirstname,mWalletBalance;
+    LinearLayout topUp;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -51,6 +56,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initView(){
+        topUp = view.findViewById(R.id.home_topup_layout);
         transportationLayout = view.findViewById(R.id.home_transportation_layout);
         groceryLayout = view.findViewById(R.id.home_grocery_layout);
         accomodationLayout = view.findViewById(R.id.home_accomodation_layout);
@@ -61,7 +67,18 @@ public class HomeFragment extends Fragment {
         mFirstname = getArguments().getString("firstname");
         mWalletBalance = getArguments().getString("walletBalance");
         userFirstname.setText("Hi "+mFirstname+"!");
-        userWalletBalance.setText(mWalletBalance);
+        double amount = Double.parseDouble(mWalletBalance);
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        String formatted = formatter.format(amount);
+        userWalletBalance.setText(formatted);
+
+        topUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getContext(), TopUp.class),TOP_UP_REQ);
+            }
+        });
+
         applyForQucikCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +111,19 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == TOP_UP_REQ && resultCode == 0 && data != null){
+            String balance = data.getStringExtra("balance");
+            double amount = Double.parseDouble(balance);
+            DecimalFormat formatter = new DecimalFormat("#,###.00");
+            String formatted = formatter.format(amount);
+            userWalletBalance.setText(formatted);
+        }
+    }
+
 
     @Override
     public void onResume() {

@@ -33,7 +33,7 @@
             android:textSize="28dp"
             android:gravity="center"
             android:fontFamily="@font/clannews"/>
-        <androidx.viewpager.widget.ViewPager
+        <ng.assist.NoSwipeViewPager
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:id="@+id/send_money_viewpager"/>

@@ -77,7 +77,10 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDhWEtH-spkmhAaeLLTN-8Oaest6Gq4y50" />
+            android:value="AIzaSyDhWEtH-spkmhAaeLLTN-8Oaest6Gq4y50"/>
+        <meta-data
+            android:name="co.paystack.android.PublicKey"
+            android:value="pk_test_bf395e89a315198929ddca163fafecf64899d524"/>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

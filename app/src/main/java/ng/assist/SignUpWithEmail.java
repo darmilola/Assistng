@@ -84,7 +84,9 @@ public class SignUpWithEmail extends AppCompatActivity {
                  signupModel.setSignupListener(new SignupModel.SignupListener() {
                      @Override
                      public void isSuccessful(String message) {
-                         startActivity(new Intent(SignUpWithEmail.this,MainActivity.class));
+                         Intent intent = new Intent(SignUpWithEmail.this,MainActivity.class);
+                         intent.putExtra("email",mEmailaddress);
+                         startActivity(intent);
                      }
                      @Override
                      public void isFailed(String message) {

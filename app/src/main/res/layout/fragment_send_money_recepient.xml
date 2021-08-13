@@ -12,21 +12,18 @@
     android:layout_height="wrap_content"
     android:focusableInTouchMode="true"/>
 
-    <com.airbnb.lottie.LottieAnimationView
+    <ImageView
         android:id="@+id/animationView"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="200dp"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:scaleType="fitXY"
-        android:layout_gravity="bottom"
-        app:lottie_rawRes="@raw/moneymarketing"/>
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
+        android:src="@drawable/increase_money_icon"/>
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_email_layout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginEnd="5dp"
@@ -43,7 +40,7 @@
         app:errorTextAppearance="@style/ErrorText">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_email"
+            android:id="@+id/send_money_recipient_email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Recepient Email"
@@ -62,6 +59,7 @@
         android:text="Next"
         android:paddingLeft="10dp"
         android:textSize="17dp"
+        android:id="@+id/send_money_recipient_next"
         android:fontFamily="@font/clannews"
         android:textAllCaps="false"
         app:cornerRadius="25dp"/>

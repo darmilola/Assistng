@@ -71,7 +71,7 @@
             android:textColor="@color/colorPrimary"
             android:layout_marginLeft="3dp"
             android:textSize="15dp"
-            android:text="Amount"/>
+            android:text="Amount(NGN)"/>
     </LinearLayout>
 
     <EditText
@@ -80,6 +80,11 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:maxLines="1"
+        android:maxLength="10"
+        android:paddingLeft="15dp"
+        android:inputType="number"
+        android:id="@+id/top_up_amount_text"
         android:background="@drawable/edit_profile_edittext_background"/>
 
 
@@ -98,6 +103,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="20dp"
         android:text="Top Up"
+        android:id="@+id/topup_charge_card_button"
         android:textAllCaps="false"
         android:textSize="15dp"/>
 

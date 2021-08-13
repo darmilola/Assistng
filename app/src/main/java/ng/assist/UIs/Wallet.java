@@ -1,7 +1,9 @@
 package ng.assist.UIs;
 
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -9,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,6 +40,8 @@ import ng.assist.TopUp;
 public class Wallet extends Fragment {
 
 
+    private static  int TOP_UP_REQ = 0;
+    private static  int SEND_MONEY_REQ = 3;
     RecyclerView walletRecyclerview;
     ArrayList<String> walletHistoryList = new ArrayList<>();
     WalletAdapter adapter;
@@ -45,7 +51,8 @@ public class Wallet extends Fragment {
     AppBarLayout walletAppbar;
     TextView toolbarTitle;
     LinearLayout walletTransfer,topUp,withdrawals,bills;
-
+    TextView walletBalanceText;
+    String mWalletBalance;
     public Wallet() {
         // Required empty public constructor
     }
@@ -62,6 +69,7 @@ public class Wallet extends Fragment {
     }
 
     private void  initView(){
+        walletBalanceText = view.findViewById(R.id.wallet_balance_text);
         walletRecyclerview = view.findViewById(R.id.wallet_transcations_recyclerview);
         collapsingToolbarLayout = view.findViewById(R.id.wallet_collapsing_toolbar_layout);
         toolbar = view.findViewById(R.id.wallet_toolbar);
@@ -71,18 +79,23 @@ public class Wallet extends Fragment {
         topUp = view.findViewById(R.id.top_up_layout);
         withdrawals = view.findViewById(R.id.withdrawals);
         bills = view.findViewById(R.id.bills);
+        mWalletBalance = getArguments().getString("walletBalance");
+        double amount = Double.parseDouble(mWalletBalance);
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        String formatted = formatter.format(amount);
+        walletBalanceText.setText("NGN "+formatted);
 
         topUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), TopUp.class));
+                startActivityForResult(new Intent(getContext(), TopUp.class),TOP_UP_REQ);
             }
         });
 
         walletTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SendMoney.class));
+                startActivityForResult(new Intent(getContext(), SendMoney.class),SEND_MONEY_REQ);
             }
         });
 
@@ -153,5 +166,25 @@ public class Wallet extends Fragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+       if(requestCode == TOP_UP_REQ && resultCode == 0 && data != null){
+           String balance = data.getStringExtra("balance");
+           double amount = Double.parseDouble(balance);
+           DecimalFormat formatter = new DecimalFormat("#,###.00");
+           String formatted = formatter.format(amount);
+           walletBalanceText.setText("NGN "+formatted);
+       }
+        if(requestCode == SEND_MONEY_REQ && resultCode == 0 && data != null){
+          ///  String amountSent = data.getStringExtra("amountSent");
+           // int amountSentInt = Integer.parseInt(amountSent);
+
+            //DecimalFormat formatter = new DecimalFormat("#,###.00");
+            //String formatted = formatter.format(trueBalance);
+            //walletBalanceText.setText("NGN "+formatted);
+
+        }
+    }
 
 }

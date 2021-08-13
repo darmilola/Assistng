@@ -28,7 +28,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="$234.67 USD"
+        android:text="0.0"
+        android:id="@+id/send_money_success_amount"
         android:textColor="@color/colorPrimary"
         android:textSize="25dp"
         android:layout_marginTop="5dp"
@@ -40,16 +41,26 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Has been sent to Micheal Chauliac from your balance"
+        android:text=""
         android:textColor="@color/light_text_color"
         android:textSize="14dp"
         android:layout_marginTop="10dp"
         android:maxLines="2"
+        android:id="@+id/send_money_success_text"
         android:ellipsize="end"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:lineSpacingExtra="5dp"
         android:gravity="center"
         android:fontFamily="@font/clannews"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:text="Go Back Home"
+        android:layout_marginTop="100dp"
+        android:id="@+id/send_money_success_home_button"
+        android:textAllCaps="false"/>
 
 </LinearLayout>

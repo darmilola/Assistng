@@ -8,19 +8,12 @@
     android:gravity="center"
     tools:context=".UIs.SendMoneyAmount">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        xmlns:fresco = "http://schemas.android.com/apk/res-auto"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/send_money_profile_image"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:id="@+id/activity_main_user_profile_profile_image"
-        fresco:roundAsCircle="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_gravity="center"
-        fresco:placeholderImage="@drawable/model"
-        fresco:actualImageScaleType="fitXY"
-        android:layout_alignParentRight="true"
-        fresco:placeholderImageScaleType="fitXY"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/profileplaceholder"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -31,6 +24,7 @@
         android:layout_height="wrap_content"
         android:text="Micheal Chauliac"
         android:maxLines="1"
+        android:id="@+id/send_money_name"
         android:ellipsize="end"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -42,9 +36,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="damilolaakinterinwa@gmail.com"
+        android:text="sample@gmail.com"
         android:textColor="@color/colorPrimary"
         android:textSize="12dp"
+        android:id="@+id/send_money_email"
         android:gravity="center"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
@@ -56,11 +51,13 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="$0.00"
+        android:hint="0.00"
         android:textColorHint="@color/light_text_color"
         android:textColor="@color/colorPrimary"
         android:textSize="25dp"
         android:maxLines="1"
+        android:inputType="number"
+        android:id="@+id/send_money_amount"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -73,6 +70,7 @@
         android:text="Send"
         android:paddingLeft="10dp"
         android:textSize="15dp"
+        android:id="@+id/send_money_send_button"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/clannews"
         android:textAllCaps="false"

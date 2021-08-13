@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 mainActivityContentProgressbar.setVisibility(View.GONE);
                 MainActivity.this.userFirstname = mainActivityModel.getUserFirstname();
                 MainActivity.this.userWalletBalance = mainActivityModel.getUserWalletBalance();
+                preferences.edit().putString("walletBalance",userWalletBalance).apply();
                 setupViewPager(viewPager);
             }
 
@@ -130,7 +131,11 @@ public class MainActivity extends AppCompatActivity {
 
                     return homeFragment;
                 case 1:
-                    return new Wallet();
+                    Wallet wallet = new Wallet();
+                    Bundle bdata = new Bundle();
+                    bdata.putString("walletBalance", MainActivity.this.userWalletBalance);
+                    wallet.setArguments(bdata);
+                    return wallet;
                 case 2:
                     return new DmFragment();
                 case 3:

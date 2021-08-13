@@ -10,10 +10,14 @@ import ng.assist.UIs.HomeFragment;
 import ng.assist.UIs.SendMoneyAmount;
 import ng.assist.UIs.SendMoneyRecepient;
 import ng.assist.UIs.SendMoneySuccess;
+import ng.assist.UIs.ViewModel.RecipientUserInfo;
+import ng.assist.UIs.ViewModel.SendMoneyModel;
 import ng.assist.UIs.Wallet;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -22,11 +26,11 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SendMoney extends AppCompatActivity {
+public class SendMoney extends AppCompatActivity implements SendMoneyRecepient.onRecipientReady,SendMoneyAmount.SendMoneyListener {
 
 
     viewPagerAdapter adapter = new viewPagerAdapter(getSupportFragmentManager());
-    ViewPager viewPager;
+    NoSwipeViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,17 @@ public class SendMoney extends AppCompatActivity {
         setContentView(R.layout.activity_send_money);
         viewPager = findViewById(R.id.send_money_viewpager);
         setupViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(-1);
+    }
+
+    @Override
+    public void onReady(RecipientUserInfo recipientUserInfo) {
+        viewPager.setCurrentItem(1, true);
+    }
+
+    @Override
+    public void onSendSuccess() {
+        viewPager.setCurrentItem(2, true);
     }
 
 
@@ -57,9 +72,11 @@ public class SendMoney extends AppCompatActivity {
                 case 0:
                     return new SendMoneyRecepient();
                 case 1:
-                    return new SendMoneyAmount();
+                    SendMoneyAmount sendMoneyAmount = new SendMoneyAmount();
+                    return sendMoneyAmount;
                 case 2:
-                    return new SendMoneySuccess();
+                    SendMoneySuccess sendMoneySuccess = new SendMoneySuccess();
+                    return sendMoneySuccess;
 
             }
             return null;
@@ -85,7 +102,7 @@ public class SendMoney extends AppCompatActivity {
         }
 
     }
-    private void setupViewPager(ViewPager viewPager) {
+   private void setupViewPager(ViewPager viewPager) {
 
         adapter.addFragment(new SendMoneyRecepient(), "Recipient");
         adapter.addFragment(new SendMoneyAmount(), "Amount");
@@ -107,6 +124,16 @@ public class SendMoney extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SendMoney.this);
+        preferences.edit().remove("sendMoneyFirstname").apply();
+        preferences.edit().remove("sendMoneyLastname").apply();
+        preferences.edit().remove("sendMoneyEmail").apply();
+        preferences.edit().remove("sendMoneyImageUrl").apply();
+        super.onBackPressed();
     }
 
 }
