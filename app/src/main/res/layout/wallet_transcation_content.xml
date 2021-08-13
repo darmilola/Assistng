@@ -49,7 +49,7 @@
                 android:layout_marginTop="10dp"
                 android:id="@+id/wallet_transcations_recyclerview"
                 android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/wallet_history_recyclerview_item"/>
+                tools:listitem="@layout/wallet_transactions_marketplace"/>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

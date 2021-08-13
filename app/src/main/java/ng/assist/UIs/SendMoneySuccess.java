@@ -48,7 +48,7 @@ public class SendMoneySuccess extends Fragment {
             @Override
             public void onClick(View v) {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-               // intent.putExtra("amountSent",amount);
+                //intent.putExtra("amountSent",amount);
                 getActivity().setResult(0);
                 getActivity().finish();
                 preferences.edit().remove("sendMoneyFirstname").apply();

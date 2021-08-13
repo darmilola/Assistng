@@ -51,10 +51,12 @@
             android:orientation="vertical"
             android:gravity="right|center"/>
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/bills_recyclerview"
-        tools:listitem="@layout/bills_recycler_item"/>
+        android:text="Coming soon"
+        android:gravity="center"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

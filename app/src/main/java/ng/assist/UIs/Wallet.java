@@ -33,6 +33,7 @@ import ng.assist.R;
 import ng.assist.RequestWithdrawal;
 import ng.assist.SendMoney;
 import ng.assist.TopUp;
+import ng.assist.UIs.ViewModel.WalletTransactionsModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +44,7 @@ public class Wallet extends Fragment {
     private static  int TOP_UP_REQ = 0;
     private static  int SEND_MONEY_REQ = 3;
     RecyclerView walletRecyclerview;
-    ArrayList<String> walletHistoryList = new ArrayList<>();
+    ArrayList<WalletTransactionsModel> walletHistoryList = new ArrayList<>();
     WalletAdapter adapter;
     View view;
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -85,6 +86,7 @@ public class Wallet extends Fragment {
         String formatted = formatter.format(amount);
         walletBalanceText.setText("NGN "+formatted);
 
+        initTransactionsHistory();
         topUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,15 +114,7 @@ public class Wallet extends Fragment {
             }
         });
         
-        for(int  i = 0; i < 15; i++){
-            walletHistoryList.add("");
-        }
 
-        adapter = new WalletAdapter(walletHistoryList,getContext());
-        walletRecyclerview.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
-        walletRecyclerview.setLayoutManager(layoutManager);
-        walletRecyclerview.setAdapter(adapter);
 
 
         walletAppbar.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
@@ -147,7 +141,33 @@ public class Wallet extends Fragment {
                 }
             }
         });
+    }
 
+    private void initTransactionsHistory(){
+
+        WalletTransactionsModel walletTransactionsModel = new WalletTransactionsModel(0);
+        WalletTransactionsModel walletTransactionsModel2 = new WalletTransactionsModel(1);
+        WalletTransactionsModel walletTransactionsModel3 = new WalletTransactionsModel(2);
+        WalletTransactionsModel walletTransactionsModel4 = new WalletTransactionsModel(3);
+        WalletTransactionsModel walletTransactionsModel5 = new WalletTransactionsModel(4);
+        WalletTransactionsModel walletTransactionsModel6 = new WalletTransactionsModel(5);
+        WalletTransactionsModel walletTransactionsModel7 = new WalletTransactionsModel(6);
+        WalletTransactionsModel walletTransactionsModel8 = new WalletTransactionsModel(7);
+
+        walletHistoryList.add(walletTransactionsModel);
+        walletHistoryList.add(walletTransactionsModel2);
+        walletHistoryList.add(walletTransactionsModel3);
+        walletHistoryList.add(walletTransactionsModel4);
+        walletHistoryList.add(walletTransactionsModel5);
+        walletHistoryList.add(walletTransactionsModel6);
+        walletHistoryList.add(walletTransactionsModel7);
+        walletHistoryList.add(walletTransactionsModel8);
+
+        adapter = new WalletAdapter(walletHistoryList,getContext());
+        walletRecyclerview.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        walletRecyclerview.setLayoutManager(layoutManager);
+        walletRecyclerview.setAdapter(adapter);
 
     }
 

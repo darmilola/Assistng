@@ -6,23 +6,24 @@
         android:layout_marginRight="16dp">
 
         <LinearLayout
-            android:layout_width="150dp"
+            android:layout_width="180dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_marginLeft="10dp"
+            android:gravity="center|left">
 
             <LinearLayout
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/home_accomodation_background"
+                android:background="@drawable/home_skills_background"
                 android:gravity="center">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/iconfinder__building_company_city_house_officel_apartment_architecture_4213476"
-                    android:tint="#FA2D65" />
+                    android:src="@drawable/groceryicon"
+                    android:tint="#342A6B" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -33,8 +34,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Grocery"
-                    android:textSize="16dp"
+                    android:text="Marketplace"
+                    android:textSize="15dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center|left"
                     android:fontFamily="@font/clannews"
@@ -72,23 +73,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2,500.00"
-                    android:textSize="16dp"
+                    android:text="View Cart"
+                    android:textSize="12dp"
                     android:gravity="center"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/clannews"
                     android:textColor="@color/colorPrimary"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="BlackHistoryMonth Shop"
-                    android:textSize="12dp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:fontFamily="@font/clannews"
-                    android:textColor="#918F8F"/>
 
             </LinearLayout>
 

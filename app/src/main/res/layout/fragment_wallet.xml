@@ -190,7 +190,7 @@
                                 android:tint="@color/white" />
                         </LinearLayout>
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:text="Withdraw"
                             android:textSize="11dp"
@@ -203,7 +203,6 @@
 
 
                 </LinearLayout>
-
             </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar

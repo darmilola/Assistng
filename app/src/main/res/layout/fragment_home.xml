@@ -240,7 +240,7 @@
                         <ImageView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/iconfinder_cart_4781848"
+                            android:src="@drawable/groceryicon"
                             android:tint="#342A6B" />
                     </LinearLayout>
                     <TextView
@@ -249,7 +249,7 @@
                         android:textSize="12dp"
                         android:gravity="center"
                         android:textColor="@color/colorPrimary"
-                        android:text="Grocery"
+                        android:text="Marketplace"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="12dp"
                         android:fontFamily="@font/clanmed"/>
@@ -334,7 +334,7 @@
                         <ImageView
                             android:layout_width="35dp"
                             android:layout_height="40dp"
-                            android:src="@drawable/iconfinder_learning"
+                            android:src="@drawable/servicesicon"
                             android:tint="#D3AA1B" />
                     </LinearLayout>
                     <TextView

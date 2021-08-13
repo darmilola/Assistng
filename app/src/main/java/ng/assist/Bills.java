@@ -21,20 +21,8 @@ public class Bills extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bills);
-        initView();
     }
-    private void initView(){
-        recyclerView = findViewById(R.id.bills_recyclerview);
 
-        for(int i = 0; i < 20; i++){
-            billList.add("");
-        }
-
-        adapter = new BillsAdapter(billList,this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-    }
 
     @Override
     public void onResume() {
