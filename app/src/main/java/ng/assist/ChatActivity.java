@@ -37,12 +37,9 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     protected ImageLoader imageLoader;
     protected MessagesListAdapter<Message> messagesAdapter;
 
-    private Menu menu;
     private int selectionCount;
     private Date lastLoadedDate;
     private MessagesList messagesList;
-
-    private LinearLayout chatPaymentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +47,7 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         setContentView(R.layout.activity_chat);
 
         this.messagesList = (MessagesList) findViewById(R.id.messagesList);
-        findViewById(R.id.chat_payment_icon).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ChatActivity.this,PaymentActivity.class));
-            }
-        });
+
         initAdapter();
 
         MessageInput input = (MessageInput) findViewById(R.id.input);
@@ -67,7 +59,6 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
 
     private void initAdapter() {
         messagesAdapter = new MessagesListAdapter<>(senderId, imageLoader);
-        messagesAdapter.enableSelectionMode(this);
         messagesAdapter.setLoadMoreListener(this);
         messagesAdapter.registerViewClickListener(R.id.messageUserAvatar,
                 new MessagesListAdapter.OnMessageViewClickListener<Message>() {
@@ -96,29 +87,9 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         messagesAdapter.addToStart(MessagesFixtures.getTextMessage(), true);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        this.menu = menu;
 
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
 
-        }
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (selectionCount == 0) {
-            super.onBackPressed();
-        } else {
-            messagesAdapter.unselectAllItems();
-        }
-    }
 
     @Override
     public void onLoadMore(int page, int totalItemsCount) {

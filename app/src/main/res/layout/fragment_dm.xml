@@ -31,7 +31,7 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
-                android:text="Direct Messages"
+                android:text="Messages"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/clannews"/>
@@ -41,8 +41,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:id="@+id/direct_messages_recyclerview"
         tools:listitem="@layout/direct_message_item"/>
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:id="@+id/connection_loading_progress"/>
 
 
 </LinearLayout>
