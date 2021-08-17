@@ -1,6 +1,7 @@
 package ng.assist.UIs.ViewModel;
 
-import com.stfalcon.chatkit.commons.models.IUser;
+
+import ng.assist.UIs.chatkit.commons.models.IUser;
 
 /*
  * Created by troy379 on 04.04.17.

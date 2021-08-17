@@ -1,0 +1,40 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@id/attachmentButton"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:src="@drawable/select_image"
+        android:tint="@color/proposed_color"
+        android:layout_centerVertical="true"/>
+
+
+    <EditText
+        android:id="@id/messageInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_toEndOf="@id/attachmentButtonSpace"
+        android:layout_toLeftOf="@id/sendButtonSpace"
+        android:layout_toRightOf="@id/attachmentButtonSpace"
+        android:layout_toStartOf="@id/sendButtonSpace"
+        android:inputType="textAutoCorrect|textAutoComplete|textMultiLine|textCapSentences"/>
+
+
+
+    <ImageView
+        android:id="@id/messageSendButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:padding="3dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+
+</merge>

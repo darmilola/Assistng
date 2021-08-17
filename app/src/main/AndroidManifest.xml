@@ -11,7 +11,8 @@
         android:testOnly="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PlacesSelection"></activity>
+        <activity android:name=".ChatFullImage"></activity>
+        <activity android:name=".PlacesSelection" />
         <activity android:name=".ProfileImageCrop" />
         <activity android:name=".ResetPassword" />
         <activity android:name=".ForgotPassword" />
@@ -58,7 +59,7 @@
         <activity android:name=".ServicesLanding" />
         <activity android:name=".AccomodationBooking" />
         <activity android:name=".AccomodationListings" />
-        <activity android:name=".Accomodation"></activity>
+        <activity android:name=".Accomodation" />
         <activity android:name=".GroceryCart" />
         <activity android:name=".GroceryStoreListing" />
         <activity android:name=".Grocery" />
@@ -77,15 +78,15 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDhWEtH-spkmhAaeLLTN-8Oaest6Gq4y50"/>
+            android:value="AIzaSyDhWEtH-spkmhAaeLLTN-8Oaest6Gq4y50" />
         <meta-data
             android:name="co.paystack.android.PublicKey"
-            android:value="pk_test_bf395e89a315198929ddca163fafecf64899d524"/>
+            android:value="pk_test_bf395e89a315198929ddca163fafecf64899d524" />
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

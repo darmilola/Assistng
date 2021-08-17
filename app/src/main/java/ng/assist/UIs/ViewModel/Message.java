@@ -1,9 +1,11 @@
 package ng.assist.UIs.ViewModel;
 
-import com.stfalcon.chatkit.commons.models.IMessage;
-import com.stfalcon.chatkit.commons.models.MessageContentType;
+
 
 import java.util.Date;
+
+import ng.assist.UIs.chatkit.commons.models.IMessage;
+import ng.assist.UIs.chatkit.commons.models.MessageContentType;
 
 /*
  * Created by troy379 on 04.04.17.

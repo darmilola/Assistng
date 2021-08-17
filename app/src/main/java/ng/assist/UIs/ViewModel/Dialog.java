@@ -1,8 +1,10 @@
 package ng.assist.UIs.ViewModel;
 
-import com.stfalcon.chatkit.commons.models.IDialog;
+
 
 import java.util.ArrayList;
+
+import ng.assist.UIs.chatkit.commons.models.IDialog;
 
 /*
  * Created by troy379 on 04.04.17.

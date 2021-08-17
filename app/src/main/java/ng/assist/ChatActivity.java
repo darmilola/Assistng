@@ -4,30 +4,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import ng.assist.UIs.MessagesFixtures;
 import ng.assist.UIs.ViewModel.Message;
+import ng.assist.UIs.chatkit.commons.ImageLoader;
+import ng.assist.UIs.chatkit.messages.MessageInput;
+import ng.assist.UIs.chatkit.messages.MessagesList;
+import ng.assist.UIs.chatkit.messages.MessagesListAdapter;
+
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
 
-import com.stfalcon.chatkit.commons.ImageLoader;
-import com.stfalcon.chatkit.messages.MessageInput;
-import com.stfalcon.chatkit.messages.MessagesList;
-import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import android.os.Handler;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 public class ChatActivity extends AppCompatActivity   implements MessageInput.InputListener,
         MessageInput.AttachmentsListener,
-        MessageInput.TypingListener,MessagesListAdapter.SelectionListener,
+        MessageInput.TypingListener, MessagesListAdapter.SelectionListener,
         MessagesListAdapter.OnLoadMoreListener {
 
 
@@ -58,15 +63,35 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
 
 
     private void initAdapter() {
-        messagesAdapter = new MessagesListAdapter<>(senderId, imageLoader);
+
+        imageLoader = new ImageLoader() {
+            @Override
+            public void loadImage(ImageView imageView, String url, Object payload) {
+                Picasso.get().load(url).into(imageView);
+            }
+        };
+
+        messagesAdapter = new MessagesListAdapter<Message>(senderId, imageLoader);
         messagesAdapter.setLoadMoreListener(this);
-        messagesAdapter.registerViewClickListener(R.id.messageUserAvatar,
+        messagesAdapter.registerViewClickListener(R.id.image,
                 new MessagesListAdapter.OnMessageViewClickListener<Message>() {
                     @Override
                     public void onMessageViewClick(View view, Message message) {
 
+                        if(message.getImageUrl() != null && !message.getImageUrl().equalsIgnoreCase("")){
+
+                            Intent intent = new Intent(ChatActivity.this,ChatFullImage.class);
+                            intent.putExtra("imageUrl",message.getImageUrl());
+                            startActivity(intent);
+                        }
                     }
                 });
+        messagesAdapter.setOnMessageViewClickListener(new MessagesListAdapter.OnMessageViewClickListener<Message>() {
+            @Override
+            public void onMessageViewClick(View view, Message message) {
+
+            }
+        });
         messagesList.setAdapter(messagesAdapter);
     }
 
@@ -99,6 +124,7 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         }
     }
 
+
     @Override
     public void onSelectionChanged(int count) {
         this.selectionCount = count;
@@ -115,6 +141,7 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
             }
         }, 1000);
     }
+
 
     private MessagesListAdapter.Formatter<Message> getMessageStringFormatter() {
         return new MessagesListAdapter.Formatter<Message>() {
@@ -139,7 +166,7 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
 
     @Override
     public boolean onSubmit(CharSequence input) {
-        return false;
+        return true;
     }
 
 

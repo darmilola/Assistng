@@ -51,7 +51,6 @@ public final class MessagesFixtures extends FixturesData {
                 Calendar calendar = Calendar.getInstance();
                 if (startDate != null) calendar.setTime(startDate);
                 calendar.add(Calendar.DAY_OF_MONTH, -(i * i + 1));
-
                 message.setCreatedAt(calendar.getTime());
                 messages.add(message);
             }
