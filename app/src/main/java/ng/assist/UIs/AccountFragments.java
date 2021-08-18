@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import ng.assist.ChatActivity;
 import ng.assist.DriversDashboard;
 import ng.assist.EcommerceDashboard;
 import ng.assist.EditProfileActivity;
@@ -62,7 +63,7 @@ public class AccountFragments extends Fragment {
         rateUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), EstateListingDashboard.class));
+                startActivity(new Intent(getContext(), ChatActivity.class));
             }
         });
         dashboardLayout.setOnClickListener(new View.OnClickListener() {

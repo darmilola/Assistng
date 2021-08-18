@@ -2,6 +2,9 @@ package ng.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import ng.assist.UIs.MessagesFixtures;
 import ng.assist.UIs.ViewModel.Message;
 import ng.assist.UIs.chatkit.commons.ImageLoader;
@@ -11,13 +14,16 @@ import ng.assist.UIs.chatkit.messages.MessagesListAdapter;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import android.view.View;
 
 
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,42 +31,57 @@ import java.util.Locale;
 import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ChatActivity extends AppCompatActivity   implements MessageInput.InputListener,
         MessageInput.AttachmentsListener,
-        MessageInput.TypingListener, MessagesListAdapter.SelectionListener,
+        MessageInput.TypingListener,
         MessagesListAdapter.OnLoadMoreListener {
 
 
     private static final int TOTAL_MESSAGES_COUNT = 100;
-
-    protected final String senderId = "0";
+    private String senderId = "";
+    private String receiverId = "";
+    private String receiverFirstname = "";
+    private String receiverLastname = "";
     protected ImageLoader imageLoader;
     protected MessagesListAdapter<Message> messagesAdapter;
-
-    private int selectionCount;
+    private Socket socket;
     private Date lastLoadedDate;
     private MessagesList messagesList;
+    private TextView chatActivityHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        initView();
+    }
 
+    private void initView(){
+        Intent intent = getIntent();
         this.messagesList = (MessagesList) findViewById(R.id.messagesList);
-
         initAdapter();
-
         MessageInput input = (MessageInput) findViewById(R.id.input);
         input.setInputListener(this);
         input.setTypingListener(this);
         input.setAttachmentsListener(this);
+        receiverId = intent.getStringExtra("receiverId");
+        receiverFirstname = intent.getStringExtra("receiverFirstname");
+        receiverLastname = intent.getStringExtra("receiverLastname");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ChatActivity.this);
+        senderId = preferences.getString("userEmail","");
+        chatActivityHeader = findViewById(R.id.chat_activity_header);
+        chatActivityHeader.setText(receiverFirstname+" "+receiverLastname);
+        initSocket();
     }
-
 
     private void initAdapter() {
 
@@ -109,7 +130,7 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     @Override
     protected void onStart() {
         super.onStart();
-        messagesAdapter.addToStart(MessagesFixtures.getTextMessage(), true);
+       //messagesAdapter.addToStart(MessagesFixtures.getTextMessage(), true);
     }
 
 
@@ -120,18 +141,13 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     public void onLoadMore(int page, int totalItemsCount) {
         Log.i("TAG", "onLoadMore: " + page + " " + totalItemsCount);
         if (totalItemsCount < TOTAL_MESSAGES_COUNT) {
-            loadMessages();
+            //loadMessages();
         }
     }
 
 
-    @Override
-    public void onSelectionChanged(int count) {
-        this.selectionCount = count;
 
-    }
-
-    protected void loadMessages() {
+  /*  protected void loadMessages() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -140,7 +156,8 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
                 messagesAdapter.addToEnd(messages, false);
             }
         }, 1000);
-    }
+    }*/
+
 
 
     private MessagesListAdapter.Formatter<Message> getMessageStringFormatter() {
@@ -165,9 +182,48 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     }
 
     @Override
-    public boolean onSubmit(CharSequence input) {
+    public boolean onSubmit(CharSequence input)
+    {
+        socket.emit(receiverId,input.toString(),1);
         return true;
     }
+
+    private void initSocket(){
+
+        try {
+            socket = IO.socket("https://glacial-springs-30545.herokuapp.com");
+            //create connection
+            socket.connect();
+            socket.emit("joinChat",senderId);
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        socket.on("message", new Emitter.Listener() {
+            @Override public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override public void run() {
+                        JSONObject data = (JSONObject) args[0];
+                        try {
+                            //extract data from fired event
+                            String receiverId = data.getString("receiverId");
+                            String message = data.getString("message");
+                            int messageType = data.getInt("messageType");
+                            Message message1 = new Message("",MessagesFixtures.getUser(),message);
+                            messagesAdapter.addToStart(message1,false);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+
 
 
     @Override
@@ -182,4 +238,5 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
 
         }
     }
+
 }
