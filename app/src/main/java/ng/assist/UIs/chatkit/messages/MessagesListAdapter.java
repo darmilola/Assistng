@@ -56,7 +56,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
     protected List<Wrapper> items;
     private MessageHolders holders;
-    private String senderId;
+    private String senderId = "";
 
     private int selectedItemsCount;
     private SelectionListener selectionListener;
@@ -189,140 +189,6 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
         notifyItemRangeInserted(oldSize, items.size() - oldSize);
     }
 
-    /**
-     * Updates message by its id.
-     *
-     * @param message updated message object.
-     */
-    public boolean update(MESSAGE message) {
-        return update(message.getId(), message);
-    }
-
-    /**
-     * Updates message by old identifier (use this method if id has changed). Otherwise use {@link #update(IMessage)}
-     *
-     * @param oldId      an identifier of message to update.
-     * @param newMessage new message object.
-     */
-    public boolean update(String oldId, MESSAGE newMessage) {
-        int position = getMessagePositionById(oldId);
-        if (position >= 0) {
-            Wrapper<MESSAGE> element = new Wrapper<>(newMessage);
-            items.set(position, element);
-            notifyItemChanged(position);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Moves the elements position from current to start
-     *
-     * @param newMessage new message object.
-     */
-    public void updateAndMoveToStart(MESSAGE newMessage) {
-        int position = getMessagePositionById(newMessage.getId());
-        if (position >= 0) {
-            Wrapper<MESSAGE> element = new Wrapper<>(newMessage);
-            items.remove(position);
-            items.add(0, element);
-            notifyItemMoved(position, 0);
-            notifyItemChanged(0);
-        }
-    }
-
-    /**
-     * Updates message by its id if it exists, add to start if not
-     *
-     * @param message message object to insert or update.
-     */
-    public void upsert(MESSAGE message) {
-        if (!update(message)) {
-            addToStart(message, false);
-        }
-    }
-
-    /**
-     * Updates and moves to start if message by its id exists and if specified move to start, if not
-     * specified the item stays at current position and updated
-     *
-     * @param message message object to insert or update.
-     */
-    public void upsert(MESSAGE message, boolean moveToStartIfUpdate) {
-        if (moveToStartIfUpdate) {
-            if (getMessagePositionById(message.getId()) > 0) {
-                updateAndMoveToStart(message);
-            } else {
-                upsert(message);
-            }
-        } else {
-            upsert(message);
-        }
-    }
-
-    /**
-     * Deletes message.
-     *
-     * @param message message to delete.
-     */
-    public void delete(MESSAGE message) {
-        deleteById(message.getId());
-    }
-
-    /**
-     * Deletes messages list.
-     *
-     * @param messages messages list to delete.
-     */
-    public void delete(List<MESSAGE> messages) {
-        boolean result = false;
-        for (MESSAGE message : messages) {
-            int index = getMessagePositionById(message.getId());
-            if (index >= 0) {
-                items.remove(index);
-                notifyItemRemoved(index);
-                result = true;
-            }
-        }
-        if (result) {
-            recountDateHeaders();
-        }
-    }
-
-    /**
-     * Deletes message by its identifier.
-     *
-     * @param id identifier of message to delete.
-     */
-    public void deleteById(String id) {
-        int index = getMessagePositionById(id);
-        if (index >= 0) {
-            items.remove(index);
-            notifyItemRemoved(index);
-            recountDateHeaders();
-        }
-    }
-
-    /**
-     * Deletes messages by its identifiers.
-     *
-     * @param ids array of identifiers of messages to delete.
-     */
-    public void deleteByIds(String[] ids) {
-        boolean result = false;
-        for (String id : ids) {
-            int index = getMessagePositionById(id);
-            if (index >= 0) {
-                items.remove(index);
-                notifyItemRemoved(index);
-                result = true;
-            }
-        }
-        if (result) {
-            recountDateHeaders();
-        }
-    }
 
     /**
      * Returns {@code true} if, and only if, messages count in adapter is non-zero.
@@ -433,15 +299,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
         notifySelectionChanged();
     }
 
-    /**
-     * Deletes all of the selected messages and disables selection mode.
-     * Call {@link #getSelectedMessages()} before calling this method to delete messages from your data source.
-     */
-    public void deleteSelectedMessages() {
-        List<MESSAGE> selectedMessages = getSelectedMessages();
-        delete(selectedMessages);
-        unselectAllItems();
-    }
+
 
     /**
      * Sets click listener for item. Fires ONLY if list is not in selection mode.
@@ -546,19 +404,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private int getMessagePositionById(String id) {
-        for (int i = 0; i < items.size(); i++) {
-            Wrapper wrapper = items.get(i);
-            if (wrapper.item instanceof IMessage) {
-                MESSAGE message = (MESSAGE) wrapper.item;
-                if (message.getId().contentEquals(id)) {
-                    return i;
-                }
-            }
-        }
-        return -1;
-    }
+
 
     @SuppressWarnings("unchecked")
     private boolean isPreviousSameDate(int position, Date dateToCompare) {
@@ -623,18 +469,10 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (selectionListener != null && isSelectionModeEnabled) {
-                    wrapper.isSelected = !wrapper.isSelected;
 
-                    if (wrapper.isSelected) incrementSelectedItemsCount();
-                    else decrementSelectedItemsCount();
-
-                    MESSAGE message = (wrapper.item);
-                    notifyItemChanged(getMessagePositionById(message.getId()));
-                } else {
                     notifyMessageClicked(wrapper.item);
                     notifyMessageViewClicked(view, wrapper.item);
-                }
+
             }
         };
     }

@@ -14,28 +14,24 @@ public class Message implements IMessage,
         MessageContentType.Image, /*this is for default image messages implementation*/
         MessageContentType /*and this one is for custom content type (in this case - voice message)*/ {
 
-    private String id;
     private String text;
     private Date createdAt;
     private User user;
     private Image image;
     private Voice voice;
 
-    public Message(String id, User user, String text) {
-        this(id, user, text, new Date());
+    public Message(User user, String text) {
+        this(user, text,new Date());
     }
 
-    public Message(String id, User user, String text, Date createdAt) {
-        this.id = id;
+    public Message(User user, String text, Date createdAt) {
         this.text = text;
         this.user = user;
         this.createdAt = createdAt;
     }
 
-    @Override
-    public String getId() {
-        return id;
-    }
+
+
 
     @Override
     public String getText() {

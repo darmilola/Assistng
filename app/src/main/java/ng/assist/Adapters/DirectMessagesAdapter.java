@@ -88,9 +88,10 @@ public class DirectMessagesAdapter extends RecyclerView.Adapter<DirectMessagesAd
         public void onClick(View view) {
 
             Intent intent = new Intent(context,ChatActivity.class);
-            intent.putExtra("receiverId",directMessagesItemList.get(getAdapterPosition()).getReceiverId());
+            intent.putExtra("receiverId",directMessagesItemList.get(getAdapterPosition()).getmReceiverId());
             intent.putExtra("receiverFirstname",directMessagesItemList.get(getAdapterPosition()).getReceiverFirstname());
             intent.putExtra("receiverLastname",directMessagesItemList.get(getAdapterPosition()).getReceiverLastname());
+            intent.putExtra("receiverImageUrl",directMessagesItemList.get(getAdapterPosition()).getReceiverProfileImage());
             context.startActivity(intent);
 
         }

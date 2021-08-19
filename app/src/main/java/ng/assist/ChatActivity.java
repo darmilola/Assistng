@@ -5,8 +5,8 @@ import androidx.core.content.ContextCompat;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-import ng.assist.UIs.MessagesFixtures;
 import ng.assist.UIs.ViewModel.Message;
+import ng.assist.UIs.ViewModel.User;
 import ng.assist.UIs.chatkit.commons.ImageLoader;
 import ng.assist.UIs.chatkit.messages.MessageInput;
 import ng.assist.UIs.chatkit.messages.MessagesList;
@@ -25,16 +25,13 @@ import android.view.View;
 
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import android.os.Handler;
+
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -51,10 +48,10 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     private String receiverId = "";
     private String receiverFirstname = "";
     private String receiverLastname = "";
+    private String receiverImageUrl = "";
     protected ImageLoader imageLoader;
     protected MessagesListAdapter<Message> messagesAdapter;
-    private Socket socket;
-    private Date lastLoadedDate;
+    private Socket mSocket;
     private MessagesList messagesList;
     private TextView chatActivityHeader;
 
@@ -68,7 +65,6 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     private void initView(){
         Intent intent = getIntent();
         this.messagesList = (MessagesList) findViewById(R.id.messagesList);
-        initAdapter();
         MessageInput input = (MessageInput) findViewById(R.id.input);
         input.setInputListener(this);
         input.setTypingListener(this);
@@ -76,15 +72,18 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         receiverId = intent.getStringExtra("receiverId");
         receiverFirstname = intent.getStringExtra("receiverFirstname");
         receiverLastname = intent.getStringExtra("receiverLastname");
+        receiverImageUrl = intent.getStringExtra("receiverImageUrl");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ChatActivity.this);
         senderId = preferences.getString("userEmail","");
+        Toast.makeText(this,senderId, Toast.LENGTH_SHORT).show();
         chatActivityHeader = findViewById(R.id.chat_activity_header);
         chatActivityHeader.setText(receiverFirstname+" "+receiverLastname);
+        initAdapter();
         initSocket();
     }
 
-    private void initAdapter() {
 
+    private void initAdapter() {
         imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, String url, Object payload) {
@@ -130,7 +129,7 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     @Override
     protected void onStart() {
         super.onStart();
-       //messagesAdapter.addToStart(MessagesFixtures.getTextMessage(), true);
+
     }
 
 
@@ -184,23 +183,25 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     @Override
     public boolean onSubmit(CharSequence input)
     {
-        socket.emit(receiverId,input.toString(),1);
+        User user = new User(senderId,"Damilola Akinterinwa","",false);
+        Message message1 = new Message(user,input.toString());
+        messagesAdapter.addToStart(message1,true);
+        mSocket.emit("messagedetection",receiverId, ConvertStringToUTF8(input.toString()),1);
         return true;
     }
 
     private void initSocket(){
-
         try {
-            socket = IO.socket("https://glacial-springs-30545.herokuapp.com");
+            mSocket = IO.socket("https://c16ef13a94fd.ngrok.io");
             //create connection
-            socket.connect();
-            socket.emit("joinChat",senderId);
+            mSocket.connect();
+            mSocket.emit("join",senderId);
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
-        socket.on("message", new Emitter.Listener() {
+        mSocket.on("message", new Emitter.Listener() {
             @Override public void call(final Object... args) {
                 runOnUiThread(new Runnable() {
                     @Override public void run() {
@@ -210,9 +211,9 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
                             String receiverId = data.getString("receiverId");
                             String message = data.getString("message");
                             int messageType = data.getInt("messageType");
-                            Message message1 = new Message("",MessagesFixtures.getUser(),message);
+                            User user = new User(receiverId,receiverFirstname+" "+receiverLastname,receiverImageUrl,false);
+                            Message message1 = new Message(user,message);
                             messagesAdapter.addToStart(message1,false);
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -222,7 +223,30 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
             }
         });
 
+
     }
+
+    // convert UTF-8 to internal Java String format
+    public static String convertUTF8ToString(String s) {
+        String out = null;
+        try {
+            out = new String(s.getBytes("ISO-8859-1"), "UTF-8");
+        } catch (java.io.UnsupportedEncodingException e) {
+            return null;
+        }
+        return out;
+    }
+
+    public static String ConvertStringToUTF8(String s) {
+        String out = null;
+        try {
+            out = new String(s.getBytes("UTF-8"), "ISO-8859-1");
+        } catch (java.io.UnsupportedEncodingException e) {
+            return null;
+        }
+        return out;
+    }
+
 
 
 

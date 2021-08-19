@@ -24,6 +24,7 @@ public class MessageConnectionModel {
     private String receiverFirstname;
     private String receiverLastname;
     private String receiverProfileImage;
+    private String mReceiverId;
     private String lastMessage;
     private String timestamp;
     private int unreadCount;
@@ -46,7 +47,7 @@ public class MessageConnectionModel {
            this.context = context;
     }
 
-    public MessageConnectionModel(String receiverFirstname, String receiverLastname, String receiverProfileImage, String lastMessage, String timestamp, int unreadCount, String senderId, String receiverId){
+    public MessageConnectionModel(String receiverFirstname, String receiverLastname, String receiverProfileImage,String mReceiverId, String lastMessage, String timestamp, int unreadCount, String senderId, String receiverId){
         this.receiverFirstname = receiverFirstname;
         this.receiverLastname = receiverLastname;
         this.receiverProfileImage = receiverProfileImage;
@@ -55,6 +56,7 @@ public class MessageConnectionModel {
         this.unreadCount = unreadCount;
         this.senderId = senderId;
         this.receiverId = receiverId;
+        this.mReceiverId = mReceiverId;
     }
 
     public void setConnectionListener(ConnectionListener connectionListener) {
@@ -97,6 +99,9 @@ public class MessageConnectionModel {
         return senderId;
     }
 
+    public String getmReceiverId() {
+        return mReceiverId;
+    }
 
     private Handler getConnectionHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -120,18 +125,20 @@ public class MessageConnectionModel {
                         String senderPicture = data.getJSONObject(i).getString("senderPicture");
                         String receiverPicture = data.getJSONObject(i).getString("receiverPicture");
                         String timestamp = data.getJSONObject(i).getString("timestamp");
-                        String mReceiverFirstname,mReceiverLastname,mReceiverPicture;
+                        String mReceiverFirstname,mReceiverLastname,mReceiverPicture,mReceiverId;
                         if(MessageConnectionModel.this.userEmail.equalsIgnoreCase(senderId)){
                                mReceiverFirstname = receiverFirstname;
                                mReceiverLastname = receiverLastname;
                                mReceiverPicture = receiverPicture;
+                               mReceiverId = receiverId;
                         }
                         else{
                                mReceiverFirstname = senderFirstname;
                                mReceiverLastname = senderLastname;
                                mReceiverPicture = senderPicture;
+                               mReceiverId = senderId;
                         }
-                        MessageConnectionModel messageConnectionModel = new MessageConnectionModel(mReceiverFirstname,mReceiverLastname,mReceiverPicture,lastMessage,timestamp,unreadCount,senderId,receiverId);
+                        MessageConnectionModel messageConnectionModel = new MessageConnectionModel(mReceiverFirstname,mReceiverLastname,mReceiverPicture,mReceiverId,lastMessage,timestamp,unreadCount,senderId,receiverId);
                         messageConnectionModelArrayList.add(messageConnectionModel);
                     }
                     connectionListener.onConnectionReady(messageConnectionModelArrayList);
