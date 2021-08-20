@@ -245,6 +245,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
      * @return list of selected messages. Empty list if nothing was selected or selection mode is disabled.
      */
     @SuppressWarnings("unchecked")
+
     public ArrayList<MESSAGE> getSelectedMessages() {
         ArrayList<MESSAGE> selectedMessages = new ArrayList<>();
         for (Wrapper wrapper : items) {

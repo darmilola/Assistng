@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import ng.assist.UIs.ViewModel.ChatModel;
 import ng.assist.UIs.ViewModel.Message;
 import ng.assist.UIs.ViewModel.User;
 import ng.assist.UIs.chatkit.commons.ImageLoader;
@@ -15,14 +16,21 @@ import ng.assist.UIs.chatkit.messages.MessagesListAdapter;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 
 import android.view.View;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,6 +46,8 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static ng.assist.SignUpWithEmail.getEncodedImage;
+
 public class ChatActivity extends AppCompatActivity   implements MessageInput.InputListener,
         MessageInput.AttachmentsListener,
         MessageInput.TypingListener,
@@ -45,6 +55,7 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
 
 
     private static final int TOTAL_MESSAGES_COUNT = 100;
+    private static int PICK_IMAGE = 1;
     private String senderId = "";
     private String receiverId = "";
     private String receiverFirstname = "";
@@ -55,6 +66,8 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     private Socket mSocket;
     private MessagesList messagesList;
     private TextView chatActivityHeader;
+    private ChatModel chatModel;
+    private String imageString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,7 +191,10 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
 
     @Override
     public void onAddAttachments() {
-
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Attachment"), PICK_IMAGE);
     }
 
     @Override
@@ -215,9 +231,17 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
                             String message = data.getString("message");
                             int messageType = data.getInt("messageType");
                             User user = new User("received",receiverFirstname+" "+receiverLastname,receiverImageUrl,false);
-                            Message message1 = new Message(user,StringEscapeUtils.unescapeJava(message));
-                            messagesAdapter.addToStart(message1,true);
-                            Toast.makeText(ChatActivity.this, receiverId, Toast.LENGTH_SHORT).show();
+                           if(messageType == 1) {
+                               Message message1 = new Message(user, StringEscapeUtils.unescapeJava(message));
+                               messagesAdapter.addToStart(message1, true);
+                           }
+                            if(messageType == 2){
+                                Message message1 = new Message(user,"");
+                                Message.Image image = new Message.Image(message);
+                                message1.setImage(image);
+                                messagesAdapter.addToStart(message1,true);
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -229,41 +253,62 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
 
     }
 
-    // convert UTF-8 to internal Java String format
-    public static String convertUTF8ToString(String s) {
-        String out = null;
-        try {
-            out = new String(s.getBytes("ISO-8859-1"), "UTF-8");
-        } catch (java.io.UnsupportedEncodingException e) {
-            return null;
-        }
-        return out;
-    }
-
-    public static String ConvertStringToUTF8(String s) {
-        String out = null;
-        try {
-            out = new String(s.getBytes("UTF-8"), "ISO-8859-1");
-        } catch (java.io.UnsupportedEncodingException e) {
-            return null;
-        }
-        return out;
-    }
-
-
-
-
     @Override
     public void onResume() {
-
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
+
+    public String BitmapToString(Bitmap image) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 60, baos);
+        byte[] b = baos.toByteArray();
+        String imgString = Base64.encodeToString(b, Base64.DEFAULT);
+        return imgString;
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                imageString = BitmapToString(bitmap);
+                startImageUpload(imageString);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
     }
+
+    private void startImageUpload(String imageString){
+        ChatModel chatModel = new ChatModel(imageString,ChatActivity.this);
+        chatModel.uploadImage();
+        chatModel.setChatHttpListener(new ChatModel.ChatHttpListener() {
+            @Override
+            public void onImageUpload(String imageUrl) {
+                User user = new User(senderId,"","",false);
+                Message message1 = new Message(user,"");
+                Message.Image image = new Message.Image(imageUrl);
+                message1.setImage(image);
+                messagesAdapter.addToStart(message1,true);
+                mSocket.emit("messagedetection",receiverId,imageUrl,2);
+            }
+            @Override
+            public void onError(String message) {
+                Toast.makeText(ChatActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 }
