@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -183,16 +184,18 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     @Override
     public boolean onSubmit(CharSequence input)
     {
-        User user = new User(senderId,"Damilola Akinterinwa","",false);
+        User user = new User(senderId,"","",false);
         Message message1 = new Message(user,input.toString());
         messagesAdapter.addToStart(message1,true);
-        mSocket.emit("messagedetection",receiverId, ConvertStringToUTF8(input.toString()),1);
+        mSocket.emit("messagedetection",receiverId, StringEscapeUtils.escapeJava(input.toString()),1);
         return true;
+
+        //Server tables should contain utf8mb4 instead of utf8, because unicode character needs 4bytes per character. Therefore unicode will not be represented in 3bytes.
     }
 
     private void initSocket(){
         try {
-            mSocket = IO.socket("https://c16ef13a94fd.ngrok.io");
+            mSocket = IO.socket("https://glacial-springs-30545.herokuapp.com");
             //create connection
             mSocket.connect();
             mSocket.emit("join",senderId);
@@ -211,10 +214,10 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
                             String receiverId = data.getString("receiverId");
                             String message = data.getString("message");
                             int messageType = data.getInt("messageType");
-                            User user = new User(receiverId,receiverFirstname+" "+receiverLastname,receiverImageUrl,false);
-                            Message message1 = new Message(user,message);
-                            messagesAdapter.addToStart(message1,false);
-
+                            User user = new User("received",receiverFirstname+" "+receiverLastname,receiverImageUrl,false);
+                            Message message1 = new Message(user,StringEscapeUtils.unescapeJava(message));
+                            messagesAdapter.addToStart(message1,true);
+                            Toast.makeText(ChatActivity.this, receiverId, Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

@@ -56,7 +56,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
     protected List<Wrapper> items;
     private MessageHolders holders;
-    private String senderId = "";
+    private String senderId;
 
     private int selectedItemsCount;
     private SelectionListener selectionListener;
