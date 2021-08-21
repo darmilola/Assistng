@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -42,7 +44,7 @@ public class DirectMessagesAdapter extends RecyclerView.Adapter<DirectMessagesAd
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
         MessageConnectionModel messageConnectionModel = directMessagesItemList.get(position);
-        holder.lastMessage.setText(messageConnectionModel.getLastMessage());
+        holder.lastMessage.setText(StringEscapeUtils.unescapeJava(messageConnectionModel.getLastMessage()));
         holder.timestamp.setText(messageConnectionModel.getTimestamp());
         holder.displayName.setText(messageConnectionModel.getReceiverFirstname()+" "+messageConnectionModel.getReceiverLastname());
         if(messageConnectionModel.getUnreadCount() == 0){

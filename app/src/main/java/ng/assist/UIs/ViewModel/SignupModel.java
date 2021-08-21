@@ -32,7 +32,7 @@ public class SignupModel {
     Context context;
     private String baseUrl = new URL().getBaseUrl();
     private String mailCheckUrl = baseUrl+"users/check/email";
-    private String uploadImageUrl = baseUrl+"users/profileimage/upload/image";
+    private String uploadImageUrl = baseUrl+"users/upload/image";
     private String registerUrl = baseUrl+"users";
     private String uploadedImageUrl = "";
 

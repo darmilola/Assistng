@@ -17,7 +17,6 @@ import ng.assist.UIs.chatkit.messages.MessagesListAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,7 +32,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import android.widget.ImageView;
@@ -46,21 +45,23 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static ng.assist.SignUpWithEmail.getEncodedImage;
-
 public class ChatActivity extends AppCompatActivity   implements MessageInput.InputListener,
         MessageInput.AttachmentsListener,
         MessageInput.TypingListener,
         MessagesListAdapter.OnLoadMoreListener {
 
 
-    private static final int TOTAL_MESSAGES_COUNT = 100;
+    private int totalMessageCount=0;
+    private String mNextPageUrl = "";
     private static int PICK_IMAGE = 1;
     private String senderId = "";
     private String receiverId = "";
     private String receiverFirstname = "";
     private String receiverLastname = "";
     private String receiverImageUrl = "";
+    private String senderFirstname = "";
+    private String senderLastname = "";
+    private String senderImageUrl = "";
     protected ImageLoader imageLoader;
     protected MessagesListAdapter<Message> messagesAdapter;
     private Socket mSocket;
@@ -77,6 +78,10 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     }
 
     private void initView(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        senderFirstname = preferences.getString("firstname","");
+        senderLastname = preferences.getString("lastname","");
+        senderImageUrl = preferences.getString("imageUrl","");
         Intent intent = getIntent();
         this.messagesList = (MessagesList) findViewById(R.id.messagesList);
         MessageInput input = (MessageInput) findViewById(R.id.input);
@@ -87,13 +92,33 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         receiverFirstname = intent.getStringExtra("receiverFirstname");
         receiverLastname = intent.getStringExtra("receiverLastname");
         receiverImageUrl = intent.getStringExtra("receiverImageUrl");
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ChatActivity.this);
         senderId = preferences.getString("userEmail","");
-        Toast.makeText(this,senderId, Toast.LENGTH_SHORT).show();
         chatActivityHeader = findViewById(R.id.chat_activity_header);
         chatActivityHeader.setText(receiverFirstname+" "+receiverLastname);
         initAdapter();
         initSocket();
+        performHttpRequest();
+
+    }
+
+    private void performHttpRequest(){
+        chatModel = new ChatModel(senderId,receiverId);
+        chatModel.updateCaughtUp();
+
+        ChatModel chatModel1 = new ChatModel(senderId,receiverId,senderId,receiverImageUrl);
+        chatModel1.getDirectMessages();
+        chatModel1.setChatGetMessageListener(new ChatModel.ChatGetMessageListener() {
+            @Override
+            public void onMessageReady(ArrayList<Message> messageArrayList, String nextPageUrl,int total) {
+                messagesAdapter.addToEnd(messageArrayList,true);
+                totalMessageCount = total;
+                mNextPageUrl = nextPageUrl;
+            }
+            @Override
+            public void onError(String message) {
+                Toast.makeText(ChatActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -152,9 +177,21 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
 
     @Override
     public void onLoadMore(int page, int totalItemsCount) {
-        Log.i("TAG", "onLoadMore: " + page + " " + totalItemsCount);
-        if (totalItemsCount < TOTAL_MESSAGES_COUNT) {
-            //loadMessages();
+        if (totalItemsCount < totalMessageCount) {
+            ChatModel chatModel1 = new ChatModel(senderId,receiverId,senderId,receiverImageUrl);
+            chatModel1.getDirectMessagesNextPage(mNextPageUrl);
+            chatModel1.setChatGetMessageListener(new ChatModel.ChatGetMessageListener() {
+                @Override
+                public void onMessageReady(ArrayList<Message> messageArrayList, String nextPageUrl,int total) {
+                    messagesAdapter.addToEnd(messageArrayList,true);
+                    totalMessageCount = total;
+                    mNextPageUrl = nextPageUrl;
+                }
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(ChatActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -203,10 +240,20 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         User user = new User(senderId,"","",false);
         Message message1 = new Message(user,input.toString());
         messagesAdapter.addToStart(message1,true);
+        performHttpSubmission(input.toString());
         mSocket.emit("messagedetection",receiverId, StringEscapeUtils.escapeJava(input.toString()),1);
         return true;
-
         //Server tables should contain utf8mb4 instead of utf8, because unicode character needs 4bytes per character. Therefore unicode will not be represented in 3bytes.
+    }
+
+    private void performHttpSubmission(String input){
+        ChatModel chatModel = new ChatModel(senderId,receiverId,StringEscapeUtils.escapeJava(input),senderFirstname,senderLastname,receiverFirstname,receiverLastname,senderImageUrl,receiverImageUrl,StringEscapeUtils.escapeJava(input),1,"null");
+        chatModel.verifyConnection();
+    }
+
+    private void performImageHttpSubmission(String imageUrl){
+        ChatModel chatModel = new ChatModel(senderId,receiverId,"Image",senderFirstname,senderLastname,receiverFirstname,receiverLastname,senderImageUrl,receiverImageUrl,"image",1,imageUrl);
+        chatModel.verifyConnection();
     }
 
     private void initSocket(){
@@ -293,7 +340,7 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     private void startImageUpload(String imageString){
         ChatModel chatModel = new ChatModel(imageString,ChatActivity.this);
         chatModel.uploadImage();
-        chatModel.setChatHttpListener(new ChatModel.ChatHttpListener() {
+        chatModel.setChatHttpImageUploadListener(new ChatModel.ChatHttpImageUploadListener() {
             @Override
             public void onImageUpload(String imageUrl) {
                 User user = new User(senderId,"","",false);
@@ -302,6 +349,7 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
                 message1.setImage(image);
                 messagesAdapter.addToStart(message1,true);
                 mSocket.emit("messagedetection",receiverId,imageUrl,2);
+                performImageHttpSubmission(imageUrl);
             }
             @Override
             public void onError(String message) {

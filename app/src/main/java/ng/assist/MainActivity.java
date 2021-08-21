@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.userFirstname = mainActivityModel.getUserFirstname();
                 MainActivity.this.userWalletBalance = mainActivityModel.getUserWalletBalance();
                 preferences.edit().putString("walletBalance",userWalletBalance).apply();
+                preferences.edit().putString("firstname",mainActivityModel.getUserFirstname()).apply();
+                preferences.edit().putString("lastname",mainActivityModel.getUserLastname()).apply();
+                preferences.edit().putString("imageUrl",mainActivityModel.getUserImageUrl()).apply();
                 setupViewPager(viewPager);
             }
 

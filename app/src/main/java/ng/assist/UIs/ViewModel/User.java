@@ -6,6 +6,7 @@ import ng.assist.UIs.chatkit.commons.models.IUser;
 /*
  * Created by troy379 on 04.04.17.
  */
+
 public class User implements IUser {
 
     private String id;

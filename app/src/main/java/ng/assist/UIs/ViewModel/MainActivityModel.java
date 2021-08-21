@@ -26,6 +26,8 @@ public class MainActivityModel {
 
     private String userEmail;
     private String userFirstname;
+    private String userLastname;
+    private String userImageUrl;
     private String userWalletBalance;
     private Context context;
     private MainactivityContentListener mainactivityContentListener;
@@ -49,9 +51,11 @@ public class MainActivityModel {
         this.userEmail = userEmail;
         this.context = context;
     }
-    public MainActivityModel(String userFirstname, String userWalletBalance){
+    public MainActivityModel(String userFirstname, String userWalletBalance,String userLastname,String userImageUrl){
         this.userFirstname = userFirstname;
         this.userWalletBalance = userWalletBalance;
+        this.userLastname = userLastname;
+        this.userImageUrl = userImageUrl;
     }
 
     public void setMainactivityContentListener(MainactivityContentListener mainactivityContentListener) {
@@ -103,7 +107,9 @@ public class MainActivityModel {
                    JSONArray data = jsonObject.getJSONArray("data");
                    String firstname = data.getJSONObject(0).getString("firstname");
                    String walletBalance = data.getJSONObject(0).getString("walletBalance");
-                   MainActivityModel mainActivityModel = new MainActivityModel(firstname,walletBalance);
+                   String lastname = data.getJSONObject(0).getString("lastname");
+                   String imageUrl = data.getJSONObject(0).getString("profileImage");
+                   MainActivityModel mainActivityModel = new MainActivityModel(firstname,walletBalance,lastname,imageUrl);
                    mainactivityContentListener.onContentReady(mainActivityModel);
                 }
                 else if(status.equalsIgnoreCase("failure")){
@@ -130,4 +136,15 @@ public class MainActivityModel {
         return jsonObject.toString();
     }
 
+    public String getUserLastname() {
+        return userLastname;
+    }
+
+    public String getUserImageUrl() {
+        return userImageUrl;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
 }

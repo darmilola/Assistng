@@ -603,7 +603,7 @@ public class MessageHolders {
         int viewType;
         if (item instanceof IMessage) {
             IMessage message = (IMessage) item;
-            isOutcoming = message.getUser().getId().contentEquals(senderId);
+            isOutcoming = message.getUser().getId().equalsIgnoreCase(senderId);
             viewType = getContentViewType(message);
 
         } else viewType = VIEW_TYPE_DATE_HEADER;
