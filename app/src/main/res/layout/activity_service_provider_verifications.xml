@@ -10,9 +10,9 @@
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="50dp"
         app:contentInsetEnd="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         app:contentInsetStart="0dp">
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Assist Provider Verifications"
+                android:text="Assist Verification"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
                 android:maxLines="1"
@@ -41,6 +41,13 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,6 +69,7 @@
             android:textColorHint="@color/light_text_color"
             android:fontFamily="@font/clannews"
             android:textSize="17dp"
+            android:id="@+id/verification_firstname"
             android:background="@drawable/search_edit_background"
             android:layout_height="match_parent"/>
         <EditText
@@ -72,6 +80,7 @@
             android:inputType="text"
             android:textColor="@color/colorPrimary"
             android:hint="Lastname"
+            android:id="@+id/verification_lastname"
             android:textColorHint="@color/light_text_color"
             android:fontFamily="@font/clannews"
             android:textSize="17dp"
@@ -85,43 +94,29 @@
         android:maxLines="1"
         android:gravity="center"
         android:inputType="text"
+        android:id="@+id/verification_address"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:padding="2dp"
-        android:hint="State of Residence"
+        android:hint="Address"
         android:textColorHint="@color/light_text_color"
         android:fontFamily="@font/clannews"
         android:textSize="17dp"
         android:background="@drawable/edit_profile_edittext_background"/>
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:maxLines="1"
         android:gravity="center"
         android:inputType="text"
+        android:id="@+id/verification_phonenumber"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:padding="2dp"
-        android:hint="Professsion"
-        android:textColorHint="@color/light_text_color"
-        android:fontFamily="@font/clannews"
-        android:textSize="17dp"
-        android:background="@drawable/edit_profile_edittext_background"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:maxLines="1"
-        android:gravity="center"
-        android:inputType="text"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
-        android:padding="2dp"
-        android:hint="Assist Type"
+        android:hint="Valid Phonenumber"
         android:textColorHint="@color/light_text_color"
         android:fontFamily="@font/clannews"
         android:textSize="17dp"
@@ -138,23 +133,14 @@
         android:gravity="center"
         android:textColor="@color/colorPrimary"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:fontFamily="@font/clannews"
-        android:gravity="center"
-        android:text="Max Image size 300kb"
-        android:textColor="#7A7A7A"
-        android:textSize="12dp" />
-
-    <LinearLayout
+   <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="center"
+        android:id="@+id/verification_id_layout"
         android:background="@drawable/upload_background">
 
         <ImageView
@@ -163,6 +149,90 @@
             android:tint="#376992"
             android:src="@drawable/cloud_upload_2x"/>
     </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/corpers_info_layout">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NYSC ACCOUNT INFO"
+        android:textSize="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/clanmed"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:fontFamily="@font/clannews"
+        android:gravity="center"
+        android:text="*For processing loan"
+        android:textColor="#7A7A7A"
+        android:textSize="12dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/edit_profile_edittext_background"
+        android:layout_marginTop="15dp"
+        android:weightSum="2">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:gravity="center"
+            android:inputType="number"
+            android:padding="2dp"
+            android:hint="Account Number"
+            android:id="@+id/verification_corpers_account_number"
+            android:textColorHint="@color/light_text_color"
+            android:fontFamily="@font/clannews"
+            android:textSize="17dp"
+            android:background="@drawable/search_edit_background"
+            android:layout_height="match_parent"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:gravity="center"
+            android:inputType="text"
+            android:textColor="@color/colorPrimary"
+            android:hint="Bank"
+            android:id="@+id/verification_corpers_bank"
+            android:textColorHint="@color/light_text_color"
+            android:fontFamily="@font/clannews"
+            android:textSize="17dp"
+            android:background="@drawable/edittext_background_type2"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:inputType="text"
+        android:id="@+id/verification_corpers_account_name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:padding="2dp"
+        android:hint="Account Name"
+        android:textColorHint="@color/light_text_color"
+        android:fontFamily="@font/clannews"
+        android:textSize="17dp"
+        android:background="@drawable/edit_profile_edittext_background"/>
+
+</LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="150dp"
@@ -173,7 +243,11 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:textSize="17dp"
+        android:id="@+id/verification_apply"
         android:fontFamily="@font/clannews"
         android:textAllCaps="false"
         app:cornerRadius="25dp"/>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

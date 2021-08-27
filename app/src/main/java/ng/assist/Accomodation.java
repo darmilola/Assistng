@@ -6,7 +6,6 @@ import it.sephiroth.android.library.rangeseekbar.RangeSeekBar;
 import ng.assist.UIs.Utils.ListDialog;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -68,9 +67,9 @@ public class Accomodation extends AppCompatActivity {
 
         ListDialog listDialog = new ListDialog(cityList,Accomodation.this);
         listDialog.showListDialog();
-        listDialog.setCityClickedListener(new ListDialog.OnCityClickedListener() {
+        listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
             @Override
-            public void onCityClicked(String city) {
+            public void onItemClicked(String city) {
                 selectedCity = city;
                 preferredLocationText.setText(city);
             }

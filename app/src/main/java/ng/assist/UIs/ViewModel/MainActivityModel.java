@@ -29,6 +29,8 @@ public class MainActivityModel {
     private String userLastname;
     private String userImageUrl;
     private String userWalletBalance;
+    private String accountType;
+    private String isVerified;
     private Context context;
     private MainactivityContentListener mainactivityContentListener;
     private String baseUrl = new URL().getBaseUrl();
@@ -51,11 +53,13 @@ public class MainActivityModel {
         this.userEmail = userEmail;
         this.context = context;
     }
-    public MainActivityModel(String userFirstname, String userWalletBalance,String userLastname,String userImageUrl){
+    public MainActivityModel(String userFirstname, String userWalletBalance,String userLastname,String userImageUrl,String accountType,String isVerified){
         this.userFirstname = userFirstname;
         this.userWalletBalance = userWalletBalance;
         this.userLastname = userLastname;
         this.userImageUrl = userImageUrl;
+        this.accountType = accountType;
+        this.isVerified = isVerified;
     }
 
     public void setMainactivityContentListener(MainactivityContentListener mainactivityContentListener) {
@@ -109,7 +113,9 @@ public class MainActivityModel {
                    String walletBalance = data.getJSONObject(0).getString("walletBalance");
                    String lastname = data.getJSONObject(0).getString("lastname");
                    String imageUrl = data.getJSONObject(0).getString("profileImage");
-                   MainActivityModel mainActivityModel = new MainActivityModel(firstname,walletBalance,lastname,imageUrl);
+                   String accountType = data.getJSONObject(0).getString("accountType");
+                   String isVerified = data.getJSONObject(0).getString("isVerified");
+                   MainActivityModel mainActivityModel = new MainActivityModel(firstname,walletBalance,lastname,imageUrl,accountType,isVerified);
                    mainactivityContentListener.onContentReady(mainActivityModel);
                 }
                 else if(status.equalsIgnoreCase("failure")){
@@ -146,5 +152,13 @@ public class MainActivityModel {
 
     public String getUserEmail() {
         return userEmail;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public String getIsVerified() {
+        return isVerified;
     }
 }

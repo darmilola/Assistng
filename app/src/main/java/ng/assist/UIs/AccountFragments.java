@@ -2,29 +2,31 @@ package ng.assist.UIs;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
+import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import ng.assist.ChatActivity;
-import ng.assist.DriversDashboard;
 import ng.assist.EcommerceDashboard;
-import ng.assist.EditProfileActivity;
-import ng.assist.EstateListingDashboard;
 import ng.assist.R;
 import ng.assist.ServiceProviderDashboard;
-import ng.assist.Settings;
-import ng.assist.VerificationDashBoard;
+import ng.assist.UIs.Utils.ListDialog;
+import ng.assist.UIs.ViewModel.AccountModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,8 +35,11 @@ public class AccountFragments extends Fragment {
 
 
     View view;
-    LinearLayout settingsLayout,dashboardLayout;
-    LinearLayout getVerified,aboutUs,rateUs,helpDesk;
+    LinearLayout dashboardLayout,switchAccount;
+    LinearLayout verifyAccount,aboutUs,rateUs;
+    View verificationView;
+    ArrayList<String> accountList = new ArrayList<>();
+    CircleImageView circleImageView;
 
 
     public AccountFragments() {
@@ -47,18 +52,30 @@ public class AccountFragments extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_account_fragments, container, false);
-
-        Fresco.initialize(getContext());
         initView();
         return view;
     }
 
     private void initView() {
-        //settingsLayout = view.findViewById(R.id.settings_layout);
-        dashboardLayout = view.findViewById(R.id.users_dashboard);
+        circleImageView = view.findViewById(R.id.account_profile_image);
+        dashboardLayout = view.findViewById(R.id.account_users_dashboard);
         aboutUs = view.findViewById(R.id.account_about_us);
         rateUs = view.findViewById(R.id.account_rate_us);
-        helpDesk = view.findViewById(R.id.help_desk);
+        verifyAccount = view.findViewById(R.id.account_verify_account);
+        switchAccount = view.findViewById(R.id.account_switch_account);
+        verificationView = view.findViewById(R.id.verification_needed_dot);
+        verifyAccount.setVisibility(View.GONE);
+        dashboardLayout.setVisibility(View.GONE);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String userImage =  preferences.getString("imageUrl","");
+
+        Glide.with(this)
+                .load(userImage)
+                .placeholder(R.drawable.profileplaceholder)
+                .error(R.drawable.profileplaceholder)
+                .into(circleImageView);
+        initAccount();
 
         rateUs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,38 +83,81 @@ public class AccountFragments extends Fragment {
                 startActivity(new Intent(getContext(), ChatActivity.class));
             }
         });
+
         dashboardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), EcommerceDashboard.class));
             }
         });
+
         aboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), ServiceProviderDashboard.class));
             }
         });
-        helpDesk.setOnClickListener(new View.OnClickListener() {
+
+        switchAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), DriversDashboard.class));
+                ListDialog listDialog = new ListDialog(accountList, getContext());
+                listDialog.showListDialog();
+                listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
+                    @Override
+                    public void onItemClicked(String item) {
+                        AccountModel accountModel = new AccountModel(getContext(),item);
+                        accountModel.SwitchAccount();
+                        accountModel.setAccountSwitchListener(new AccountModel.AccountSwitchListener() {
+                            @Override
+                            public void onAccountSwitched() {
+                                Toast.makeText(getContext(), "Account Switched to "+item, Toast.LENGTH_SHORT).show();
+                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                                preferences.edit().putString("accountType",item).apply();
+                                if(item.equalsIgnoreCase("Normal User")){
+                                    verifyAccount.setVisibility(View.GONE);
+                                    dashboardLayout.setVisibility(View.GONE);
+                                }
+                                else{
+                                    verifyAccount.setVisibility(View.VISIBLE);
+                                    dashboardLayout.setVisibility(View.VISIBLE);
+                                    if(preferences.getString("isVerified","false").equalsIgnoreCase("false")){
+                                        verificationView.setVisibility(View.VISIBLE);
+                                    }
+                                    else{
+                                        verificationView.setVisibility(View.GONE);
+                                    }
+
+                                }
+                            }
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
             }
         });
 
     }
 
+    private void initAccount(){
+        accountList = new ArrayList<>();
+        accountList.add("Service Provider");
+        accountList.add("House Agent");
+        accountList.add("Corp Member");
+        accountList.add("Normal User");
+    }
+
+
     @Override
     public void onResume() {
-
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.special_activity_background));
             getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(),R.color.special_activity_background));
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
         }
     }
 
