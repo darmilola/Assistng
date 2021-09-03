@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
-public class ConnectWithEmail extends AppCompatActivity {
+public class ConnectWithEmail extends  AppCompatActivity {
 
     TextView dontHaveAccount;
     MaterialButton loginButton;
