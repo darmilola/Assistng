@@ -17,7 +17,7 @@
         <item name="android:ellipsize">end</item>
         <item name="android:textSize">18dp</item>
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:maxLines">7</item>
+        <item name="android:maxLines">7 </item>
         <item name="android:fontFamily">@font/clannews</item>
     </style>
 
