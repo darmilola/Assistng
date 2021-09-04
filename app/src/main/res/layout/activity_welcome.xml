@@ -155,6 +155,7 @@
                 android:fontFamily="@font/airreg"
                 android:lineSpacingExtra="5dp"
                 android:gravity="center"
+                android:id="@+id/assist_privacy_terms"
                 android:textSize="13dp"
                 android:text="By Creating your Assist account you agree to our Terms of Use and Privacy Policy"/>
 

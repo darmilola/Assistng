@@ -2,7 +2,7 @@ package ng.assist.UIs.Utils;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.widget.TextView;
+
 
 import com.daimajia.numberprogressbar.NumberProgressBar;
 
@@ -18,7 +18,7 @@ public class ImageUploadDialog {
         this.mContext = context;
         uploadDialog = new Dialog(mContext);
         uploadDialog.setContentView(R.layout.image_upload_dialog);
-        //loadingDialog.setCancelable(false);
+        uploadDialog.setCancelable(false);
         numberProgressBar = uploadDialog.findViewById(R.id.image_upload_progress_bar);
         numberProgressBar.setMax(100);
     }

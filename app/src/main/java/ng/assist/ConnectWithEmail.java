@@ -6,22 +6,30 @@ import ng.assist.UIs.Utils.NetworkUtils;
 import ng.assist.UIs.ViewModel.LoginModel;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
-public class ConnectWithEmail extends AppCompatActivity {
+public class ConnectWithEmail extends  AppCompatActivity {
 
     TextView dontHaveAccount;
     MaterialButton loginButton;
-    EditText emailEdit,passwordEdit;
+    TextInputLayout emailLayout,passwordLayout;
+    TextInputEditText emailEdit,passwordEdit;
     String mEmail,mPassword;
+    TextView forgotPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +42,18 @@ public class ConnectWithEmail extends AppCompatActivity {
         loginButton = findViewById(R.id.login_with_email_button);
         emailEdit = findViewById(R.id.login_email);
         passwordEdit = findViewById(R.id.login_password);
+        emailLayout = findViewById(R.id.login_email_layout);
+        passwordLayout = findViewById(R.id.login_password_layout);
+        forgotPassword = findViewById(R.id.login_forgot_password);
+
+
+        Spannable forgotPasswordSpan = new SpannableString("Forgot Password?");
+        forgotPasswordSpan.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this,R.color.green)), 7, 16, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        Spannable dontHaveAccountSpan = new SpannableString("D'ont have an account? Sign up");
+        dontHaveAccountSpan.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this,R.color.green)), 23, 30, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        dontHaveAccount.setText(dontHaveAccountSpan);
+        forgotPassword.setText(forgotPasswordSpan);
 
         dontHaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,12 +114,12 @@ public class ConnectWithEmail extends AppCompatActivity {
     private boolean isValidForm() {
         boolean valid = true;
         if (TextUtils.isEmpty(mEmail)) {
-            emailEdit.setError("Required");
+            emailLayout.setError("Required");
             valid = false;
             return valid;
         }
         if (TextUtils.isEmpty(mPassword)) {
-            passwordEdit.setError("Required");
+            passwordLayout.setError("Required");
             valid = false;
             return valid;
         }

@@ -12,12 +12,19 @@
         <item name="itemTextAppearanceInactive">@style/BottomNavigationTextStyleInactive</item>
     </style>
 
+    <style name="NewRegisterTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="boxStrokeWidth">3dp</item>
+        <item name="android:textColorHint">@color/lighter_text_color</item>
+    </style>
+
 
     <style name="SequenceTitle" parent="@android:style/TextAppearance.Medium">
         <item name="android:ellipsize">end</item>
         <item name="android:textSize">18dp</item>
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:maxLines">7</item>
+        <item name="android:maxLines">7 </item>
         <item name="android:fontFamily">@font/clannews</item>
     </style>
 

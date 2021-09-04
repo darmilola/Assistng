@@ -8,9 +8,16 @@ import ng.assist.UIs.ViewModel.SignupModel;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
@@ -26,7 +33,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     LinearLayout googleSignInLayout,emailSigninLayout;
     private static final int GC_SIGN_IN = 1;
-
+    TextView privacyTerms;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,20 +42,35 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void initView(){
+        privacyTerms = findViewById(R.id.assist_privacy_terms);
         googleSignInLayout = findViewById(R.id.signin_with_google_layout);
         emailSigninLayout = findViewById(R.id.signin_with_email_layout);
+
         googleSignInLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startGoogleSignIn();
             }
         });
+
+
         emailSigninLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(WelcomeActivity.this,ConnectWithEmail.class));
             }
         });
+
+        // set up spanned string with url
+        SpannableString termsOfUseString = new SpannableString("By Creating your Assist account you agree to our Terms of Use and Privacy Policy");
+        String privacyUrl = "https://developer.android.com";
+        termsOfUseString.setSpan(new URLSpan(privacyUrl), 49, 61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        termsOfUseString.setSpan(new URLSpan(privacyUrl), 66, 80, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        termsOfUseString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this,R.color.green)), 49, 61, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        termsOfUseString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this,R.color.green)), 66, 80, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        privacyTerms.setText(termsOfUseString);
+        privacyTerms.setMovementMethod(LinkMovementMethod.getInstance());
+
     }
 
 

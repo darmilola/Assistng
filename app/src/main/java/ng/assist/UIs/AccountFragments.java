@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -14,19 +15,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ng.assist.ChatActivity;
 import ng.assist.EcommerceDashboard;
+import ng.assist.MainActivity;
 import ng.assist.R;
 import ng.assist.ServiceProviderDashboard;
 import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.AccountModel;
+import ng.assist.WelcomeActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +46,7 @@ public class AccountFragments extends Fragment {
 
     View view;
     LinearLayout dashboardLayout,switchAccount;
-    LinearLayout verifyAccount,aboutUs,rateUs;
+    LinearLayout verifyAccount,aboutUs,rateUs,logOut;
     View verificationView;
     ArrayList<String> accountList = new ArrayList<>();
     CircleImageView circleImageView;
@@ -57,6 +67,7 @@ public class AccountFragments extends Fragment {
     }
 
     private void initView() {
+        logOut = view.findViewById(R.id.account_log_out);
         circleImageView = view.findViewById(R.id.account_profile_image);
         dashboardLayout = view.findViewById(R.id.account_users_dashboard);
         aboutUs = view.findViewById(R.id.account_about_us);
@@ -77,10 +88,17 @@ public class AccountFragments extends Fragment {
                 .into(circleImageView);
         initAccount();
 
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              logOut();
+            }
+        });
+
         rateUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), ChatActivity.class));
+                //startActivity(new Intent(getContext(), ChatActivity.class));
             }
         });
 
@@ -160,6 +178,25 @@ public class AccountFragments extends Fragment {
             getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
+
+    private void logOut(){
+        GoogleSignInClient mSignInClient;
+        GoogleSignInOptions options =
+                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestProfile()
+                        .build();
+        mSignInClient = GoogleSignIn.getClient(getContext(), options);
+        mSignInClient.signOut()
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                        preferences.edit().remove("userEmail").apply();
+                        startActivity(new Intent(getContext(),WelcomeActivity.class));
+                        getActivity().finish();
+                    }
+                });
+           }
+
 
 }
 
