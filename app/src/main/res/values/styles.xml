@@ -12,6 +12,13 @@
         <item name="itemTextAppearanceInactive">@style/BottomNavigationTextStyleInactive</item>
     </style>
 
+    <style name="NewRegisterTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="boxStrokeWidth">3dp</item>
+        <item name="android:textColorHint">@color/lighter_text_color</item>
+    </style>
+
 
     <style name="SequenceTitle" parent="@android:style/TextAppearance.Medium">
         <item name="android:ellipsize">end</item>

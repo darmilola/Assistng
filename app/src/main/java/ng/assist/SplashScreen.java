@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.view.WindowManager;
 
 public class SplashScreen extends AppCompatActivity {
@@ -19,7 +21,6 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         countDownTimer = new CountDownTimer(4000,1000);
         countDownTimer.start();
-        intent = new Intent(this,WelcomeActivity.class);
     }
 
     public class CountDownTimer extends android.os.CountDownTimer {
@@ -39,7 +40,19 @@ public class SplashScreen extends AppCompatActivity {
 
         @Override
         public void onFinish() {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SplashScreen.this);
+            String userEmail = preferences.getString("userEmail","");
+            if(userEmail.equalsIgnoreCase("")){
+                intent = new Intent(SplashScreen.this,WelcomeActivity.class);
+            }
+            else{
+                intent = new Intent(SplashScreen.this,MainActivity.class);
+                intent.putExtra("email",userEmail);
+            }
             startActivity(intent);
+            finish();
+
+
         }
 
     }

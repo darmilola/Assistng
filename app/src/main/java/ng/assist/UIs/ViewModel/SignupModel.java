@@ -222,7 +222,7 @@ public class SignupModel {
 
     private void CheckGmailExist() {
 
-        loadingDialogUtils.showLoadingDialog("Authenticating");
+        loadingDialogUtils.showLoadingDialog("Login in...");
         Runnable runnable = () -> {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient.Builder()

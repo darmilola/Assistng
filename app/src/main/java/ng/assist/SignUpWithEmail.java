@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.ByteArrayOutputStream;
 
@@ -32,8 +34,9 @@ public class SignUpWithEmail extends AppCompatActivity {
     ImageView selectProfileImageButton;
     CircleImageView circleImageView;
     LoadingDialogUtils loadingDialogUtils;
-    EditText firstname,lastname,emailAddress,password,retypePassword;
-    String mFirstname, mLastname, mEmailaddress, mPassword,mPasswordRetype,mProfileImage;
+    TextInputEditText firstname,lastname,emailAddress,password;
+    TextInputLayout firstnameLayout,lastnameLayout,emailLayout,passwordLayout;
+    String mFirstname, mLastname, mEmailaddress, mPassword,mProfileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +51,15 @@ public class SignUpWithEmail extends AppCompatActivity {
         circleImageView = findViewById(R.id.signup_profile_image);
         loadingDialogUtils = new LoadingDialogUtils(SignUpWithEmail.this);
 
+        firstnameLayout = findViewById(R.id.sign_up_firstname_layout);
+        lastnameLayout = findViewById(R.id.sign_up_lastname_layout);
+        emailLayout = findViewById(R.id.sign_up_email_layout);
+        passwordLayout = findViewById(R.id.sign_up_password_layout);
+
         firstname = findViewById(R.id.sign_up_firstname);
         lastname = findViewById(R.id.sign_up_lastname);
         emailAddress = findViewById(R.id.sign_up_email);
         password = findViewById(R.id.sign_up_password);
-        retypePassword = findViewById(R.id.sign_up_retypepassword);
 
         selectProfileImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +79,6 @@ public class SignUpWithEmail extends AppCompatActivity {
              mLastname = lastname.getText().toString().trim();
              mEmailaddress = emailAddress.getText().toString().trim();
              mPassword = password.getText().toString().trim();
-             mPasswordRetype = retypePassword.getText().toString().trim();
              if(isValidForm()){
                  SignupModel signupModel = new SignupModel(mFirstname,mLastname,mEmailaddress,mPassword,mProfileImage,SignUpWithEmail.this);
                  if(!new NetworkUtils(SignUpWithEmail.this).isNetworkAvailable()) {
@@ -158,27 +164,22 @@ public class SignUpWithEmail extends AppCompatActivity {
         boolean valid = true;
 
         if (TextUtils.isEmpty(mFirstname)) {
-            firstname.setError("Required");
+            firstnameLayout.setError("Required");
             valid = false;
             return valid;
         }
        if (TextUtils.isEmpty(mLastname)) {
-           lastname.setError("Required");
+           lastnameLayout.setError("Required");
            valid = false;
            return valid;
        }
        if (TextUtils.isEmpty(mEmailaddress)) {
-           emailAddress.setError("Required");
+           emailLayout.setError("Required");
            valid = false;
            return valid;
        }
        if (TextUtils.isEmpty(mPassword)) {
-           password.setError("Required");
-           valid = false;
-           return valid;
-       }
-       if (TextUtils.isEmpty(mPasswordRetype)) {
-           retypePassword.setError("Required");
+           passwordLayout.setError("Required");
            valid = false;
            return valid;
        }
@@ -186,13 +187,6 @@ public class SignUpWithEmail extends AppCompatActivity {
            Toast.makeText(this, "Upload profile image", Toast.LENGTH_LONG).show();
            valid = false;
            return valid;
-       }
-       if(!(TextUtils.isEmpty(mPasswordRetype) && !(TextUtils.isEmpty(mPassword)))){
-           if(!mPasswordRetype.equals(mPassword)){
-               Toast.makeText(this, "Password does not match", Toast.LENGTH_LONG).show();
-               valid = false;
-               return valid;
-           }
        }
        return valid;
    }
