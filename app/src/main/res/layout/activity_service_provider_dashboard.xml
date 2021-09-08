@@ -6,53 +6,180 @@
     tools:context=".ServiceProviderDashboard"
     android:orientation="vertical"
     android:background="@color/special_activity_background">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
+            android:textSize="23dp"
             android:text="Mark Chaulics"
             android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="@color/colorPrimary"/>
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:text="General House Cleaning"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/light_text_color"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:text="Customer Care Line: +2348102853533"
-            android:gravity="center"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/dark_text_color"/>
-        <CheckBox
-            android:layout_width="160dp"
             android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:text="Available for hiring"
-            android:checked="true"
-            android:layout_gravity="center"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="Service Type: Repair Services"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/dark_text_color"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:tint="@color/dark_text_color"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_mode_edit_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="Job Title: General House Cleaning"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/dark_text_color"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:tint="@color/dark_text_color"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_mode_edit_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="Phone: 08102853533"
+                android:gravity="center"
+                android:textColor="@color/dark_text_color"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:tint="@color/dark_text_color"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_mode_edit_black_24dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="Rate/hr: $$$"
+                android:gravity="center"
+                android:textColor="@color/dark_text_color"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:tint="@color/dark_text_color"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_mode_edit_black_24dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center">
+
+           <ImageView
+               android:layout_width="20dp"
+               android:layout_height="20dp"
+               android:tint="@color/yellow"
+               android:src="@drawable/iconfinder_icons_favorite"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="4.7(800)"
+                android:gravity="center"
+                android:fontFamily="@font/clanbold"
+                android:textColor="@color/dark_text_color"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/add_to_cart_background"
+            android:backgroundTint="#DBDBDB"
+            android:gravity="center">
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:checked="true"
+                android:text="Available for hiring" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp">
@@ -62,20 +189,37 @@
             android:layout_height="match_parent"
             android:text="Portfolio"
             android:gravity="center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20dp"/>
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:text="Add Portfolio"
-            android:layout_alignParentRight="true"
-            android:id="@+id/dashboard_add_product"
-            android:textAllCaps="false"/>
+            android:textColor="@color/dark_text_color"
+            android:textSize="18dp"/>
+
+          <LinearLayout
+              android:layout_width="120dp"
+              android:layout_height="40dp"
+              android:layout_marginTop="10dp"
+              android:orientation="horizontal"
+              android:gravity="center|right"
+              android:layout_alignParentRight="true">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Select"
+                  android:gravity="center"
+                  android:textColor="@color/light_text_color"
+                  android:textSize="15dp"/>
+
+              <ImageView
+                  android:layout_width="20dp"
+                  android:layout_height="20dp"
+                  android:src="@drawable/iconfinder_chevron_left_4781844"
+                  android:rotation="180"
+                  android:tint="@color/light_text_color"/>
+
+
+          </LinearLayout>
+
     </RelativeLayout>
-
-    <include layout="@layout/product_image_scrollview"/>
-
+            <include layout="@layout/product_image_scrollview"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

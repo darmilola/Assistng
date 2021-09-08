@@ -9,7 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/ecommerce_dashboard_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="330dp"
+        android:layout_height="270dp"
         android:fitsSystemWindows="true"
         android:focusableInTouchMode="true"
         android:background="#F6F5F8"
@@ -26,7 +26,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="310dp"
+                android:layout_height="250dp"
                 android:gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -36,36 +36,53 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="25dp"
-                    android:text="Shoprite Supermarket"
+                    android:textSize="20dp"
+                    android:text="This is the Supermarket name"
                     android:gravity="center"
                     android:textColor="@color/colorPrimary"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:text="Akure techub, botanical Garden federal university of technology Akure"
-                    android:gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/light_text_color"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:text="Customer Care Line: +2348102853533"
-                    android:gravity="center"
-                    android:layout_marginTop="15dp"
-                    android:textColor="@color/dark_text_color"/>
 
-                <CheckBox
-                    android:layout_width="250dp"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:textColor="@color/colorPrimary"
-                    android:text="Available for delivery"
-                    android:layout_gravity="center"/>
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:text="Phone: 08102853533"
+                        android:gravity="center"
+                        android:textColor="@color/dark_text_color"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:tint="@color/dark_text_color"
+                        android:layout_marginLeft="20dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_mode_edit_black_24dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/add_to_cart_background"
+                    android:backgroundTint="#DBDBDB"
+                    android:gravity="center">
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="200dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:checked="true"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Available for delivery" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <com.google.android.material.tabs.TabLayout

@@ -31,11 +31,14 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ng.assist.ChatActivity;
 import ng.assist.EcommerceDashboard;
+import ng.assist.EstateListingDashboard;
 import ng.assist.MainActivity;
 import ng.assist.R;
 import ng.assist.ServiceProviderDashboard;
+import ng.assist.ServiceProviderVerifications;
 import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.AccountModel;
+import ng.assist.VerificationDashBoard;
 import ng.assist.WelcomeActivity;
 
 /**
@@ -50,6 +53,8 @@ public class AccountFragments extends Fragment {
     View verificationView;
     ArrayList<String> accountList = new ArrayList<>();
     CircleImageView circleImageView;
+    String userAccountType = "Normal User";
+    TextView usernameField;
 
 
     public AccountFragments() {
@@ -67,6 +72,7 @@ public class AccountFragments extends Fragment {
     }
 
     private void initView() {
+        usernameField = view.findViewById(R.id.account_name);
         logOut = view.findViewById(R.id.account_log_out);
         circleImageView = view.findViewById(R.id.account_profile_image);
         dashboardLayout = view.findViewById(R.id.account_users_dashboard);
@@ -80,7 +86,9 @@ public class AccountFragments extends Fragment {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String userImage =  preferences.getString("imageUrl","");
-
+        String firstname =  preferences.getString("firstname","");
+        String lastname =  preferences.getString("lastname","");
+        usernameField.setText(firstname+" "+lastname);
         Glide.with(this)
                 .load(userImage)
                 .placeholder(R.drawable.profileplaceholder)
@@ -95,6 +103,13 @@ public class AccountFragments extends Fragment {
             }
         });
 
+        verifyAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ServiceProviderVerifications.class));
+            }
+        });
+
         rateUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,14 +120,18 @@ public class AccountFragments extends Fragment {
         dashboardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), EcommerceDashboard.class));
+
+                if(userAccountType.equalsIgnoreCase("Service Provider"))startActivity(new Intent(getContext(),ServiceProviderDashboard.class));
+                if(userAccountType.equalsIgnoreCase("Eccommerce"))startActivity(new Intent(getContext(),EcommerceDashboard.class));
+                if(userAccountType.equalsIgnoreCase("House Agent"))startActivity(new Intent(getContext(), EstateListingDashboard.class));
+
             }
         });
 
         aboutUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), ServiceProviderDashboard.class));
+
             }
         });
 
@@ -129,11 +148,15 @@ public class AccountFragments extends Fragment {
                         accountModel.setAccountSwitchListener(new AccountModel.AccountSwitchListener() {
                             @Override
                             public void onAccountSwitched() {
+                                userAccountType = item;
                                 Toast.makeText(getContext(), "Account Switched to "+item, Toast.LENGTH_SHORT).show();
                                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                                 preferences.edit().putString("accountType",item).apply();
                                 if(item.equalsIgnoreCase("Normal User")){
                                     verifyAccount.setVisibility(View.GONE);
+                                    dashboardLayout.setVisibility(View.GONE);
+                                }
+                                else if(item.equalsIgnoreCase("Corp Member")){
                                     dashboardLayout.setVisibility(View.GONE);
                                 }
                                 else{
@@ -157,7 +180,6 @@ public class AccountFragments extends Fragment {
                 });
             }
         });
-
     }
 
     private void initAccount(){
@@ -165,6 +187,7 @@ public class AccountFragments extends Fragment {
         accountList.add("Service Provider");
         accountList.add("House Agent");
         accountList.add("Corp Member");
+        accountList.add("Eccommerce");
         accountList.add("Normal User");
     }
 
