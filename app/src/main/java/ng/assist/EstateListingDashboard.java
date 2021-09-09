@@ -21,7 +21,6 @@ public class EstateListingDashboard extends AppCompatActivity {
     RecyclerView recyclerView;
     RealEstateDashboardListingAdapter adapter;
     ArrayList<String> accomdationList = new ArrayList<>();
-    MaterialButton addAccomodation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +31,7 @@ public class EstateListingDashboard extends AppCompatActivity {
     private void initView(){
 
         recyclerView = findViewById(R.id.real_estate_dashboard_recyclerview);
-        addAccomodation = findViewById(R.id.dashboard_add_accomodation);
-        addAccomodation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(EstateListingDashboard.this,RealEsateAgentAddListing.class));
-            }
-        });
+
         for(int i = 0; i < 20; i++){
             accomdationList.add("");
         }

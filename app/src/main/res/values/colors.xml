@@ -48,9 +48,9 @@
 <color name="cornflower_blue_two_dark">#475bd4</color>
 <color name="cornflower_blue_light_40">#64bec5f7</color>
 <color name="dialog_divider">@color/white_three</color>
-<color name="dialog_title_text">@color/dark_gray</color>
-<color name="dialog_message_text">@color/warm_grey</color>
-<color name="dialog_date_text">@color/warm_grey_two</color>
-<color name="dialog_unread_text">@color/white</color>
-<color name="dialog_unread_bubble">@color/dark_mint</color>
+    <color name="dialog_title_text">@color/dark_gray</color>
+    <color name="dialog_message_text">@color/warm_grey</color>
+    <color name="dialog_date_text">@color/warm_grey_two</color>
+    <color name="dialog_unread_text">@color/white</color>
+    <color name="dialog_unread_bubble">@color/dark_mint</color>
 </resources>

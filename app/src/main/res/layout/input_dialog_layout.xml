@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:padding="5dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        app:cardCornerRadius="5dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="1dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your City"
+            android:layout_marginTop="10dp"
+            android:id="@+id/input_dialog_title"
+            android:textColor="@color/dark_text_color"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Type here..."
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:maxLines="1"
+            android:inputType="text"
+            android:maxLength="300"
+            android:id="@+id/input_dialog_type_here"
+            android:background="@drawable/edittext_background"
+            android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:gravity="right|center"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:text="Cancel"
+                    android:id="@+id/input_dialog_cancel"
+                    android:layout_marginRight="15dp"
+                    android:textAllCaps="false"
+                    app:backgroundTint="#FA213B"/>
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:text="Save"
+                    android:id="@+id/input_dialog_save"
+                    android:layout_marginRight="10dp"
+                    android:textAllCaps="false"
+                    app:backgroundTint="#059249"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
