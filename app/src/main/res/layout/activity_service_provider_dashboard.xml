@@ -36,7 +36,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="23dp"
+            android:textSize="20dp"
             android:text="Mark Chaulics"
             android:gravity="center"
             android:maxLines="1"
@@ -54,7 +54,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="12dp"
                 android:fontFamily="@font/clanbold"
                 android:text="Service Type"
                 android:gravity="center"
@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="12dp"
                 android:fontFamily="@font/clannews"
                 android:text="Not Available"
                 android:id="@+id/service_provider_dashboard_service_type_text"
@@ -96,7 +96,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="12dp"
                 android:fontFamily="@font/clanbold"
                 android:text="Job Title:"
                 android:gravity="center"
@@ -107,7 +107,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="12dp"
                 android:fontFamily="@font/clannews"
                 android:text="Not Available"
                 android:gravity="center"
@@ -138,7 +138,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="12dp"
                 android:fontFamily="@font/clanbold"
                 android:text="Phone:"
                 android:gravity="center"
@@ -149,7 +149,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="12dp"
                 android:fontFamily="@font/clannews"
                 android:text="Not Available"
                 android:id="@+id/service_provider_dashboard_phone_text"
@@ -179,7 +179,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="12dp"
                 android:fontFamily="@font/clanbold"
                 android:text="Rate:"
                 android:gravity="center"
@@ -198,7 +198,7 @@
                 android:id="@+id/service_provider_dashboard_rate_text"
                 android:text="Not Available"
                 android:textColor="#797878"
-                android:textSize="15dp" />
+                android:textSize="12dp"/>
 
             <ImageView
                 android:layout_width="40dp"
@@ -245,13 +245,11 @@
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/service_provider_dashboard_availability_switch"
-                android:layout_width="160dp"
+                android:layout_width="200dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:checked="true"
-                android:text="Available for hiring"
-                app:thumbTint="@color/green"
-                app:trackTint="#3C9E73" />
+                android:checked="false"
+                android:text="Available for hiring"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -261,15 +259,16 @@
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Portfolio"
             android:gravity="center"
+            android:fontFamily="@font/clanmed"
             android:textColor="@color/dark_text_color"
-            android:textSize="18dp"/>
+            android:textSize="15dp"/>
 
           <LinearLayout
               android:layout_width="120dp"

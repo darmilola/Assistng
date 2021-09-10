@@ -9,21 +9,17 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import io.github.lizhangqu.coreprogress.ProgressHelper;
 import io.github.lizhangqu.coreprogress.ProgressUIListener;
-import ng.assist.MainActivity;
 import ng.assist.UIs.Utils.ImageUploadDialog;
 import ng.assist.UIs.Utils.LoadingDialogUtils;
 import okhttp3.Call;
@@ -46,7 +42,7 @@ public class ServiceProviderDashboardModel {
     private ArrayList<ServiceProviderDashboardModel> serviceProviderDashboardModels = new ArrayList<>();
     private ArrayList<ProviderPortfolio> providerPortfolios = new ArrayList<>();
     private ProviderListener providerListener;
-    private String uploadImageUrl = baseUrl+"users/upload/image";
+    private String uploadImageUrl = baseUrl+"users/upload/portfolio";
     private String updateHandymanUrl = baseUrl+"handyman/update";
     private ImageUploadDialog imageUploadDialog;
     private String encodedImage;
@@ -65,7 +61,7 @@ public class ServiceProviderDashboardModel {
 
     public interface ProviderListener{
         void onInfoReady(ArrayList<ServiceProviderDashboardModel> serviceProviderDashboardModels, ArrayList<ProviderPortfolio> providerPortfolios);
-        void onErrorOccurred();
+        void onErrorOccurred(String message);
     }
 
     public void setPortfolioUploadListener(PortfolioUploadListener portfolioUploadListener) {
@@ -92,6 +88,8 @@ public class ServiceProviderDashboardModel {
            this.context = context;
            imageUploadDialog = new ImageUploadDialog(context);
            this.encodedImage = encodedImage;
+           SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+           mEmail = preferences.getString("userEmail","");
     }
 
     public ServiceProviderDashboardModel(Context context){
@@ -110,6 +108,7 @@ public class ServiceProviderDashboardModel {
            this.totalRatings = totalRatings;
            this.isAvailable = isAvailable;
     }
+
 
     public String getUserId() {
         return userId;
@@ -214,7 +213,7 @@ public class ServiceProviderDashboardModel {
                         for(int j = 0; j < portfolio.length(); j++){
                             String userId = portfolio.getJSONObject(j).getString("userId");
                             int  id = portfolio.getJSONObject(j).getInt("id");
-                            String imageUrl = data.getJSONObject(j).getString("imageUrl");
+                            String imageUrl = portfolio.getJSONObject(j).getString("imageUrl");
 
                             ProviderPortfolio providerPortfolio = new ProviderPortfolio(id,userId,imageUrl);
                             providerPortfolios.add(providerPortfolio);
@@ -237,17 +236,16 @@ public class ServiceProviderDashboardModel {
                 }
 
                 else if(status.equalsIgnoreCase("failure")){
-                    providerListener.onErrorOccurred();
+                    providerListener.onErrorOccurred("Error Occurred");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                providerListener.onErrorOccurred();
+                providerListener.onErrorOccurred(e.getLocalizedMessage());
             }
         }
     };
 
     public void ShowProvider() {
-        loadingDialogUtils.showLoadingDialog("Switching Account");
         Runnable runnable = () -> {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient.Builder()
@@ -278,10 +276,11 @@ public class ServiceProviderDashboardModel {
         myThread.start();
     }
 
-    private String buildImageUploadJson(String encodedImage){
+    private String buildImageUploadJson(String encodedImage,String userId){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("image",encodedImage);
+            jsonObject.put("userId",userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -309,7 +308,7 @@ public class ServiceProviderDashboardModel {
             builder.url(uploadImageUrl);
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildImageUploadJson(encodedImage));
+            RequestBody requestBody = RequestBody.create(JSON,buildImageUploadJson(encodedImage,mEmail));
             RequestBody requestBody1 = ProgressHelper.withProgress(requestBody, new ProgressUIListener() {
 
                 @Override
@@ -364,10 +363,10 @@ public class ServiceProviderDashboardModel {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
                 if(status.equalsIgnoreCase("success")){
-                   JSONArray data = jsonObject.getJSONArray("data");
-                   int id = data.getJSONObject(0).getInt("id");
-                   String imageUrl = data.getJSONObject(0).getString("imageUrl");
-                   String userId = data.getJSONObject(0).getString("userId");
+                   JSONObject data = jsonObject.getJSONObject("data");
+                   int id = data.getInt("id");
+                   String imageUrl = data.getString("imageUrl");
+                   String userId = data.getString("userId");
 
                    ProviderPortfolio providerPortfolio = new ProviderPortfolio(id,userId,imageUrl);
                    portfolioUploadListener.onImageUpload(providerPortfolio);

@@ -55,6 +55,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
     ArrayList<String> serviceTypeList = new ArrayList<>();
     ArrayList<String> rateList = new ArrayList<>();
     ServiceProviderDashboardModel serviceProviderDashboardModel;
+    ServiceProviderDashboardModel mServiceProviderModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +63,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         initProductImageView();
     }
     private void initProductImageView(){
+
         populateList();
         serviceType = findViewById(R.id.service_provider_dashboard_service_type_text);
         jobTitle  = findViewById(R.id.service_provider_dashboard_job_type_text);
@@ -83,34 +85,19 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         providerName = findViewById(R.id.service_provider_dashboard_provider_name);
 
 
-        availabilitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isValidProvider() && !isChecked){
-                    availabilitySwitch.setChecked(true);
-                    ServiceProviderDashboardModel mServiceProviderDashboardModel = new ServiceProviderDashboardModel("isAvailable","true",ServiceProviderDashboard.this);
-                    mServiceProviderDashboardModel.updateProviderInfo();
-
-                }
-                else{
-                    Toast.makeText(ServiceProviderDashboard.this, "Please complete your profile", Toast.LENGTH_SHORT).show();
-                    ServiceProviderDashboardModel mServiceProviderDashboardModel = new ServiceProviderDashboardModel("isAvailable","false",ServiceProviderDashboard.this);
-                    mServiceProviderDashboardModel.updateProviderInfo();
-                    availabilitySwitch.setChecked(false);
-                }
-            }
-        });
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ServiceProviderDashboard.this);
         String firstname =  preferences.getString("firstname","");
         String lastname =  preferences.getString("lastname","");
         providerName.setText(firstname+" "+lastname);
 
+
         serviceProviderDashboardModel = new ServiceProviderDashboardModel(ServiceProviderDashboard.this);
         serviceProviderDashboardModel.ShowProvider();
         serviceProviderDashboardModel.setProviderListener(new ServiceProviderDashboardModel.ProviderListener() {
             @Override
             public void onInfoReady(ArrayList<ServiceProviderDashboardModel> serviceProviderDashboardModels, ArrayList<ServiceProviderDashboardModel.ProviderPortfolio> providerPortfolios) {
+                mServiceProviderModel = serviceProviderDashboardModels.get(0);
                 rootScroll.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 if(serviceProviderDashboardModels.get(0).getServiceType().equalsIgnoreCase("null")){
@@ -162,17 +149,45 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                     pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
                     imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
                     adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
-
                 }
 
+                availabilitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isValidProvider() && isChecked){
+                            Toast.makeText(ServiceProviderDashboard.this, "You are now Available for hiring", Toast.LENGTH_SHORT).show();
+                            ServiceProviderDashboardModel mServiceProviderDashboardModel = new ServiceProviderDashboardModel("isAvailable","true",ServiceProviderDashboard.this);
+                            mServiceProviderDashboardModel.updateProviderInfo();
+                            mServiceProviderDashboardModel.setUpdateInfoListener(new ServiceProviderDashboardModel.UpdateInfoListener() {
+                                @Override
+                                public void onSuccess() {
 
+                                }
+                            });
+                        }
+                        else if(!isValidProvider()){
+                            Toast.makeText(ServiceProviderDashboard.this, "Please complete your profile", Toast.LENGTH_SHORT).show();
+                            availabilitySwitch.setChecked(false);
+                        }
+                        else if(!isChecked){
+                            ServiceProviderDashboardModel mServiceProviderDashboardModel = new ServiceProviderDashboardModel("isAvailable","false",ServiceProviderDashboard.this);
+                            mServiceProviderDashboardModel.updateProviderInfo();
+                            mServiceProviderDashboardModel.setUpdateInfoListener(new ServiceProviderDashboardModel.UpdateInfoListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(ServiceProviderDashboard.this, "You are no more available for hiring", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
             }
-
             @Override
-            public void onErrorOccurred() {
-
+            public void onErrorOccurred(String message) {
+                Toast.makeText(ServiceProviderDashboard.this, message, Toast.LENGTH_SHORT).show();
             }
         });
+
 
         jobTitleSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,6 +203,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                           @Override
                           public void onSuccess() {
                               serviceProviderDashboardModel.setJobTitle(text);
+                              jobTitle.setText(text);
                           }
                       });
 
@@ -216,6 +232,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                             @Override
                             public void onSuccess() {
                                 serviceProviderDashboardModel.setPhonenumber(text);
+                                phone.setText(text);
                             }
                         });
 
@@ -244,6 +261,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                             @Override
                             public void onSuccess() {
                                 serviceProviderDashboardModel.setServiceType(city);
+                                serviceType.setText(city);
                             }
                         });
 
@@ -267,6 +285,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                             @Override
                             public void onSuccess() {
                                 serviceProviderDashboardModel.setRatePerHour(city);
+                                rate.setText(city);
                             }
                         });
                     }
@@ -292,11 +311,8 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
         }
     }
 
@@ -324,6 +340,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                     @Override
                     public void onImageUpload(ServiceProviderDashboardModel.ProviderPortfolio providerPortfolio) {
                         adapter.addItem(providerPortfolio);
+                        imagesRecyclerview.scrollToPosition(adapter.getItemCount()-1);
                         scrollImageLayout.setVisibility(View.VISIBLE);
                         noPortfolio.setVisibility(View.GONE);
                     }
@@ -353,26 +370,25 @@ public class ServiceProviderDashboard extends AppCompatActivity {
 
     private boolean isValidProvider(){
         boolean isValid = true;
-        if(serviceProviderDashboardModel.getServiceType().equalsIgnoreCase("null")){
+        if(mServiceProviderModel.getServiceType().equalsIgnoreCase("null")){
             isValid = false;
             return  isValid;
         }
 
-        if(serviceProviderDashboardModel.getJobTitle().equalsIgnoreCase("null")){
+        if(mServiceProviderModel.getJobTitle().equalsIgnoreCase("null")){
             isValid = false;
             return  isValid;
         }
 
-        if(serviceProviderDashboardModel.getPhonenumber().equalsIgnoreCase("null")){
+        if(mServiceProviderModel.getPhonenumber().equalsIgnoreCase("null")){
             isValid = false;
             return  isValid;
         }
 
-        if(serviceProviderDashboardModel.getRatePerHour().equalsIgnoreCase("null")){
+        if(mServiceProviderModel.getRatePerHour().equalsIgnoreCase("null")){
             isValid = false;
             return  isValid;
         }
-
         return  isValid;
     }
 
