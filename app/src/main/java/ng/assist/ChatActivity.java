@@ -98,7 +98,6 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         initAdapter();
         initSocket();
         performHttpRequest();
-
     }
 
     private void performHttpRequest(){
@@ -195,18 +194,6 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         }
     }
 
-
-
-  /*  protected void loadMessages() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<Message> messages = MessagesFixtures.getMessages(lastLoadedDate);
-                lastLoadedDate = messages.get(messages.size() - 1).getCreatedAt();
-                messagesAdapter.addToEnd(messages, false);
-            }
-        }, 1000);
-    }*/
 
 
 

@@ -53,9 +53,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
-                        android:text="Phone: 08102853533"
+                        android:fontFamily="@font/clanbold"
+                        android:text="Phone:"
                         android:gravity="center"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:textColor="@color/dark_text_color"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:fontFamily="@font/clannews"
+                        android:text="Not Available"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:layout_marginLeft="5dp"
+                        android:ellipsize="end"
+                        android:textColor="#797878"/>
 
                     <ImageView
                         android:layout_width="40dp"
