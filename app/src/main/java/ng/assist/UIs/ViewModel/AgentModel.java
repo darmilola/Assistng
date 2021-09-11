@@ -34,4 +34,5 @@ public class AgentModel {
     public String getAgentPicUrl() {
         return agentPicUrl;
     }
+
 }
