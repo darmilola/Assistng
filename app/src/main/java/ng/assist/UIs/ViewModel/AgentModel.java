@@ -15,6 +15,11 @@ public class AgentModel {
         this.agentPicUrl = agentPicUrl;
     }
 
+    public AgentModel(String agentId,String agentPhone){
+        this.agentId = agentId;
+        this.agentPhone = agentPhone;
+    }
+
     public String getAgentId() {
         return agentId;
     }

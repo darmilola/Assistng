@@ -44,7 +44,7 @@ public class AccomodationListModel implements Parcelable {
     private String baseUrl = new URL().getBaseUrl();
     private String getAccomodationUrl = baseUrl+"house_listings/filter/by/details";
     private String getDetailsUrl = baseUrl+"house_listing_details/houseInfo";
-    private String accomodationType,location,maxPrice,minPrice;
+    private String accomodationType,location,maxPrice,minPrice,isAvailable;
     private ArrayList<AccomodationListModel> listModelArrayList = new ArrayList<>();
     private ArrayList<String> imagesList = new ArrayList<>();
 
@@ -64,6 +64,7 @@ public class AccomodationListModel implements Parcelable {
         nextPageUrl = in.readString();
         totalPage = in.readString();
         baseUrl = in.readString();
+        isAvailable = in.readString();
         getAccomodationUrl = in.readString();
         getDetailsUrl = in.readString();
         accomodationType = in.readString();
@@ -108,6 +109,7 @@ public class AccomodationListModel implements Parcelable {
         dest.writeString(nextPageUrl);
         dest.writeString(totalPage);
         dest.writeString(baseUrl);
+        dest.writeString(isAvailable);
         dest.writeString(getAccomodationUrl);
         dest.writeString(getDetailsUrl);
         dest.writeString(accomodationType);
@@ -133,7 +135,7 @@ public class AccomodationListModel implements Parcelable {
         this.agentId = agentId;
     }
 
-    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee){
+    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable){
         this.houseId = houseId;
         this.agentId = agentId;
         this.houseDisplayImage = houseDisplayImage;
@@ -146,6 +148,7 @@ public class AccomodationListModel implements Parcelable {
         this.houseDesc = description;
         this.address  = address;
         this.bookingFee = bookingFee;
+        this.isAvailable = isAvailable;
     }
 
     public AccomodationListModel(String accomodationType, String location, String maxPrice, String minPrice){
@@ -182,7 +185,8 @@ public class AccomodationListModel implements Parcelable {
                         String agentId = data.getJSONObject(i).getString("agentId");
                         String address = data.getJSONObject(i).getString("address");
                         String bookingFee = data.getJSONObject(i).getString("bookingFee");
-                        AccomodationListModel accomodationListModel = new AccomodationListModel(houseId,agentId,displayImage,houseTitle,bed,bath,totalRaters,totalRatings,description,pricePerMonth,address,bookingFee);
+                        String isAvailable = data.getJSONObject(i).getString("isAvailable");
+                        AccomodationListModel accomodationListModel = new AccomodationListModel(houseId,agentId,displayImage,houseTitle,bed,bath,totalRaters,totalRatings,description,pricePerMonth,address,bookingFee,isAvailable);
                         listModelArrayList.add(accomodationListModel);
                     }
                     accomodationListReadyListener.onListReady(listModelArrayList,nextPageUrl,totalPage);
@@ -234,7 +238,7 @@ public class AccomodationListModel implements Parcelable {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                accomodationDetailsListener.onError("Error Occurred");
+                accomodationDetailsListener.onError(e.getLocalizedMessage());
             }
 
         }
@@ -400,6 +404,13 @@ public class AccomodationListModel implements Parcelable {
         return totalRatings;
     }
 
+    public String getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(String isAvailable) {
+        this.isAvailable = isAvailable;
+    }
 
     private String buildSearchCredentials(String type, String location, String max_price, String min_price){
         JSONObject jsonObject = new JSONObject();

@@ -74,7 +74,7 @@ public class SendMoneyRecepient extends Fragment {
                 if(TextUtils.isEmpty(userEmailField.getText().toString().trim())){
                     userEmailField.setError("Required");
                 }
-                else if(userEmailField.getText().toString().equalsIgnoreCase(userEmail)){
+                else if(userEmailField.getText().toString().trim().equalsIgnoreCase(userEmail)){
                     Toast.makeText(getContext(), "Invalid Request", Toast.LENGTH_SHORT).show();
                 }
                 else{
