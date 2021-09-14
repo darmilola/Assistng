@@ -20,6 +20,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,15 +45,17 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
     String houseId, agentId;
     SwitchMaterial availabilitySwitch;
     MaterialButton deleteListing;
+    LinearLayout imageScrollLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estate_dashboard_listing_details);
-        initProductImageView();
+        initView();
     }
 
-    private void initProductImageView(){
+    private void initView(){
 
+        imageScrollLayout = findViewById(R.id.scroll_image_layout);
         availabilitySwitch = findViewById(R.id.estate_dashboard_details_availability_switch);
         deleteListing = findViewById(R.id.estate_dashboard_details_delete_listing);
         loadingBar = findViewById(R.id.estate_dashboard_details_progress);
@@ -80,11 +83,13 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
         description.setText(accomodationListModel.getHouseDesc());
         bookingFee.setText(accomodationListModel.getBookingFee());
 
-        if(accomodationListModel.getIsAvailable().equalsIgnoreCase("false")){
-            availabilitySwitch.setChecked(false);
+        Toast.makeText(this, accomodationListModel.getIsAvailable(), Toast.LENGTH_SHORT).show();
+
+        if(accomodationListModel.getIsAvailable().equalsIgnoreCase("true")){
+            availabilitySwitch.setChecked(true);
         }
         else{
-            availabilitySwitch.setChecked(true);
+            availabilitySwitch.setChecked(false);
         }
 
 
@@ -161,7 +166,8 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
 
                 rootLayout.setVisibility(View.VISIBLE);
                 loadingBar.setVisibility(View.GONE);
-                adapter = new ProductImageScrollAdapter(imagesList,EstateDashboardListingDetails.this);
+                imageScrollLayout.setVisibility(View.VISIBLE);
+                adapter = new ProductImageScrollAdapter(imageList,EstateDashboardListingDetails.this);
                 imagesRecyclerview.setAdapter(adapter);
                 pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
                 imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
@@ -172,6 +178,7 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
             public void onError(String message) {
                 rootLayout.setVisibility(View.GONE);
                 loadingBar.setVisibility(View.GONE);
+                imageScrollLayout.setVisibility(View.GONE);
                 Toast.makeText(EstateDashboardListingDetails.this, message, Toast.LENGTH_SHORT).show();
             }
         });
