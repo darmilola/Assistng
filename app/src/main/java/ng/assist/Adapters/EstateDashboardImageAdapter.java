@@ -1,7 +1,6 @@
 package ng.assist.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,13 @@ import ng.assist.R;
 import ng.assist.UIs.ViewModel.EstateDashboardModel;
 import ng.assist.UIs.ViewModel.ServicesModel;
 
-public class ProductImageScrollAdapter extends RecyclerView.Adapter<ProductImageScrollAdapter.itemViewHolder> {
+public class EstateDashboardImageAdapter extends RecyclerView.Adapter<EstateDashboardImageAdapter.itemViewHolder> {
 
-    ArrayList<String> imagesList;
+    ArrayList<EstateDashboardModel.HouseImage> imagesList;
     Context context;
 
 
-    public ProductImageScrollAdapter(ArrayList<String> imagesList, Context context){
+    public EstateDashboardImageAdapter(ArrayList<EstateDashboardModel.HouseImage> imagesList, Context context){
         this.imagesList = imagesList;
         this.context = context;
     }
@@ -38,10 +37,14 @@ public class ProductImageScrollAdapter extends RecyclerView.Adapter<ProductImage
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
         Glide.with(context)
-                .load(imagesList.get(position))
+                .load(imagesList.get(position).getImageUrl())
                 .placeholder(R.drawable.background_image)
                 .error(R.drawable.background_image)
                 .into(holder.imageView);
+    }
+    public void addItem(EstateDashboardModel.HouseImage houseImageArrayList){
+        imagesList.add(houseImageArrayList);
+        notifyDataSetChanged();
     }
 
 

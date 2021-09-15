@@ -299,7 +299,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Attachment"), PICK_IMAGE);
+                startActivityForResult(Intent.createChooser(intent, "Select Portfolio"), PICK_IMAGE);
             }
         });
     }
