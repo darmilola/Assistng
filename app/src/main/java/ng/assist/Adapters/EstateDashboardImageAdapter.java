@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.EstateDashboardModel;
-import ng.assist.UIs.ViewModel.ServicesModel;
 
 public class EstateDashboardImageAdapter extends RecyclerView.Adapter<EstateDashboardImageAdapter.itemViewHolder> {
 

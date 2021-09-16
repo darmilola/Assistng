@@ -40,7 +40,7 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
     @NonNull
     @Override
     public itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.grocery_recycler_item, parent, false);
+        View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.dashboard_grocery_item, parent, false);
         return new itemViewHolder(view2);
     }
 
@@ -72,15 +72,14 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
          TextView productName;
          ImageView productImage;
          TextView productPrice;
-         LinearLayout addToCart;
+         TextView shopname;
         public itemViewHolder(View ItemView){
             super(ItemView);
-            productImage = ItemView.findViewById(R.id.grocery_product_image);
-            productName = ItemView.findViewById(R.id.grocery_product_name);
-            productPrice = ItemView.findViewById(R.id.grocery_product_price);
-            addToCart = ItemView.findViewById(R.id.grocery_add_to_cart);
-
-            addToCart.setOnClickListener(new View.OnClickListener() {
+            productImage = ItemView.findViewById(R.id.grocery_item_image);
+            productName = ItemView.findViewById(R.id.grocery_item_title);
+            productPrice = ItemView.findViewById(R.id.grocery_item_price);
+            shopname = ItemView.findViewById(R.id.grocery_item_shopname);
+        /*    ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                      String userEmail = PreferenceManager.getDefaultSharedPreferences(context).getString("userEmail","");
@@ -101,7 +100,7 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
                          }
                      });
                 }
-            });
+            });*/
 
             ItemView.setOnClickListener(this);
 

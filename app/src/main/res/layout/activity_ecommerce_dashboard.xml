@@ -6,10 +6,16 @@
     android:fitsSystemWindows="true"
     android:background="#F6F5F8">
 
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:id="@+id/ecc_progress"/>
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/ecommerce_dashboard_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="270dp"
+        android:layout_height="230dp"
         android:fitsSystemWindows="true"
         android:focusableInTouchMode="true"
         android:background="#F6F5F8"
@@ -18,7 +24,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/ecommerce_collapsing_toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="330dp"
+            android:layout_height="230dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorOnPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -26,21 +32,51 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="200dp"
                 android:gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:fontFamily="@font/clanbold"
+                        android:text="Address:"
+                        android:gravity="center"
+                        android:layout_marginRight="7dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/dark_text_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:id="@+id/ecommerce_dashboard_store_name"
                     android:text="This is the Supermarket name"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="#797878"
+                    android:maxLength="30"/>
 
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:tint="@color/dark_text_color"
+                    android:layout_marginLeft="20dp"
+                    android:padding="10dp"
+                    android:id="@+id/ecommerce_dashboard_store_name_select"
+                    android:src="@drawable/ic_mode_edit_black_24dp"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -67,6 +103,7 @@
                         android:fontFamily="@font/clannews"
                         android:text="Not Available"
                         android:gravity="center"
+                        android:id="@+id/ecommerce_dashboard_phone"
                         android:maxLines="1"
                         android:layout_marginLeft="5dp"
                         android:ellipsize="end"
@@ -78,25 +115,8 @@
                         android:tint="@color/dark_text_color"
                         android:layout_marginLeft="20dp"
                         android:padding="10dp"
+                        android:id="@+id/ecommerce_dashboard_phone_select"
                         android:src="@drawable/ic_mode_edit_black_24dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/add_to_cart_background"
-                    android:backgroundTint="#DBDBDB"
-                    android:gravity="center">
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:layout_width="200dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:checked="true"
-                        android:textColor="@color/colorPrimary"
-                        android:text="Available for delivery" />
-
                 </LinearLayout>
             </LinearLayout>
 
@@ -121,14 +141,10 @@
                 app:tabTextAppearance="@style/TabTextAppearance"
                 app:tabTextColor="#c8c8c8"/>
 
-
-
-
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/wallet_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="40dp"
                 app:layout_collapseMode="pin"
                 app:contentInsetLeft="0dp"
                 android:gravity="center"
@@ -165,5 +181,4 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/ecommerce_dashboard_tab_layout"/>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -9,15 +9,14 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="8dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="2dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         app:strokeWidth="0.5dp"
-        app:cardElevation="0dp"
-        app:strokeColor="#c8c8c8"
-        app:cardBackgroundColor="#EDEDF3">
+        app:cardElevation="1dp"
+        app:cardBackgroundColor="#FDFDFF">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -31,10 +30,12 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="200dp"
-                    android:layout_height="120dp"
+                    android:layout_width="250dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="20dp"
+                    android:scaleType="fitCenter"
+                    android:id="@+id/grocery_item_image"
                     android:src="@drawable/capsicum" />
 
 
@@ -46,6 +47,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
                     android:ellipsize="end"
+                    android:id="@+id/grocery_item_shopname"
                     android:fontFamily="@font/clannews"
                     android:maxLines="1"
                     android:text="Mudassir Store Kano State Nigeria"
@@ -59,6 +61,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
                     android:ellipsize="end"
+                    android:id="@+id/grocery_item_title"
                     android:fontFamily="@font/clannews"
                     android:maxLines="2"
                     android:text="Capsicum Pepper Product"
@@ -79,24 +82,10 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/clannews"
                         android:maxLines="1"
-                        android:text="$50"
+                        android:text="$50,000"
+                        android:id="@+id/grocery_item_price"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="right"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/clannews"
-                        android:gravity="right|center"
-                        android:maxLines="1"
-                        android:text="3kg Price"
-                        android:textColor="@color/light_text_color"
-                        android:textSize="13dp" />
+                        android:textSize="17dp" />
                 </LinearLayout>
 
 

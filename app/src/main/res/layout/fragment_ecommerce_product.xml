@@ -32,7 +32,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:id="@+id/dashboard_products_recyclerview"
-        tools:listitem="@layout/grocery_recycler_item"/>
+        tools:listitem="@layout/dashboard_grocery_item"/>
 
 
     </LinearLayout>
