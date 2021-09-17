@@ -11,6 +11,8 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -23,7 +25,10 @@ import ng.assist.Adapters.DasdhboardProductAdapter;
 import ng.assist.Adapters.GroceryDisplayAdapter;
 import ng.assist.DashboardAddProduct;
 import ng.assist.EcommerceDashboard;
+import ng.assist.MainActivity;
 import ng.assist.R;
+import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
+import ng.assist.UIs.ViewModel.GroceryModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +42,8 @@ public class EcommerceProduct extends Fragment {
     View view;
     String mPhone,mShopname;
     MaterialButton addProduct;
+    ProgressBar progressBar;
+    LinearLayout rootLayout;
     public EcommerceProduct() {
         // Required empty public constructor
     }
@@ -52,21 +59,35 @@ public class EcommerceProduct extends Fragment {
     }
 
     private void initView(){
-
+        progressBar = view.findViewById(R.id.ecommerce_product_dashboard_progress);
+        rootLayout = view.findViewById(R.id.ecc_product_dashboard_root);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String mPhone =  preferences.getString("phone","");
         String mShopname = preferences.getString("shopName","");
         recyclerView = view.findViewById(R.id.dashboard_products_recyclerview);
         addProduct = view.findViewById(R.id.dashboard_add_product);
 
-        for(int i = 0; i < 20; i++){
-            productList.add("");
-        }
+        String userId = preferences.getString("userEmail","");
 
-        adapter = new DasdhboardProductAdapter(productList,getContext());
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(getContext(),userId);
+        ecommerceDashboardModel.getRetailerProduct();
+        ecommerceDashboardModel.setProductsReadyListener(new EcommerceDashboardModel.ProductsReadyListener() {
+            @Override
+            public void onReady(ArrayList<GroceryModel> groceryModelArrayList) {
+                   rootLayout.setVisibility(View.VISIBLE);
+                   progressBar.setVisibility(View.GONE);
+
+                  adapter = new DasdhboardProductAdapter(groceryModelArrayList,getContext());
+                  GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false);
+                  recyclerView.setLayoutManager(layoutManager);
+                  recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         addProduct.setOnClickListener(new View.OnClickListener() {
             @Override

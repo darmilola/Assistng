@@ -91,9 +91,15 @@ public class EcommerceDashboard extends AppCompatActivity {
                    if(shopName.equalsIgnoreCase("null")){
                        storeName.setText("Not Available");
                    }
+                   else{
+                       storeName.setText(shopname);
+                   }
                   if(phonenumber.equalsIgnoreCase("null")){
                     mPhone.setText("Not Available");
                    }
+                  else{
+                      mPhone.setText(phone);
+                  }
                    adapter = new ViewPagerAdapter(getSupportFragmentManager());
                    setupViewPager(viewPager);
                    tabLayout.setupWithViewPager(viewPager);
@@ -109,13 +115,13 @@ public class EcommerceDashboard extends AppCompatActivity {
         phoneSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inputDialog = new InputDialog(EcommerceDashboard.this,"Phonenumber");
+                InputDialog inputDialog = new InputDialog(EcommerceDashboard.this,"Phonenumber");
                 inputDialog.showInputDialog();
                 inputDialog.setDialogActionClickListener(new InputDialog.OnDialogActionClickListener() {
                     @Override
                     public void saveClicked(String text) {
                             mPhone.setText(text);
-                            EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(text,"",text,EcommerceDashboard.this);
+                            EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(userId,shopName,text,EcommerceDashboard.this);
                             ecommerceDashboardModel.updateRetailerInfo();
                             ecommerceDashboardModel.setUpdateInfoListener(new EcommerceDashboardModel.UpdateInfoListener() {
                                 @Override
@@ -141,13 +147,13 @@ public class EcommerceDashboard extends AppCompatActivity {
         nameSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inputDialog = new InputDialog(EcommerceDashboard.this,"Shop Name");
+                InputDialog inputDialog = new InputDialog(EcommerceDashboard.this,"Shop Name");
                 inputDialog.showInputDialog();
                 inputDialog.setDialogActionClickListener(new InputDialog.OnDialogActionClickListener() {
                     @Override
                     public void saveClicked(String text) {
                         storeName.setText(text);
-                        EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(userId,text,"",EcommerceDashboard.this);
+                        EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(userId,text,phonenumber,EcommerceDashboard.this);
                         ecommerceDashboardModel.updateRetailerInfo();
                         ecommerceDashboardModel.setUpdateInfoListener(new EcommerceDashboardModel.UpdateInfoListener() {
                             @Override

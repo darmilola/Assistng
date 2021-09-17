@@ -36,6 +36,7 @@ public class GroceryModel implements Parcelable {
     private String nextPageUrl;
     private String totalPage;
     private String retailerId;
+    private String shopName;
     private ArrayList<GroceryModel> groceryModelArrayList = new ArrayList<>();
     private String baseUrl = new URL().getBaseUrl();
     private String groceryUrl = baseUrl+"products/list/category";
@@ -67,6 +68,7 @@ public class GroceryModel implements Parcelable {
         groceryModelArrayList = in.createTypedArrayList(GroceryModel.CREATOR);
         baseUrl = in.readString();
         groceryUrl = in.readString();
+        shopName = in.readString();
     }
 
 
@@ -99,6 +101,7 @@ public class GroceryModel implements Parcelable {
         dest.writeString(nextPageUrl);
         dest.writeString(totalPage);
         dest.writeString(retailerId);
+        dest.writeString(shopName);
         dest.writeTypedList(groceryModelArrayList);
         dest.writeString(baseUrl);
         dest.writeString(groceryUrl);
@@ -144,7 +147,7 @@ public class GroceryModel implements Parcelable {
         this.qtyPrice = Integer.parseInt(price) * Integer.parseInt(quantity);
     }
 
-    public GroceryModel(String itemId, String category, String productName, String price, String displayImage, String retailerId, String description){
+    public GroceryModel(String itemId, String category, String productName, String price, String displayImage, String retailerId, String description,String shopName){
         this.itemId = itemId;
         this.category = category;
         this.productName = productName;
@@ -152,6 +155,7 @@ public class GroceryModel implements Parcelable {
         this.displayImage = displayImage;
         this.retailerId = retailerId;
         this.description = description;
+        this.shopName = shopName;
     }
 
     public void setProductReadyListener(ProductReadyListener productReadyListener) {
@@ -180,7 +184,8 @@ public class GroceryModel implements Parcelable {
                         String displayImage   = data.getJSONObject(i).getString("displayImg");
                         String retailerId = data.getJSONObject(i).getString("retailerId");
                         String description = data.getJSONObject(i).getString("description");
-                        GroceryModel groceryModel = new GroceryModel(itemId,category,name,price,displayImage,retailerId,description);
+                        String shopName = data.getJSONObject(i).getString("shopName");
+                        GroceryModel groceryModel = new GroceryModel(itemId,category,name,price,displayImage,retailerId,description,shopName);
                         groceryModelArrayList.add(groceryModel);
                     }
                       productReadyListener.onProductReady(groceryModelArrayList,nextPageUrl);
@@ -451,6 +456,10 @@ public class GroceryModel implements Parcelable {
 
     public String getUserCity() {
         return userCity;
+    }
+
+    public String getShopName() {
+        return shopName;
     }
 
     public ArrayList<GroceryModel> getGroceryModelArrayList() {

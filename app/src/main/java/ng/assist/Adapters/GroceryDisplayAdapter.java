@@ -49,6 +49,7 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
           GroceryModel groceryModel = groceryList.get(position);
           holder.productPrice.setText(groceryModel.getPrice());
           holder.productName.setText(groceryModel.getProductName());
+          holder.shopname.setText(groceryModel.getShopName());
 
         Glide.with(context)
                 .load(groceryModel.getDisplayImage())

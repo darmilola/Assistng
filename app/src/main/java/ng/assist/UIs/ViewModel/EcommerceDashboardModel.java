@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.google.gson.JsonArray;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -14,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -25,12 +25,21 @@ public class EcommerceDashboardModel {
     private String baseUrl = new URL().getBaseUrl();
     private String createRetailerInfoUrl = baseUrl+"retailers";
     private String updateRetailer = baseUrl+"retailers/update";
+    private String getRetailerProductUrl = baseUrl+"products/retailer/products";
     private Context context;
     private String  userId = "", shopname = "", phonenumber = "";
     private UpdateInfoListener updateInfoListener;
     private CreateInfoListener createInfoListener;
+    private ArrayList<GroceryModel> retailerProducts = new ArrayList<>();
+    private ProductsReadyListener productsReadyListener;
 
-     public EcommerceDashboardModel(String userId,String shopname, String phonenumber, Context context){
+    public interface ProductsReadyListener{
+        void onReady(ArrayList<GroceryModel> groceryModelArrayList);
+        void onError(String message);
+    }
+
+
+    public EcommerceDashboardModel(String userId,String shopname, String phonenumber, Context context){
             this.context = context;
             this.phonenumber = phonenumber;
             this.userId = userId;
@@ -52,6 +61,10 @@ public class EcommerceDashboardModel {
         void onError(String message);
     }
 
+
+    public void setProductsReadyListener(ProductsReadyListener productsReadyListener) {
+        this.productsReadyListener = productsReadyListener;
+    }
 
     public void setCreateInfoListener(CreateInfoListener createInfoListener) {
         this.createInfoListener = createInfoListener;
@@ -88,6 +101,73 @@ public class EcommerceDashboardModel {
         Thread myThread = new Thread(runnable);
         myThread.start();
     }
+
+
+    private Handler retailerProductsHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    for(int i = 0; i < data.length(); i++){
+                        String itemId = data.getJSONObject(i).getString("id");
+                        String category = data.getJSONObject(i).getString("category");
+                        String name = data.getJSONObject(i).getString("name");
+                        String price = data.getJSONObject(i).getString("price");
+                        String displayImage   = data.getJSONObject(i).getString("displayImg");
+                        String retailerId = data.getJSONObject(i).getString("retailerId");
+                        String description = data.getJSONObject(i).getString("description");
+                        String shopName = data.getJSONObject(i).getString("shopName");
+                        GroceryModel groceryModel = new GroceryModel(itemId,category,name,price,displayImage,retailerId,description,shopName);
+                        retailerProducts.add(groceryModel);
+                    }
+                    productsReadyListener.onReady(retailerProducts);
+
+                }
+                else if(status.equalsIgnoreCase("failure")){
+                    productsReadyListener.onError("Error Occurred");
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                productsReadyListener.onError(e.getLocalizedMessage());
+            }
+        }
+    };
+
+
+
+    public void getRetailerProduct(){
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildShowRetailerProduct(this.userId));
+            Request request = new Request.Builder()
+                    .url(getRetailerProductUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = retailerProductsHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            retailerProductsHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
 
     public void createRetailerInfo(){
         Runnable runnable = () -> {
@@ -176,19 +256,9 @@ public class EcommerceDashboardModel {
     private String buildUpdateRetailer(String userId, String phonenumber, String shopname){
         JSONObject jsonObject = new JSONObject();
         try {
-            if(phonenumber.equalsIgnoreCase("")){
-
-            }
-            else{
                 jsonObject.put("phonenumber",phonenumber);
-            }
-            if(shopname.equalsIgnoreCase("")){
-
-            }
-            else{
                 jsonObject.put("shopName",shopname);
-            }
-            jsonObject.put("userId",userId);
+                jsonObject.put("userId",userId);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -200,7 +270,16 @@ public class EcommerceDashboardModel {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("userId",userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
 
+    private String buildShowRetailerProduct(String retailerId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("retailerId",retailerId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
