@@ -16,6 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:id="@+id/real_estate_add_listing_cancel"
             android:gravity="center|left">
 
             <ImageView
@@ -44,6 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:id="@+id/real_estate_add_listing_save"
             android:gravity="center|right">
             <ImageView
                 android:layout_width="30dp"
@@ -73,14 +75,15 @@
                 android:layout_marginBottom="20dp"
                 android:layout_gravity="center"
                 app:backgroundTint="@color/colorPrimary"
-                android:text="* Upload listing Images"
+                android:text="*Upload Images"
+                android:id="@+id/real_estate_add_image"
                 android:textAllCaps="false"/>
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="* Listing title"
+                android:text="*Listing title"
                 android:layout_marginLeft="16dp"
                 android:textSize="18dp"
                 android:layout_marginTop="10dp"
@@ -94,31 +97,18 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:maxLines="1"
+                android:inputType="text"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:maxLength="200"
+                android:id="@+id/real_estate_add_listing_title"
                 android:background="@drawable/edit_profile_edittext_background"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="* price per month"
-                android:layout_marginLeft="16dp"
-                android:textSize="18dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="20dp"
-                android:fontFamily="@font/clanmed"
-                android:textColor="@color/colorPrimary"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/edit_profile_edittext_background"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="* Address"
+                android:text="*price per month"
                 android:layout_marginLeft="16dp"
                 android:textSize="18dp"
                 android:layout_marginTop="25dp"
@@ -132,12 +122,18 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:maxLines="1"
+                android:maxLength="200"
+                android:inputType="number"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/real_estate_add_listing_price"
                 android:background="@drawable/edit_profile_edittext_background"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="* City"
+                android:text="*Address"
                 android:layout_marginLeft="16dp"
                 android:textSize="18dp"
                 android:layout_marginTop="25dp"
@@ -151,12 +147,68 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:maxLines="1"
+                android:maxLength="200"
+                android:inputType="text"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/real_estate_add_listing_addess"
                 android:background="@drawable/edit_profile_edittext_background"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="* Bedrooms"
+                android:text="*City"
+                android:layout_marginLeft="16dp"
+                android:textSize="18dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/clanmed"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:maxLines="1"
+                android:maxLength="200"
+                android:inputType="text"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/real_estate_add_listing_city"
+                android:background="@drawable/edit_profile_edittext_background"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="*Type"
+                android:layout_marginLeft="16dp"
+                android:textSize="18dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/clanmed"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/real_estate_add_listing_type"
+                android:background="@drawable/edit_profile_edittext_background"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="*Bedrooms"
                 android:layout_marginLeft="16dp"
                 android:textSize="18dp"
                 android:layout_marginTop="25dp"
@@ -170,12 +222,18 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:maxLines="1"
+                android:maxLength="200"
+                android:inputType="number"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/real_estate_add_listing_bed"
                 android:background="@drawable/edit_profile_edittext_background"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="* Bathrooms"
+                android:text="*Bathrooms"
                 android:layout_marginLeft="16dp"
                 android:textSize="18dp"
                 android:layout_marginTop="25dp"
@@ -189,12 +247,18 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:maxLines="1"
+                android:maxLength="200"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:inputType="number"
+                android:id="@+id/real_estate_add_listing_bath"
                 android:background="@drawable/edit_profile_edittext_background"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="* Booking fee"
+                android:text="*Booking fee"
                 android:layout_marginLeft="16dp"
                 android:textSize="18dp"
                 android:layout_marginTop="25dp"
@@ -208,13 +272,19 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:maxLines="1"
+                android:maxLength="200"
+                android:inputType="number"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/real_estate_add_listing_booking_fee"
                 android:background="@drawable/edit_profile_edittext_background"/>
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="* Description"
+                android:text="*Description"
                 android:layout_marginLeft="16dp"
                 android:textSize="18dp"
                 android:layout_marginTop="25dp"
@@ -228,6 +298,15 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:maxLines="1"
+                android:maxLength="500"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:inputType="text"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:id="@+id/real_estate_add_listing_desc"
                 android:background="@drawable/edit_profile_edittext_background"/>
 
             <com.google.android.material.checkbox.MaterialCheckBox
@@ -237,6 +316,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:textSize="16dp"
+                android:id="@+id/real_estate_add_listing_availability"
                 android:checked="true"/>
         </LinearLayout>
     </ScrollView>

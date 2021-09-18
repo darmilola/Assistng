@@ -80,7 +80,8 @@ public class GroceryListingDetailsModel {
                         String displayImage   = products.getJSONObject(i).getString("displayImg");
                         String retailerId = products.getJSONObject(i).getString("retailerId");
                         String description = products.getJSONObject(i).getString("description");
-                        GroceryModel groceryModel = new GroceryModel(itemId,category,name,price,displayImage,retailerId,description);
+                        String shopName = products.getJSONObject(i).getString("shopName");
+                        GroceryModel groceryModel = new GroceryModel(itemId,category,name,price,displayImage,retailerId,description,shopName);
                         groceryModelArrayList.add(groceryModel);
                     }
 

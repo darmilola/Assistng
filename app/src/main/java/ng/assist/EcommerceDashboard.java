@@ -11,10 +11,20 @@ import ng.assist.UIs.EcommerceLocations;
 import ng.assist.UIs.EcommerceOrders;
 import ng.assist.UIs.EcommerceProduct;
 import ng.assist.UIs.GroceryFastFoods;
+import ng.assist.UIs.HomeFragment;
+import ng.assist.UIs.Utils.InputDialog;
+import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -25,12 +35,20 @@ import java.util.List;
 
 public class EcommerceDashboard extends AppCompatActivity {
 
-    ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
     ViewPager viewPager;
     TabLayout tabLayout,tabLayout1;
     CollapsingToolbarLayout collapsingToolbarLayout;
     Toolbar toolbar;
     AppBarLayout appBar;
+    TextView storeName, mPhone;
+    ImageView phoneSelect,nameSelect;
+    InputDialog inputDialog;
+    EcommerceDashboardModel ecommerceDashboardModel;
+    ProgressBar progressBar;
+    String phonenumber,shopName;
+    ViewPagerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +57,124 @@ public class EcommerceDashboard extends AppCompatActivity {
     }
 
     private void initView(){
+        progressBar = findViewById(R.id.ecc_progress);
+        phoneSelect = findViewById(R.id.ecommerce_dashboard_phone_select);
+        nameSelect = findViewById(R.id.ecommerce_dashboard_store_name_select);
+        storeName = findViewById(R.id.ecommerce_dashboard_store_name);
+        mPhone = findViewById(R.id.ecommerce_dashboard_phone);
         viewPager = findViewById(R.id.ecommerce_dashboard_pager);
         tabLayout = findViewById(R.id.ecommerce_dashboard_tabs);
         collapsingToolbarLayout = findViewById(R.id.ecommerce_collapsing_toolbar_layout);
         appBar = findViewById(R.id.ecommerce_dashboard_app_bar);
         tabLayout1 = findViewById(R.id.ecommerce_dashboard_tabs1);
-        setupViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout1.setupWithViewPager(viewPager);
+        appBar.setVisibility(View.GONE);
 
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EcommerceDashboard.this);
+        String userId = preferences.getString("userEmail","");
+
+
+        ecommerceDashboardModel = new EcommerceDashboardModel(EcommerceDashboard.this,userId);
+        ecommerceDashboardModel.createRetailerInfo();
+        ecommerceDashboardModel.setCreateInfoListener(new EcommerceDashboardModel.CreateInfoListener() {
+            @Override
+            public void onSuccess(String phone, String shopname) {
+                   progressBar.setVisibility(View.GONE);
+                   appBar.setVisibility(View.VISIBLE);
+                   phonenumber = phone;
+                   shopName = shopname;
+
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EcommerceDashboard.this);
+                preferences.edit().putString("phone",phone).apply();
+                preferences.edit().putString("shopName",shopname).apply();
+
+                   if(shopName.equalsIgnoreCase("null")){
+                       storeName.setText("Not Available");
+                   }
+                   else{
+                       storeName.setText(shopname);
+                   }
+                  if(phonenumber.equalsIgnoreCase("null")){
+                    mPhone.setText("Not Available");
+                   }
+                  else{
+                      mPhone.setText(phone);
+                  }
+                   adapter = new ViewPagerAdapter(getSupportFragmentManager());
+                   setupViewPager(viewPager);
+                   tabLayout.setupWithViewPager(viewPager);
+                   tabLayout1.setupWithViewPager(viewPager);
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(EcommerceDashboard.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        phoneSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputDialog inputDialog = new InputDialog(EcommerceDashboard.this,"Phonenumber");
+                inputDialog.showInputDialog();
+                inputDialog.setDialogActionClickListener(new InputDialog.OnDialogActionClickListener() {
+                    @Override
+                    public void saveClicked(String text) {
+                            mPhone.setText(text);
+                            EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(userId,shopName,text,EcommerceDashboard.this);
+                            ecommerceDashboardModel.updateRetailerInfo();
+                            ecommerceDashboardModel.setUpdateInfoListener(new EcommerceDashboardModel.UpdateInfoListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(EcommerceDashboard.this, "phonenumber Changed successfully", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onError(String message) {
+                                    Toast.makeText(EcommerceDashboard.this, message, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    }
+
+                    @Override
+                    public void cancelClicked() {
+
+                    }
+                });
+            }
+        });
+
+        nameSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputDialog inputDialog = new InputDialog(EcommerceDashboard.this,"Shop Name");
+                inputDialog.showInputDialog();
+                inputDialog.setDialogActionClickListener(new InputDialog.OnDialogActionClickListener() {
+                    @Override
+                    public void saveClicked(String text) {
+                        storeName.setText(text);
+                        EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(userId,text,phonenumber,EcommerceDashboard.this);
+                        ecommerceDashboardModel.updateRetailerInfo();
+                        ecommerceDashboardModel.setUpdateInfoListener(new EcommerceDashboardModel.UpdateInfoListener() {
+                            @Override
+                            public void onSuccess() {
+                                Toast.makeText(EcommerceDashboard.this, "Shop name Changed successfully", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(EcommerceDashboard.this, message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void cancelClicked() {
+
+                    }
+                });
+            }
+        });
 
         appBar.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
 
@@ -66,8 +193,6 @@ public class EcommerceDashboard extends AppCompatActivity {
                     return;
                 }
                 else if(isShown){
-
-
                     tabLayout1.setVisibility(View.GONE);
                     tabLayout.setVisibility(View.VISIBLE);
                     isShown = false;
@@ -96,7 +221,12 @@ public class EcommerceDashboard extends AppCompatActivity {
             switch (position) {
 
                 case 0:
-                    return new EcommerceProduct();
+                    EcommerceProduct ecommerceProduct = new EcommerceProduct();
+                    Bundle data = new Bundle();
+                    data.putString("phone", EcommerceDashboard.this.phonenumber);
+                    data.putString("shopname", EcommerceDashboard.this.shopName);
+                    ecommerceProduct.setArguments(data);
+                    return ecommerceProduct;
                 case 1:
                     return new EcommerceOrders();
                 case 2:
