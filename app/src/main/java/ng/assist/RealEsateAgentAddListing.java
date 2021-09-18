@@ -142,7 +142,7 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Images"), PICK_IMAGE);
+                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
             }
         });
 

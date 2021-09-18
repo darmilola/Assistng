@@ -5,22 +5,19 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UIs.EcommerceProduct"
-    android:orientation="vertical"
     android:background="@color/special_activity_background">
 
 
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:orientation="vertical"
-       android:gravity="center"
-       android:layout_gravity="center">
+       android:orientation="vertical">
 
        <ProgressBar
            android:layout_width="40dp"
            android:layout_height="40dp"
            android:layout_gravity="center"
-           android:focusableInTouchMode = "true"
+           android:layout_marginTop="350dp"
            android:id="@+id/ecommerce_product_dashboard_progress"/>
 
        <LinearLayout
@@ -30,6 +27,7 @@
            android:visibility="gone"
            android:id="@+id/ecc_product_dashboard_root">
 
+
            <com.google.android.material.button.MaterialButton
                android:layout_width="match_parent"
                android:layout_height="50dp"
@@ -37,20 +35,21 @@
                android:layout_marginLeft="16dp"
                android:layout_marginRight="16dp"
                android:text="Add Product"
+               android:focusableInTouchMode="true"
                android:id="@+id/dashboard_add_product"
                android:textAllCaps="false"/>
 
            <androidx.recyclerview.widget.RecyclerView
                android:layout_width="match_parent"
-               android:layout_height="match_parent"
+               android:layout_height="wrap_content"
                android:layout_marginTop="10dp"
                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                app:spanCount="2"
+               android:nestedScrollingEnabled="false"
                android:layout_marginLeft="10dp"
                android:layout_marginRight="10dp"
                android:id="@+id/dashboard_products_recyclerview"
                tools:listitem="@layout/dashboard_grocery_item"/>
-
 
        </LinearLayout>
    </LinearLayout>

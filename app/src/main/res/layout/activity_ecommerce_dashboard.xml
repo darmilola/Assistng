@@ -17,8 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="230dp"
         android:fitsSystemWindows="true"
-        android:focusableInTouchMode="true"
-
         android:background="#F6F5F8"
         android:theme="@style/AppTheme.AppBarOverlay">
 
