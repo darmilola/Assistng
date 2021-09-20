@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -37,9 +38,12 @@ public class GroceryModel implements Parcelable {
     private String totalPage;
     private String retailerId;
     private String shopName;
+    private int cartIndex;
     private ArrayList<GroceryModel> groceryModelArrayList = new ArrayList<>();
     private String baseUrl = new URL().getBaseUrl();
     private String groceryUrl = baseUrl+"products/list/category";
+    private String updateCartUrl = baseUrl+"cart/order/update";
+    private String deleteFromCartUrl = baseUrl+"cart/remove";
     private String viewCartUrl = baseUrl+"cart/show";
     private String addToCartUrl = baseUrl+"cart";
     private ProductReadyListener productReadyListener;
@@ -48,11 +52,8 @@ public class GroceryModel implements Parcelable {
     private CartListener cartListener;
     private String productQuantity;
     private int qtyPrice;
+    private String productId;
     private CartDisplayListener cartDisplayListener;
-    public interface CartListener{
-        void onAdded();
-        void onError();
-    }
 
     protected GroceryModel(Parcel in) {
         itemId = in.readString();
@@ -65,12 +66,21 @@ public class GroceryModel implements Parcelable {
         nextPageUrl = in.readString();
         totalPage = in.readString();
         retailerId = in.readString();
+        shopName = in.readString();
         groceryModelArrayList = in.createTypedArrayList(GroceryModel.CREATOR);
         baseUrl = in.readString();
         groceryUrl = in.readString();
-        shopName = in.readString();
+        updateCartUrl = in.readString();
+        deleteFromCartUrl = in.readString();
+        viewCartUrl = in.readString();
+        addToCartUrl = in.readString();
+        cartRetailerId = in.readString();
+        userId = in.readString();
+        quantity = in.readString();
+        productQuantity = in.readString();
+        qtyPrice = in.readInt();
+        productId = in.readString();
     }
-
 
     public static final Creator<GroceryModel> CREATOR = new Creator<GroceryModel>() {
         @Override
@@ -105,7 +115,26 @@ public class GroceryModel implements Parcelable {
         dest.writeTypedList(groceryModelArrayList);
         dest.writeString(baseUrl);
         dest.writeString(groceryUrl);
+        dest.writeString(updateCartUrl);
+        dest.writeString(deleteFromCartUrl);
+        dest.writeString(viewCartUrl);
+        dest.writeString(addToCartUrl);
+        dest.writeString(cartRetailerId);
+        dest.writeString(userId);
+        dest.writeString(quantity);
+        dest.writeString(productQuantity);
+        dest.writeInt(qtyPrice);
+        dest.writeString(productId);
     }
+
+    public interface CartListener{
+        void onAdded();
+        void onError();
+    }
+
+
+
+
 
     public interface CartDisplayListener{
         void onCartReady(ArrayList<GroceryModel> groceryModels);
@@ -117,12 +146,16 @@ public class GroceryModel implements Parcelable {
         void onError(String message);
     }
 
-    public GroceryModel(String itemId, String cartRetailerId, String userId, String quantity, Context context) {
-         this.itemId = itemId;
-         this.cartRetailerId = cartRetailerId;
-         this.userId = userId;
-         this.quantity = quantity;
-         dialogUtils = new LoadingDialogUtils(context);
+
+    public GroceryModel(int cartIndex, String quantity, Context context) {
+        this.cartIndex = cartIndex;
+        this.quantity = quantity;
+    }
+
+    public GroceryModel(String cartRetailerId, String userId, String itemId) {
+        this.cartRetailerId = cartRetailerId;
+        this.userId = userId;
+        this.productId = itemId;
     }
 
     public GroceryModel(String cartRetailerId, String userId, Context context) {
@@ -130,14 +163,24 @@ public class GroceryModel implements Parcelable {
         this.userId = userId;
     }
 
+
     public GroceryModel(String category, String userCity){
         this.category = category;
         this.userCity = userCity;
     }
 
+    public GroceryModel(String itemId, String retailerId, String userId,String quantity,Context context) {
+        dialogUtils = new LoadingDialogUtils(context);
+        this.itemId = itemId;
+        this.userId = userId;
+        this.retailerId = retailerId;
+        this.quantity = quantity;
+        this.cartRetailerId = retailerId;
+    }
 
 
-   public GroceryModel(String itemId,String name,String price,String displayImage,String retailerId,String quantity){
+
+    public GroceryModel(String itemId,String name,String price,String displayImage,String retailerId,String quantity,int cartIndex){
         this.itemId = itemId;
         this.productName = name;
         this.price = price;
@@ -145,6 +188,7 @@ public class GroceryModel implements Parcelable {
         this.retailerId = retailerId;
         this.quantity = quantity;
         this.qtyPrice = Integer.parseInt(price) * Integer.parseInt(quantity);
+        this.cartIndex = cartIndex;
     }
 
     public GroceryModel(String itemId, String category, String productName, String price, String displayImage, String retailerId, String description,String shopName){
@@ -197,7 +241,32 @@ public class GroceryModel implements Parcelable {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                productReadyListener.onError("Error Occurred");
+                productReadyListener.onError(e.getLocalizedMessage());
+            }
+        }
+    };
+
+
+
+    private Handler cartUpdateHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            Log.e("response  ", response);
+             try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+
+                }
+                else if(status.equalsIgnoreCase("failure")){
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+
             }
         }
     };
@@ -218,13 +287,14 @@ public class GroceryModel implements Parcelable {
                 if(status.equalsIgnoreCase("success")){
                     JSONArray data = jsonObject.getJSONArray("data");
                     for(int i = 0; i < data.length(); i++){
-                        String itemId = data.getJSONObject(i).getString("id");
+                        String itemId = data.getJSONObject(i).getString("productId");
                         String name = data.getJSONObject(i).getString("name");
                         String price = data.getJSONObject(i).getString("price");
                         String displayImage   = data.getJSONObject(i).getString("displayImg");
-                        String retailerId = data.getJSONObject(i).getString("retailerId");
+                        String retailerId = data.getJSONObject(i).getString("cartRetailerId");
                         String quantity = data.getJSONObject(i).getString("quantity");
-                        GroceryModel groceryModel = new GroceryModel(itemId,name,price,displayImage,retailerId,quantity);
+                        int cartIndex = data.getJSONObject(i).getInt("productCount");
+                        GroceryModel groceryModel = new GroceryModel(itemId,name,price,displayImage,retailerId,quantity,cartIndex);
                         groceryModelArrayList.add(groceryModel);
                     }
                     cartDisplayListener.onCartReady(groceryModelArrayList);
@@ -241,6 +311,71 @@ public class GroceryModel implements Parcelable {
         }
     };
 
+
+
+    public void UpdateUsersCart() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildUpdateCart(this.cartIndex,this.quantity));
+            Request request = new Request.Builder()
+                    .url(updateCartUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = cartUpdateHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            cartUpdateHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+
+    public void RemoveFromCart() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildDeleteFromCart(this.cartIndex));
+            Request request = new Request.Builder()
+                    .url(deleteFromCartUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = cartUpdateHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            cartUpdateHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
 
 
 
@@ -314,6 +449,7 @@ public class GroceryModel implements Parcelable {
             Bundle bundle = msg.getData();
             dialogUtils.cancelLoadingDialog();
             String response = bundle.getString("response");
+            Log.e("Cart ", response);
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
@@ -430,6 +566,31 @@ public class GroceryModel implements Parcelable {
         return jsonObject.toString();
     }
 
+
+    private String buildUpdateCart(int cartIndex,String quantity){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("productCount",cartIndex);
+            jsonObject.put("quantity",quantity);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+
+    private String buildDeleteFromCart(int cartIndex){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("productCount",cartIndex);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+
+
     public String getCategory() {
         return category;
     }
@@ -492,6 +653,14 @@ public class GroceryModel implements Parcelable {
 
     public String getTotalPage() {
         return totalPage;
+    }
+
+    public int getCartIndex() {
+        return cartIndex;
+    }
+
+    public void setCartHandler(Handler cartHandler) {
+        this.cartHandler = cartHandler;
     }
 
     public void setCartListener(CartListener cartListener) {

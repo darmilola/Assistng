@@ -35,7 +35,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="10dp"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
             <ImageView
@@ -180,15 +179,15 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Keep Shopping"
+                    android:text="More from this seller"
                     android:layout_marginLeft="16dp"
                     android:maxLines="2"
                     android:ellipsize="end"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="20dp"
-                    android:fontFamily="@font/clanmed"
-                    android:textColor="@color/colorPrimary"/>
+                    android:fontFamily="@font/clannews"
+                    android:textColor="@color/light_text_color"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
@@ -199,7 +198,7 @@
                     android:id="@+id/details_recyclerview"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="2"
-                    tools:listitem="@layout/grocery_recycler_item"
+                    tools:listitem="@layout/dashboard_grocery_item"
                     android:layout_marginTop="10dp"/>
 
             </LinearLayout>

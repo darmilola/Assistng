@@ -35,7 +35,6 @@ import java.util.List;
 
 public class EcommerceDashboard extends AppCompatActivity {
 
-
     ViewPager viewPager;
     TabLayout tabLayout,tabLayout1;
     CollapsingToolbarLayout collapsingToolbarLayout;

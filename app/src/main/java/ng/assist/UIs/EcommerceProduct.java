@@ -80,6 +80,8 @@ public class EcommerceProduct extends Fragment {
             public void onReady(ArrayList<GroceryModel> groceryModelArrayList) {
                    rootLayout.setVisibility(View.VISIBLE);
                    progressBar.setVisibility(View.GONE);
+                   addProduct.setVisibility(View.VISIBLE);
+                   recyclerView.setVisibility(View.VISIBLE);
 
                   adapter = new DasdhboardProductAdapter(groceryModelArrayList,getContext());
                   GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false);
@@ -89,6 +91,10 @@ public class EcommerceProduct extends Fragment {
 
             @Override
             public void onError(String message) {
+                addProduct.setVisibility(View.VISIBLE);
+                rootLayout.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             }
         });

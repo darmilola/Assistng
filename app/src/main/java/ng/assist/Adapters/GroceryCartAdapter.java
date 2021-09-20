@@ -2,6 +2,9 @@ package ng.assist.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import ng.assist.MainActivity;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.GroceryModel;
 
@@ -23,11 +27,14 @@ public class GroceryCartAdapter extends RecyclerView.Adapter<GroceryCartAdapter.
 
     ArrayList<GroceryModel> groceryList;
     Context context;
+    private String userId;
 
 
     public GroceryCartAdapter(ArrayList<GroceryModel> groceryList, Context context){
         this.groceryList = groceryList;
         this.context = context;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        userId = preferences.getString("userEmail","");
     }
 
 
@@ -59,21 +66,34 @@ public class GroceryCartAdapter extends RecyclerView.Adapter<GroceryCartAdapter.
                 else{
                     int currentQty = Integer.parseInt(holder.quantity.getText().toString());
                     holder.quantity.setText(Integer.toString(currentQty-1));
+                    GroceryModel groceryModel1 = new GroceryModel(groceryModel.getCartIndex(),Integer.toString(currentQty-1),context);
+                    groceryModel1.UpdateUsersCart();
                 }
             }
 
         });
+
         holder.increaseQty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    int currentQty = Integer.parseInt(holder.quantity.getText().toString());
-                    holder.quantity.setText(Integer.toString(currentQty+1));
-                }
+                int currentQty = Integer.parseInt(holder.quantity.getText().toString());
+                holder.quantity.setText(Integer.toString(currentQty+1));
+                GroceryModel groceryModel1 = new GroceryModel(groceryModel.getCartIndex(),Integer.toString(currentQty+1),context);
+                groceryModel1.UpdateUsersCart();
+                Log.e("ItemId ",groceryModel.getItemId());
+                Log.e("retailerId ",groceryModel.getRetailerId());
+                Log.e("userId ",userId);
+                Log.e("Qty ",Integer.toString(currentQty+1));
+            }
         });
+
+
         holder.removeFromCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 groceryList.remove(position);
+                GroceryModel groceryModel1 = new GroceryModel(groceryModel.getCartIndex(),"",context);
+                groceryModel1.RemoveFromCart();
                 notifyDataSetChanged();
             }
         });
