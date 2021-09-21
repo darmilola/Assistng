@@ -1,5 +1,6 @@
 package ng.assist.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -112,6 +113,7 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
             Intent intent = new Intent(context,GroceryStoreListing.class);
             intent.putExtra("product",groceryList.get(getAdapterPosition()));
             context.startActivity(intent);
+
         }
     }
 }

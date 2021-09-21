@@ -1,13 +1,17 @@
 package ng.assist.UIs;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -15,7 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.DashboardOrdersAdapter;
 import ng.assist.Adapters.GroceryDisplayAdapter;
+import ng.assist.MainActivity;
 import ng.assist.R;
+import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +32,7 @@ public class EcommerceOrders extends Fragment {
     RecyclerView recyclerView;
     DashboardOrdersAdapter adapter;
     ArrayList<String> orderList = new ArrayList<>();
+    ProgressBar progressBar;
     View view;
     public EcommerceOrders() {
         // Required empty public constructor
@@ -42,14 +49,32 @@ public class EcommerceOrders extends Fragment {
    }
 
     private void initView(){
+        progressBar = view.findViewById(R.id.dashboard_order_progress);
         recyclerView = view.findViewById(R.id.dashboard_orders_recyclerview);
-        for(int i = 0; i < 10; i++){
-            orderList.add("");
-        }
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new DashboardOrdersAdapter(orderList,getContext());
-        recyclerView.setAdapter(adapter);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String userId = preferences.getString("userEmail","");
+
+        EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(getContext(),userId);
+        ecommerceDashboardModel.displayOrders();
+        ecommerceDashboardModel.setOrderReadyListener(new EcommerceDashboardModel.OrderReadyListener() {
+            @Override
+            public void onOrderReady(ArrayList<EcommerceDashboardModel.Orders> ordersArrayList) {
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+                recyclerView.setLayoutManager(layoutManager);
+                adapter = new DashboardOrdersAdapter(ordersArrayList,getContext());
+                recyclerView.setAdapter(adapter);
+                recyclerView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(String message) {
+                recyclerView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }

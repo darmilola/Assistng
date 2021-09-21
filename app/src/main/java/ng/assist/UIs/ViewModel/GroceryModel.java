@@ -45,6 +45,7 @@ public class GroceryModel implements Parcelable {
     private String updateCartUrl = baseUrl+"cart/order/update";
     private String deleteFromCartUrl = baseUrl+"cart/remove";
     private String viewCartUrl = baseUrl+"cart/show";
+    private String checkoutCartUrl = baseUrl+"cart/checkout";
     private String addToCartUrl = baseUrl+"cart";
     private ProductReadyListener productReadyListener;
     private String cartRetailerId, userId, quantity;
@@ -53,7 +54,9 @@ public class GroceryModel implements Parcelable {
     private String productQuantity;
     private int qtyPrice;
     private String productId;
+    private String orderJson,totalPrice;
     private CartDisplayListener cartDisplayListener;
+    private CartCheckoutListener cartCheckoutListener;
 
     protected GroceryModel(Parcel in) {
         itemId = in.readString();
@@ -133,6 +136,10 @@ public class GroceryModel implements Parcelable {
     }
 
 
+    public interface CartCheckoutListener{
+        void onSuccess();
+        void onError();
+    }
 
 
 
@@ -146,6 +153,10 @@ public class GroceryModel implements Parcelable {
         void onError(String message);
     }
 
+
+    public void setCartCheckoutListener(CartCheckoutListener cartCheckoutListener) {
+        this.cartCheckoutListener = cartCheckoutListener;
+    }
 
     public GroceryModel(int cartIndex, String quantity, Context context) {
         this.cartIndex = cartIndex;
@@ -176,6 +187,14 @@ public class GroceryModel implements Parcelable {
         this.retailerId = retailerId;
         this.quantity = quantity;
         this.cartRetailerId = retailerId;
+    }
+
+    public GroceryModel(String retailerId, String userId,String orderJson,String totalPrice,Context context,int y) {
+        dialogUtils = new LoadingDialogUtils(context);
+        this.userId = userId;
+        this.retailerId = retailerId;
+        this.orderJson = orderJson;
+        this.totalPrice = totalPrice;
     }
 
 
@@ -255,6 +274,29 @@ public class GroceryModel implements Parcelable {
             String response = bundle.getString("response");
             Log.e("response  ", response);
              try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+
+                }
+                else if(status.equalsIgnoreCase("failure")){
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+            }
+        }
+    };
+
+    private Handler checkOutHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            Log.e("response  ", response);
+            try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
                 if(status.equalsIgnoreCase("success")){
@@ -443,7 +485,8 @@ public class GroceryModel implements Parcelable {
         myThread.start();
     }
 
-    private Handler cartHandler = new Handler(Looper.getMainLooper()) {
+
+    private Handler AddToCartHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NotNull Message msg) {
             Bundle bundle = msg.getData();
@@ -454,14 +497,38 @@ public class GroceryModel implements Parcelable {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
                 if(status.equalsIgnoreCase("success")){
-                     cartListener.onAdded();
+                    cartListener.onAdded();
                 }
                 else if(status.equalsIgnoreCase("failure")){
-                   cartListener.onError();
+                    cartListener.onError();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 cartListener.onError();
+            }
+        }
+    };
+
+    private Handler cartHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            dialogUtils.cancelLoadingDialog();
+            Bundle bundle = msg.getData();
+            dialogUtils.cancelLoadingDialog();
+            String response = bundle.getString("response");
+            Log.e("Cart ", response);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                     cartCheckoutListener.onSuccess();
+                }
+                else if(status.equalsIgnoreCase("failure")){
+                   cartCheckoutListener.onError();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                cartCheckoutListener.onError();
             }
         }
     };
@@ -497,6 +564,38 @@ public class GroceryModel implements Parcelable {
         myThread.start();
     }
 
+    public void CheckOut() {
+        dialogUtils.showLoadingDialog("Adding to cart");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildCartCheckout(retailerId,userId,orderJson,totalPrice));
+            Request request = new Request.Builder()
+                    .url(checkoutCartUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = cartHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            cartHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
 
     public void addToCart() {
         dialogUtils.showLoadingDialog("Adding to cart");
@@ -520,11 +619,11 @@ public class GroceryModel implements Parcelable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Message msg = cartHandler.obtainMessage();
+            Message msg = AddToCartHandler.obtainMessage();
             Bundle bundle = new Bundle();
             bundle.putString("response", mResponse);
             msg.setData(bundle);
-            cartHandler.sendMessage(msg);
+            AddToCartHandler.sendMessage(msg);
         };
         Thread myThread = new Thread(runnable);
         myThread.start();
@@ -549,6 +648,19 @@ public class GroceryModel implements Parcelable {
             jsonObject.put("cartRetailerId",cartRetailerId);
             jsonObject.put("userId",userId);
             jsonObject.put("quantity",quantity);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildCartCheckout(String retailerId, String userId, String orderJson, String totalPrice){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("retailerId",retailerId);
+            jsonObject.put("userId", userId);
+            jsonObject.put("orderJson",orderJson);
+            jsonObject.put("totalPrice",totalPrice);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -677,5 +789,50 @@ public class GroceryModel implements Parcelable {
 
     public int getQtyPrice() {
         return qtyPrice;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public void setQtyPrice(int qtyPrice) {
+        this.qtyPrice = qtyPrice;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setProductQuantity(String productQuantity) {
+        this.productQuantity = productQuantity;
+    }
+
+    public JSONObject getJsonObject(){
+        JSONObject obj = new JSONObject();
+        try{
+            obj.put("name",productName);
+            obj.put("price",price);
+            obj.put("imageUrl",displayImage);
+            obj.put("quantity",quantity);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return obj;
     }
 }

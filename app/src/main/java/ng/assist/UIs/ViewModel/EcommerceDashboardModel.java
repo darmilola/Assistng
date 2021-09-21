@@ -34,6 +34,7 @@ public class EcommerceDashboardModel {
     private String getRetailerProductUrl = baseUrl+"products/retailer/products";
     private String uploadImageUrl = baseUrl+"products/retailer/products/image";
     private String createProductUrl = baseUrl+"products";
+    private String displayOrderUrl = baseUrl+"orders/show";
     private Context context;
     private String  userId = "", shopname = "", phonenumber = "";
     private UpdateInfoListener updateInfoListener;
@@ -45,6 +46,8 @@ public class EcommerceDashboardModel {
     private ImageUploadListener imageUploadListener;
     private String retailerId, title, price, category, description,availability,displayImage;
     private CreateProductListener createProductListener;
+    private OrderReadyListener orderReadyListener;
+    private ArrayList<Orders> ordersArrayList = new ArrayList<>();
 
     public interface ProductsReadyListener{
         void onReady(ArrayList<GroceryModel> groceryModelArrayList);
@@ -56,6 +59,11 @@ public class EcommerceDashboardModel {
         void onError(String message);
     }
 
+    public interface OrderReadyListener{
+        void onOrderReady(ArrayList<Orders> ordersArrayList);
+        void onError(String message);
+    }
+
     public interface CreateProductListener{
          void onSuccess();
          void onError(String message);
@@ -64,6 +72,10 @@ public class EcommerceDashboardModel {
 
     public void setImageUploadListener(ImageUploadListener imageUploadListener) {
         this.imageUploadListener = imageUploadListener;
+    }
+
+    public void setOrderReadyListener(OrderReadyListener orderReadyListener) {
+        this.orderReadyListener = orderReadyListener;
     }
 
     public void setCreateProductListener(CreateProductListener createProductListener) {
@@ -247,6 +259,33 @@ public class EcommerceDashboardModel {
         myThread.start();
     }
 
+    public void displayOrders(){
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildCreateRetailer(userId));
+            Request request = new Request.Builder()
+                    .url(displayOrderUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = createInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            createInfoHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
 
     public void createProduct(){
         Runnable runnable = () -> {
@@ -303,6 +342,44 @@ public class EcommerceDashboardModel {
 
         }
     };
+
+
+    private Handler DisplayOrderHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    for(int i = 0; i < data.length(); i++) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+                        int orderId = jsonArray.getJSONObject(i).getInt("orderId");
+                        String userEmail = jsonArray.getJSONObject(i).getString("email");
+                        String orderJson = jsonArray.getJSONObject(i).getString("orderJson");
+                        String orderStatus = jsonArray.getJSONObject(i).getString("orderStatus");
+                        String totalPrice = jsonArray.getJSONObject(i).getString("totalPrice");
+                        String userFirstname = jsonArray.getJSONObject(i).getString("firstname");
+                        String userLastname = jsonArray.getJSONObject(i).getString("lastname");
+                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson, userFirstname, userLastname, userEmail);
+                        ordersArrayList.add(order);
+                    }
+                    orderReadyListener.onOrderReady(ordersArrayList);
+                }
+                else if(status.equalsIgnoreCase("failure")){
+                    orderReadyListener.onError("Error Occurred");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                orderReadyListener.onError(e.getLocalizedMessage());
+
+            }
+
+        }
+    };
+
 
     private Handler updateInfoHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -496,6 +573,16 @@ public class EcommerceDashboardModel {
         return jsonObject.toString();
     }
 
+    private String buildShowRetailer(String userId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("retailerId",userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
     private String buildShowRetailerProduct(String retailerId){
         JSONObject jsonObject = new JSONObject();
         try {
@@ -526,6 +613,56 @@ public class EcommerceDashboardModel {
 
         public String getProductId() {
             return productId;
+        }
+    }
+
+    public class Orders{
+        private String totalPrice;
+        private String status;
+        private String orderJson;
+        private int orderId;
+        private String userFirstname;
+        private String userLastname;
+        private String userEmail;
+
+        public Orders(int orderId, String totalPrice,String status,String orderJson,String userFirstname, String userLastname,String userEmail){
+               this.totalPrice = totalPrice;
+               this.status = status;
+               this.orderJson = orderJson;
+               this.orderId = orderId;
+               this.userFirstname = userFirstname;
+               this.userLastname = userLastname;
+               this.userEmail = userEmail;
+        }
+
+
+        public String getStatus() {
+            return status;
+        }
+
+
+        public String getUserFirstname() {
+            return userFirstname;
+        }
+
+        public int getOrderId() {
+            return orderId;
+        }
+
+        public String getOrderJson() {
+            return orderJson;
+        }
+
+        public String getTotalPrice() {
+            return totalPrice;
+        }
+
+        public String getUserLastname() {
+            return userLastname;
+        }
+
+        public String getUserEmail() {
+            return userEmail;
         }
     }
 }
