@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
+import android.view.Display;
 
 
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import io.github.lizhangqu.coreprogress.ProgressHelper;
 import io.github.lizhangqu.coreprogress.ProgressUIListener;
 import ng.assist.UIs.Utils.ImageUploadDialog;
+import ng.assist.UIs.Utils.LoadingDialogUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -35,6 +39,8 @@ public class EcommerceDashboardModel {
     private String uploadImageUrl = baseUrl+"products/retailer/products/image";
     private String createProductUrl = baseUrl+"products";
     private String displayOrderUrl = baseUrl+"orders/show";
+    private String deleteOrderUrl = baseUrl+"orders/delete";
+    private String updateOrderUrl = baseUrl+"orders/update";
     private Context context;
     private String  userId = "", shopname = "", phonenumber = "";
     private UpdateInfoListener updateInfoListener;
@@ -44,11 +50,12 @@ public class EcommerceDashboardModel {
     private ImageUploadDialog imageUploadDialog;
     private String encodedImage, productId;
     private ImageUploadListener imageUploadListener;
-    private String retailerId, title, price, category, description,availability,displayImage;
+    private String retailerId, title, price, category, description,availability,displayImage,orderStatus;
+    private int orderId;
     private CreateProductListener createProductListener;
     private OrderReadyListener orderReadyListener;
     private ArrayList<Orders> ordersArrayList = new ArrayList<>();
-
+    private LoadingDialogUtils loadingDialogUtils;
     public interface ProductsReadyListener{
         void onReady(ArrayList<GroceryModel> groceryModelArrayList);
         void onError(String message);
@@ -114,6 +121,13 @@ public class EcommerceDashboardModel {
             this.userId = userId;
      }
 
+    public EcommerceDashboardModel(Context context, int orderId,String orderStatus){
+           this.context = context;
+           this.orderId = orderId;
+           this.orderStatus = orderStatus;
+           loadingDialogUtils = new LoadingDialogUtils(context);
+    }
+
      public interface UpdateInfoListener{
          void onSuccess();
          void onError(String message);
@@ -160,6 +174,62 @@ public class EcommerceDashboardModel {
             bundle.putString("response", mResponse);
             msg.setData(bundle);
             updateInfoHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+    public void updateOrderInfo(){
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildUpdateOrder(orderId,orderStatus));
+            Request request = new Request.Builder()
+                    .url(updateOrderUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = updateInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            updateInfoHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+    public void deleteOrderInfo(){
+        loadingDialogUtils.showLoadingDialog("Deleting Order");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildDeleteOrder(orderId));
+            Request request = new Request.Builder()
+                    .url(deleteOrderUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = deleteInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            deleteInfoHandler.sendMessage(msg);
         };
         Thread myThread = new Thread(runnable);
         myThread.start();
@@ -264,7 +334,7 @@ public class EcommerceDashboardModel {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildCreateRetailer(userId));
+            RequestBody requestBody = RequestBody.create(JSON,buildShowRetailerOrder(userId));
             Request request = new Request.Builder()
                     .url(displayOrderUrl)
                     .post(requestBody)
@@ -276,11 +346,11 @@ public class EcommerceDashboardModel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Message msg = createInfoHandler.obtainMessage();
+            Message msg = DisplayOrderHandler.obtainMessage();
             Bundle bundle = new Bundle();
             bundle.putString("response", mResponse);
             msg.setData(bundle);
-            createInfoHandler.sendMessage(msg);
+            DisplayOrderHandler.sendMessage(msg);
         };
         Thread myThread = new Thread(runnable);
         myThread.start();
@@ -386,6 +456,34 @@ public class EcommerceDashboardModel {
         public void handleMessage(@NotNull Message msg) {
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                    updateInfoListener.onSuccess();
+                }
+                else if(status.equalsIgnoreCase("failure")){
+                    updateInfoListener.onError("Error Occurred");
+                }
+                else{
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                updateInfoListener.onError(e.getLocalizedMessage());
+
+            }
+
+
+        }
+    };
+
+    private Handler deleteInfoHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            loadingDialogUtils.cancelLoadingDialog();
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
@@ -573,7 +671,28 @@ public class EcommerceDashboardModel {
         return jsonObject.toString();
     }
 
-    private String buildShowRetailer(String userId){
+    private String buildUpdateOrder(int orderId,String orderStatus){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("orderId",orderId);
+            jsonObject.put("orderStatus",orderStatus);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildDeleteOrder(int orderId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("orderId",orderId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildShowRetailerOrder(String userId){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("retailerId",userId);
@@ -616,53 +735,7 @@ public class EcommerceDashboardModel {
         }
     }
 
-    public class Orders{
-        private String totalPrice;
-        private String status;
-        private String orderJson;
-        private int orderId;
-        private String userFirstname;
-        private String userLastname;
-        private String userEmail;
-
-        public Orders(int orderId, String totalPrice,String status,String orderJson,String userFirstname, String userLastname,String userEmail){
-               this.totalPrice = totalPrice;
-               this.status = status;
-               this.orderJson = orderJson;
-               this.orderId = orderId;
-               this.userFirstname = userFirstname;
-               this.userLastname = userLastname;
-               this.userEmail = userEmail;
-        }
 
 
-        public String getStatus() {
-            return status;
-        }
 
-
-        public String getUserFirstname() {
-            return userFirstname;
-        }
-
-        public int getOrderId() {
-            return orderId;
-        }
-
-        public String getOrderJson() {
-            return orderJson;
-        }
-
-        public String getTotalPrice() {
-            return totalPrice;
-        }
-
-        public String getUserLastname() {
-            return userLastname;
-        }
-
-        public String getUserEmail() {
-            return userEmail;
-        }
-    }
 }

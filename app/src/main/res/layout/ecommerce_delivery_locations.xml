@@ -5,37 +5,42 @@
     android:layout_width="match_parent"
     android:padding="3dp"
     android:layout_margin="5dp"
-    android:layout_height="100dp">
+    android:layout_height="80dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:strokeColor="@color/light_text_color"
-        app:cardCornerRadius="5dp"
-        app:strokeWidth="1dp">
+        app:cardCornerRadius="8dp"
+        app:strokeWidth="0.5dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="15dp"
+        app:cardElevation="1dp"
+        app:cardBackgroundColor="#FDFDFF">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="10dp"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="horizontal">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vendrezza, Kano State"
-                android:textSize="18dp"
+                android:textSize="17dp"
+                android:gravity="center"
+                android:id="@+id/delivery_location_city"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/colorPrimary"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:textSize="14dp"
-                android:text="Remove"
+                android:textColor="@color/dark_text_color"/>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/cancel_icon"
+                android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-                android:textAllCaps="false"/>
-
-
+                android:id="@+id/delivery_location_remove"
+                android:tint="@color/light_text_color"
+                android:layout_marginLeft="20dp"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

@@ -1,5 +1,6 @@
 package ng.assist.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -16,15 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.DashboardProductDetails;
 import ng.assist.DashboardViewOrder;
 import ng.assist.R;
-import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
+import ng.assist.UIs.ViewModel.Orders;
 
 public class DashboardOrdersAdapter extends RecyclerView.Adapter<DashboardOrdersAdapter.itemViewHolder> {
 
-    ArrayList<EcommerceDashboardModel.Orders> groceryList;
+    ArrayList<Orders> groceryList;
     Context context;
 
 
-    public DashboardOrdersAdapter(ArrayList<EcommerceDashboardModel.Orders> groceryList, Context context){
+    public DashboardOrdersAdapter(ArrayList<Orders> groceryList, Context context){
         this.groceryList = groceryList;
         this.context = context;
     }
@@ -39,7 +40,7 @@ public class DashboardOrdersAdapter extends RecyclerView.Adapter<DashboardOrders
 
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
-              EcommerceDashboardModel.Orders orders = groceryList.get(position);
+              Orders orders = groceryList.get(position);
               holder.totalPrice.setText(orders.getTotalPrice());
               holder.customerName.setText(orders.getUserFirstname()+" "+orders.getUserLastname());
               holder.status.setText(orders.getStatus());
@@ -66,7 +67,9 @@ public class DashboardOrdersAdapter extends RecyclerView.Adapter<DashboardOrders
             viewOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, DashboardViewOrder.class));
+                    Intent intent = new Intent(context, DashboardViewOrder.class);
+                    intent.putExtra("orderList",groceryList.get(getAdapterPosition()));
+                    ((Activity)context).startActivityForResult(intent,0);
                 }
             });
 

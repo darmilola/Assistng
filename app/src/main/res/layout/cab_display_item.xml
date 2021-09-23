@@ -30,7 +30,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
+                    android:textSize="13dp"
                     android:id="@+id/cab_item_type"
                     android:textColor="@color/dark_text_color"
                     android:layout_marginLeft="10dp"
@@ -46,12 +46,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
+                    android:textSize="13dp"
                     android:id="@+id/cab_item_passenger"
                     android:textColor="@color/dark_text_color"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="5 Seats"
+                    android:text="5 Seats remaining"
                     android:gravity="center"
                     android:fontFamily="@font/clanbook"/>
             </LinearLayout>
@@ -92,7 +92,7 @@
                         android:layout_width="23dp"
                         android:layout_height="23dp"
                         android:tint="@color/white"
-                        android:src="@drawable/iconfinder_chat"/>
+                        android:src="@drawable/paper_dollars_2_2x"/>
                 </LinearLayout>
 
             </LinearLayout>

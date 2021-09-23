@@ -9,14 +9,14 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        app:cardCornerRadius="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        app:cardCornerRadius="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         app:strokeWidth="0.5dp"
-        app:cardElevation="0dp"
-        app:strokeColor="#c8c8c8"
-        app:cardBackgroundColor="#EDEDF3">
+        app:cardElevation="1dp"
+        app:cardBackgroundColor="#FDFDFF">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,13 +28,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_marginRight="5dp"
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:src="@drawable/capsicum"
-                    android:scaleType="fitCenter"/>
+                    android:id="@+id/placed_order_image"
+                    android:scaleType="centerCrop"/>
             </LinearLayout>
 
             <LinearLayout
@@ -51,6 +53,7 @@
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:textSize="14dp"
+                    android:id="@+id/placed_order_name"
                     android:textColor="@color/colorPrimary"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -60,6 +63,7 @@
                     android:layout_marginTop="5dp"
                     android:ellipsize="end"
                     android:textSize="16dp"
+                    android:id="@+id/placed_order_price"
                     android:fontFamily="@font/clannews"
                     android:textColor="@color/colorPrimary"/>
             </LinearLayout>
@@ -85,6 +89,7 @@
                         android:text="Qty 2"
                         android:textColor="@color/colorPrimary"
                         android:textSize="14dp"
+                        android:id="@+id/placed_order_qty"
                         android:layout_marginLeft="10dp"
                         android:fontFamily="@font/clanmed"/>
 
@@ -98,6 +103,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
                     android:ellipsize="end"
+                    android:id="@+id/placed_order_qty_price"
                     android:fontFamily="@font/clannews"
                     android:gravity="center"
                     android:maxLines="1"
@@ -106,8 +112,6 @@
                     android:textSize="16dp" />
 
             </LinearLayout>
-
-
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

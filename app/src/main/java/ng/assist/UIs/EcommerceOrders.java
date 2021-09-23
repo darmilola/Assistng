@@ -1,6 +1,7 @@
 package ng.assist.UIs;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import ng.assist.UIs.ViewModel.Orders;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +36,7 @@ public class EcommerceOrders extends Fragment {
     ArrayList<String> orderList = new ArrayList<>();
     ProgressBar progressBar;
     View view;
+    String userId;
     public EcommerceOrders() {
         // Required empty public constructor
     }
@@ -52,13 +55,13 @@ public class EcommerceOrders extends Fragment {
         progressBar = view.findViewById(R.id.dashboard_order_progress);
         recyclerView = view.findViewById(R.id.dashboard_orders_recyclerview);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String userId = preferences.getString("userEmail","");
+        userId = preferences.getString("userEmail","");
 
         EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(getContext(),userId);
         ecommerceDashboardModel.displayOrders();
         ecommerceDashboardModel.setOrderReadyListener(new EcommerceDashboardModel.OrderReadyListener() {
             @Override
-            public void onOrderReady(ArrayList<EcommerceDashboardModel.Orders> ordersArrayList) {
+            public void onOrderReady(ArrayList<Orders> ordersArrayList) {
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
                 recyclerView.setLayoutManager(layoutManager);
                 adapter = new DashboardOrdersAdapter(ordersArrayList,getContext());
@@ -75,6 +78,37 @@ public class EcommerceOrders extends Fragment {
             }
         });
 
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 0 && resultCode == 1) {
+            recyclerView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(getContext(),userId);
+            ecommerceDashboardModel.displayOrders();
+            ecommerceDashboardModel.setOrderReadyListener(new EcommerceDashboardModel.OrderReadyListener() {
+                @Override
+                public void onOrderReady(ArrayList<Orders> ordersArrayList) {
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+                    recyclerView.setLayoutManager(layoutManager);
+                    adapter = new DashboardOrdersAdapter(ordersArrayList,getContext());
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError(String message) {
+                    recyclerView.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
     }
 
 }
