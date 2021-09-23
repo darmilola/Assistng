@@ -32,7 +32,7 @@ public class GroceryListingDetailsModel {
     private String retailerId;
     private ArrayList<GroceryModel> groceryModelArrayList = new ArrayList<>();
     private String baseUrl = new URL().getBaseUrl();
-    private String detailsUrl = baseUrl+"product_details/";
+    private String detailsUrl = baseUrl+"product/details";
     RetailerInfoModel retailerInfoModel;
     private DetailsReadyListener detailsReadyListener;
 
@@ -44,7 +44,6 @@ public class GroceryListingDetailsModel {
     public GroceryListingDetailsModel(String retailerId, String productId){
            this.retailerId = retailerId;
            this.productId = productId;
-           detailsUrl = detailsUrl + productId+"/"+retailerId;
     }
 
     public String getRetailerId() {
@@ -89,9 +88,8 @@ public class GroceryListingDetailsModel {
                     for(int i = 0; i < retailerInfo.length(); i++){
                         String userId = retailerInfo.getJSONObject(i).getString("userId");
                         String shopName = retailerInfo.getJSONObject(i).getString("shopName");
-                        String address = retailerInfo.getJSONObject(i).getString("address");
                         String phonenumber = retailerInfo.getJSONObject(i).getString("phonenumber");
-                        retailerInfoModel = new RetailerInfoModel(userId,phonenumber,address,shopName);
+                        retailerInfoModel = new RetailerInfoModel(userId,phonenumber,shopName);
                     }
                     detailsReadyListener.onDetailsReady(productImages,groceryModelArrayList,retailerInfoModel);
 
@@ -103,7 +101,7 @@ public class GroceryListingDetailsModel {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                detailsReadyListener.onError("Error Occurred");
+                detailsReadyListener.onError(e.getLocalizedMessage());
             }
         }
     };
@@ -117,9 +115,11 @@ public class GroceryListingDetailsModel {
                     .writeTimeout(50, TimeUnit.SECONDS)
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
-            //MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildGroceryDetail(productId,retailerId));
             Request request = new Request.Builder()
                     .url(detailsUrl)
+                    .post(requestBody)
                     .build();
             try (Response response = client.newCall(request).execute()) {
                 if(response != null){
@@ -136,6 +136,17 @@ public class GroceryListingDetailsModel {
         };
         Thread myThread = new Thread(runnable);
         myThread.start();
+    }
+
+    private String buildGroceryDetail(String productId, String retailerId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("productId",productId);
+            jsonObject.put("retailerId",retailerId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
     }
 
 

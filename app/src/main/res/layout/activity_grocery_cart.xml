@@ -91,29 +91,21 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="40dp"
-                    app:cardCornerRadius="10dp"
+                    android:layout_height="130dp"
+                    app:cardCornerRadius="8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     app:strokeWidth="0.5dp"
-                    app:cardElevation="0dp"
-                    app:strokeColor="#c8c8c8"
-                    app:cardBackgroundColor="#EDEDF3">
+                    app:cardElevation="1dp"
+                    app:cardBackgroundColor="#FDFDFF">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="20dp"
-                            android:background="@color/colorPrimary"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -138,6 +130,7 @@
                                 android:fontFamily="@font/clanbold"
                                 android:gravity="center"
                                 android:text="255.5$"
+                                android:id="@+id/cart_total_price"
                                 android:layout_marginRight="17dp"
                                 android:layout_alignParentRight="true"
                                 android:textColor="@color/colorPrimary"
@@ -151,17 +144,15 @@
                             app:backgroundTint="@color/pinkypinky"
                             android:text="Check Out"
                             android:textSize="18dp"
+                            android:id="@+id/cart_checkout_button"
                             android:fontFamily="@font/clannews"
                             android:textAllCaps="false"
                             android:textColor="@color/White"
-                            app:cornerRadius="20dp"/>
+                            app:cornerRadius="7dp"/>
                     </LinearLayout>
 
 
                 </com.google.android.material.card.MaterialCardView>
-
-
-
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

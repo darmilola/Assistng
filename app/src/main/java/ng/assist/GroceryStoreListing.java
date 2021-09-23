@@ -45,6 +45,7 @@ public class GroceryStoreListing extends AppCompatActivity {
     LinearLayout addToCart;
     GroceryModel groceryModel;
     View cartIndicator;
+    LinearLayout productImageviewScroll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +54,7 @@ public class GroceryStoreListing extends AppCompatActivity {
     }
 
     private void initView(){
+        productImageviewScroll = findViewById(R.id.scroll_image_layout);
         cartIndicator = findViewById(R.id.cart_indicator);
         cartIndicator.setVisibility(View.GONE);
         addToCart = findViewById(R.id.details_add_to_cart);
@@ -91,6 +93,7 @@ public class GroceryStoreListing extends AppCompatActivity {
                 detailsRootLayout.setVisibility(View.VISIBLE);
                 adapter = new ProductImageScrollAdapter(images,GroceryStoreListing.this);
                 imagesRecyclerview.setAdapter(adapter);
+                productImageviewScroll.setVisibility(View.VISIBLE);
                 pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
                 imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
                 adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());

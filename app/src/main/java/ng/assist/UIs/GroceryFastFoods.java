@@ -58,7 +58,7 @@ public class GroceryFastFoods extends Fragment {
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
 
-        GroceryModel groceryModel = new GroceryModel("fast-foods","lagos");
+        GroceryModel groceryModel = new GroceryModel("Grocery","lagos");
         groceryModel.getGroceryProducts();
         groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
             @Override

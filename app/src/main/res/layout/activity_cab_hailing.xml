@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -60,7 +59,7 @@
                         android:textColor="@color/colorPrimary"
                         android:layout_marginTop="10dp"
                         android:maxLines="1"
-                        android:text="Parker Road Allen Town"
+                        android:text="Kano - Abuja"
                         android:id="@+id/current_location_name"
                         android:ellipsize="end"
                         android:textSize="18dp"/>
@@ -105,60 +104,6 @@
 
         </LinearLayout>
 
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
-            app:cardCornerRadius="20dp"
-            app:cardBackgroundColor="@color/special_activity_background">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="140dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="150dp"
-                    android:layout_marginLeft="70dp"
-                    android:src="@drawable/bus_transport_route_layerlist"/>
-
-                <RelativeLayout
-                    android:layout_width="250dp"
-                    android:layout_height="180dp"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="150dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:text="Lagos Island"
-                        android:textSize="16dp"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:layout_alignParentTop="true"
-                        android:textColor="@color/colorPrimary"
-                        android:fontFamily="@font/clannews"
-                        android:gravity="center|left"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:text="Central Business District"
-                        android:textSize="16dp"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:layout_alignParentBottom="true"
-                        android:textColor="@color/colorPrimary"
-                        android:fontFamily="@font/clannews"
-                        android:gravity="center|left"/>
-                </RelativeLayout>
-
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
         <include layout="@layout/ride_display_view"/>
     </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

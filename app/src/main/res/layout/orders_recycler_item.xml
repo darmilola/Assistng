@@ -46,6 +46,7 @@
              android:layout_marginTop="5dp"
              android:maxLines="1"
              android:ellipsize="end"
+             android:id="@+id/dashboard_order_totalprice"
              android:textColor="@color/light_text_color"/>
 
      </LinearLayout>
@@ -74,6 +75,7 @@
              android:layout_marginTop="5dp"
              android:maxLines="1"
              android:ellipsize="end"
+             android:id="@+id/dashboard_order_customer_name"
              android:textColor="@color/light_text_color"/>
 
      </LinearLayout>
@@ -101,6 +103,7 @@
              android:textSize="15dp"
              android:layout_marginLeft="10dp"
              android:layout_marginTop="5dp"
+             android:id="@+id/dashboard_order_delivery_status"
              android:textColor="@color/green"/>
 
 
@@ -111,6 +114,7 @@
              android:layout_height="40dp"
              android:textSize="14dp"
              android:text="View Order"
+             android:id="@+id/dashboard_order_view_order"
              android:layout_marginTop="10dp"
              android:textAllCaps="false"/>
 
