@@ -21,31 +21,98 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class CabHailingModel {
-
     private String driverId;
     private String driverPhone;
     private String carType;
     private String totalPassenger;
     private String baseUrl = new URL().getBaseUrl();
+    private String getBusesUrl = baseUrl+"drivers/buses";
     private String getDriversUrl = baseUrl+"drivers/available/drivers";
+    private String displayAssistLocation = baseUrl+"retailer_location/assist";
     private String driversCity;
     private CabHailingListener cabHailingListener;
+    private LocationReadyListener locationReadyListener;
+    private ArrayList<LocationModel> assistLocationList = new ArrayList<>();
+    private String from,to;
+    private int transportId,seats;
+    private String type,phone,fare;
 
     public interface CabHailingListener{
         void onReady(ArrayList<CabHailingModel> cabHailingModelArrayList);
         void onError(String message);
     }
 
-    public CabHailingModel(String driverId,String driverPhone, String carType, String totalPassenger){
+    public interface LocationReadyListener{
+        void onReady(ArrayList<LocationModel> retailerLocation);
+        void onError(String message);
+    }
+
+    public void setLocationReadyListener(LocationReadyListener locationReadyListener) {
+        this.locationReadyListener = locationReadyListener;
+    }
+
+    public CabHailingModel(String driverId, String driverPhone, String carType, String totalPassenger){
         this.driverId = driverId;
         this.driverPhone = driverPhone;
         this.carType = carType;
         this.totalPassenger = totalPassenger;
     }
 
+    public CabHailingModel(int id, String from, String to, String phone, String fare, int seats, String type){
+           this.transportId = id;
+           this.from = from;
+           this.to = to;
+           this.type = type;
+           this.seats = seats;
+           this.fare = fare;
+           this.phone = phone;
+    }
+
     public CabHailingModel(String city){
         this.driversCity = city;
     }
+
+    public CabHailingModel(String from, String to){
+          this.from = from;
+          this.to = to;
+    }
+
+    public CabHailingModel(){
+    }
+
+
+
+    private Handler loadLocationHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    for(int i = 0; i < data.length(); i++){
+                        int id = data.getJSONObject(i).getInt("id");
+                        String city = data.getJSONObject(i).getString("city");
+                        LocationModel locationModel = new LocationModel(id,city);
+                        assistLocationList.add(locationModel);
+                    }
+                    locationReadyListener.onReady(assistLocationList);
+                }
+                else if(status.equalsIgnoreCase("failure")){
+                    locationReadyListener.onError("Error Occurred");
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                locationReadyListener.onError(e.getLocalizedMessage());
+
+            }
+
+
+        }
+    };
 
 
     private Handler cabDriversHandler = new Handler(Looper.getMainLooper()) {
@@ -60,11 +127,14 @@ public class CabHailingModel {
                     JSONArray data = jsonObject.getJSONArray("data");
                     ArrayList<CabHailingModel> cabHailingModelArrayList = new ArrayList<>();
                     for(int i = 0; i < data.length(); i++){
-                        String userId = data.getJSONObject(i).getString("userId");
-                        String phonenumber = data.getJSONObject(i).getString("phonenumber");
-                        String carType   = data.getJSONObject(i).getString("carType");
-                        String passenger = data.getJSONObject(i).getString("passenger");
-                        CabHailingModel cabHailingModel = new CabHailingModel(userId,phonenumber,carType,passenger);
+                        int id = data.getJSONObject(i).getInt("id");
+                        String type = data.getJSONObject(i).getString("type");
+                        String from  = data.getJSONObject(i).getString("mFrom");
+                        String to = data.getJSONObject(i).getString("mTo");
+                        int seats = data.getJSONObject(i).getInt("seats");
+                        String phone = data.getJSONObject(i).getString("phone");
+                        String fare = data.getJSONObject(i).getString("fare");
+                        CabHailingModel cabHailingModel = new CabHailingModel(id,from,to,phone,fare,seats,type);
                         cabHailingModelArrayList.add(cabHailingModel);
                     }
                     cabHailingListener.onReady(cabHailingModelArrayList);
@@ -79,21 +149,23 @@ public class CabHailingModel {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                cabHailingListener.onError("Error Occurred");
+                cabHailingListener.onError(e.getLocalizedMessage());
 
             }
 
         }
     };
 
-   public void SearchCabDrivers(){
+
+
+   public void SearchTransports(){
         Runnable runnable = () -> {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildCabDriversCity(CabHailingModel.this.driversCity));
+            RequestBody requestBody = RequestBody.create(JSON,buildBusesLocation(this.from,this.to));
             Request request = new Request.Builder()
-                    .url(getDriversUrl)
+                    .url(getBusesUrl)
                     .post(requestBody)
                     .build();
             try (Response response = client.newCall(request).execute()) {
@@ -113,11 +185,59 @@ public class CabHailingModel {
         myThread.start();
     }
 
+    public void DisplayAssistLocation(){
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildAssistLocation());
+            Request request = new Request.Builder()
+                    .url(displayAssistLocation)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = loadLocationHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            loadLocationHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
 
     private String buildCabDriversCity(String city){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("city",city);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildAssistLocation(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("city","city");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildBusesLocation(String from, String to){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("from",from);
+            jsonObject.put("to",to);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -142,5 +262,33 @@ public class CabHailingModel {
 
     public String getTotalPassenger() {
         return totalPassenger;
+    }
+
+    public int getSeats() {
+        return seats;
+    }
+
+    public int getTransportId() {
+        return transportId;
+    }
+
+    public String getFare() {
+        return fare;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 }

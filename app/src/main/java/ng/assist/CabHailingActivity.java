@@ -6,10 +6,8 @@ import ng.assist.Adapters.RideDisplayAdapter;
 import ng.assist.UIs.ViewModel.CabHailingModel;
 import ng.assist.UIs.ViewModel.ZoomCenterCardLayoutManager;
 
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -32,6 +30,8 @@ public class CabHailingActivity extends AppCompatActivity {
     String userCity;
     FrameLayout cabHailingRoot;
     ProgressBar progressBar;
+    String from,to;
+
 
 
     @Override
@@ -48,16 +48,15 @@ public class CabHailingActivity extends AppCompatActivity {
         rideLayout = findViewById(R.id.ride_display_layout);
         locationLayout = findViewById(R.id.cab_hailing_location_selection_layout);
         currentLocationTextView = findViewById(R.id.current_location_name);
+        from = getIntent().getStringExtra("from");
+        to = getIntent().getStringExtra("to");
+        currentLocationTextView.setText(from+" - "+to);
         recyclerView = findViewById(R.id.ride_display_recyclerview);
         ZoomCenterCardLayoutManager zoomCenterCardLayoutManager = new ZoomCenterCardLayoutManager(CabHailingActivity.this,LinearLayout.HORIZONTAL,false);
         recyclerView.setLayoutManager(zoomCenterCardLayoutManager);
-        userCity = PreferenceManager.getDefaultSharedPreferences(this).getString("city","lagos");
-        rideList = new ArrayList<>();
-        for(int i = 0; i < 20; i++){
-            rideList.add("");
-        }
-        CabHailingModel cabHailingModel = new CabHailingModel(userCity);
-        cabHailingModel.SearchCabDrivers();
+
+        CabHailingModel cabHailingModel = new CabHailingModel(from,to);
+        cabHailingModel.SearchTransports();
         cabHailingModel.setCabHailingListener(new CabHailingModel.CabHailingListener() {
             @Override
             public void onReady(ArrayList<CabHailingModel> cabHailingModelArrayList) {
@@ -79,12 +78,9 @@ public class CabHailingActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-          //  getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.transparent));
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        }
+          }
     }
 }
