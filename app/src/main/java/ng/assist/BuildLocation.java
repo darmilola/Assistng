@@ -6,6 +6,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import ng.assist.UIs.Utils.ListDialog;
+import ng.assist.UIs.ViewModel.CabHailingModel;
+import ng.assist.UIs.ViewModel.LocationModel;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,6 +27,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +58,7 @@ import com.google.android.material.button.MaterialButton;
 import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -79,6 +84,10 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
     TextView chooseLocationFromText, chooseLocationToText;
+    ListDialog listDialog;
+    LinearLayout rootLayout;
+    ProgressBar progressBar;
+    ArrayList<String> locationList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,79 +97,49 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
     }
 
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-       if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = Autocomplete.getPlaceFromIntent(data);
-                // Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getAddress());
-                Toast.makeText(this, "ID: " + place.getId() + "address:" + place.getAddress() + "Name:" + place.getName() + " latlong: " + place.getLatLng(), Toast.LENGTH_LONG).show();
-                String address = place.getAddress();
-                // do query with address
-            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                Status status = Autocomplete.getStatusFromIntent(data);
-                Toast.makeText(this, "Error: " + status.getStatusMessage(), Toast.LENGTH_LONG).show();
-                //Log.i(TAG, status.getStatusMessage());
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
-            }
-        }*/
-
-    //}
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            // Check for the integer request code originally supplied to startResolutionForResult().
-            case REQUEST_CHECK_SETTINGS:
-                switch (resultCode) {
-                    case Activity.RESULT_OK:
-                        startLocationUpdates();
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        break;
-                }
-                break;
-        }
-    }
-
-
-
     private void initView(){
-        /**
-         * Initialize Places. For simplicity, the API key is hard-coded. In a production
-         * environment we recommend using a secure mechanism to manage API keys.
-         */
-        if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), PLACES_KEY);
-        }
 
-        // Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(this);
-
+        progressBar = findViewById(R.id.build_location_progress);
+        rootLayout = findViewById(R.id.build_location_root);
         chooseLocationFromText = findViewById(R.id.choose_location_from_text);
         chooseLocationToText = findViewById(R.id.choose_location_to_text);
         chooseLocationFrom = findViewById(R.id.choose_location_from);
         chooseLocationTo = findViewById(R.id.choose_location_to);
+
+        chooseLocationTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ListDialog listDialog = new ListDialog(locationList,BuildLocation.this);
+                listDialog.showListDialog();
+                listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
+                    @Override
+                    public void onItemClicked(String city) {
+                        chooseLocationToText.setText(city);
+                    }
+                });
+            }
+        });
+
         chooseLocationFrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // Start the autocomplete intent.
-                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-                        .build(BuildLocation.this);
-                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+                ListDialog listDialog = new ListDialog(locationList,BuildLocation.this);
+                listDialog.showListDialog();
+                listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
+                    @Override
+                    public void onItemClicked(String city) {
+                        chooseLocationFromText.setText(city);
+                    }
+                });
 
             }
         });
 
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        buildGoogleApiClient();
-        buildLocationSettingsRequest();
-        checkLocationSettings();
+        //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        //buildGoogleApiClient();
+        //buildLocationSettingsRequest();
+        //checkLocationSettings();
 
         next = findViewById(R.id.build_root_next);
         flightBooking = findViewById(R.id.flight_booking);
@@ -168,35 +147,38 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(BuildLocation.this,CabHailingActivity.class));
+                if((!chooseLocationFromText.getText().toString().equalsIgnoreCase("")) && (!chooseLocationToText.getText().toString().equalsIgnoreCase("")) ){
+                    Intent intent =  new Intent(BuildLocation.this,CabHailingActivity.class);
+                    intent.putExtra("from",chooseLocationFromText.getText().toString());
+                    intent.putExtra("to",chooseLocationToText.getText().toString());
+                    startActivity(intent);
+                }
+
             }
         });
 
-        flightBooking.setOnClickListener(new View.OnClickListener() {
+        CabHailingModel cabHailingModel = new CabHailingModel();
+        cabHailingModel.DisplayAssistLocation();
+        cabHailingModel.setLocationReadyListener(new CabHailingModel.LocationReadyListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(BuildLocation.this,CabHailingActivity.class));
+            public void onReady(ArrayList<LocationModel> retailerLocation) {
+                progressBar.setVisibility(View.GONE);
+                rootLayout.setVisibility(View.VISIBLE);
+                for (LocationModel locationModel: retailerLocation) {
+                     locationList.add(locationModel.getCity());
+                }
+            }
+            @Override
+            public void onError(String message) {
+                progressBar.setVisibility(View.GONE);
+                rootLayout.setVisibility(View.GONE);
+                Toast.makeText(BuildLocation.this, message, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void buildFlightActivity(){
-        new FinestWebView.Builder(BuildLocation.this)
-                .showIconForward(false)
-                .showMenuRefresh(false)
-                .showUrl(false)
-                .showMenuFind(false)
-                .showIconMenu(false)
-                .titleFont("clannews.ttf")
-                .iconDefaultColor(ContextCompat.getColor(BuildLocation.this,R.color.white))
-                .toolbarColor(ContextCompat.getColor(BuildLocation.this,R.color.colorPrimary))
-                .statusBarColor(ContextCompat.getColor(BuildLocation.this,R.color.colorPrimary))
-                .show("https://www.assisthq.bubbleapps.io/version-test/travelstart");
     }
 
 
     private LocationRequest getLocationRequest(){
-
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1200000); // two minute interval
         mLocationRequest.setFastestInterval(1200000);
@@ -415,7 +397,7 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
     public void onResume() {
 
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 

@@ -5,10 +5,23 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F6F5F8"
-    android:weightSum="5"
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".BuildLocation">
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/build_location_progress"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/build_location_root"
+        android:weightSum="5">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -342,6 +355,6 @@
             android:textAllCaps="false"
             android:textSize="18dp"
             app:cornerRadius="7dp" />
-
+    </LinearLayout>
     </LinearLayout>
 </LinearLayout>
