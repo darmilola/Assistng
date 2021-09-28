@@ -68,7 +68,6 @@
                     app:backgroundTint="#059249"/>
             </LinearLayout>
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>

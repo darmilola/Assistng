@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import ng.assist.UIs.Utils.LoadingDialogUtils;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,17 +30,26 @@ public class CabHailingModel {
     private String getBusesUrl = baseUrl+"drivers/buses";
     private String getDriversUrl = baseUrl+"drivers/available/drivers";
     private String displayAssistLocation = baseUrl+"retailer_location/assist";
+    private String bookTransport = baseUrl+"drivers/book";
     private String driversCity;
     private CabHailingListener cabHailingListener;
     private LocationReadyListener locationReadyListener;
+    private TransportBookingListener transportBookingListener;
     private ArrayList<LocationModel> assistLocationList = new ArrayList<>();
     private String from,to;
     private int transportId,seats;
-    private String type,phone,fare;
+    private String type,phone,fare,userId,contactPhone;
+    private LoadingDialogUtils loadingDialogUtils;
+    private Context context;
 
     public interface CabHailingListener{
         void onReady(ArrayList<CabHailingModel> cabHailingModelArrayList);
         void onError(String message);
+    }
+
+    public interface TransportBookingListener{
+        void onSuccess();
+        void onFailure(String message);
     }
 
     public interface LocationReadyListener{
@@ -49,6 +59,10 @@ public class CabHailingModel {
 
     public void setLocationReadyListener(LocationReadyListener locationReadyListener) {
         this.locationReadyListener = locationReadyListener;
+    }
+
+    public void setTransportBookingListener(TransportBookingListener transportBookingListener) {
+        this.transportBookingListener = transportBookingListener;
     }
 
     public CabHailingModel(String driverId, String driverPhone, String carType, String totalPassenger){
@@ -68,6 +82,14 @@ public class CabHailingModel {
            this.phone = phone;
     }
 
+    public CabHailingModel(int transportId, String userId, String contactPhone, Context context){
+           this.transportId = transportId;
+           this.userId = userId;
+           this.contactPhone = contactPhone;
+           this.context = context;
+           loadingDialogUtils = new LoadingDialogUtils(context);
+    }
+
     public CabHailingModel(String city){
         this.driversCity = city;
     }
@@ -79,6 +101,32 @@ public class CabHailingModel {
 
     public CabHailingModel(){
     }
+
+
+
+    private Handler transportBookingHnadler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            loadingDialogUtils.cancelLoadingDialog();
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+
+                   transportBookingListener.onSuccess();
+                }
+                else if(status.equalsIgnoreCase("failure")){
+                    transportBookingListener.onFailure("Error Occurred");
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                transportBookingListener.onFailure(e.getLocalizedMessage());
+            }
+        }
+    };
 
 
 
@@ -213,6 +261,35 @@ public class CabHailingModel {
     }
 
 
+    public void BookTransport(){
+       loadingDialogUtils.showLoadingDialog("processing...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildBookTransport(transportId,userId,contactPhone));
+            Request request = new Request.Builder()
+                    .url(bookTransport)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = transportBookingHnadler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            transportBookingHnadler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
     private String buildCabDriversCity(String city){
         JSONObject jsonObject = new JSONObject();
         try {
@@ -227,6 +304,18 @@ public class CabHailingModel {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("city","city");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildBookTransport(int transportId, String userId, String contactPhone){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("transportId",transportId);
+            jsonObject.put("userId",userId);
+            jsonObject.put("contactPhone",contactPhone);
         } catch (JSONException e) {
             e.printStackTrace();
         }
