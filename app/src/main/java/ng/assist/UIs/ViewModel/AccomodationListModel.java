@@ -45,6 +45,7 @@ public class AccomodationListModel implements Parcelable {
     private String getAccomodationUrl = baseUrl+"house_listings/filter/by/details";
     private String getDetailsUrl = baseUrl+"house_listing_details/houseInfo";
     private String accomodationType,location,maxPrice,minPrice,isAvailable;
+    int totalListingsAvailable;
     private ArrayList<AccomodationListModel> listModelArrayList = new ArrayList<>();
     private ArrayList<String> imagesList = new ArrayList<>();
 
@@ -121,7 +122,7 @@ public class AccomodationListModel implements Parcelable {
     }
 
     public interface AccomodationListReadyListener{
-        void onListReady(ArrayList<AccomodationListModel> listModelArrayList,String nextPageUrl,String totalPage);
+        void onListReady(ArrayList<AccomodationListModel> listModelArrayList,String nextPageUrl,String totalPage,int totalListingAvailable);
         void onEmpty(String message);
     }
 
@@ -171,6 +172,7 @@ public class AccomodationListModel implements Parcelable {
                     JSONObject dataInfo = jsonObject.getJSONObject("dataInfo");
                     nextPageUrl = dataInfo.getString("next_page_url");
                     totalPage = dataInfo.getString("last_page");
+                    totalListingsAvailable = dataInfo.getInt("total");
                     JSONArray data = dataInfo.getJSONArray("data");
                     for(int i = 0; i < data.length(); i++){
                         String houseId = data.getJSONObject(i).getString("id");
@@ -189,7 +191,7 @@ public class AccomodationListModel implements Parcelable {
                         AccomodationListModel accomodationListModel = new AccomodationListModel(houseId,agentId,displayImage,houseTitle,bed,bath,totalRaters,totalRatings,description,pricePerMonth,address,bookingFee,isAvailable);
                         listModelArrayList.add(accomodationListModel);
                     }
-                    accomodationListReadyListener.onListReady(listModelArrayList,nextPageUrl,totalPage);
+                    accomodationListReadyListener.onListReady(listModelArrayList,nextPageUrl,totalPage,totalListingsAvailable);
 
                 }
                 else if(status.equalsIgnoreCase("failure")){
@@ -221,7 +223,7 @@ public class AccomodationListModel implements Parcelable {
                     String firstname = agentJson.getJSONObject(0).getString("firstname");
                     String lastname = agentJson.getJSONObject(0).getString("lastname");
                     String phonenumber = agentJson.getJSONObject(0).getString("phonenumber");
-                    String agentImage = agentJson.getJSONObject(0).getString("agentImage");
+                    String agentImage = agentJson.getJSONObject(0).getString("profileImage");
 
                     agentModel = new AgentModel(agentId,firstname,lastname,phonenumber,agentImage);
 

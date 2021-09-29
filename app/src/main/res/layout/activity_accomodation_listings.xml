@@ -54,6 +54,7 @@
                 android:textColor="@color/colorPrimary"
                 android:text="250 Homes Available"
                 android:maxLines="1"
+                android:id="@+id/total_homes_available"
                 android:ellipsize="end"
                 android:fontFamily="@font/clannews"/>
         </LinearLayout>
