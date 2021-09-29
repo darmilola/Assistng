@@ -22,6 +22,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ public class AccomodationBooking extends AppCompatActivity {
     CardView bookNowLayout;
     AccomodationListModel accomodationListModel;
     String houseId, agentId;
+    LinearLayout imageScrollLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class AccomodationBooking extends AppCompatActivity {
     }
 
     private void initView(){
-
+        imageScrollLayout = findViewById(R.id.scroll_image_layout);
         accomodationListModel = getIntent().getParcelableExtra("accModel");
         loadingBar = findViewById(R.id.acc_details_progress);
         rootLayout = findViewById(R.id.acc_details_root);
@@ -101,6 +103,8 @@ public class AccomodationBooking extends AppCompatActivity {
                 adapter = new ProductImageScrollAdapter(mImageList,AccomodationBooking.this);
                 agentName.setText(agentModel.getAgentFirstname()+" "+agentModel.getAgentLastName());
                 imagesRecyclerview.setAdapter(adapter);
+                imagesRecyclerview.setVisibility(View.VISIBLE);
+                imageScrollLayout.setVisibility(View.VISIBLE);
                 pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
                 imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
                 adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
@@ -116,14 +120,13 @@ public class AccomodationBooking extends AppCompatActivity {
             @Override
             public void onError(String message) {
                 loadingBar.setVisibility(View.GONE);
-                rootLayout.setVisibility(View.VISIBLE);
-                bookNowLayout.setVisibility(View.VISIBLE);
+                rootLayout.setVisibility(View.GONE);
+                bookNowLayout.setVisibility(View.GONE);
                 Toast.makeText(AccomodationBooking.this, message, Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-
 
     @Override
     public void onResume() {

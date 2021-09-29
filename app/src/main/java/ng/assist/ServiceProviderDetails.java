@@ -47,6 +47,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
     NestedScrollView rootLayout;
     ProgressBar portfolioLoadingProgress;
     ImageView profileImage;
+    LinearLayout imageScrollLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
     }
 
     private void initView() {
+        imageScrollLayout = findViewById(R.id.scroll_image_layout);
         rootLayout = findViewById(R.id.service_provider_details_root);
         portfolioLoadingProgress = findViewById(R.id.service_provider_details_progress);
         servicesModel = getIntent().getParcelableExtra("provider_info");
@@ -96,6 +98,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
                 adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
                 rootLayout.setVisibility(View.VISIBLE);
                 portfolioLoadingProgress.setVisibility(View.GONE);
+                imageScrollLayout.setVisibility(View.VISIBLE);
             }
 
             @Override

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ public class AccomodationListings extends AppCompatActivity {
     private String selectedCity,houseType,maxPrice,minPrice;
     private ProgressBar progressBar,recyclerProgressbar;
     private LinearLayout rootLayout;
+    private LinearLayout imageScrollLayout;
+    TextView totalAvailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,8 @@ public class AccomodationListings extends AppCompatActivity {
     }
 
     private void initView(){
+
+        totalAvailable = findViewById(R.id.total_homes_available);
         recyclerProgressbar = findViewById(R.id.accommodation_recycler_progress);
         recyclerProgressbar.setVisibility(View.GONE);
         progressBar = findViewById(R.id.accommodation_loading_progress);
@@ -61,13 +66,14 @@ public class AccomodationListings extends AppCompatActivity {
         accomodationListModel.getAccomodations();
         accomodationListModel.setAccomodationListReadyListener(new AccomodationListModel.AccomodationListReadyListener() {
             @Override
-            public void onListReady(ArrayList<AccomodationListModel> listModelArrayList, String nextPageUrl,String totalPage) {
+            public void onListReady(ArrayList<AccomodationListModel> listModelArrayList, String nextPageUrl,String totalPage,int totalListingAvailable) {
                 AccomodationListings.this.nextPageUrl = nextPageUrl;
                 AccomodationListings.this.totalPage = totalPage;
                 adapter = new AccomodationListingsAdapter(listModelArrayList,AccomodationListings.this);
                 recyclerView.setAdapter(adapter);
                 rootLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
+                totalAvailable.setText(Integer.toString(totalListingAvailable)+" Home Available");
             }
             @Override
             public void onEmpty(String message) {
@@ -85,16 +91,16 @@ public class AccomodationListings extends AppCompatActivity {
                    if(nextPageUrl.equalsIgnoreCase("null")){
                         return;
                     }
-
                     recyclerProgressbar.setVisibility(View.VISIBLE);
                     AccomodationListModel accomodationListModel = new AccomodationListModel(houseType,selectedCity,maxPrice,minPrice);
                     accomodationListModel.getAccomodationsNextPage(AccomodationListings.this.nextPageUrl);
                     accomodationListModel.setAccomodationListReadyListener(new AccomodationListModel.AccomodationListReadyListener() {
                         @Override
-                        public void onListReady(ArrayList<AccomodationListModel> listModelArrayList, String nextPageUrl,String totalPage) {
+                        public void onListReady(ArrayList<AccomodationListModel> listModelArrayList, String nextPageUrl,String totalPage,int totalListingAvailable) {
                             AccomodationListings.this.totalPage = totalPage;
                             AccomodationListings.this.nextPageUrl = nextPageUrl;
                             recyclerProgressbar.setVisibility(View.GONE);
+                            totalAvailable.setText(Integer.toString(totalListingAvailable)+" Home Available");
                             adapter.addItem(listModelArrayList);
                         }
                         @Override

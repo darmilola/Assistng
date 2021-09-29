@@ -192,7 +192,7 @@ public class ServicesModel implements Parcelable {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                serviceProviderListener.onError("Error Occurred");
+                serviceProviderListener.onError(e.getLocalizedMessage());
             }
 
         }
