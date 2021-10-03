@@ -11,8 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:weightSum="5"
-        android:layout_marginTop="5dp">
+        android:weightSum="5">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -127,10 +126,29 @@
                 <LinearLayout
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/cab_item_chat"
+                    android:backgroundTint="@color/proposed_color"
+                    android:background="@drawable/transport_mode_unselected_background">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:tint="@color/white"
+                        android:src="@drawable/iconfinder_chat"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:id="@+id/cab_item_phone"
-                    android:backgroundTint="@color/proposed_color"
+                    android:backgroundTint="@color/pinkypinky"
                     android:background="@drawable/transport_mode_unselected_background">
 
                     <ImageView
@@ -146,15 +164,15 @@
                     android:layout_marginLeft="10dp"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:id="@+id/cab_item_chat"
-                    android:backgroundTint="@color/proposed_color"
+                    android:id="@+id/provider_details_book"
+                    android:backgroundTint="@color/green"
                     android:background="@drawable/transport_mode_unselected_background">
 
                     <ImageView
                         android:layout_width="23dp"
                         android:layout_height="23dp"
                         android:tint="@color/white"
-                        android:src="@drawable/iconfinder_chat"/>
+                        android:src="@drawable/booking_icon"/>
                 </LinearLayout>
 
             </LinearLayout>
