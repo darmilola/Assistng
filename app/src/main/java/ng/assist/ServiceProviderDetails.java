@@ -48,6 +48,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
     ProgressBar portfolioLoadingProgress;
     ImageView profileImage;
     LinearLayout imageScrollLayout;
+    LinearLayout serviceProviderBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,8 @@ public class ServiceProviderDetails extends AppCompatActivity {
     }
 
     private void initView() {
+
+        serviceProviderBook = findViewById(R.id.provider_details_book);
         imageScrollLayout = findViewById(R.id.scroll_image_layout);
         rootLayout = findViewById(R.id.service_provider_details_root);
         portfolioLoadingProgress = findViewById(R.id.service_provider_details_progress);
@@ -106,6 +109,15 @@ public class ServiceProviderDetails extends AppCompatActivity {
                 Toast.makeText(ServiceProviderDetails.this, message, Toast.LENGTH_SHORT).show();
                 rootLayout.setVisibility(View.VISIBLE);
                 portfolioLoadingProgress.setVisibility(View.GONE);
+            }
+        });
+
+        serviceProviderBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ServiceProviderDetails.this,PayServiceFee.class);
+                intent.putExtra("provider_info",servicesModel);
+                startActivity(intent);
             }
         });
     }

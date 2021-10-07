@@ -6,6 +6,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.GroceryCartAdapter;
+import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.GroceryModel;
 
 import android.content.SharedPreferences;
@@ -33,7 +34,7 @@ public class GroceryCart extends AppCompatActivity {
     ProgressBar loadingProgress;
     TextView mTotalprice;
     MaterialButton checkout;
-    String mTotalPriceValue;
+    String mTotalPriceValue,retailerShopName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +45,14 @@ public class GroceryCart extends AppCompatActivity {
 
     private void initView(){
         String retailerId = getIntent().getStringExtra("retailerId");
+        String retailerShopName = getIntent().getStringExtra("retailerShopName");
         String userId = PreferenceManager.getDefaultSharedPreferences(GroceryCart.this).getString("userEmail","null");
         recyclerView = findViewById(R.id.grocery_cart_recyclerview);
         rootLayout = findViewById(R.id.cart_root_layout);
         loadingProgress = findViewById(R.id.cart_loading_progress);
         mTotalprice = findViewById(R.id.cart_total_price);
         checkout = findViewById(R.id.cart_checkout_button);
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         GroceryModel groceryModel = new GroceryModel(retailerId,userId,GroceryCart.this);
@@ -100,8 +103,22 @@ public class GroceryCart extends AppCompatActivity {
                     groceryModel1.setCartCheckoutListener(new GroceryModel.CartCheckoutListener() {
                         @Override
                         public void onSuccess() {
-                            Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
-                            finish();
+                            CreatBill createBill = new CreatBill(userId,retailerId,Integer.parseInt(mTotalPriceValue),"2",retailerShopName);
+                            createBill.CreateBill();
+                            createBill.setCreateBillListener(new CreatBill.CreateBillListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                }
+                            });
+
+                            ;
                         }
                         @Override
                         public void onError() {
@@ -112,7 +129,6 @@ public class GroceryCart extends AppCompatActivity {
                 }
 
         });
-
     }
 
     private String convertListToJsonString(ArrayList<GroceryModel> orderlist){

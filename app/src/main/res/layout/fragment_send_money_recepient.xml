@@ -20,7 +20,7 @@
         android:layout_marginRight="30dp"
         android:scaleType="centerCrop"
         android:layout_gravity="center"
-        android:src="@drawable/increase_money_icon"/>
+        android:src="@drawable/send_social_media_icon"/>
 
 
     <com.google.android.material.textfield.TextInputLayout

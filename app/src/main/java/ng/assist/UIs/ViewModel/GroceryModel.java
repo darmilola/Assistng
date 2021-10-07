@@ -59,6 +59,7 @@ public class GroceryModel implements Parcelable {
     private CartDisplayListener cartDisplayListener;
     private CartCheckoutListener cartCheckoutListener;
 
+
     protected GroceryModel(Parcel in) {
         itemId = in.readString();
         category = in.readString();
@@ -627,7 +628,7 @@ public class GroceryModel implements Parcelable {
 
 
     public void CheckOut() {
-        dialogUtils.showLoadingDialog("Adding to cart");
+        dialogUtils.showLoadingDialog("Processing...");
         Runnable runnable = () -> {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient.Builder()
