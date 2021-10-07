@@ -80,6 +80,7 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
                     String from = rideDisplayList.get(getAdapterPosition()).getFrom();
                     String to = rideDisplayList.get(getAdapterPosition()).getTo();
                     String tFare = rideDisplayList.get(getAdapterPosition()).getFare();
+                    String route = from+" - "+to;
 
                     TransportDialog transportDialog = new TransportDialog(context,from,to,tFare);
                     transportDialog.ShowTransportDialog();
@@ -88,7 +89,7 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
                         public void bookClicked(String phonenumber) {
                             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
                             String userId =  preferences.getString("userEmail","");
-                            CabHailingModel cabHailingModel = new CabHailingModel(transportId,userId,phonenumber,context);
+                            CabHailingModel cabHailingModel = new CabHailingModel(transportId,userId,phonenumber,"1",route,Integer.parseInt(tFare),context);
                             cabHailingModel.BookTransport();
                             cabHailingModel.setTransportBookingListener(new CabHailingModel.TransportBookingListener() {
                                 @Override

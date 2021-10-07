@@ -120,6 +120,7 @@ public class GroceryStoreListing extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(GroceryStoreListing.this,GroceryCart.class);
                 intent.putExtra("retailerId",groceryModel.getRetailerId());
+                intent.putExtra("retailerShopName",groceryModel.getShopName());
                 startActivity(intent);
             }
         });

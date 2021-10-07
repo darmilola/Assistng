@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PayServiceFee"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/special_activity_background">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Pay service fee"
+        android:textSize="23dp"
+        android:fontFamily="@font/clannews"
+        android:textColor="@color/colorPrimary"/>
+
+    <include layout="@layout/pay_service_fee_pay_layout"/>
+    <include layout="@layout/pay_service_fee_success_layout"/>
+
+</LinearLayout>

@@ -38,7 +38,8 @@ public class CabHailingModel {
     private ArrayList<LocationModel> assistLocationList = new ArrayList<>();
     private String from,to;
     private int transportId,seats;
-    private String type,phone,fare,userId,contactPhone;
+    private String type,phone,fare,userId,contactPhone,route;
+    private int cost;
     private LoadingDialogUtils loadingDialogUtils;
     private Context context;
 
@@ -82,11 +83,14 @@ public class CabHailingModel {
            this.phone = phone;
     }
 
-    public CabHailingModel(int transportId, String userId, String contactPhone, Context context){
+    public CabHailingModel(int transportId, String userId, String contactPhone,String type,String route, int cost,  Context context){
            this.transportId = transportId;
            this.userId = userId;
            this.contactPhone = contactPhone;
            this.context = context;
+           this.type = type;
+           this.cost = cost;
+           this.route = route;
            loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
@@ -176,7 +180,7 @@ public class CabHailingModel {
                     ArrayList<CabHailingModel> cabHailingModelArrayList = new ArrayList<>();
                     for(int i = 0; i < data.length(); i++){
                         int id = data.getJSONObject(i).getInt("id");
-                        String type = data.getJSONObject(i).getString("type");
+                        String type = data.getJSONObject(i).getString("mType");
                         String from  = data.getJSONObject(i).getString("mFrom");
                         String to = data.getJSONObject(i).getString("mTo");
                         int seats = data.getJSONObject(i).getInt("seats");
@@ -267,7 +271,7 @@ public class CabHailingModel {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildBookTransport(transportId,userId,contactPhone));
+            RequestBody requestBody = RequestBody.create(JSON,buildBookTransport(transportId,userId,contactPhone,cost,type,route));
             Request request = new Request.Builder()
                     .url(bookTransport)
                     .post(requestBody)
@@ -310,12 +314,15 @@ public class CabHailingModel {
         return jsonObject.toString();
     }
 
-    private String buildBookTransport(int transportId, String userId, String contactPhone){
+    private String buildBookTransport(int transportId, String userId, String contactPhone, int cost, String type, String route){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("transportId",transportId);
             jsonObject.put("userId",userId);
             jsonObject.put("contactPhone",contactPhone);
+            jsonObject.put("mCost",cost);
+            jsonObject.put("mType",type);
+            jsonObject.put("mRoute",route);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -13,10 +13,12 @@ import ng.assist.Adapters.ProductImageScrollAdapter;
 import ng.assist.UIs.ItemDecorator;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.AgentModel;
+import ng.assist.UIs.ViewModel.CreatBill;
 
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
@@ -44,6 +47,8 @@ public class AccomodationBooking extends AppCompatActivity {
     AccomodationListModel accomodationListModel;
     String houseId, agentId;
     LinearLayout imageScrollLayout;
+    MaterialButton bookInspection;
+    AgentModel agentModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class AccomodationBooking extends AppCompatActivity {
     }
 
     private void initView(){
+        bookInspection = findViewById(R.id.acc_details_book_inspection);
         imageScrollLayout = findViewById(R.id.scroll_image_layout);
         accomodationListModel = getIntent().getParcelableExtra("accModel");
         loadingBar = findViewById(R.id.acc_details_progress);
@@ -84,6 +90,8 @@ public class AccomodationBooking extends AppCompatActivity {
         adddress.setText(accomodationListModel.getAddress());
         description.setText(accomodationListModel.getHouseDesc());
         bookingFee.setText(accomodationListModel.getBookingFee());
+        String userId = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this).getString("userEmail","null");
+
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationBooking.this, LinearLayoutManager.HORIZONTAL,false);
@@ -99,7 +107,7 @@ public class AccomodationBooking extends AppCompatActivity {
                 loadingBar.setVisibility(View.GONE);
                 rootLayout.setVisibility(View.VISIBLE);
                 bookNowLayout.setVisibility(View.VISIBLE);
-
+                AccomodationBooking.this.agentModel = agentModel;
                 adapter = new ProductImageScrollAdapter(mImageList,AccomodationBooking.this);
                 agentName.setText(agentModel.getAgentFirstname()+" "+agentModel.getAgentLastName());
                 imagesRecyclerview.setAdapter(adapter);
@@ -123,6 +131,26 @@ public class AccomodationBooking extends AppCompatActivity {
                 rootLayout.setVisibility(View.GONE);
                 bookNowLayout.setVisibility(View.GONE);
                 Toast.makeText(AccomodationBooking.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        bookInspection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String fullName = agentModel.getAgentFirstname() +" - "+agentModel.getAgentLastName();
+                CreatBill creatBill = new CreatBill(userId,agentModel.getAgentId(),Integer.parseInt(accomodationListModel.getBookingFee()),"3",fullName,AccomodationBooking.this,"");
+                creatBill.CreateBill();
+                creatBill.setCreateBillListener(new CreatBill.CreateBillListener() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(AccomodationBooking.this, "You have booked Inspection Successfully", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(AccomodationBooking.this, "Error Occurred please try again", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
