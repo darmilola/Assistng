@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.ProductTransaction;
 import ng.assist.R;
+import ng.assist.UIs.ViewModel.Transactions;
 import ng.assist.UIs.ViewModel.WalletTransactionsModel;
 
 public class WalletAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -24,11 +25,11 @@ public class WalletAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static int typeAccomodation = 5;
     private static int typeMarketPlace = 6;
     private static int typeTransports = 7;
-    ArrayList<WalletTransactionsModel> walletTransactionsList;
+    ArrayList<Transactions> walletTransactionsList;
     Context context;
 
 
-public WalletAdapter(ArrayList<WalletTransactionsModel> walletTransactionsList, Context context){
+public WalletAdapter(ArrayList<Transactions> walletTransactionsList, Context context){
         this.walletTransactionsList = walletTransactionsList;
         this.context = context;
 
@@ -88,34 +89,34 @@ public int getItemCount() {
     @Override
     public int getItemViewType(int position) {
 
-        if (walletTransactionsList.get(position).getViewType() == typeAccomodation) {
+        if (walletTransactionsList.get(position).getType() == typeAccomodation) {
 
             return typeAccomodation;
-        } else if (walletTransactionsList.get(position).getViewType() == typeBills) {
+        } else if (walletTransactionsList.get(position).getType() == typeBills) {
 
             return typeBills;
         }
-        else if (walletTransactionsList.get(position).getViewType() == typeMarketPlace) {
+        else if (walletTransactionsList.get(position).getType() == typeMarketPlace) {
 
             return typeMarketPlace;
         }
-        else if (walletTransactionsList.get(position).getViewType() == typeSend) {
+        else if (walletTransactionsList.get(position).getType() == typeSend) {
 
             return typeSend;
         }
-        else if (walletTransactionsList.get(position).getViewType() == typeServices) {
+        else if (walletTransactionsList.get(position).getType() == typeServices) {
 
             return typeServices;
         }
-        else if (walletTransactionsList.get(position).getViewType() == typeTopUp) {
+        else if (walletTransactionsList.get(position).getType() == typeTopUp) {
 
             return typeTopUp;
         }
-        else if (walletTransactionsList.get(position).getViewType() == typeTransports) {
+        else if (walletTransactionsList.get(position).getType() == typeTransports) {
 
             return typeTransports;
         }
-        else if (walletTransactionsList.get(position).getViewType() == typeWithdraw) {
+        else if (walletTransactionsList.get(position).getType() == typeWithdraw) {
 
             return typeWithdraw;
         }
