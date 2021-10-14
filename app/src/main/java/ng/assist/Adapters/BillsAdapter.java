@@ -12,13 +12,19 @@ import com.google.android.material.button.MaterialButton;
 
 import org.w3c.dom.Text;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import ng.assist.BillPayment;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.BillsModel;
+import ng.assist.UIs.ViewModel.TransactionDao;
+import ng.assist.UIs.ViewModel.TransactionDatabase;
+import ng.assist.UIs.ViewModel.Transactions;
 
 public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHolder> {
 
@@ -139,6 +145,9 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
                     billsModel.setBillsActionLitener(new BillsModel.BillsActionLitener() {
                         @Override
                         public void onSuccess() {
+                            Date date = new Date();
+                            Timestamp timestamp = new Timestamp(date.getTime());
+                            insertBooking(0,7,"Bills",timestamp.toString(),Integer.toString(cost),"");
                             billsList.remove(getAdapterPosition());
                             notifyDataSetChanged();
                             Toast.makeText(context, "Bill paid successfully", Toast.LENGTH_LONG).show();
@@ -154,5 +163,13 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
             });
 
         }
+    }
+
+    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
+        TransactionDatabase db = Room.databaseBuilder(context,
+                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
+        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
+        TransactionDao transactionDao = db.transactionDao();
+        transactionDao.insert(transactions);
     }
 }

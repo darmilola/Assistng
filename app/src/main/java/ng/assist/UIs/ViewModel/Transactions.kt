@@ -2,10 +2,12 @@ package ng.assist.UIs.ViewModel
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "transactions")
 data class Transactions (
+
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "type") val type: Int?,
     @ColumnInfo(name = "title") val title: String?,

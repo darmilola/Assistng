@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -17,14 +20,14 @@ import ng.assist.UIs.ViewModel.WalletTransactionsModel;
 
 public class WalletAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static int typeTopUp = 0;
-    private static int typeSend = 1;
-    private static int typeBills = 2;
-    private static int typeWithdraw = 3;
+    private static int typeTransports = 1;
+    private static int typeMarketPlace = 2;
+    private static int typeAccomodation = 3;
     private static int typeServices = 4;
-    private static int typeAccomodation = 5;
-    private static int typeMarketPlace = 6;
-    private static int typeTransports = 7;
+    private static int typeTopUp = 5;
+    private static int typeSend = 6;
+    private static int typeBills = 7;
+    private static int typeWithdraw = 8;
     ArrayList<Transactions> walletTransactionsList;
     Context context;
 
@@ -76,6 +79,45 @@ public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            Transactions transactions = walletTransactionsList.get(position);
+            if(holder instanceof AccomodationItemViewHolder){
+                ((AccomodationItemViewHolder) holder).amount.setText(transactions.getAmount());
+                ((AccomodationItemViewHolder) holder).date.setText(transactions.getTimestamp());
+           }
+        if(holder instanceof BillsItemViewHolder){
+            ((BillsItemViewHolder) holder).amount.setText(transactions.getAmount());
+            ((BillsItemViewHolder) holder).date.setText(transactions.getTimestamp());
+        }
+        if(holder instanceof MarketplaceItemViewHolder){
+            ((MarketplaceItemViewHolder) holder).amount.setText(transactions.getAmount());
+            ((MarketplaceItemViewHolder) holder).date.setText(transactions.getTimestamp());
+        }
+        if(holder instanceof SendItemViewHolder){
+            ((SendItemViewHolder) holder).amount.setText(transactions.getAmount());
+            ((SendItemViewHolder) holder).date.setText(transactions.getTimestamp());
+        }
+        if(holder instanceof ServicesItemViewHolder){
+            ((ServicesItemViewHolder) holder).amount.setText(transactions.getAmount());
+            ((ServicesItemViewHolder) holder).date.setText(transactions.getTimestamp());
+        }
+
+        if(holder instanceof TopUpItemViewHolder){
+            ((TopUpItemViewHolder) holder).amount.setText(transactions.getAmount());
+            ((TopUpItemViewHolder) holder).date.setText(transactions.getTimestamp());
+        }
+
+        if(holder instanceof TransportsItemViewHolder){
+            ((TransportsItemViewHolder) holder).amount.setText(transactions.getAmount());
+            ((TransportsItemViewHolder) holder).date.setText(transactions.getTimestamp());
+        }
+        if(holder instanceof WithdrawItemViewHolder){
+            ((WithdrawItemViewHolder) holder).amount.setText(transactions.getAmount());
+            ((WithdrawItemViewHolder) holder).date.setText(transactions.getTimestamp());
+        }
+
+
+
+
 
     }
 
@@ -129,66 +171,85 @@ public int getItemCount() {
 
     public class AccomodationItemViewHolder extends RecyclerView.ViewHolder{
 
-
+       TextView date,amount;
     public AccomodationItemViewHolder(View ItemView){
         super(ItemView);
+        date = ItemView.findViewById(R.id.transactions_date);
+        amount = ItemView.findViewById(R.id.transactions_amount);
     }
 
 }
 
     public class BillsItemViewHolder extends RecyclerView.ViewHolder{
 
-
+        TextView date,amount;
         public BillsItemViewHolder(View ItemView){
             super(ItemView);
+            date = ItemView.findViewById(R.id.transactions_date);
+            amount = ItemView.findViewById(R.id.transactions_amount);
         }
 
     }
 
     public class MarketplaceItemViewHolder extends RecyclerView.ViewHolder{
 
-
+        TextView date,amount;
         public MarketplaceItemViewHolder(View ItemView){
             super(ItemView);
+            date = ItemView.findViewById(R.id.transactions_date);
+            amount = ItemView.findViewById(R.id.transactions_amount);
         }
 
     }
 
     public class SendItemViewHolder extends RecyclerView.ViewHolder{
 
-
-        public SendItemViewHolder(View ItemView){
+        TextView date,amount;
+        public SendItemViewHolder(View ItemView)
+        {
             super(ItemView);
+            date = ItemView.findViewById(R.id.transactions_date);
+            amount = ItemView.findViewById(R.id.transactions_amount);
         }
 
     }
     public class ServicesItemViewHolder extends RecyclerView.ViewHolder{
 
-
+        TextView date,amount;
         public ServicesItemViewHolder(View ItemView){
             super(ItemView);
+            date = ItemView.findViewById(R.id.transactions_date);
+            amount = ItemView.findViewById(R.id.transactions_amount);
         }
 
     }
     public class TopUpItemViewHolder extends RecyclerView.ViewHolder{
 
-
-        public TopUpItemViewHolder(View ItemView){
+        TextView date,amount;
+        public TopUpItemViewHolder(View ItemView)
+        {
             super(ItemView);
+            date = ItemView.findViewById(R.id.transactions_date);
+            amount = ItemView.findViewById(R.id.transactions_amount);
         }
 
     }
     public class TransportsItemViewHolder extends RecyclerView.ViewHolder{
-
+          TextView date,amount;
          public TransportsItemViewHolder(View ItemView){
-            super(ItemView);
+
+             super(ItemView);
+             date = ItemView.findViewById(R.id.transactions_date);
+             amount = ItemView.findViewById(R.id.transactions_amount);
         }
 
     }
     public class WithdrawItemViewHolder extends RecyclerView.ViewHolder{
-
+     TextView date,amount;
      public WithdrawItemViewHolder(View ItemView){
             super(ItemView);
+            date = ItemView.findViewById(R.id.transactions_date);
+            amount = ItemView.findViewById(R.id.transactions_amount);
         }
 
     }

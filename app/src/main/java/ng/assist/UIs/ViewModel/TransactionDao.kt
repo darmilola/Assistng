@@ -8,7 +8,7 @@ import androidx.room.Query
 @Dao
 interface TransactionDao {
     @Query("SELECT * FROM transactions")
-    fun getAll(): ArrayList<Transactions>
+    fun getAll(): List<Transactions>
 
     @Query("SELECT * FROM transactions")
     fun loadAllTransaction(): List<Transactions>

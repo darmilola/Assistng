@@ -116,7 +116,7 @@ public class GroceryCart extends AppCompatActivity {
                                 public void onSuccess() {
                                     Date date = new Date();
                                     Timestamp timestamp = new Timestamp(date.getTime());
-                                    insertBooking(1,2,"Marketplace",timestamp.toString(),mTotalPriceValue,"");
+                                    insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,"");
                                     Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
@@ -162,7 +162,7 @@ public class GroceryCart extends AppCompatActivity {
 
     private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
         TransactionDatabase db = Room.databaseBuilder(GroceryCart.this,
-                TransactionDatabase.class, "transactions").build();
+                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
         Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
         TransactionDao transactionDao = db.transactionDao();
         transactionDao.insert(transactions);

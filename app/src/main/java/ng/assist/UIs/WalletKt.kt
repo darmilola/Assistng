@@ -23,7 +23,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
 import java.text.DecimalFormat
-import java.util.ArrayList
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +37,7 @@ import ng.assist.TopUp
 import ng.assist.UIs.ViewModel.TransactionDatabase
 import ng.assist.UIs.ViewModel.Transactions
 import ng.assist.UIs.ViewModel.WalletTransactionsModel
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -99,8 +99,8 @@ class WalletKt : Fragment() {
 
         walletAppbar.addOnOffsetChangedListener(object :  AppBarLayout.OnOffsetChangedListener {
 
-            internal var isShown = true
-            internal var scrollRange = -1
+             var isShown = true
+             var scrollRange = -1
             override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
                 if (scrollRange == -1) {
                     scrollRange = appBarLayout.totalScrollRange
@@ -111,8 +111,6 @@ class WalletKt : Fragment() {
                     isShown = true
                     return
                 } else if (isShown) {
-
-
                     isShown = false
                     toolbarTitle.text = ""
                     return
@@ -156,14 +154,15 @@ class WalletKt : Fragment() {
     }
 
     fun initTransactions(){
-        val db = Room.databaseBuilder(
+        val db = TransactionDatabase.getTransactionDatabase(context = activity!!.applicationContext!!)
+       /* val db = Room.databaseBuilder(
                 applicationContext,
                 TransactionDatabase::class.java, "transactions"
-        ).build()
-        val transactionDao = db.transactionDao();
-        val transactions: ArrayList<Transactions> = transactionDao.getAll()
+        ).build()*/
+        val transactionDao = db!!.transactionDao();
+        val transactions: List<Transactions> = transactionDao.getAll()
 
-        adapter = WalletAdapter(transactions, context)
+        adapter = WalletAdapter(ArrayList(transactions), context)
         walletRecyclerview.adapter = adapter
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         walletRecyclerview.layoutManager = layoutManager

@@ -2,6 +2,7 @@ package ng.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.room.Room;
 import co.paystack.android.Paystack;
 import co.paystack.android.PaystackSdk;
 import co.paystack.android.Transaction;
@@ -9,6 +10,9 @@ import co.paystack.android.model.Card;
 import co.paystack.android.model.Charge;
 import ng.assist.UIs.Utils.LoadingDialogUtils;
 import ng.assist.UIs.ViewModel.TopUpModel;
+import ng.assist.UIs.ViewModel.TransactionDao;
+import ng.assist.UIs.ViewModel.TransactionDatabase;
+import ng.assist.UIs.ViewModel.Transactions;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,6 +31,9 @@ import com.tenbis.library.models.CreditCard;
 import com.tenbis.library.views.CompactCreditCardInput;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class TopUp extends AppCompatActivity {
 
@@ -135,6 +142,9 @@ public class TopUp extends AppCompatActivity {
                 topUpModel.setTopUpListener(new TopUpModel.TopUpListener() {
                     @Override
                     public void onTopUpSucessful(String balance) {
+                        Date date = new Date();
+                        Timestamp timestamp = new Timestamp(date.getTime());
+                        insertBooking(0,5,"Top Up",timestamp.toString(),Integer.toString(topUpAmountValue),"");
                         Toast.makeText(TopUp.this, "TopUp Successful", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.putExtra("balance",balance);
@@ -180,5 +190,13 @@ public class TopUp extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         }
+    }
+
+    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
+        TransactionDatabase db = Room.databaseBuilder(TopUp.this,
+                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
+        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
+        TransactionDao transactionDao = db.transactionDao();
+        transactionDao.insert(transactions);
     }
 }

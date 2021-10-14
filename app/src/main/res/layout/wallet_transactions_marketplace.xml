@@ -47,6 +47,7 @@
                     android:fontFamily="@font/clannews"
                     android:gravity="center|left"
                     android:text="April 5"
+                    android:id="@+id/transactions_date"
                     android:textColor="#918F8F"
                     android:textSize="12dp" />
 
@@ -73,7 +74,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="View Cart"
+                    android:text="NGN 25,000"
+                    android:id="@+id/transactions_amount"
                     android:textSize="12dp"
                     android:gravity="center"
                     android:layout_marginBottom="5dp"

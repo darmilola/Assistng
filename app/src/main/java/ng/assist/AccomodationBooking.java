@@ -151,7 +151,7 @@ public class AccomodationBooking extends AppCompatActivity {
                     public void onSuccess() {
                         Date date = new Date();
                         Timestamp timestamp = new Timestamp(date.getTime());
-                        insertBooking(1,3,"Inspection",timestamp.toString(),accomodationListModel.getBookingFee(),"");
+                        insertBooking(0,3,"Inspection",timestamp.toString(),accomodationListModel.getBookingFee(),"");
                         Toast.makeText(AccomodationBooking.this, "You have booked Inspection Successfully", Toast.LENGTH_SHORT).show();
                     }
 
@@ -168,7 +168,7 @@ public class AccomodationBooking extends AppCompatActivity {
 
     private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
         TransactionDatabase db = Room.databaseBuilder(AccomodationBooking.this,
-                TransactionDatabase.class, "transactions").build();
+                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
         Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
         TransactionDao transactionDao = db.transactionDao();
         transactionDao.insert(transactions);
