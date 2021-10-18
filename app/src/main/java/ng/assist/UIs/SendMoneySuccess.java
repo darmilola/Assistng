@@ -17,9 +17,14 @@ import com.google.android.material.button.MaterialButton;
 
 import java.text.DecimalFormat;
 
+import androidx.room.Room;
+import ng.assist.AccomodationBooking;
 import ng.assist.R;
 import ng.assist.SendMoney;
 import ng.assist.UIs.ViewModel.SendMoneyModel;
+import ng.assist.UIs.ViewModel.TransactionDao;
+import ng.assist.UIs.ViewModel.TransactionDatabase;
+import ng.assist.UIs.ViewModel.Transactions;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,5 +88,6 @@ public class SendMoneySuccess extends Fragment {
         preferences.edit().putString("walletBalance",Integer.toString(trueBalance)).apply();
 
     }
+
 
 }

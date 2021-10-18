@@ -163,11 +163,11 @@ public class Wallet extends Fragment {
         walletHistoryList.add(walletTransactionsModel7);
         walletHistoryList.add(walletTransactionsModel8);
 
-        adapter = new WalletAdapter(walletHistoryList,getContext());
-        walletRecyclerview.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
-        walletRecyclerview.setLayoutManager(layoutManager);
-        walletRecyclerview.setAdapter(adapter);
+      //  adapter = new WalletAdapter(walletHistoryList,getContext());
+        //walletRecyclerview.setAdapter(adapter);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        //walletRecyclerview.setLayoutManager(layoutManager);
+        //walletRecyclerview.setAdapter(adapter);
 
     }
 

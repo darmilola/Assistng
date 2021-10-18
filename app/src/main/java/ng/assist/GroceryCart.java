@@ -5,9 +5,13 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import ng.assist.Adapters.GroceryCartAdapter;
 import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.GroceryModel;
+import ng.assist.UIs.ViewModel.TransactionDao;
+import ng.assist.UIs.ViewModel.TransactionDatabase;
+import ng.assist.UIs.ViewModel.Transactions;
 
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -23,7 +27,9 @@ import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONArray;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GroceryCart extends AppCompatActivity {
 
@@ -108,6 +114,9 @@ public class GroceryCart extends AppCompatActivity {
                             createBill.setCreateBillListener(new CreatBill.CreateBillListener() {
                                 @Override
                                 public void onSuccess() {
+                                    Date date = new Date();
+                                    Timestamp timestamp = new Timestamp(date.getTime());
+                                    insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,"");
                                     Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
@@ -149,5 +158,13 @@ public class GroceryCart extends AppCompatActivity {
              getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
+    }
+
+    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
+        TransactionDatabase db = Room.databaseBuilder(GroceryCart.this,
+                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
+        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
+        TransactionDao transactionDao = db.transactionDao();
+        transactionDao.insert(transactions);
     }
 }

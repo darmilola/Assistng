@@ -35,7 +35,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Top-Up"
+                android:text="TopUp"
                 android:textSize="15dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center|left"
@@ -49,6 +49,7 @@
                 android:gravity="center|left"
                 android:text="June 11"
                 android:textColor="#918F8F"
+                android:id="@+id/transactions_date"
                 android:textSize="12dp" />
 
         </LinearLayout>
@@ -77,6 +78,7 @@
                 android:text="NGN 20,000"
                 android:textSize="12dp"
                 android:gravity="center"
+                android:id="@+id/transactions_amount"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/clannews"
                 android:textColor="@color/colorPrimary"/>

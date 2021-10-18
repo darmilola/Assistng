@@ -19,9 +19,16 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
+import androidx.room.Room;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.SendMoneyModel;
+import ng.assist.UIs.ViewModel.TransactionDao;
+import ng.assist.UIs.ViewModel.TransactionDatabase;
+import ng.assist.UIs.ViewModel.Transactions;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,9 +92,12 @@ public class SendMoneyAmount extends Fragment {
                     sendMoneyModel.setSendMoneyListener(new SendMoneyModel.sendMoneyListener() {
                         @Override
                         public void onSuccessful() {
+                            Date date = new Date();
+                            Timestamp timestamp = new Timestamp(date.getTime());
                             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                             preferences.edit().putString("sendMoneyAmount",amountToSend.getText().toString()).apply();
                             sendMoneyListener.onSendSuccess();
+                            insertBooking(0,6,"Send Money",timestamp.toString(),amountToSend.getText().toString(),"");
                         }
                         @Override
                         public void onFailure(String message) {
@@ -117,5 +127,14 @@ public class SendMoneyAmount extends Fragment {
             userName.setText(firstname+" "+lastname);
             userEmail.setText(email);
     }
+
+    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
+        TransactionDatabase db = Room.databaseBuilder(getContext(),
+                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
+        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
+        TransactionDao transactionDao = db.transactionDao();
+        transactionDao.insert(transactions);
+    }
+
 
 }

@@ -66,7 +66,7 @@ public class CreatBill {
     }
 
     public void CreateBill() {
-        if(loadingDialogUtils != null)loadingDialogUtils.showLoadingDialog("Processing");
+        if(loadingDialogUtils != null)loadingDialogUtils.showLoadingDialog("booking...");
         Runnable runnable = () -> {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient.Builder()

@@ -21,6 +21,7 @@
                 android:text="Transportation"
                 android:textSize="17dp"
                 android:gravity="center"
+                android:id="@+id/bills_item_type"
                 android:textColor="@color/colorPrimary"/>
             <TextView
                 android:layout_width="match_parent"
@@ -29,6 +30,7 @@
                 android:layout_marginTop="10dp"
                 android:textSize="17dp"
                 android:gravity="center"
+                android:id="@+id/bills_item_name"
                 android:textColor="@color/colorPrimary"/>
             <TextView
                 android:layout_width="match_parent"
@@ -36,6 +38,7 @@
                 android:text="NGN 5,000"
                 android:layout_marginTop="10dp"
                 android:textSize="17dp"
+                android:id="@+id/bills_item_cost"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"/>
             <com.google.android.material.button.MaterialButton
@@ -46,6 +49,7 @@
                 android:layout_marginTop="10dp"
                 app:backgroundTint="@color/green"
                 android:text="Release fund"
+                android:id="@+id/bills_item_release_fund"
                 android:textAllCaps="false"/>
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
@@ -55,6 +59,7 @@
                 android:layout_marginTop="5dp"
                 app:backgroundTint="@color/pinkypinky"
                 android:text="Request refund"
+                android:id="@+id/bills_item_request_refund"
                 android:textAllCaps="false"/>
 
 

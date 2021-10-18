@@ -2,8 +2,12 @@ package ng.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.room.Room;
 import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.ServicesModel;
+import ng.assist.UIs.ViewModel.TransactionDao;
+import ng.assist.UIs.ViewModel.TransactionDatabase;
+import ng.assist.UIs.ViewModel.Transactions;
 
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -19,6 +23,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class PayServiceFee extends AppCompatActivity {
 
@@ -81,6 +88,9 @@ public class PayServiceFee extends AppCompatActivity {
                             successAmount.setText(serviceFee.getText().toString().trim());
                             payLayout.setVisibility(View.GONE);
                             successLayout.setVisibility(View.VISIBLE);
+                            Date date = new Date();
+                            Timestamp timestamp = new Timestamp(date.getTime());
+                            insertBooking(0,4,"Service",timestamp.toString(),Integer.toString(cost),"");
                         }
 
                         @Override
@@ -112,6 +122,14 @@ public class PayServiceFee extends AppCompatActivity {
             isValid = false;
         }
         return isValid;
+    }
+
+    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
+        TransactionDatabase db = Room.databaseBuilder(PayServiceFee.this,
+                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
+        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
+        TransactionDao transactionDao = db.transactionDao();
+        transactionDao.insert(transactions);
     }
 
     @Override
