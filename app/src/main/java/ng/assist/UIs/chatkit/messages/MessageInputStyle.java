@@ -193,7 +193,7 @@ class MessageInputStyle extends Style {
     protected Drawable getAttachmentButtonIcon() {
         if (attachmentButtonIcon == -1) {
             return getSelector(attachmentButtonDefaultIconColor, attachmentButtonDefaultIconPressedColor,
-                    attachmentButtonDefaultIconDisabledColor, R.drawable.select_image);
+                    attachmentButtonDefaultIconDisabledColor, R.drawable.chat_attach_image);
         } else {
             return getDrawable(attachmentButtonIcon);
         }

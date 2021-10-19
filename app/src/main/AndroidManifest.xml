@@ -11,7 +11,8 @@
         android:testOnly="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PayServiceFee"></activity>
+        <activity android:name=".PayServiceFee" />
+
         <activity android:name=".ConnectWithEmail" />
         <activity android:name=".ChatFullImage" />
         <activity android:name=".PlacesSelection" />
@@ -76,18 +77,23 @@
             android:screenOrientation="sensor"
             android:theme="@style/FinestWebViewTheme.Light" />
         <activity android:name=".MainActivity" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDhWEtH-spkmhAaeLLTN-8Oaest6Gq4y50" />
+
         <meta-data
             android:name="co.paystack.android.PublicKey"
             android:value="pk_test_bf395e89a315198929ddca163fafecf64899d524" />
+        <service
+            android:name=".NotificationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>
