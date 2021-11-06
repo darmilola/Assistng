@@ -13,10 +13,10 @@ import ng.assist.UIs.chatkit.messages.MessageInput;
 import ng.assist.UIs.chatkit.messages.MessagesList;
 import ng.assist.UIs.chatkit.messages.MessagesListAdapter;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,9 +24,17 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
-
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+
+import org.apache.commons.text.StringEscapeUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -35,23 +43,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
-
-import org.apache.commons.text.StringEscapeUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class ChatActivity extends AppCompatActivity   implements MessageInput.InputListener,
+public class ChatActivity  extends AppCompatActivity  implements MessageInput.InputListener,
         MessageInput.AttachmentsListener,
         MessageInput.TypingListener,
         MessagesListAdapter.OnLoadMoreListener {
 
 
-    private int totalMessageCount=0;
+    private int totalMessageCount = 0;
     private String mNextPageUrl = "";
     private static int PICK_IMAGE = 1;
     private String senderId = "";
@@ -66,9 +64,11 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     protected MessagesListAdapter<Message> messagesAdapter;
     private Socket mSocket;
     private MessagesList messagesList;
-    private TextView chatActivityHeader;
     private ChatModel chatModel;
     private String imageString;
+    private TextView receiverDisplayName;
+    ImageView receiverImageView;
+    TextView chatStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +77,12 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         initView();
     }
 
-    private void initView(){
+    private void initView() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        senderFirstname = preferences.getString("firstname","");
-        senderLastname = preferences.getString("lastname","");
-        senderImageUrl = preferences.getString("imageUrl","");
+        senderFirstname = preferences.getString("firstname", "");
+        senderLastname = preferences.getString("lastname", "");
+        senderImageUrl = preferences.getString("imageUrl", "");
+        chatStatus = findViewById(R.id.chat_receiver_status);
         Intent intent = getIntent();
         this.messagesList = (MessagesList) findViewById(R.id.messagesList);
         MessageInput input = (MessageInput) findViewById(R.id.input);
@@ -92,30 +93,38 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         receiverFirstname = intent.getStringExtra("receiverFirstname");
         receiverLastname = intent.getStringExtra("receiverLastname");
         receiverImageUrl = intent.getStringExtra("receiverImageUrl");
-        senderId = preferences.getString("userEmail","");
-        chatActivityHeader = findViewById(R.id.chat_activity_header);
-        chatActivityHeader.setText(receiverFirstname+" "+receiverLastname);
+        senderId = preferences.getString("userEmail", "");
+        receiverDisplayName = findViewById(R.id.chat_receiver_name);
+        receiverImageView = findViewById(R.id.chat_receiver_imageview);
+        receiverDisplayName.setText(receiverFirstname + " " + receiverLastname);
+
+        Glide.with(ChatActivity.this)
+                .load(receiverImageUrl)
+                .placeholder(R.drawable.profileplaceholder)
+                .error(R.drawable.profileplaceholder)
+                .into(receiverImageView);
+
         initAdapter();
         initSocket();
         performHttpRequest();
+
     }
 
-    private void performHttpRequest(){
-        chatModel = new ChatModel(senderId,receiverId);
-        chatModel.updateCaughtUp();
+    private void performHttpRequest() {
 
-        ChatModel chatModel1 = new ChatModel(senderId,receiverId,senderId,receiverImageUrl);
+        chatModel = new ChatModel(senderId, receiverId);
+        chatModel.updateCaughtUp();
+        ChatModel chatModel1 = new ChatModel(senderId, receiverId, senderId, receiverImageUrl);
         chatModel1.getDirectMessages();
         chatModel1.setChatGetMessageListener(new ChatModel.ChatGetMessageListener() {
             @Override
-            public void onMessageReady(ArrayList<Message> messageArrayList, String nextPageUrl,int total) {
-                messagesAdapter.addToEnd(messageArrayList,true);
+            public void onMessageReady(ArrayList<Message> messageArrayList, String nextPageUrl, int total) {
+                messagesAdapter.addToEnd(messageArrayList, true);
                 totalMessageCount = total;
                 mNextPageUrl = nextPageUrl;
             }
             @Override
             public void onError(String message) {
-                Toast.makeText(ChatActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -136,10 +145,10 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
                     @Override
                     public void onMessageViewClick(View view, Message message) {
 
-                        if(message.getImageUrl() != null && !message.getImageUrl().equalsIgnoreCase("")){
+                        if (message.getImageUrl() != null && !message.getImageUrl().equalsIgnoreCase("")) {
 
-                            Intent intent = new Intent(ChatActivity.this,ChatFullImage.class);
-                            intent.putExtra("imageUrl",message.getImageUrl());
+                            Intent intent = new Intent(ChatActivity.this, ChatFullImage.class);
+                            intent.putExtra("imageUrl", message.getImageUrl());
                             startActivity(intent);
                         }
                     }
@@ -155,12 +164,12 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
 
     @Override
     public void onStartTyping() {
-
+        mSocket.emit("typing",receiverId);
     }
 
     @Override
     public void onStopTyping() {
-
+        mSocket.emit("stoptyping",receiverId);
     }
 
 
@@ -171,20 +180,18 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     }
 
 
-
-
-
     @Override
     public void onLoadMore(int page, int totalItemsCount) {
-        if (totalItemsCount < totalMessageCount) {
-            ChatModel chatModel1 = new ChatModel(senderId,receiverId,senderId,receiverImageUrl);
+        if (totalMessageCount > messagesAdapter.getMessagesCount()) {
+            ChatModel chatModel1 = new ChatModel(senderId, receiverId, senderId, receiverImageUrl);
             chatModel1.getDirectMessagesNextPage(mNextPageUrl);
             chatModel1.setChatGetMessageListener(new ChatModel.ChatGetMessageListener() {
                 @Override
-                public void onMessageReady(ArrayList<Message> messageArrayList, String nextPageUrl,int total) {
-                    messagesAdapter.addToEnd(messageArrayList,true);
+                public void onMessageReady(ArrayList<Message> messageArrayList, String nextPageUrl, int total) {
+                    messagesAdapter.addToEnd(messageArrayList, true);
                     totalMessageCount = total;
                     mNextPageUrl = nextPageUrl;
+
                 }
                 @Override
                 public void onError(String message) {
@@ -192,9 +199,23 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
                 }
             });
         }
+        else{
+
+        }
     }
 
 
+
+  /*  protected void loadMessages() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Message> messages = MessagesFixtures.getMessages(lastLoadedDate);
+                lastLoadedDate = messages.get(messages.size() - 1).getCreatedAt();
+                messagesAdapter.addToEnd(messages, false);
+            }
+        }, 1000);
+    }*/
 
 
     private MessagesListAdapter.Formatter<Message> getMessageStringFormatter() {
@@ -222,58 +243,71 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
     }
 
     @Override
-    public boolean onSubmit(CharSequence input)
-    {
-        User user = new User(senderId,"","",false);
-        Message message1 = new Message(user,input.toString());
-        messagesAdapter.addToStart(message1,true);
+    public boolean onSubmit(CharSequence input) {
+        User user = new User(senderId, "", "", false);
+        Message message1 = new Message(user, input.toString());
+        messagesAdapter.addToStart(message1, true);
         performHttpSubmission(input.toString());
-        mSocket.emit("messagedetection",receiverId, StringEscapeUtils.escapeJava(input.toString()),1);
+        publishNotification(StringEscapeUtils.escapeJava(input.toString()));
+        mSocket.emit("messagedetection", receiverId, StringEscapeUtils.escapeJava(input.toString()), 1);
         return true;
         //Server tables should contain utf8mb4 instead of utf8, because unicode character needs 4bytes per character. Therefore unicode will not be represented in 3bytes.
     }
 
-    private void performHttpSubmission(String input){
-        ChatModel chatModel = new ChatModel(senderId,receiverId,StringEscapeUtils.escapeJava(input),senderFirstname,senderLastname,receiverFirstname,receiverLastname,senderImageUrl,receiverImageUrl,StringEscapeUtils.escapeJava(input),1,"null");
+    private void performHttpSubmission(String input) {
+        ChatModel chatModel = new ChatModel(senderId, receiverId, StringEscapeUtils.escapeJava(input), senderFirstname, senderLastname, receiverFirstname, receiverLastname, senderImageUrl, receiverImageUrl, StringEscapeUtils.escapeJava(input), 1, "null");
         chatModel.verifyConnection();
     }
 
-    private void performImageHttpSubmission(String imageUrl){
-        ChatModel chatModel = new ChatModel(senderId,receiverId,"Image",senderFirstname,senderLastname,receiverFirstname,receiverLastname,senderImageUrl,receiverImageUrl,"image",1,imageUrl);
+    private void performImageHttpSubmission(String imageUrl) {
+        ChatModel chatModel = new ChatModel(senderId, receiverId, "Image", senderFirstname, senderLastname, receiverFirstname, receiverLastname, senderImageUrl, receiverImageUrl, "image", 1, imageUrl);
         chatModel.verifyConnection();
     }
 
-    private void initSocket(){
+    private void publishNotification(String message){
+        try {
+            Socket mSocket = IO.socket("https://quiet-dusk-08267.herokuapp.com/");
+            mSocket.connect();
+            mSocket.emit("notificationdetection",receiverId,message,senderFirstname+" "+senderLastname,senderImageUrl);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            Toast.makeText(this, e.getReason(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void initSocket() {
         try {
             mSocket = IO.socket("https://glacial-springs-30545.herokuapp.com");
-            //create connection
             mSocket.connect();
-            mSocket.emit("join",senderId);
+            mSocket.emit("join", senderId);
+            mSocket.emit("online",receiverId);
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
         mSocket.on("message", new Emitter.Listener() {
-            @Override public void call(final Object... args) {
+            @Override
+            public void call(final Object... args) {
                 runOnUiThread(new Runnable() {
-                    @Override public void run() {
+                    @Override
+                    public void run() {
                         JSONObject data = (JSONObject) args[0];
                         try {
                             //extract data from fired event
                             String receiverId = data.getString("receiverId");
                             String message = data.getString("message");
                             int messageType = data.getInt("messageType");
-                            User user = new User("received",receiverFirstname+" "+receiverLastname,receiverImageUrl,false);
-                           if(messageType == 1) {
-                               Message message1 = new Message(user, StringEscapeUtils.unescapeJava(message));
-                               messagesAdapter.addToStart(message1, true);
-                           }
-                            if(messageType == 2){
-                                Message message1 = new Message(user,"");
+                            User user = new User("received", receiverFirstname + " " + receiverLastname, receiverImageUrl, false);
+                            if (messageType == 1) {
+                                Message message1 = new Message(user, StringEscapeUtils.unescapeJava(message));
+                                messagesAdapter.addToStart(message1, true);
+                            }
+                            if (messageType == 2) {
+                                Message message1 = new Message(user, "");
                                 Message.Image image = new Message.Image(message);
                                 message1.setImage(image);
-                                messagesAdapter.addToStart(message1,true);
+                                messagesAdapter.addToStart(message1, true);
                             }
 
                         } catch (JSONException e) {
@@ -285,15 +319,71 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         });
 
 
+
+        mSocket.on("onOffline", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        chatStatus.setText("Offline");
+                        chatStatus.setTextColor(Color.parseColor("#F8ED8D"));
+
+                    }
+                });
+            }
+        });
+
+        mSocket.on("onTyping", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        chatStatus.setText("Typing...");
+                        chatStatus.setTextColor(Color.parseColor("#5AECA8"));
+                    }
+                });
+            }
+        });
+
+        mSocket.on("onStopTyping", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        chatStatus.setText("Online");
+                        chatStatus.setTextColor(Color.parseColor("#5AECA8"));
+
+                    }
+                });
+            }
+        });
+
+        mSocket.on("onOnline", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        chatStatus.setText("Online");
+                        chatStatus.setTextColor(Color.parseColor("#5AECA8"));
+
+                    }
+                });
+            }
+        });
+
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
     }
 
@@ -324,20 +414,21 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         }
     }
 
-    private void startImageUpload(String imageString){
-        ChatModel chatModel = new ChatModel(imageString,ChatActivity.this);
+    private void startImageUpload(String imageString) {
+        ChatModel chatModel = new ChatModel(imageString, ChatActivity.this);
         chatModel.uploadImage();
         chatModel.setChatHttpImageUploadListener(new ChatModel.ChatHttpImageUploadListener() {
             @Override
             public void onImageUpload(String imageUrl) {
-                User user = new User(senderId,"","",false);
-                Message message1 = new Message(user,"");
+                User user = new User(senderId, "", "", false);
+                Message message1 = new Message(user, "");
                 Message.Image image = new Message.Image(imageUrl);
                 message1.setImage(image);
-                messagesAdapter.addToStart(message1,true);
-                mSocket.emit("messagedetection",receiverId,imageUrl,2);
+                messagesAdapter.addToStart(message1, true);
+                mSocket.emit("messagedetection", receiverId, imageUrl, 2);
                 performImageHttpSubmission(imageUrl);
             }
+
             @Override
             public void onError(String message) {
                 Toast.makeText(ChatActivity.this, message, Toast.LENGTH_SHORT).show();
@@ -345,5 +436,11 @@ public class ChatActivity extends AppCompatActivity   implements MessageInput.In
         });
     }
 
+    @Override
+    public void onDestroy() {
+        mSocket.emit("disconnected",senderId,receiverId);
+        super.onDestroy();
+
+    }
 
 }

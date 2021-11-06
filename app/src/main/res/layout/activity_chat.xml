@@ -3,45 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/special_activity_background">
+    android:background="#f5f5f5">
 
- <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:weightSum="5"
-        android:layout_marginTop="5dp">
+        android:layout_height="65dp"
+        android:background="@color/colorPrimary"
+        android:weightSum="5">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="0.8"
+            android:layout_marginLeft="10dp"
+            android:gravity="center">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/iconfinder_chevron_left_4781844"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/chat_receiver_imageview"
+                android:src="@drawable/profileplaceholder"/>
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center">
+            android:layout_weight="3.2"
+            android:orientation="vertical"
+            android:layout_marginLeft="5dp"
+            android:gravity="center|left">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:id="@+id/chat_receiver_name"
+                android:fontFamily="@font/clannews"
+                android:text="Ellen Johnson-Sirleaf"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center"
-                android:id="@+id/chat_activity_header"
-                android:textColor="@color/dark_text_color"
-                android:text="Assist.ng"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:fontFamily="@font/clannews"/>
+                android:fontFamily="@font/clannews"
+                android:text="Offline"
+                android:id="@+id/chat_receiver_status"
+                android:textColor="#F8ED8D"
+                android:textSize="11dp" />
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -59,7 +68,7 @@
         android:id="@+id/messagesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="65dp"
         tools:listitem="@layout/item_incoming_text_message"
         android:layout_above="@+id/input"/>
 

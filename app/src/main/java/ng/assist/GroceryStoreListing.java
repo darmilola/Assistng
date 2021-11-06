@@ -19,6 +19,7 @@ import ng.assist.UIs.ViewModel.RetailerInfoModel;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -46,10 +47,11 @@ public class GroceryStoreListing extends AppCompatActivity {
     GroceryDetailProductAdapter groceryDisplayAdapter;
     ProgressBar detailsProgressbar;
     LinearLayout detailsRootLayout;
-    LinearLayout addToCart;
+    LinearLayout addToCart,call,chat;
     GroceryModel groceryModel;
     View cartIndicator;
     LinearLayout productImageviewScroll;
+    RetailerInfoModel retailerInfoModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,8 @@ public class GroceryStoreListing extends AppCompatActivity {
     }
 
     private void initView(){
+        call = findViewById(R.id.acc_details_call);
+        chat = findViewById(R.id.acc_details_chat);
         productImageviewScroll = findViewById(R.id.scroll_image_layout);
         cartIndicator = findViewById(R.id.cart_indicator);
         cartIndicator.setVisibility(View.GONE);
@@ -92,7 +96,7 @@ public class GroceryStoreListing extends AppCompatActivity {
         groceryListingDetailsModel.setDetailsReadyListener(new GroceryListingDetailsModel.DetailsReadyListener() {
             @Override
             public void onDetailsReady(ArrayList<String> images, ArrayList<GroceryModel> groceryModelArrayList, RetailerInfoModel retailerInfoModel) {
-
+                GroceryStoreListing.this.retailerInfoModel = retailerInfoModel;
                 detailsProgressbar.setVisibility(View.GONE);
                 detailsRootLayout.setVisibility(View.VISIBLE);
                 adapter = new ProductImageScrollAdapter(images,GroceryStoreListing.this);
@@ -111,6 +115,26 @@ public class GroceryStoreListing extends AppCompatActivity {
                 detailsProgressbar.setVisibility(View.VISIBLE);
                 detailsRootLayout.setVisibility(View.GONE);
                 Toast.makeText(GroceryStoreListing.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroceryStoreListing.this,ChatActivity.class);
+                intent.putExtra("receiverId",retailerInfoModel.getUserId());
+                intent.putExtra("receiverFirstname",retailerInfoModel.getShopName());
+                intent.putExtra("receiverLastname","");
+                intent.putExtra("receiverImageUrl","https://cdn0.iconfinder.com/data/icons/shopping-and-ecommerce-15/512/sale_lineal_color_cnvrt-01-256.png");
+                startActivity(intent);
+            }
+        });
+
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", retailerInfoModel.getPhonenumber(), null));
+                startActivity(intent);
             }
         });
 

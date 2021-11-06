@@ -130,7 +130,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_marginRight="10dp"
-                    android:id="@+id/cab_item_chat"
+                    android:id="@+id/service_item_chat"
                     android:backgroundTint="@color/proposed_color"
                     android:background="@drawable/transport_mode_unselected_background">
 
@@ -147,7 +147,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:id="@+id/cab_item_phone"
+                    android:id="@+id/service_item_call"
                     android:backgroundTint="@color/pinkypinky"
                     android:background="@drawable/transport_mode_unselected_background">
 

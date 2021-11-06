@@ -17,6 +17,7 @@ import ng.assist.UIs.ViewModel.ServicesModel;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -58,7 +59,8 @@ public class ServiceProviderDetails extends AppCompatActivity {
     }
 
     private void initView() {
-
+        call = findViewById(R.id.service_item_call);
+        chat = findViewById(R.id.service_item_chat);
         serviceProviderBook = findViewById(R.id.provider_details_book);
         imageScrollLayout = findViewById(R.id.scroll_image_layout);
         rootLayout = findViewById(R.id.service_provider_details_root);
@@ -84,6 +86,27 @@ public class ServiceProviderDetails extends AppCompatActivity {
         ratePerHour.setText(servicesModel.getRatePerHour());
         jobsCount.setText(servicesModel.getHandymanJobs());
         ratings.setText(servicesModel.getHandymanRatings());
+
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ServiceProviderDetails.this,ChatActivity.class);
+                intent.putExtra("receiverId",servicesModel.getHandymanId());
+                intent.putExtra("receiverFirstname",servicesModel.getHandymanFirstname());
+                intent.putExtra("receiverLastname",servicesModel.getHandymanLastname());
+                intent.putExtra("receiverImageUrl",servicesModel.getHandymanImage());
+                startActivity(intent);
+            }
+        });
+
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", servicesModel.getHandymanPhone(), null));
+                startActivity(intent);
+            }
+        });
+
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         LinearLayoutManager imagesManager = new LinearLayoutManager(ServiceProviderDetails.this, LinearLayoutManager.HORIZONTAL,false);

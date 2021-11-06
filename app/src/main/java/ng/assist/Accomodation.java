@@ -40,29 +40,8 @@ public class Accomodation extends AppCompatActivity {
     private void initDialog(){
         ArrayList<String> cityList = new ArrayList<>();
         cityList.add("Lagos");
-        cityList.add("Dallas");
-        cityList.add("Waco");
-        cityList.add("Akure");
-        cityList.add("Boston");
-        cityList.add("Palo Alto");
-        cityList.add("Lagos");
-        cityList.add("Dallas");
-        cityList.add("Waco");
-        cityList.add("Akure");
-        cityList.add("Boston");
-        cityList.add("Palo Alto");
-        cityList.add("Lagos");
-        cityList.add("Dallas");
-        cityList.add("Waco");
-        cityList.add("Akure");
-        cityList.add("Boston");
-        cityList.add("Palo Alto");
-        cityList.add("Lagos");
-        cityList.add("Dallas");
-        cityList.add("Waco");
-        cityList.add("Akure");
-        cityList.add("Boston");
-        cityList.add("Palo Alto");
+        cityList.add("Kano");
+        cityList.add("Abuja");
 
 
         ListDialog listDialog = new ListDialog(cityList,Accomodation.this);

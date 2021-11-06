@@ -19,7 +19,9 @@ import ng.assist.UIs.ViewModel.TransactionDao;
 import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -52,7 +54,7 @@ public class AccomodationBooking extends AppCompatActivity {
     CardView bookNowLayout;
     AccomodationListModel accomodationListModel;
     String houseId, agentId;
-    LinearLayout imageScrollLayout;
+    LinearLayout imageScrollLayout,call,chat;
     MaterialButton bookInspection;
     AgentModel agentModel;
 
@@ -64,6 +66,8 @@ public class AccomodationBooking extends AppCompatActivity {
     }
 
     private void initView(){
+        call = findViewById(R.id.acc_details_call);
+        chat = findViewById(R.id.acc_details_chat);
         bookInspection = findViewById(R.id.acc_details_book_inspection);
         imageScrollLayout = findViewById(R.id.scroll_image_layout);
         accomodationListModel = getIntent().getParcelableExtra("accModel");
@@ -103,6 +107,25 @@ public class AccomodationBooking extends AppCompatActivity {
         LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationBooking.this, LinearLayoutManager.HORIZONTAL,false);
         imagesRecyclerview.setLayoutManager(imagesManager);
 
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AccomodationBooking.this,ChatActivity.class);
+                intent.putExtra("receiverId",agentModel.getAgentId());
+                intent.putExtra("receiverFirstname",agentModel.getAgentFirstname());
+                intent.putExtra("receiverLastname",agentModel.getAgentLastName());
+                intent.putExtra("receiverImageUrl",agentModel.getAgentPicUrl());
+                startActivity(intent);
+            }
+        });
+
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", agentModel.getAgentPhone(), null));
+                startActivity(intent);
+            }
+        });
 
         AccomodationListModel accomodationListModel1 = new AccomodationListModel(houseId,agentId);
         accomodationListModel1.getAccomodationDetails();
