@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:weightSum="5"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="20dp"
+        android:weightSum="5">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -38,6 +38,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/clannews"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -105,7 +106,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="23dp"
+                android:textSize="20dp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
                 android:text="llham Maulana"
@@ -133,7 +134,7 @@
                         android:layout_width="23dp"
                         android:layout_height="19dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/switch_account"
+                        android:src="@drawable/switch_acc"
                         android:tint="#454647" />
 
                 </LinearLayout>
@@ -146,7 +147,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="17dp"
+                        android:textSize="15dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"
@@ -190,7 +191,7 @@
                         android:layout_width="23dp"
                         android:layout_height="19dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/verification_symbol"
+                        android:src="@drawable/verification_icon"
                         android:tint="#454647"/>
 
                 </LinearLayout>
@@ -204,7 +205,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="17dp"
+                        android:textSize="15dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"
@@ -254,7 +255,7 @@
                         android:layout_width="23dp"
                         android:layout_height="19dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/verification_symbol"
+                        android:src="@drawable/dashboard_icon"
                         android:tint="#454647"/>
                 </LinearLayout>
 
@@ -267,7 +268,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="17dp"
+                        android:textSize="15dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"
@@ -311,7 +312,7 @@
                         android:layout_width="23dp"
                         android:layout_height="19dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/verification_symbol"
+                        android:src="@drawable/about_us"
                         android:tint="#454647"/>
 
                 </LinearLayout>
@@ -324,7 +325,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="17dp"
+                        android:textSize="15dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"
@@ -368,7 +369,7 @@
                         android:layout_width="23dp"
                         android:layout_height="19dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/verification_symbol"
+                        android:src="@drawable/rate_us"
                         android:tint="#454647"/>
 
                 </LinearLayout>
@@ -381,7 +382,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="17dp"
+                        android:textSize="15dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"
@@ -425,7 +426,7 @@
                         android:layout_width="23dp"
                         android:layout_height="19dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/verification_symbol"
+                        android:src="@drawable/logout_icon"
                         android:tint="#454647"/>
 
                 </LinearLayout>
@@ -438,7 +439,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="17dp"
+                        android:textSize="15dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"

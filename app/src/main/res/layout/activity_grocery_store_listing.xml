@@ -120,7 +120,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:id="@+id/acc_details_call"
-                        android:backgroundTint="@color/proposed_color"
+                        android:backgroundTint="@color/pinkypinky"
                         android:background="@drawable/transport_mode_unselected_background">
 
                         <ImageView

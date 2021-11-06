@@ -55,6 +55,8 @@ public class AccountFragments extends Fragment {
     CircleImageView circleImageView;
     String userAccountType = "Normal User";
     TextView usernameField;
+    String accountType;
+    SharedPreferences preferences;
 
 
     public AccountFragments() {
@@ -84,16 +86,19 @@ public class AccountFragments extends Fragment {
         verifyAccount.setVisibility(View.GONE);
         dashboardLayout.setVisibility(View.GONE);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String userImage =  preferences.getString("imageUrl","");
         String firstname =  preferences.getString("firstname","");
         String lastname =  preferences.getString("lastname","");
+        accountType =  preferences.getString("accountType","");
+
         usernameField.setText(firstname+" "+lastname);
         Glide.with(this)
                 .load(userImage)
                 .placeholder(R.drawable.profileplaceholder)
                 .error(R.drawable.profileplaceholder)
                 .into(circleImageView);
+
         initAccount();
 
         logOut.setOnClickListener(new View.OnClickListener() {
@@ -121,9 +126,9 @@ public class AccountFragments extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(userAccountType.equalsIgnoreCase("Service Provider"))startActivity(new Intent(getContext(),ServiceProviderDashboard.class));
-                if(userAccountType.equalsIgnoreCase("Eccommerce"))startActivity(new Intent(getContext(),EcommerceDashboard.class));
-                if(userAccountType.equalsIgnoreCase("House Agent"))startActivity(new Intent(getContext(), EstateListingDashboard.class));
+                if(accountType.equalsIgnoreCase("Service Provider"))startActivity(new Intent(getContext(),ServiceProviderDashboard.class));
+                if(accountType.equalsIgnoreCase("Eccommerce"))startActivity(new Intent(getContext(),EcommerceDashboard.class));
+                if(accountType.equalsIgnoreCase("House Agent"))startActivity(new Intent(getContext(), EstateListingDashboard.class));
 
             }
         });
@@ -148,15 +153,12 @@ public class AccountFragments extends Fragment {
                         accountModel.setAccountSwitchListener(new AccountModel.AccountSwitchListener() {
                             @Override
                             public void onAccountSwitched() {
-                                userAccountType = item;
+                                accountType = item;
                                 Toast.makeText(getContext(), "Account Switched to "+item, Toast.LENGTH_SHORT).show();
                                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                                 preferences.edit().putString("accountType",item).apply();
                                 if(item.equalsIgnoreCase("Normal User")){
                                     verifyAccount.setVisibility(View.GONE);
-                                    dashboardLayout.setVisibility(View.GONE);
-                                }
-                                else if(item.equalsIgnoreCase("Corp Member")){
                                     dashboardLayout.setVisibility(View.GONE);
                                 }
                                 else{
@@ -186,9 +188,41 @@ public class AccountFragments extends Fragment {
         accountList = new ArrayList<>();
         accountList.add("Service Provider");
         accountList.add("House Agent");
-        accountList.add("Corp Member");
         accountList.add("Eccommerce");
         accountList.add("Normal User");
+
+        if(accountType.equalsIgnoreCase("Service Provider")){
+
+        }
+        else if(accountType.equalsIgnoreCase("House Agent")){
+            verifyAccount.setVisibility(View.VISIBLE);
+            dashboardLayout.setVisibility(View.VISIBLE);
+            if(preferences.getString("isVerified","false").equalsIgnoreCase("false")){
+                verificationView.setVisibility(View.VISIBLE);
+            }
+            else{
+                verificationView.setVisibility(View.GONE);
+            }
+
+
+        }
+        else if(accountType.equalsIgnoreCase("Eccommerce")){
+            verifyAccount.setVisibility(View.VISIBLE);
+            dashboardLayout.setVisibility(View.VISIBLE);
+            if(preferences.getString("isVerified","false").equalsIgnoreCase("false")){
+                verificationView.setVisibility(View.VISIBLE);
+            }
+            else{
+                verificationView.setVisibility(View.GONE);
+            }
+
+
+        }
+        else if(accountType.equalsIgnoreCase("Normal User")){
+            verifyAccount.setVisibility(View.GONE);
+            dashboardLayout.setVisibility(View.GONE);
+        }
+
     }
 
 
