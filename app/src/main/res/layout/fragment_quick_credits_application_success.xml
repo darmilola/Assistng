@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".UIs.SendMoneySuccess">
@@ -12,7 +13,7 @@
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:src="@drawable/iconfinder_check_mark_checklist_complete_done"
-        android:tint="@color/green"/>
+        app:tint="@color/green"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,11 +28,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your loan Application for KopasAid has been received please check your inbox for required actions to take."
+        android:text="Your loan Application for Assist.ng Quick Credit has been received. If Qualified your linked account will be credited within 24 hours."
         android:textColor="@color/light_text_color"
         android:textSize="14dp"
         android:layout_marginTop="10dp"
-        android:maxLines="3"
         android:ellipsize="end"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

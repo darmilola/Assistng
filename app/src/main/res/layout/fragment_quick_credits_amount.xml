@@ -1,74 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".UIs.QuickCreditsAmount">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:focusableInTouchMode="true"/>
+        android:focusableInTouchMode="true" />
 
-    <ImageView
-        android:id="@+id/company_logo"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/kopasaid"
-        android:layout_gravity="bottom"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/clannews"
-        android:gravity="center|left"
-        android:lineSpacingExtra="7dp"
-        android:text="Corpers’ Aids Program gives Corps members the needed leverage to excel with our specially designed aids packages to help reduce the struggles of having to survive on menial monthly allowance. "
-        android:textColor="#B70A1C2B"
-        android:textSize="14dp" />
+        android:text="Quick Credit"
+        android:gravity="center"
+        android:textSize="35dp"
+        android:fontFamily="@font/kumelianbold"
+        android:textColor="@color/colorPrimary"/>
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Loan Amount"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18dp"
         android:layout_marginLeft="20dp"
-        android:gravity="center|left"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
-        android:fontFamily="@font/clannews"/>
-    <com.tiper.MaterialSpinner
-        android:id="@+id/quick_credits_amount"
+        android:fontFamily="@font/clannews"
+        android:gravity="center|left"
+        android:text="Loan Amount"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/quick_credits_select_amount"
+        style="@style/sign_up_field"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
-        style="@style/sign_up_field"
         android:layout_marginRight="20dp"
-        app:spinnerMode="dialog"/>
+        android:hint="Select Amount"
+        android:gravity="center|left"
+        android:paddingLeft="10dp"
+        android:textSize="16dp"
+        android:background="@drawable/edit_profile_edittext_background"/>
 
 
     <com.google.android.material.button.MaterialButton
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="60dp"
-        android:text="Apply"
-        android:textSize="17dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/clannews"
+        android:text="Authenticate"
         android:textAllCaps="false"
+        android:id="@+id/loan_authenticate_button"
+        android:textSize="15dp"
         app:cornerRadius="25dp"/>
-
 
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 package ng.assist;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import ng.assist.UIs.Utils.NetworkUtils;
@@ -27,6 +28,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -103,13 +106,27 @@ public class WelcomeActivity extends AppCompatActivity {
         if(requestCode == GC_SIGN_IN){
             Task<GoogleSignInAccount> task =
                     GoogleSignIn.getSignedInAccountFromIntent(data);
-            if (task.isSuccessful()) {
+
+            task.addOnCompleteListener(new OnCompleteListener<GoogleSignInAccount>() {
+                @Override
+                public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                    if (task.isSuccessful()) {
+                        GoogleSignInAccount acct = task.getResult();
+                        handleSignInResult(acct);
+                    } else {
+                        Toast.makeText(WelcomeActivity.this, "Error occurred", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+
+       /*     if (task.isSuccessful()) {
                 GoogleSignInAccount acct = task.getResult();
                 handleSignInResult(acct);
             } else {
+                Toast.makeText(WelcomeActivity.this, "Error occured"., Toast.LENGTH_LONG).show();
 
-                Toast.makeText(this, "Error Signing in Please try again", Toast.LENGTH_LONG).show();
-            }
+            }*/
         }
     }
 

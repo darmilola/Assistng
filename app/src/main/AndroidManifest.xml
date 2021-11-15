@@ -19,7 +19,7 @@
         <activity android:name=".ProfileImageCrop" />
         <activity android:name=".ResetPassword" />
         <activity android:name=".ForgotPassword" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".SplashScreen" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

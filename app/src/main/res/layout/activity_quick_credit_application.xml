@@ -25,7 +25,7 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <androidx.viewpager.widget.ViewPager
+            <ng.assist.NoSwipeViewPager
                 android:layout_width="match_parent"
                 android:layout_height="600dp"
                 android:id="@+id/quick_credit_viewpager"/>

@@ -15,20 +15,33 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuickCreditApplication extends AppCompatActivity {
+public class QuickCreditApplication extends AppCompatActivity implements QuickCreditsAmount.MonoAuthenticationListener, LoanApply.LoanApplySuccessListener {
 
     viewPagerAdapter adapter = new viewPagerAdapter(getSupportFragmentManager());
-    ViewPager viewPager;
+    NoSwipeViewPager viewPager;
+    boolean isSuccess = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_credit_application);
         viewPager = findViewById(R.id.quick_credit_viewpager);
         setupViewPager(viewPager);
+    }
+
+    @Override
+    public void onSuccess() {
+         viewPager.setCurrentItem(2,true);
+    }
+
+    @Override
+    public void onAuthSuccessful() {
+        Toast.makeText(this, "Success is here", Toast.LENGTH_SHORT).show();
+        viewPager.setCurrentItem(1,true);
     }
 
     public class viewPagerAdapter extends FragmentPagerAdapter {
@@ -99,6 +112,7 @@ public class QuickCreditApplication extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
+
     }
 
 }

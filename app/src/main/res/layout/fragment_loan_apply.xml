@@ -8,55 +8,38 @@
     android:gravity="center"
     android:background="@color/white"
     tools:context=".UIs.LoanApply">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="20dp">
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"/>
 
-    <ImageView
-        android:id="@+id/company_logo"
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/kopasaid"
-        android:layout_gravity="bottom"/>
+        android:layout_height="70dp"
+        android:text="Quick Credit"
+        android:gravity="center"
+        android:textSize="35dp"
+        android:fontFamily="@font/kumelianbold"
+        android:textColor="@color/colorPrimary"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bank"
+        android:text="Amount"
         android:textColor="@color/colorPrimary"
-        android:textSize="18dp"
-        android:layout_marginLeft="20dp"
-        android:gravity="center|left"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp"
-        android:fontFamily="@font/clannews"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="20dp"
-        android:text="Wema Bank"
-        android:textSize="18dp"
-        android:fontFamily="@font/clannews"
-        android:gravity="center|left"
-        android:paddingLeft="10dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textColor="@color/grey"
-        android:background="@drawable/greyed_dotted_rect"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Account Number"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18dp"
+        android:textSize="15dp"
         android:layout_marginLeft="20dp"
         android:gravity="center|left"
         android:layout_marginRight="20dp"
@@ -69,39 +52,13 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="30dp"
-        android:text="0178867636"
+        android:text="100,000"
         android:textSize="18dp"
         android:fontFamily="@font/clannews"
         android:gravity="center|left"
         android:paddingLeft="10dp"
         android:maxLines="1"
-        android:ellipsize="end"
-        android:textColor="@color/grey"
-        android:background="@drawable/greyed_dotted_rect"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Loan Amount"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18dp"
-        android:layout_marginLeft="20dp"
-        android:gravity="center|left"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp"
-        android:fontFamily="@font/clannews"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="30dp"
-        android:text="NGN100,000"
-        android:textSize="18dp"
-        android:fontFamily="@font/clannews"
-        android:gravity="center|left"
-        android:paddingLeft="10dp"
-        android:maxLines="1"
+        android:id="@+id/quick_credit_loan_amount"
         android:ellipsize="end"
         android:textColor="@color/grey"
         android:background="@drawable/greyed_dotted_rect"/>
@@ -113,20 +70,92 @@
         android:layout_height="wrap_content"
         android:text="Payback Period"
         android:textColor="@color/colorPrimary"
-        android:textSize="18dp"
+        android:textSize="15dp"
         android:layout_marginLeft="20dp"
         android:gravity="center|left"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/clannews"/>
-    <com.tiper.MaterialSpinner
-        android:id="@+id/loan_apply_payback_period"
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
-        style="@style/sign_up_field"
         android:layout_marginRight="20dp"
-        app:spinnerMode="dialog"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="30dp"
+        android:text="3 months"
+        android:textSize="18dp"
+        android:id="@+id/quick_credit_loan_payback_period"
+        android:fontFamily="@font/clannews"
+        android:gravity="center|left"
+        android:paddingLeft="10dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/grey"
+        android:background="@drawable/greyed_dotted_rect"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Monthly due"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center|left"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/clannews"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="30dp"
+        android:text="40,000"
+        android:textSize="18dp"
+        android:id="@+id/quick_credit_monthly_due"
+        android:fontFamily="@font/clannews"
+        android:gravity="center|left"
+        android:paddingLeft="10dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/grey"
+        android:background="@drawable/greyed_dotted_rect"/>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total Repayment"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center|left"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/clannews"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="30dp"
+        android:text="120,000"
+        android:textSize="18dp"
+        android:fontFamily="@font/clannews"
+        android:gravity="center|left"
+        android:paddingLeft="10dp"
+        android:maxLines="1"
+        android:id="@+id/quick_credit_total_repayment"
+        android:ellipsize="end"
+        android:textColor="@color/grey"
+        android:background="@drawable/greyed_dotted_rect"/>
+
 
 
     <com.google.android.material.button.MaterialButton
@@ -134,12 +163,12 @@
         android:layout_height="60dp"
         android:text="Apply"
         android:textSize="17dp"
-        android:id="@+id/loan_apply_button"
-        android:layout_marginTop="10dp"
+        android:id="@+id/quick_credit_apply_button"
         android:fontFamily="@font/clannews"
         android:textAllCaps="false"
         app:cornerRadius="25dp"/>
 
-
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -17,7 +17,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="150dp"
-        android:tint="@color/White"
+        app:tint="@color/White"
         android:layout_marginTop="100dp"
         android:layout_gravity="right"
         android:src="@drawable/pattern"/>
@@ -36,48 +36,62 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:orientation="horizontal"
-         android:layout_marginTop="50dp"
-         android:gravity="center">
-
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textSize="30dp"
-             android:textColor="@color/White"
-             android:text="Assist"
-             android:layout_gravity="center|bottom"
-             android:gravity="center"
-             android:fontFamily="@font/clanbold"/>
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textSize="16dp"
-             android:textColor="#1DAF8E"
-             android:text=".ng"
-             android:layout_gravity="center|bottom"
-             android:gravity="center"
-             android:fontFamily="@font/clanbold"/>
-     </LinearLayout>
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="23dp"
-            android:textColor="@color/White"
-            android:text="Hi Nesha"
-            android:id="@+id/home_user_firstname"
-            android:gravity="center"
-            android:maxLength="15"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/clannews"
-            />
+            android:layout_height="70dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="40dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_alignParentLeft="true">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="23dp"
+                    android:textColor="@color/White"
+                    android:text="Hi Damilola"
+                    android:id="@+id/home_user_firstname"
+                    android:gravity="center"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/clannews"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentRight="true"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30dp"
+                    android:textColor="@color/White"
+                    android:text="Assist"
+                    android:layout_gravity="center|bottom"
+                    android:gravity="center"
+                    android:fontFamily="@font/clanbold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#1DAF8E"
+                    android:text=".ng"
+                    android:layout_gravity="center|bottom"
+                    android:gravity="center"
+                    android:fontFamily="@font/clanbold"/>
+            </LinearLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -249,7 +263,7 @@
                         android:textSize="12dp"
                         android:gravity="center"
                         android:textColor="@color/colorPrimary"
-                        android:text="Marketplace"
+                        android:text="Shopping"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="12dp"
                         android:fontFamily="@font/clanmed"/>
