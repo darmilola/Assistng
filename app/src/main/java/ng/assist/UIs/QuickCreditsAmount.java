@@ -104,7 +104,6 @@ public class QuickCreditsAmount extends Fragment {
                                 preferences.edit().putString("loanAmount",selectAmount.getText().toString()).apply();
                                 preferences.edit().putString("accountCode",account.getCode()).apply();
                                 Toast.makeText(getContext(), account.getCode(), Toast.LENGTH_SHORT).show();
-                                System.out.println("Successfully linked account. Code: " + account.getCode());
                                 authenticateWithMono.setText("Next");
                             }) // onSuccess function
                             .addReference(reference)

@@ -127,7 +127,7 @@
         android:textSize="17dp"
         android:background="@drawable/edit_profile_edittext_background"/>
 
-    <TextView
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:maxLines="1"
@@ -148,7 +148,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Upload Valid ID"
-        android:textSize="20dp"
+        android:textSize="16dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="25dp"
         android:fontFamily="@font/clanmed"
@@ -169,16 +169,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:tint="#376992"
+            android:id="@+id/verification_upload_img"
             android:src="@drawable/cloud_upload_2x"/>
     </LinearLayout>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/corpers_info_layout">
-
-</LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"

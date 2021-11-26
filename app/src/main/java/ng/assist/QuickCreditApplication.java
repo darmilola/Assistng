@@ -40,7 +40,7 @@ public class QuickCreditApplication extends AppCompatActivity implements QuickCr
 
     @Override
     public void onAuthSuccessful() {
-        Toast.makeText(this, "Success is here", Toast.LENGTH_SHORT).show();
+
         viewPager.setCurrentItem(1,true);
     }
 

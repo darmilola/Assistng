@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         app:contentInsetEnd="0dp"
-        android:layout_marginTop="20dp"
         app:contentInsetStart="0dp">
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,8 +19,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:tint="@color/colorPrimary"
                 android:src="@drawable/iconfinder_chevron_left_4781844"
                 android:layout_gravity="center|left"
@@ -31,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Employee Verifications"
-                android:textSize="20dp"
+                android:textSize="16dp"
                 android:layout_marginLeft="10dp"
                 android:maxLines="1"
                 android:ellipsize="end"

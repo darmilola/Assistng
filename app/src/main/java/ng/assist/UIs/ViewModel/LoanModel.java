@@ -22,7 +22,7 @@ import okhttp3.Response;
 
 public class LoanModel {
     private String baseUrl = new URL().getBaseUrl();
-    private String loanApplyUrl = baseUrl+"products/list/category";
+    private String loanApplyUrl = baseUrl+"users/loan/apply";
     private String userId;
     private String payback;
     private String amount;
@@ -32,14 +32,24 @@ public class LoanModel {
     private String accountToken;
     private LoanApplyListener loanApplyListener;
     private LoadingDialogUtils loadingDialogUtils;
+    private ExchangeTokenListener exchangeTokenListener;
 
     public interface LoanApplyListener{
         void onSuccess();
         void onError(String message);
     }
 
+    public interface ExchangeTokenListener{
+        void onSuccess(String accountToken);
+        void onError(String message);
+    }
+
     public void setLoanApplyListener(LoanApplyListener loanApplyListener) {
         this.loanApplyListener = loanApplyListener;
+    }
+
+    public void setExchangeTokenListener(ExchangeTokenListener exchangeTokenListener) {
+        this.exchangeTokenListener = exchangeTokenListener;
     }
 
     public LoanModel(Context context, String userId, String payback, String amount, String monthlyDue, String accountCode, String accountToken, String status){
@@ -51,6 +61,11 @@ public class LoanModel {
             this.status = status;
             this.accountToken = accountToken;
             loadingDialogUtils = new LoadingDialogUtils(context);
+
+    }
+
+    public LoanModel(Context context){
+        loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
     private String buildLoanApply(String userId,String amount, String payback, String monthlyDue, String accountCode, String status, String accountToken){
@@ -125,6 +140,69 @@ public class LoanModel {
 
         }
     };
+
+
+    private Handler ExchangeTokenHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            loadingDialogUtils.cancelLoadingDialog();
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            Log.e( "handleMessage:   ", response);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String id = jsonObject.getString("id");
+                exchangeTokenListener.onSuccess(id);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                exchangeTokenListener.onError(e.getLocalizedMessage());
+            }
+        }
+    };
+    
+    public void ExchangeToken(String accountCode){
+        loadingDialogUtils.showLoadingDialog("Creating Application...");
+        Runnable runnable = () -> {
+            OkHttpClient client = new OkHttpClient();
+            String mResponse = "";
+            MediaType mediaType = MediaType.parse("application/json");
+            RequestBody body = RequestBody.create(mediaType, buildExchangeToken(accountCode));
+            Request request = new Request.Builder()
+                    .url("https://api.withmono.com/account/auth")
+                    .post(body)
+                    .addHeader("Accept", "application/json")
+                    .addHeader("mono-sec-key", "test_sk_PZx0GiRjkY3NAbvACgtp")
+                    .addHeader("Content-Type", "application/json")
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (response != null) {
+                    mResponse = response.body().string();
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = ExchangeTokenHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            ExchangeTokenHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+    private String buildExchangeToken(String accountCode){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("code",accountCode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
 
 
 }
