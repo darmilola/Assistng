@@ -168,7 +168,7 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:tint="#376992"
+            app:tint="#376992"
             android:id="@+id/verification_upload_img"
             android:src="@drawable/cloud_upload_2x"/>
     </LinearLayout>

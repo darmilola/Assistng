@@ -4,19 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="350dp"
     android:layout_gravity="center"
     android:translationZ="2dp"
     android:id="@+id/ride_display_layout"
     android:layout_marginBottom="45dp"
-    android:background="@color/transparent"
+    android:background="@color/special_activity_background"
     tools:context=".CabHailingActivity">
-    <androidx.recyclerview.widget.RecyclerView
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ride_display_recyclerview"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        tools:listitem="@layout/cab_display_item"/>
+        android:layout_height="350dp"
+        android:orientation="vertical"
+        android:focusableInTouchMode="true">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ride_display_recyclerview"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/bus_transport_itemview_layout"/>
+
+        <me.relex.circleindicator.CircleIndicator2
+            android:id="@+id/product_image_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            app:ci_drawable="@drawable/pink_radius"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"/>
+
+    </FrameLayout>
 
 </LinearLayout>

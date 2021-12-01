@@ -9,7 +9,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         app:cardCornerRadius="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
@@ -45,31 +45,7 @@
                     android:layout_weight="2"
                     android:gravity="center">
 
-                    <RelativeLayout
-                        android:layout_width="70dp"
-                        android:layout_height="100dp"
-                        android:layout_marginRight="5dp"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:text="11:00"
-                            android:textSize="12dp"
-                            android:layout_alignParentTop="true"
-                            android:textColor="@color/colorPrimary"
-                            android:fontFamily="@font/clannews"
-                            android:gravity="center"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:text="15:00"
-                            android:textSize="12dp"
-                            android:layout_alignParentBottom="true"
-                            android:textColor="@color/colorPrimary"
-                            android:fontFamily="@font/clannews"
-                            android:gravity="center"/>
-                    </RelativeLayout>
                     <ImageView
                         android:layout_width="10dp"
                         android:layout_height="100dp"
@@ -88,6 +64,7 @@
                             android:textSize="13dp"
                             android:maxLines="1"
                             android:ellipsize="end"
+                            android:id="@+id/bus_item_from"
                             android:layout_marginLeft="5dp"
                             android:layout_alignParentTop="true"
                             android:textColor="@color/colorPrimary"
@@ -100,6 +77,7 @@
                             android:textSize="13dp"
                             android:maxLines="1"
                             android:ellipsize="end"
+                            android:id="@+id/bus_item_to"
                             android:layout_alignParentBottom="true"
                             android:textColor="@color/colorPrimary"
                             android:fontFamily="@font/clannews"
@@ -112,6 +90,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:orientation="vertical"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center">
@@ -121,11 +100,26 @@
                         app:cornerRadius="4dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginLeft="5dp"
-                        android:text="$25.89"
+                        android:text="$1,150"
+                        android:id="@+id/bus_item_book"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:textSize="15dp"
+                        android:textSize="12dp"
                         app:backgroundTint="@color/pinkypinky"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        app:cornerRadius="4dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="Call"
+                        android:id="@+id/bus_item_call"
+                        android:textAllCaps="false"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="12dp"
+                        app:backgroundTint="@color/green"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -149,12 +143,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_weight="0.7">
+            android:layout_weight="0.4">
 
             <LinearLayout
-                android:layout_width="130dp"
+                android:layout_width="200dp"
                 android:layout_marginTop="4dp"
                 android:gravity="center|left"
                 android:layout_height="match_parent"
@@ -166,20 +158,21 @@
                     android:layout_height="20dp"
                     android:layout_marginTop="4dp"
                     android:tint="@color/colorPrimary"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:src="@drawable/location_pin_2_2x"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="125 Km"
-                    android:textSize="14dp"
+                    android:text="This is the Meeting point"
+                    android:textSize="10dp"
+                    android:id="@+id/bus_item_meeting_point"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/clannews"/>
             </LinearLayout>
             <LinearLayout
-                android:layout_width="200dp"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:gravity="center|right"
                 android:layout_marginTop="5dp"
@@ -192,13 +185,14 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginLeft="20dp"
                     android:tint="@color/colorPrimary"
-                    android:src="@drawable/time_icon"/>
+                    android:src="@drawable/_305639_company_crowd_group_people_team_icon"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Travel time 35min"
-                    android:textSize="13dp"
+                    android:text="16 seats"
+                    android:textSize="10dp"
+                    android:id="@+id/bus_item_seats"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textColor="@color/colorPrimary"
@@ -206,6 +200,73 @@
                     android:fontFamily="@font/clannews"/>
 
             </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|left"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="4dp"
+                    android:tint="@color/colorPrimary"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/iconfinder__building_company_city_house_officel_apartment_architecture_4213476"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GIGM travel and Logistics"
+                    android:textSize="10dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:id="@+id/bus_item_company"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/clannews"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center|left"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentRight="true">
+
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="5dp"
+                    android:tint="@color/colorPrimary"
+                    android:src="@drawable/_120278_bus_car_traffic_transport_transportation_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bus"
+                    android:textSize="10dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:id="@+id/bus_item_type"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/clannews"/>
+
+            </LinearLayout>
+
+
 
         </RelativeLayout>
     </LinearLayout>

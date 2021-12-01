@@ -38,7 +38,7 @@ public class CabHailingModel {
     private ArrayList<LocationModel> assistLocationList = new ArrayList<>();
     private String from,to;
     private int transportId,seats;
-    private String type,phone,fare,userId,contactPhone,route;
+    private String type,phone,fare,userId,contactPhone,route,meetingpoint,company;
     private int cost;
     private LoadingDialogUtils loadingDialogUtils;
     private Context context;
@@ -73,7 +73,7 @@ public class CabHailingModel {
         this.totalPassenger = totalPassenger;
     }
 
-    public CabHailingModel(int id, String from, String to, String phone, String fare, int seats, String type){
+    public CabHailingModel(int id, String from, String to, String phone, String fare, int seats, String type, String meetingpoint, String company){
            this.transportId = id;
            this.from = from;
            this.to = to;
@@ -81,6 +81,8 @@ public class CabHailingModel {
            this.seats = seats;
            this.fare = fare;
            this.phone = phone;
+           this.meetingpoint = meetingpoint;
+           this.company = company;
     }
 
     public CabHailingModel(int transportId, String userId, String contactPhone,String type,String route, int cost,  Context context){
@@ -186,7 +188,9 @@ public class CabHailingModel {
                         int seats = data.getJSONObject(i).getInt("seats");
                         String phone = data.getJSONObject(i).getString("phone");
                         String fare = data.getJSONObject(i).getString("fare");
-                        CabHailingModel cabHailingModel = new CabHailingModel(id,from,to,phone,fare,seats,type);
+                        String meetingPoint = data.getJSONObject(i).getString("meetingpoint");
+                        String company = data.getJSONObject(i).getString("company");
+                        CabHailingModel cabHailingModel = new CabHailingModel(id,from,to,phone,fare,seats,type,meetingPoint,company);
                         cabHailingModelArrayList.add(cabHailingModel);
                     }
                     cabHailingListener.onReady(cabHailingModelArrayList);
@@ -374,6 +378,14 @@ public class CabHailingModel {
 
     public String getFrom() {
         return from;
+    }
+
+    public String getMeetingpoint() {
+        return meetingpoint;
+    }
+
+    public String getCompany() {
+        return company;
     }
 
     public String getTo() {

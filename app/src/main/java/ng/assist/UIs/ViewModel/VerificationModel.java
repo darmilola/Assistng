@@ -51,7 +51,7 @@ public class VerificationModel {
           void onUploaded(String link);
     }
 
-    VerificationModel(Context context, String firstname, String lastname, String address, String phonenumber, String imageLink, String userId){
+   public VerificationModel(Context context, String firstname, String lastname, String address, String phonenumber, String imageLink, String userId){
                       this.context = context;
                       this.firstname = firstname;
                       this.lastname = lastname;
@@ -62,7 +62,7 @@ public class VerificationModel {
                       loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
-    VerificationModel(Context context, String encodedImage){
+   public VerificationModel(Context context, String encodedImage){
                      this.encodedImage = encodedImage;
                      this.context = context;
                      loadingDialogUtils = new LoadingDialogUtils(context);
@@ -152,8 +152,8 @@ public class VerificationModel {
     }
 
 
-    private void UploadProfileImage(){
-        loadingDialogUtils.showLoadingDialog("Creating Verification...");
+    public void UploadValidId(){
+        loadingDialogUtils.showLoadingDialog("Uploading Id...");
         Runnable runnable = () -> {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient();
@@ -170,6 +170,7 @@ public class VerificationModel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             Message msg = imageUploadHandler.obtainMessage();
             Bundle bundle = new Bundle();
             bundle.putString("response", mResponse);
@@ -184,7 +185,7 @@ public class VerificationModel {
     private Handler imageUploadHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NotNull Message msg) {
-
+            loadingDialogUtils.cancelLoadingDialog();
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
             try {

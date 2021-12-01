@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.datatransport.Transport;
+import com.google.android.material.button.MaterialButton;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -43,21 +44,25 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
     @NonNull
     @Override
     public RideDisplayAdapter.itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.cab_display_item, parent, false);
+        View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.bus_transport_itemview_layout, parent, false);
         return new RideDisplayAdapter.itemViewHolder(view2);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RideDisplayAdapter.itemViewHolder holder, int position) {
-        CabHailingModel model = rideDisplayList.get(position);
+       CabHailingModel model = rideDisplayList.get(position);
+       holder.from.setText(model.getFrom());
+       holder.to.setText(model.getTo());
+       holder.book.setText(model.getFare());
+       holder.point.setText(model.getMeetingpoint());
+       holder.company.setText(model.getCompany());
         if(model.getType().equalsIgnoreCase("car")){
-             holder.carImage.setImageResource(R.drawable.car_icon);
+             holder.type.setText("Car");
         }
         else if(model.getType().equalsIgnoreCase("bus")){
-            holder.carImage.setImageResource(R.drawable.bus_transportation_vehicle_icon);
+            holder.type.setText("Bus");
         }
-        holder.passengerCount.setText(model.getSeats()+" Seats Available");
-        holder.carType.setText(model.getType());
+        holder.seats.setText(model.getSeats()+" Seats");
     }
 
 
@@ -67,19 +72,21 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
     }
 
     public class itemViewHolder extends RecyclerView.ViewHolder{
-        LinearLayout callLayout, book;
-        TextView carType,passengerCount;
-        ImageView carImage;
+        MaterialButton book,call;
+        TextView from,to,point,seats,company,type;
 
         public itemViewHolder(View ItemView){
             super(ItemView);
-            callLayout = ItemView.findViewById(R.id.cab_item_phone);
-            book = ItemView.findViewById(R.id.cab_item_chat);
-            carType = ItemView.findViewById(R.id.cab_item_type);
-            passengerCount = ItemView.findViewById(R.id.cab_item_passenger);
-            carImage = ItemView.findViewById(R.id.cab_item_image);
+            book = ItemView.findViewById(R.id.bus_item_book);
+            call = ItemView.findViewById(R.id.bus_item_call);
+            from = ItemView.findViewById(R.id.bus_item_from);
+            to = ItemView.findViewById(R.id.bus_item_to);
+            point = ItemView.findViewById(R.id.bus_item_meeting_point);
+            seats = ItemView.findViewById(R.id.bus_item_seats);
+            company = ItemView.findViewById(R.id.bus_item_company);
+            type = ItemView.findViewById(R.id.bus_item_type);
 
-            book.setOnClickListener(new View.OnClickListener() {
+           book.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int transportId = rideDisplayList.get(getAdapterPosition()).getTransportId();
@@ -113,10 +120,6 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
                             });
                         }
                     });
-
-
-
-
 
                 }
             });
