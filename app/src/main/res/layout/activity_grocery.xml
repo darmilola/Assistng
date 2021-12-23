@@ -14,7 +14,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/course_activity_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="280dp"
         android:fitsSystemWindows="true"
         android:background="#F6F5F8"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -22,7 +22,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/course_activity_collapsing_toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="280dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorOnPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -93,7 +93,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:weightSum="5"
-                android:visibility="gone"
                 android:orientation="horizontal"
                 android:background="@drawable/search_background">
 
@@ -123,6 +122,8 @@
                         android:hint="Foods,Drinks,Toiletries..."
                         android:textColor="@color/colorPrimary"
                         android:textSize="15dp"
+                        android:maxLines="1"
+                        android:inputType="text"
                         android:textColorHint="@color/light_text_color"
                         android:fontFamily="@font/clannews"/>
                 </LinearLayout>
@@ -132,13 +133,6 @@
                     android:layout_weight="1"
                     android:gravity="center">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center|right"
-                        android:tint="@color/colorPrimary"
-                        android:layout_marginLeft="5dp"
-                        android:src="@drawable/toggles_1_2x"/>
                 </LinearLayout>
             </LinearLayout>
 

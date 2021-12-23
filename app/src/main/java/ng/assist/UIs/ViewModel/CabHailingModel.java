@@ -38,7 +38,7 @@ public class CabHailingModel {
     private ArrayList<LocationModel> assistLocationList = new ArrayList<>();
     private String from,to;
     private int transportId,seats;
-    private String type,phone,fare,userId,contactPhone,route,meetingpoint,company;
+    private String type,phone,fare,userId,contactPhone,route,meetingpoint,company,fromArea,toArea,departureTime,departureDate;
     private int cost;
     private LoadingDialogUtils loadingDialogUtils;
     private Context context;
@@ -73,7 +73,7 @@ public class CabHailingModel {
         this.totalPassenger = totalPassenger;
     }
 
-    public CabHailingModel(int id, String from, String to, String phone, String fare, int seats, String type, String meetingpoint, String company){
+    public CabHailingModel(int id, String from, String to, String phone, String fare, int seats, String type, String meetingpoint, String company,String fromArea, String toArea, String departureTime,String departureDate){
            this.transportId = id;
            this.from = from;
            this.to = to;
@@ -83,9 +83,13 @@ public class CabHailingModel {
            this.phone = phone;
            this.meetingpoint = meetingpoint;
            this.company = company;
+           this.departureDate = departureDate;
+           this.departureTime = departureTime;
+           this.fromArea = fromArea;
+           this.toArea = toArea;
     }
 
-    public CabHailingModel(int transportId, String userId, String contactPhone,String type,String route, int cost,  Context context){
+    public CabHailingModel(int transportId, String userId, String contactPhone,String type,String route, int cost,  Context context,String fromArea, String toArea, String departureTime,String departureDate, String meetingpoint){
            this.transportId = transportId;
            this.userId = userId;
            this.contactPhone = contactPhone;
@@ -93,6 +97,11 @@ public class CabHailingModel {
            this.type = type;
            this.cost = cost;
            this.route = route;
+           this.departureDate = departureDate;
+           this.departureTime = departureTime;
+           this.fromArea = fromArea;
+           this.toArea = toArea;
+           this.meetingpoint = meetingpoint;
            loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
@@ -190,7 +199,11 @@ public class CabHailingModel {
                         String fare = data.getJSONObject(i).getString("fare");
                         String meetingPoint = data.getJSONObject(i).getString("meetingpoint");
                         String company = data.getJSONObject(i).getString("company");
-                        CabHailingModel cabHailingModel = new CabHailingModel(id,from,to,phone,fare,seats,type,meetingPoint,company);
+                        String fromArea = data.getJSONObject(i).getString("fromArea");
+                        String toArea = data.getJSONObject(i).getString("toArea");
+                        String departureTime = data.getJSONObject(i).getString("departureTime");
+                        String departureDate = data.getJSONObject(i).getString("travelDate");
+                        CabHailingModel cabHailingModel = new CabHailingModel(id,from,to,phone,fare,seats,type,meetingPoint,company,fromArea,toArea,departureTime,departureDate);
                         cabHailingModelArrayList.add(cabHailingModel);
                     }
                     cabHailingListener.onReady(cabHailingModelArrayList);
@@ -275,7 +288,7 @@ public class CabHailingModel {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildBookTransport(transportId,userId,contactPhone,cost,type,route));
+            RequestBody requestBody = RequestBody.create(JSON,buildBookTransport(transportId,userId,contactPhone,cost,type,route,this.fromArea,this.toArea,this.departureDate,this.departureTime,this.meetingpoint));
             Request request = new Request.Builder()
                     .url(bookTransport)
                     .post(requestBody)
@@ -318,7 +331,7 @@ public class CabHailingModel {
         return jsonObject.toString();
     }
 
-    private String buildBookTransport(int transportId, String userId, String contactPhone, int cost, String type, String route){
+    private String buildBookTransport(int transportId, String userId, String contactPhone, int cost, String type, String route, String from, String to, String date, String time, String meetingPoint){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("transportId",transportId);
@@ -327,6 +340,11 @@ public class CabHailingModel {
             jsonObject.put("mCost",cost);
             jsonObject.put("mType",type);
             jsonObject.put("mRoute",route);
+            jsonObject.put("from",from);
+            jsonObject.put("to",to);
+            jsonObject.put("date",date);
+            jsonObject.put("time",time);
+            jsonObject.put("meetingpoint",meetingPoint);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -398,5 +416,21 @@ public class CabHailingModel {
 
     public String getPhone() {
         return phone;
+    }
+
+    public String getFromArea() {
+        return fromArea;
+    }
+
+    public String getToArea() {
+        return toArea;
+    }
+
+    public String getDepartureDate() {
+        return departureDate;
+    }
+
+    public String getDepartureTime() {
+        return departureTime;
     }
 }

@@ -27,11 +27,11 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:weightSum="3">
+        android:weightSum="4.5">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.7">
+            android:layout_weight="2">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -133,7 +133,7 @@
             android:gravity="center"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_weight="0.3">
+            android:layout_weight="0.5">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
@@ -143,7 +143,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.4">
+            android:layout_weight="0.5">
 
             <LinearLayout
                 android:layout_width="200dp"
@@ -171,10 +171,10 @@
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/clannews"/>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:gravity="center|right"
                 android:layout_marginTop="5dp"
                 android:layout_alignParentRight="true">
 
@@ -205,7 +205,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5">
+            android:layout_weight="0.7">
 
             <LinearLayout
                 android:layout_width="250dp"
@@ -237,7 +237,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="70dp"
+                android:layout_width="90dp"
                 android:layout_height="match_parent"
                 android:gravity="center|left"
                 android:layout_marginTop="5dp"
@@ -260,6 +260,74 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:id="@+id/bus_item_type"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/clannews"/>
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7">
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center|left"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="4dp"
+                    android:tint="@color/colorPrimary"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/_853744_calendar_kashifarif_date_schedule_appoinment_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="November 25"
+                    android:textSize="10dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:id="@+id/bus_departure_date"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/clannews"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:gravity="center|left"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentRight="true">
+
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="5dp"
+                    android:tint="@color/colorPrimary"
+                    android:src="@drawable/_11948_alarm_clock_date_event_schedule_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7:00 AM"
+                    android:textSize="10dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:id="@+id/bus_departure_time"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/clannews"/>

@@ -8,7 +8,7 @@
     android:padding="5dp">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="280dp"
         app:cardCornerRadius="5dp"
         app:cardBackgroundColor="@color/white"
@@ -17,8 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -63,13 +61,13 @@
                 android:textSize="18dp"/>
 
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_width="240dp"
+                android:layout_height="50dp"
                 android:hint="Type here..."
                 android:paddingLeft="10dp"
                 android:maxLines="1"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
                 android:inputType="number"
                 android:maxLength="300"
                 android:id="@+id/transport_dialog_phone"
@@ -77,9 +75,10 @@
                 android:layout_gravity="center"/>
 
             <com.google.android.material.button.MaterialButton
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
                     android:layout_height="50dp"
                     android:text="Book Now"
+                    android:layout_gravity="center"
                     android:id="@+id/transport_dialog_booknow"
                     android:layout_marginRight="20dp"
                     android:layout_marginLeft="20dp"
