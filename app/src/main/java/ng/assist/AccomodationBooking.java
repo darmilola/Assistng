@@ -20,6 +20,7 @@ import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
@@ -94,12 +95,12 @@ public class AccomodationBooking extends AppCompatActivity {
         houseTitle.setText(accomodationListModel.getHouseTitle());
         beds.setText(accomodationListModel.getBeds());
         baths.setText(accomodationListModel.getBaths());
-        pricePerMonth.setText(accomodationListModel.getPricesPerMonth());
+        pricePerMonth.setText("₦"+accomodationListModel.getPricesPerMonth()+" permonth");
         ratings.setText(accomodationListModel.getTotalRatings());
         rateCount.setText(accomodationListModel.getTotalRaters());
         adddress.setText(accomodationListModel.getAddress());
         description.setText(accomodationListModel.getHouseDesc());
-        bookingFee.setText(accomodationListModel.getBookingFee());
+        bookingFee.setText("₦"+accomodationListModel.getBookingFee());
         String userId = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this).getString("userEmail","null");
 
 
@@ -166,27 +167,49 @@ public class AccomodationBooking extends AppCompatActivity {
         bookInspection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String fullName = agentModel.getAgentFirstname() +" - "+agentModel.getAgentLastName();
-                CreatBill creatBill = new CreatBill(userId,agentModel.getAgentId(),Integer.parseInt(accomodationListModel.getBookingFee()),"3",fullName,AccomodationBooking.this,"");
-                creatBill.CreateBill();
-                creatBill.setCreateBillListener(new CreatBill.CreateBillListener() {
-                    @Override
-                    public void onSuccess() {
-                        Date date = new Date();
-                        Timestamp timestamp = new Timestamp(date.getTime());
-                        insertBooking(0,3,"Inspection",timestamp.toString(),accomodationListModel.getBookingFee(),"");
-                        Toast.makeText(AccomodationBooking.this, "You have booked Inspection Successfully", Toast.LENGTH_SHORT).show();
-                    }
 
-                    @Override
-                    public void onError() {
-                        Toast.makeText(AccomodationBooking.this, "Error Occurred please try again", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if (isAuthorized(accomodationListModel.getBookingFee())) {
+
+                    String fullName = agentModel.getAgentFirstname() + " - " + agentModel.getAgentLastName();
+                    CreatBill creatBill = new CreatBill(userId, agentModel.getAgentId(), Integer.parseInt(accomodationListModel.getBookingFee()), "3", fullName, AccomodationBooking.this, "");
+                    creatBill.CreateBill();
+                    creatBill.setCreateBillListener(new CreatBill.CreateBillListener() {
+                        @Override
+                        public void onSuccess() {
+                            Date date = new Date();
+                            Timestamp timestamp = new Timestamp(date.getTime());
+                            insertBooking(0, 3, "Inspection", timestamp.toString(), accomodationListModel.getBookingFee(), "");
+                            Toast.makeText(AccomodationBooking.this, "You have booked Inspection Successfully", Toast.LENGTH_SHORT).show();
+
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this);
+                            String walletBalance = preferences.getString("walletBalance","0");
+                            preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(accomodationListModel.getBookingFee()))).apply();
+
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Toast.makeText(AccomodationBooking.this, "Error Occurred please try again", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(AccomodationBooking.this,"Insufficient Balance", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
 
-
+    public boolean isAuthorized(String inspectionFee){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this);
+        String walletBalance = preferences.getString("walletBalance","0");
+        if(Integer.parseInt(walletBalance) < Integer.parseInt(inspectionFee)){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){

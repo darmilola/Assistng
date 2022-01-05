@@ -7,18 +7,4 @@
     android:layout_height="match_parent"
     tools:context=".PrintMandatePage">
 
-    <com.asksira.webviewsuite.WebViewSuite
-        android:id="@+id/print_mandate_webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:webViewProgressBarStyle="linear"
-        app:inflationDelay="100"
-        app:enableJavaScript="false"
-        app:overrideTelLink="true"
-        app:overrideEmailLink="true"
-        app:overridePdfLink="true"
-        app:showZoomControl="false"
-        app:enableVerticalScrollBar="false"
-        app:enableHorizontalScrollBar="false"/>
-
 </LinearLayout>

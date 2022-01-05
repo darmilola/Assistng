@@ -110,7 +110,7 @@ public class SendMoneyModel {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                sendMoneyListener.onFailure("Error Occurred please try again");
+                sendMoneyListener.onFailure(e.getLocalizedMessage());
             }
             loadingDialogUtils.cancelLoadingDialog();
         }
@@ -197,6 +197,8 @@ public class SendMoneyModel {
         }
         return jsonObject.toString();
     }
+
+
 
 
 }

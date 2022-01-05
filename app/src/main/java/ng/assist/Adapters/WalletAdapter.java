@@ -2,6 +2,7 @@ package ng.assist.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,11 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +22,7 @@ import ng.assist.ProductTransaction;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.Transactions;
 import ng.assist.UIs.ViewModel.WalletTransactionsModel;
+import ng.assist.UIs.chatkit.utils.DateFormatter;
 
 public class WalletAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -80,46 +86,101 @@ public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             Transactions transactions = walletTransactionsList.get(position);
-            if(holder instanceof AccomodationItemViewHolder){
-                ((AccomodationItemViewHolder) holder).amount.setText(transactions.getAmount());
-                ((AccomodationItemViewHolder) holder).date.setText(transactions.getTimestamp());
-           }
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Timestamp timestamp = null;
+            Date currentDate = new Date();
+            dateFormat.format(currentDate);
+
+
+        try {
+
+            Date parsedDate = dateFormat.parse(transactions.getTimestamp());
+            timestamp = new java.sql.Timestamp(parsedDate.getTime());
+        } catch(Exception e) { //this generic but you can control another types of exception
+            Log.e("TAG ", e.getLocalizedMessage());
+        }
+        Date chatDate = new Date(timestamp.getTime());
+        Calendar cal = Calendar.getInstance(); // creates calendar
+        cal.setTime(chatDate);               // sets calendar time/date
+        cal.add(Calendar.HOUR_OF_DAY, 1);      // adds one hour
+        if(holder instanceof AccomodationItemViewHolder){
+
+            if(DateFormatter.isSameDay(currentDate,chatDate)){
+                ((AccomodationItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
+            }
+            else{
+                ((AccomodationItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.STRING_DAY_MONTH));
+            }
+
+            ((AccomodationItemViewHolder) holder).amount.setText("₦"+transactions.getAmount());
+        }
+
         if(holder instanceof BillsItemViewHolder){
             ((BillsItemViewHolder) holder).amount.setText(transactions.getAmount());
-            ((BillsItemViewHolder) holder).date.setText(transactions.getTimestamp());
+            if(DateFormatter.isSameDay(currentDate,chatDate)){
+                ((BillsItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
+            }
+            else{
+                ((BillsItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.STRING_DAY_MONTH));
+            }
         }
         if(holder instanceof MarketplaceItemViewHolder){
-            ((MarketplaceItemViewHolder) holder).amount.setText(transactions.getAmount());
-            ((MarketplaceItemViewHolder) holder).date.setText(transactions.getTimestamp());
+            ((MarketplaceItemViewHolder) holder).amount.setText("₦"+transactions.getAmount());
+            if(DateFormatter.isSameDay(currentDate,chatDate)){
+                ((MarketplaceItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
+            }
+            else{
+                ((MarketplaceItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.STRING_DAY_MONTH));
+            }
         }
         if(holder instanceof SendItemViewHolder){
-            ((SendItemViewHolder) holder).amount.setText(transactions.getAmount());
-            ((SendItemViewHolder) holder).date.setText(transactions.getTimestamp());
+            ((SendItemViewHolder) holder).amount.setText("₦"+transactions.getAmount());
+            if(DateFormatter.isSameDay(currentDate,chatDate)){
+                ((SendItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
+            }
+            else{
+                ((SendItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.STRING_DAY_MONTH));
+            }
         }
         if(holder instanceof ServicesItemViewHolder){
-            ((ServicesItemViewHolder) holder).amount.setText(transactions.getAmount());
-            ((ServicesItemViewHolder) holder).date.setText(transactions.getTimestamp());
+            ((ServicesItemViewHolder) holder).amount.setText("₦"+transactions.getAmount());
+            if(DateFormatter.isSameDay(currentDate,chatDate)){
+                ((ServicesItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
+            }
+            else{
+                ((ServicesItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.STRING_DAY_MONTH));
+            }
         }
 
         if(holder instanceof TopUpItemViewHolder){
-            ((TopUpItemViewHolder) holder).amount.setText(transactions.getAmount());
-            ((TopUpItemViewHolder) holder).date.setText(transactions.getTimestamp());
+            ((TopUpItemViewHolder) holder).amount.setText("₦"+transactions.getAmount());
+            if(DateFormatter.isSameDay(currentDate,chatDate)){
+                ((TopUpItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
+            }
+            else{
+                ((TopUpItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.STRING_DAY_MONTH));
+            }
         }
 
         if(holder instanceof TransportsItemViewHolder){
-            ((TransportsItemViewHolder) holder).amount.setText(transactions.getAmount());
-            ((TransportsItemViewHolder) holder).date.setText(transactions.getTimestamp());
+            ((TransportsItemViewHolder) holder).amount.setText("₦"+transactions.getAmount());
+            if(DateFormatter.isSameDay(currentDate,chatDate)){
+                ((TransportsItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
+            }
+            else{
+                ((TransportsItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.STRING_DAY_MONTH));
+            }
         }
         if(holder instanceof WithdrawItemViewHolder){
-            ((WithdrawItemViewHolder) holder).amount.setText(transactions.getAmount());
-            ((WithdrawItemViewHolder) holder).date.setText(transactions.getTimestamp());
+            ((WithdrawItemViewHolder) holder).amount.setText("₦"+transactions.getAmount());
+            if(DateFormatter.isSameDay(currentDate,chatDate)){
+                ((WithdrawItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
+            }
+            else{
+                ((WithdrawItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.STRING_DAY_MONTH));
+            }
         }
-
-
-
-
-
-    }
+}
 
 
 @Override

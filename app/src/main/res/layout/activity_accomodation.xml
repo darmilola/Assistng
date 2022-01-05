@@ -8,7 +8,14 @@
     android:background="#F6F5F8"
     tools:context=".Accomodation">
 
-    <TextView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+      <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -233,7 +240,7 @@
             android:fontFamily="@font/clannews"
             android:textColor="@color/pinkypinky"
             android:layout_alignParentRight="true"
-            android:text="$0 - $100,000"/>
+            android:text="₦0 - ₦100,000"/>
 
 
 
@@ -249,10 +256,10 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:max="500"
-        app:range_progress_endValue="60"
+        android:max="1000000"
+        app:range_progress_endValue="1000000"
         app:range_progress_startEnd_minDiff="1"
-        app:range_progress_startValue="50" />
+        app:range_progress_startValue="0" />
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
@@ -268,6 +275,6 @@
         android:fontFamily="@font/clannews"
         app:cornerRadius="5dp"/>
 
-
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

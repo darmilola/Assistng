@@ -64,7 +64,7 @@ public class Accomodation extends AppCompatActivity {
             public void onProgressChanged(RangeSeekBar rangeSeekBar, int i, int i1, boolean b) {
                 min_price = Integer.toString(i);
                 max_price = Integer.toString(i1);
-                priceRangeText.setText("$"+Integer.toString(i)+" - "+"$"+Integer.toString(i1));
+                priceRangeText.setText("₦"+Integer.toString(i)+" - "+"₦"+Integer.toString(i1));
             }
             @Override
             public void onStartTrackingTouch(RangeSeekBar rangeSeekBar) {

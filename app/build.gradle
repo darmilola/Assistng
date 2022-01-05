@@ -4,12 +4,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.1"
     defaultConfig {
         applicationId "ng.assist"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -45,20 +45,12 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
     implementation 'it.sephiroth.android.library.rangeseekbar:rangeseekbar:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    implementation 'com.github.transferwise:sequence-layout:1.1.1'
-    implementation 'com.thefinestartist:finestwebview:1.2.7'
-    implementation 'com.asksira.android:webviewsuite:1.0.3'
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.google.android.gms:play-services-location:18.0.0'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
-    implementation 'com.asksira.android:webviewsuite:1.0.3'
-    implementation 'com.thefinestartist:finestwebview:1.2.7'
     implementation "com.github.10bis:compactCreditInput:2.0.3"
     implementation 'me.relex:circleindicator:2.1.6'
     implementation 'com.github.takusemba:cropme:2.0.8'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.google.android.libraries.places:places:2.4.0'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'co.paystack.android:paystack:3.1.3'

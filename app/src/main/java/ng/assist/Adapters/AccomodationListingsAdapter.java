@@ -47,7 +47,7 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<Accomodati
             viewHolder.baths.setText(accomodationListModel.getBaths());
             viewHolder.beds.setText(accomodationListModel.getBeds());
             viewHolder.houseTitle.setText(accomodationListModel.getHouseTitle());
-            viewHolder.pricePerMonth.setText(accomodationListModel.getPricesPerMonth());
+            viewHolder.pricePerMonth.setText("₦"+accomodationListModel.getPricesPerMonth());
             Glide.with(context)
                     .load(accomodationListModel.getHouseDisplayImage())
                     .placeholder(R.drawable.background_image)

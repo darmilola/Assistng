@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:weightSum="5"
         android:orientation="horizontal">
 
@@ -22,13 +22,19 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="15dp"
-                android:src="@drawable/quantum_ic_arrow_back_grey600_24"/>
+                android:src="@drawable/iconfinder_chevron_left_4781844"/>
 
         </LinearLayout>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
+            android:textColor="@color/black"
+            android:text="This is the product title"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:id="@+id/grocery_search_title"/>
         <LinearLayout
             android:layout_width="0dp"
@@ -41,8 +47,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         tools:listitem="@layout/dashboard_grocery_item"
+        android:id="@+id/grocery_search_recyclerview"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"/>
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="250dp"
+        android:id="@+id/grocery_search_progress"/>
 
 </LinearLayout>

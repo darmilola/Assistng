@@ -123,6 +123,8 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="15dp"
                         android:maxLines="1"
+                        android:imeOptions="actionSearch"
+                        android:id="@+id/grocery_search_edittext"
                         android:inputType="text"
                         android:textColorHint="@color/light_text_color"
                         android:fontFamily="@font/clannews"/>

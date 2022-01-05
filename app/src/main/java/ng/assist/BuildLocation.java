@@ -19,10 +19,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationRequest;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -36,26 +38,12 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.maps.model.LatLng;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+
 import com.google.android.material.button.MaterialButton;
-import com.thefinestartist.finestwebview.FinestWebView;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,8 +51,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class BuildLocation extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks,
-        LocationListener {
+public class BuildLocation extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks
+{
 
     MaterialButton next;
     LinearLayout flightBooking;
@@ -73,16 +61,12 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
     LocationRequest mLocationRequest;
     Location mLastLocation;
     GoogleApiClient mGoogleApiClient;
-    LocationSettingsRequest mLocationSettingsRequest;
-    LocationSettingsRequest.Builder builder;
-    FusedLocationProviderClient mFusedLocationClient;
-    PlacesClient mPlacesClient;
+
     Geocoder geocoder;
     private static final int REQUEST_CHECK_SETTINGS = 0x1;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final String PLACES_KEY = "AIzaSyDhWEtH-spkmhAaeLLTN-8Oaest6Gq4y50";
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
-    List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
     TextView chooseLocationFromText, chooseLocationToText;
     ListDialog listDialog;
     LinearLayout rootLayout;
@@ -178,13 +162,19 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
     }
 
 
-    private LocationRequest getLocationRequest(){
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1200000); // two minute interval
-        mLocationRequest.setFastestInterval(1200000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        return mLocationRequest;
+    public boolean isNextValid(){
+        boolean isValid = true;
+        if(TextUtils.isEmpty(chooseLocationFromText.getText().toString())){
+            chooseLocationFromText.setError("Required");
+            isValid = false;
+            return isValid;
+        }
+        if(TextUtils.isEmpty(chooseLocationToText.getText().toString())){
+            chooseLocationToText.setError("Required");
+            isValid = false;
+            return isValid;
+        }
+        return isValid;
     }
 
     private void startLocationUpdates(){
@@ -195,8 +185,6 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
                     Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 //Location Permission already granted
-                mFusedLocationClient.requestLocationUpdates(getLocationRequest(), mLocationCallback, Looper.myLooper());
-
 
             } else {
 
@@ -260,7 +248,6 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
 
-                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
 
                     }
 
@@ -280,114 +267,15 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    protected synchronized void buildGoogleApiClient() {
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-    }
 
 
-    private void getLocationName(LatLng latLng){
 
-        Places.initialize(this,"City", Locale.ENGLISH);
-        mPlacesClient = Places.createClient(this);
-        geocoder = new Geocoder(this, Locale.getDefault());
-
-        try {
-           String cityname =  geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1).get(0).getLocality();
-           saveUsersCity(cityname);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     private void saveUsersCity(String cityname){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(BuildLocation.this);
         preferences.edit().putString("city",cityname).apply();
     }
-
-    protected void checkLocationSettings() {
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(getLocationRequest());
-
-        Task<LocationSettingsResponse> result =
-                LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
-
-        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
-
-                try {
-                    LocationSettingsResponse response = task.getResult(ApiException.class);
-
-                    startLocationUpdates();
-                    // All location settings are satisfied. The client can initialize location
-                    // requests here.
-
-                } catch (ApiException exception) {
-                    switch (exception.getStatusCode()) {
-
-
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            // Location settings are not satisfied. But could be fixed by showing the
-                            // user a dialog.
-                            try {
-                                // Cast to a resolvable exception.
-                                ResolvableApiException resolvable = (ResolvableApiException) exception;
-                                // Show the dialog by calling startResolutionForResult(),
-                                // and check the result in onActivityResult().
-                                resolvable.startResolutionForResult(
-                                        BuildLocation.this,
-                                        REQUEST_CHECK_SETTINGS);
-                            } catch (IntentSender.SendIntentException e) {
-                                // Ignore the error.
-                            } catch (ClassCastException e) {
-                                // Ignore, should be an impossible error.
-                            }
-                            break;
-                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            // Location settings are not satisfied. However, we have no way to fix the
-                            // settings so we won't show the dialog.
-                            break;
-
-                        default:
-
-
-                    }
-                }
-
-            }
-        });
-
-    }
-
-
-    protected void buildLocationSettingsRequest() {
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-        builder.addLocationRequest(getLocationRequest());
-        mLocationSettingsRequest = builder.build();
-    }
-
-
-    LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            List<Location> locationList = locationResult.getLocations();
-            if (locationList.size() > 0) {
-                //The last location in the list is the newest
-                Location location = locationList.get(locationList.size() - 1);
-                mLastLocation = location;
-                getLocationName(new LatLng(location.getLatitude(),location.getLongitude()));
-            }
-        }
-    };
-
 
 
 
@@ -422,8 +310,4 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-
-    }
 }

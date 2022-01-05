@@ -9,10 +9,15 @@ import androidx.viewpager.widget.ViewPager;
 import ng.assist.UIs.GroceryFastFoods;
 import ng.assist.UIs.HomeFragment;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -25,6 +30,7 @@ public class Grocery extends AppCompatActivity {
     ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
     ViewPager viewPager;
     TabLayout tabLayout;
+    EditText searchEdittext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +43,25 @@ public class Grocery extends AppCompatActivity {
 
         viewPager = findViewById(R.id.grocery_viewpager);
         tabLayout = findViewById(R.id.grocery_tab_layout);
+        searchEdittext = findViewById(R.id.grocery_search_edittext);
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+
+        searchEdittext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if(!searchEdittext.getText().toString().trim().equalsIgnoreCase("")){
+                        Intent intent = new Intent(Grocery.this, GrocerySearch.class);
+                        intent.putExtra("query",searchEdittext.getText().toString().trim());
+                        startActivity(intent);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
 
     }

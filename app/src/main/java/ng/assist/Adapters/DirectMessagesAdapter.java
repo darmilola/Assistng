@@ -3,6 +3,7 @@ package ng.assist.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaCodec;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,11 @@ import com.bumptech.glide.Glide;
 
 import org.apache.commons.text.StringEscapeUtils;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import ng.assist.ChatActivity;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.MessageConnectionModel;
+import ng.assist.UIs.chatkit.utils.DateFormatter;
 
 public class DirectMessagesAdapter extends RecyclerView.Adapter<DirectMessagesAdapter.itemViewHolder> {
 
@@ -44,8 +50,34 @@ public class DirectMessagesAdapter extends RecyclerView.Adapter<DirectMessagesAd
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
         MessageConnectionModel messageConnectionModel = directMessagesItemList.get(position);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Timestamp timestamp = null;
+        Date currentDate = new Date();
+        dateFormat.format(currentDate);
+
+        try {
+
+            Date parsedDate = dateFormat.parse(messageConnectionModel.getTimestamp());
+            timestamp = new java.sql.Timestamp(parsedDate.getTime());
+        } catch(Exception e) { //this generic but you can control another types of exception
+            Log.e("TAG ", e.getLocalizedMessage());
+        }
+        Date chatDate = new Date(timestamp.getTime());
+        Calendar cal = Calendar.getInstance(); // creates calendar
+        cal.setTime(chatDate);               // sets calendar time/date
+        cal.add(Calendar.HOUR_OF_DAY, 1);      // adds one hour
+
+
         holder.lastMessage.setText(StringEscapeUtils.unescapeJava(messageConnectionModel.getLastMessage()));
-        holder.timestamp.setText(messageConnectionModel.getTimestamp());
+
+        if(DateFormatter.isSameDay(currentDate,chatDate)){
+             holder.timestamp.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
+        }
+        else{
+            holder.timestamp.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.STRING_DAY_MONTH));
+        }
+
+
         holder.displayName.setText(messageConnectionModel.getReceiverFirstname()+" "+messageConnectionModel.getReceiverLastname());
         if(messageConnectionModel.getUnreadCount() == 0){
             holder.unreadLayout.setVisibility(View.GONE);

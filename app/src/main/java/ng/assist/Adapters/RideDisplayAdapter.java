@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.datatransport.Transport;
 import com.google.android.material.button.MaterialButton;
 
 import java.sql.Timestamp;

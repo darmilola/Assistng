@@ -30,21 +30,6 @@
             android:fontFamily="@font/clannews"
             android:text="Flights"/>
     </LinearLayout>
-    <com.asksira.webviewsuite.WebViewSuite
-        android:id="@+id/webViewSuite"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:url="https://assisthq.bubbleapps.io/version-test/travelstart"
-        app:webViewProgressBarStyle="linear"
-        app:inflationDelay="100"
-        android:background="@color/special_activity_background"
-        app:enableJavaScript="true"
-        app:overrideTelLink="true"
-        app:overrideEmailLink="true"
-        app:overridePdfLink="true"
-        app:showZoomControl="false"
-        android:layout_marginBottom="55dp"
-        app:enableVerticalScrollBar="false"
-        app:enableHorizontalScrollBar="false"/>
+
 
 </LinearLayout>
