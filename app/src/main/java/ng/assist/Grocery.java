@@ -89,11 +89,6 @@ public class Grocery extends AppCompatActivity {
                     return new GroceryFastFoods();
                 case 2:
                     return new GroceryFastFoods();
-                case 3:
-                    return new GroceryFastFoods();
-
-
-
             }
             return null;
         }
@@ -101,7 +96,7 @@ public class Grocery extends AppCompatActivity {
         @Override
         public int getCount() {
 
-            return 4;
+            return 3;
         }
 
 
@@ -122,8 +117,8 @@ public class Grocery extends AppCompatActivity {
 
         adapter.addFragment(new GroceryFastFoods(), "Fast-Foods");
         adapter.addFragment(new GroceryFastFoods(), "Electronics");
-        adapter.addFragment(new GroceryFastFoods(), "Gadgets");
-        adapter.addFragment(new GroceryFastFoods(), "Clothings");
+        adapter.addFragment(new GroceryFastFoods(), "Others");
+        //adapter.addFragment(new GroceryFastFoods(), "Clothings");
         viewPager.setAdapter(adapter);
     }
 
@@ -139,9 +134,6 @@ public class Grocery extends AppCompatActivity {
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
     }
-
-
-
 
 
 }

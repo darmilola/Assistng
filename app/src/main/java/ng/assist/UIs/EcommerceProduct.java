@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.DasdhboardProductAdapter;
 import ng.assist.Adapters.GroceryDisplayAdapter;
 import ng.assist.DashboardAddProduct;
+import ng.assist.DashboardProductDetails;
 import ng.assist.EcommerceDashboard;
 import ng.assist.MainActivity;
 import ng.assist.R;
@@ -87,6 +88,16 @@ public class EcommerceProduct extends Fragment {
                   GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false);
                   recyclerView.setLayoutManager(layoutManager);
                   recyclerView.setAdapter(adapter);
+
+                adapter.setProductClickedListener(new DasdhboardProductAdapter.ProductClickedListener() {
+                    @Override
+                    public void onClicked(int position) {
+                        Intent intent = new Intent(getContext(), DashboardProductDetails.class);
+                        intent.putExtra("product",groceryModelArrayList.get(position));
+                        intent.putExtra("position",position);
+                        startActivityForResult(intent,100);
+                    }
+                });
             }
 
             @Override
@@ -132,6 +143,8 @@ public class EcommerceProduct extends Fragment {
                     GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
+
+
                 }
 
                 @Override
@@ -140,6 +153,10 @@ public class EcommerceProduct extends Fragment {
                 }
             });
 
+        }
+        if (requestCode == 100 && resultCode == 200) {
+            int position = data.getIntExtra("position",-1);
+            adapter.removeItem(position);
         }
     }
 

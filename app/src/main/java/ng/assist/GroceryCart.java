@@ -28,8 +28,10 @@ import com.google.android.material.button.MaterialButton;
 import org.json.JSONArray;
 
 import java.sql.Timestamp;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class GroceryCart extends AppCompatActivity {
 
@@ -73,7 +75,10 @@ public class GroceryCart extends AppCompatActivity {
                         @Override
                         public void onNewPrice(String totalPrice) {
                             mTotalPriceValue = totalPrice;
-                            mTotalprice.setText(totalPrice);
+                            Locale NigerianLocale = new Locale("en","ng");
+                            String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(totalPrice));
+                            String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+                            mTotalprice.setText(formattedPrice);
                         }
                     });
                     recyclerView.setLayoutManager(layoutManager);

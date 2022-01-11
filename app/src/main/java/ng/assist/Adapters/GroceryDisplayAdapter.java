@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,9 +50,14 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
           GroceryModel groceryModel = groceryList.get(position);
-          holder.productPrice.setText(groceryModel.getPrice());
           holder.productName.setText(groceryModel.getProductName());
-          holder.shopname.setText(groceryModel.getShopName());
+          //holder.shopname.setText(groceryModel.getShopName());
+
+
+        Locale NigerianLocale = new Locale("en","ng");
+        String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(groceryModel.getPrice()));
+        String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+        holder.productPrice.setText(formattedPrice);
 
         Glide.with(context)
                 .load(groceryModel.getDisplayImage())
@@ -74,13 +81,13 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
          TextView productName;
          ImageView productImage;
          TextView productPrice;
-         TextView shopname;
+         //TextView shopname;
         public itemViewHolder(View ItemView){
             super(ItemView);
             productImage = ItemView.findViewById(R.id.grocery_item_image);
             productName = ItemView.findViewById(R.id.grocery_item_title);
             productPrice = ItemView.findViewById(R.id.grocery_item_price);
-            shopname = ItemView.findViewById(R.id.grocery_item_shopname);
+           // shopname = ItemView.findViewById(R.id.grocery_item_shopname);
         /*    ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

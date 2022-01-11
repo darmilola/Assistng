@@ -116,7 +116,7 @@ public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int
         }
 
         if(holder instanceof BillsItemViewHolder){
-            ((BillsItemViewHolder) holder).amount.setText(transactions.getAmount());
+            ((BillsItemViewHolder) holder).amount.setText("₦"+transactions.getAmount());
             if(DateFormatter.isSameDay(currentDate,chatDate)){
                 ((BillsItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
             }

@@ -15,7 +15,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,10 +61,13 @@ public class GroceryCartAdapter extends RecyclerView.Adapter<GroceryCartAdapter.
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
          GroceryModel groceryModel = groceryList.get(position);
          holder.quantity.setText(groceryModel.getQuantity());
-         holder.price.setText(groceryModel.getPrice());
+         Locale NigerianLocale = new Locale("en","ng");
+         String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(groceryModel.getPrice()));
+         String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+         holder.price.setText(formattedPrice);
          holder.qtyPrice.setText(Integer.toString(groceryModel.getQtyPrice()));
          holder.productName.setText(groceryModel.getProductName());
-        Glide.with(context)
+         Glide.with(context)
                 .load(groceryModel.getDisplayImage())
                 .placeholder(R.drawable.background_image)
                 .error(R.drawable.background_image)

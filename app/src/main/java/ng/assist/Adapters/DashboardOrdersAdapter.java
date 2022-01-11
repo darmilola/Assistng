@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +25,11 @@ public class DashboardOrdersAdapter extends RecyclerView.Adapter<DashboardOrders
 
     ArrayList<Orders> groceryList;
     Context context;
+    ViewOrderClickedListener viewOrderClickedListener;
+
+    public interface ViewOrderClickedListener{
+        void onViewClicked(int position);
+    }
 
 
     public DashboardOrdersAdapter(ArrayList<Orders> groceryList, Context context){
@@ -30,6 +37,9 @@ public class DashboardOrdersAdapter extends RecyclerView.Adapter<DashboardOrders
         this.context = context;
     }
 
+    public void setViewOrderClickedListener(ViewOrderClickedListener viewOrderClickedListener) {
+        this.viewOrderClickedListener = viewOrderClickedListener;
+    }
 
     @NonNull
     @Override
@@ -41,9 +51,17 @@ public class DashboardOrdersAdapter extends RecyclerView.Adapter<DashboardOrders
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
               Orders orders = groceryList.get(position);
-              holder.totalPrice.setText(orders.getTotalPrice());
+        Locale NigerianLocale = new Locale("en","ng");
+        String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(orders.getTotalPrice()));
+        String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+              holder.totalPrice.setText(formattedPrice);
               holder.customerName.setText(orders.getUserFirstname()+" "+orders.getUserLastname());
               holder.status.setText(orders.getStatus());
+    }
+
+    public void removeItem(int position){
+        groceryList.remove(position);
+        notifyDataSetChanged();
     }
 
 
@@ -67,9 +85,7 @@ public class DashboardOrdersAdapter extends RecyclerView.Adapter<DashboardOrders
             viewOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, DashboardViewOrder.class);
-                    intent.putExtra("orderList",groceryList.get(getAdapterPosition()));
-                    ((Activity)context).startActivityForResult(intent,0);
+                    viewOrderClickedListener.onViewClicked(getAdapterPosition());
                 }
             });
 

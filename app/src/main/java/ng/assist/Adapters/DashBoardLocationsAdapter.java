@@ -1,6 +1,7 @@
 package ng.assist.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,11 @@ public class DashBoardLocationsAdapter extends RecyclerView.Adapter<DashBoardLoc
             remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     int id = locationModels.get(getAdapterPosition()).getId();
+                    Log.e("id ", Integer.toString(id));
+                    locationModels.remove(getAdapterPosition());
+                    notifyDataSetChanged();
                     LocationModel locationModel = new LocationModel(id);
                     locationModel.deleteDeliveryLocations();
                     locationModel.setUpdateInfoListener(new LocationModel.UpdateInfoListener() {

@@ -31,7 +31,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class GroceryStoreListing extends AppCompatActivity {
 
@@ -73,14 +75,17 @@ public class GroceryStoreListing extends AppCompatActivity {
         cartLayout = findViewById(R.id.store_listing_cart);
         recyclerView = findViewById(R.id.details_recyclerview);
         productName = findViewById(R.id.details_product_name);
-        shopname = findViewById(R.id.details_shopname);
         description = findViewById(R.id.details_product_description);
         price = findViewById(R.id.details_product_price);
         groceryModel = getIntent().getParcelableExtra("product");
 
         productName.setText(groceryModel.getProductName());
         description.setText(groceryModel.getDescription());
-        price.setText(groceryModel.getPrice());
+
+        Locale NigerianLocale = new Locale("en","ng");
+        String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(groceryModel.getPrice()));
+        String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+        price.setText(formattedPrice);
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         LinearLayoutManager imagesManager = new LinearLayoutManager(GroceryStoreListing.this, LinearLayoutManager.HORIZONTAL,false);
@@ -105,7 +110,7 @@ public class GroceryStoreListing extends AppCompatActivity {
                 pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
                 imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
                 adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
-                shopname.setText(retailerInfoModel.getShopName());
+
                 groceryDisplayAdapter = new GroceryDetailProductAdapter(groceryModelArrayList,GroceryStoreListing.this);
                 recyclerView.setAdapter(groceryDisplayAdapter);
 

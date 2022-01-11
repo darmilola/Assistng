@@ -6,10 +6,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/special_activity_background"
     tools:context=".GroceryStoreListing"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/ecc_dashboard_progress_bar"/>
+
+
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/ecc_dashboard_rootview">
 
 
 
@@ -42,14 +53,8 @@
                 android:id="@+id/store_listing_cart"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
-                android:gravity="right">
-
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:text="Available"
-                    android:id="@+id/ecc_dashboard_products_availability"
-                    android:checked="true"/>
+                android:gravity="right"
+                android:orientation="vertical">
 
             </LinearLayout>
         </RelativeLayout>
@@ -67,20 +72,6 @@
                     android:ellipsize="end"
                     android:id="@+id/ecc_dashboard_products_title"
                     android:text="Fresh Pakistani Capsicum"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Mudassir Supermarket Kano"
-                    android:textSize="15dp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:id="@+id/ecc_dashboard_store_name"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center"
-                    android:textColor="@color/light_text_color"
-                    android:fontFamily="@font/clannews"/>
 
         <include layout="@layout/product_image_scrollview"/>
 

@@ -99,6 +99,7 @@
         android:layout_marginRight="16dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:inputType="text"
         android:id="@+id/add_product_title"
         android:background="@drawable/edit_profile_edittext_background"/>
 
@@ -121,6 +122,7 @@
         android:layout_marginRight="16dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:inputType="number"
         android:id="@+id/add_product_price"
         android:background="@drawable/edit_profile_edittext_background"/>
 
@@ -142,6 +144,9 @@
                 android:layout_marginLeft="16dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textSize="17dp"
+                android:textColor="@color/black"
+                android:gravity="center|left"
                 android:layout_marginRight="16dp"
                 android:id="@+id/add_product_product_category"
                 android:background="@drawable/edit_profile_edittext_background"/>
@@ -169,15 +174,6 @@
         android:id="@+id/add_product_description"
         android:background="@drawable/edit_profile_edittext_background"/>
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Make this Product Available"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
-        android:id="@+id/add_product_availability"
-        android:textSize="16dp"
-        android:checked="true"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

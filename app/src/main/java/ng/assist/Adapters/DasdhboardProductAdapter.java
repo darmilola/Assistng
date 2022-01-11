@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,13 +25,21 @@ public class DasdhboardProductAdapter extends RecyclerView.Adapter<DasdhboardPro
 
     ArrayList<GroceryModel> groceryList;
     Context context;
+    ProductClickedListener productClickedListener;
 
+
+    public interface ProductClickedListener{
+        void onClicked(int position);
+    }
 
     public DasdhboardProductAdapter(ArrayList<GroceryModel> groceryList, Context context){
         this.groceryList = groceryList;
         this.context = context;
     }
 
+    public void setProductClickedListener(ProductClickedListener productClickedListener) {
+        this.productClickedListener = productClickedListener;
+    }
 
     @NonNull
     @Override
@@ -42,9 +52,12 @@ public class DasdhboardProductAdapter extends RecyclerView.Adapter<DasdhboardPro
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
 
         GroceryModel groceryModel = groceryList.get(position);
-        holder.productPrice.setText(groceryModel.getPrice());
         holder.productName.setText(groceryModel.getProductName());
-        holder.shopname.setText(groceryModel.getShopName());
+
+        Locale NigerianLocale = new Locale("en","ng");
+        String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(groceryModel.getPrice()));
+        String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+        holder.productPrice.setText(formattedPrice);
 
         Glide.with(context)
                 .load(groceryModel.getDisplayImage())
@@ -52,6 +65,11 @@ public class DasdhboardProductAdapter extends RecyclerView.Adapter<DasdhboardPro
                 .error(R.drawable.background_image)
                 .into(holder.productImage);
 
+    }
+
+    public void removeItem(int position){
+        groceryList.remove(position);
+        notifyDataSetChanged();
     }
 
 
@@ -70,7 +88,7 @@ public class DasdhboardProductAdapter extends RecyclerView.Adapter<DasdhboardPro
             productImage = ItemView.findViewById(R.id.grocery_item_image);
             productName = ItemView.findViewById(R.id.grocery_item_title);
             productPrice = ItemView.findViewById(R.id.grocery_item_price);
-            shopname = ItemView.findViewById(R.id.grocery_item_shopname);
+
         /*    ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -100,9 +118,8 @@ public class DasdhboardProductAdapter extends RecyclerView.Adapter<DasdhboardPro
         @Override
         public void onClick(View view) {
 
-            Intent intent = new Intent(context,DashboardProductDetails.class);
-            intent.putExtra("product",groceryList.get(getAdapterPosition()));
-            context.startActivity(intent);
+            productClickedListener.onClicked(getAdapterPosition());
+
         }
     }
 }

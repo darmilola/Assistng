@@ -25,7 +25,9 @@ import com.google.android.material.checkbox.MaterialCheckBox;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class DashboardViewOrder extends AppCompatActivity {
 
@@ -78,6 +80,18 @@ public class DashboardViewOrder extends AppCompatActivity {
             }
         });
 
+        chatWithCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DashboardViewOrder.this,ChatActivity.class);
+                intent.putExtra("receiverId", orders.getUserEmail());
+                intent.putExtra("receiverFirstname", orders.getUserFirstname());
+                intent.putExtra("receiverLastname", orders.getUserLastname());
+                intent.putExtra("receiverImageUrl","https://cdn.pixabay.com/photo/2021/12/27/17/47/animal-6897849__340.jpg");
+                startActivity(intent);
+            }
+        });
+
 
         deleteOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +101,9 @@ public class DashboardViewOrder extends AppCompatActivity {
                 ecommerceDashboardModel.setUpdateInfoListener(new EcommerceDashboardModel.UpdateInfoListener() {
                     @Override
                     public void onSuccess() {
-                        setResult(1);
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("orderId", getIntent().getIntExtra("position",0));
+                        setResult(1,resultIntent);
                         finish();
                     }
 
@@ -99,7 +115,13 @@ public class DashboardViewOrder extends AppCompatActivity {
             }
         });
 
-        totalPrice.setText(orders.getTotalPrice());
+        Locale NigerianLocale = new Locale("en","ng");
+        String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(orders.getTotalPrice()));
+        String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+
+
+
+        totalPrice.setText(formattedPrice);
         if(orders.getStatus().equalsIgnoreCase("pending delivery")){
             deliveryStatus.setChecked(false);
         }

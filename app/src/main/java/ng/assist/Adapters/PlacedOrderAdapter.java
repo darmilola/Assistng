@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,10 +44,16 @@ public class PlacedOrderAdapter extends RecyclerView.Adapter<PlacedOrderAdapter.
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
         CartModel cartModel = cartModelArrayList.get(position);
         holder.productName.setText(cartModel.getName());
-        holder.price.setText(cartModel.getPrice());
+        Locale NigerianLocale = new Locale("en","ng");
+        String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(cartModel.getPrice()));
+        String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+        holder.price.setText(formattedPrice);
         int quantity = Integer.parseInt(cartModel.getQuantity());
         int price = Integer.parseInt(cartModel.getPrice());
-        holder.qtyPrice.setText(Integer.toString(price * quantity));
+        String unFormattedPrice2 = NumberFormat.getCurrencyInstance(NigerianLocale).format(price * quantity);
+        String formattedPrice2 = unFormattedPrice2.replaceAll("\\.00","");
+
+        holder.qtyPrice.setText(formattedPrice2);
         holder.quantity.setText(cartModel.getQuantity());
         Glide.with(context)
                 .load(cartModel.getImageUrl())

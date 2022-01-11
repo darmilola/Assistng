@@ -154,17 +154,6 @@ public class ServiceProviderVerifications extends AppCompatActivity {
         return imgString;
     }
 
-
-    @Override
-    public void onResume() {
-
-        super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.transparent));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-    }
-
     private boolean isValidForm() {
 
         boolean valid = true;
@@ -195,6 +184,19 @@ public class ServiceProviderVerifications extends AppCompatActivity {
             return valid;
         }
         return valid;
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
+            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        }
     }
 
 

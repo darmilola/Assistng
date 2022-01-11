@@ -43,6 +43,7 @@ public class GroceryModel implements Parcelable {
     private String baseUrl = new URL().getBaseUrl();
     private String groceryUrl = baseUrl+"products/list/category";
     private String searchUrl = baseUrl+"products/search";
+    private String deleteUrl = baseUrl+"products/delete";
     private String updateCartUrl = baseUrl+"cart/order/update";
     private String deleteFromCartUrl = baseUrl+"cart/remove";
     private String viewCartUrl = baseUrl+"cart/show";
@@ -60,6 +61,7 @@ public class GroceryModel implements Parcelable {
     private String searchQuery;
     private CartDisplayListener cartDisplayListener;
     private CartCheckoutListener cartCheckoutListener;
+    private deleteProductListener deleteProductListener;
 
 
     protected GroceryModel(Parcel in) {
@@ -139,6 +141,11 @@ public class GroceryModel implements Parcelable {
         void onError();
     }
 
+    public interface deleteProductListener{
+        void onSuccess();
+        void onFailure();
+    }
+
 
     public interface CartCheckoutListener{
         void onSuccess();
@@ -157,6 +164,9 @@ public class GroceryModel implements Parcelable {
         void onError(String message);
     }
 
+    public void setDeleteProductListener(deleteProductListener deleteProductListener) {
+        this.deleteProductListener = deleteProductListener;
+    }
 
     public void setCartCheckoutListener(CartCheckoutListener cartCheckoutListener) {
         this.cartCheckoutListener = cartCheckoutListener;
@@ -186,7 +196,11 @@ public class GroceryModel implements Parcelable {
            this.userCity = city;
            this.searchQuery = query;
            dialogUtils = new LoadingDialogUtils(context);
+    }
 
+    public GroceryModel(String productId, Context context){
+           this.productId = productId;
+           dialogUtils = new LoadingDialogUtils(context);
     }
 
     public GroceryModel(String category, String userCity){
@@ -371,6 +385,7 @@ public class GroceryModel implements Parcelable {
     private Handler deleteUsersCartHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NotNull Message msg) {
+            if(dialogUtils != null) dialogUtils.cancelLoadingDialog();
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
             Log.e("response  ", response);
@@ -378,10 +393,10 @@ public class GroceryModel implements Parcelable {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
                 if(status.equalsIgnoreCase("success")){
-
+                   deleteProductListener.onSuccess();
                 }
                 else if(status.equalsIgnoreCase("failure")){
-
+                     deleteProductListener.onFailure();
                 }
 
             } catch (JSONException e) {
@@ -708,6 +723,40 @@ public class GroceryModel implements Parcelable {
     }
 
 
+    public void deleteProduct() {
+        dialogUtils.showLoadingDialog("Deleting product...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildDeleteProduct(this.productId));
+            Request request = new Request.Builder()
+                    .url(deleteUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                Log.e( "deleteProduct: ",e.getLocalizedMessage());
+                e.printStackTrace();
+            }
+            Message msg = deleteUsersCartHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            deleteUsersCartHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
     public void CheckOut() {
         dialogUtils.showLoadingDialog("Processing...");
         Runnable runnable = () -> {
@@ -860,6 +909,16 @@ public class GroceryModel implements Parcelable {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("userId",userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildDeleteProduct(String productId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("productId",productId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

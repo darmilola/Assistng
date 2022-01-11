@@ -96,7 +96,7 @@ public class EcommerceDashboardModel {
             this.shopname = shopname;
      }
 
-     public EcommerceDashboardModel(String productId, String retailerId, String title, String price, String category, String description, String shopname, String availability, String displayImage){
+     public EcommerceDashboardModel(String productId, String retailerId, String title, String price, String category, String description, String shopname, String availability, String displayImage, Context context){
             this.retailerId = retailerId;
             this.title = title;
             this.price = price;
@@ -106,6 +106,8 @@ public class EcommerceDashboardModel {
             this.displayImage = displayImage;
             this.availability = availability;
             this.productId = productId;
+            this.context = context;
+            loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
     public EcommerceDashboardModel(String encodedImage,String productId, Context context){
@@ -358,6 +360,7 @@ public class EcommerceDashboardModel {
 
 
     public void createProduct(){
+        loadingDialogUtils.showLoadingDialog("Creating Product...");
         Runnable runnable = () -> {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient();
@@ -508,6 +511,7 @@ public class EcommerceDashboardModel {
     private Handler createProductHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NotNull Message msg) {
+            loadingDialogUtils.cancelLoadingDialog();
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
             try {
@@ -595,6 +599,7 @@ public class EcommerceDashboardModel {
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
             try {
+                Log.e("response", response);
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
                 if(status.equalsIgnoreCase("success")){
@@ -611,7 +616,7 @@ public class EcommerceDashboardModel {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                imageUploadListener.onError("Error Occurred please try again");
+                imageUploadListener.onError(e.getLocalizedMessage());
             }
         }
     };

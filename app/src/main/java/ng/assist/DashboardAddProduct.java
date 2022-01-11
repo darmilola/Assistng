@@ -22,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -40,7 +41,6 @@ public class DashboardAddProduct extends AppCompatActivity {
     private static int PICK_IMAGE = 1;
     RecyclerView imagesRecyclerview;
     EditText title,price,description;
-    MaterialCheckBox availability;
     String mTitle,mPrice,mDescription,mCategory,mAvailability;
     TextView  category;
     LinearLayout cancel,save;
@@ -67,7 +67,6 @@ public class DashboardAddProduct extends AppCompatActivity {
         title = findViewById(R.id.add_product_title);
         price = findViewById(R.id.add_product_price);
         description = findViewById(R.id.add_product_description);
-        availability = findViewById(R.id.add_product_availability);
         category = findViewById(R.id.add_product_product_category);
         cancel = findViewById(R.id.add_product_cancel);
         save = findViewById(R.id.add_product_save);
@@ -87,6 +86,21 @@ public class DashboardAddProduct extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(DashboardAddProduct.this);
         retailerId = preferences.getString("userEmail","");
         shopName = preferences.getString("shopName","");
+
+
+        description.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                if ((motionEvent.getAction() & MotionEvent.ACTION_UP) != 0 && (motionEvent.getActionMasked() & MotionEvent.ACTION_UP) != 0)
+                {
+                    view.getParent().requestDisallowInterceptTouchEvent(false);
+                }
+                return false;
+            }
+        });
+
 
         category.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,14 +133,9 @@ public class DashboardAddProduct extends AppCompatActivity {
                 mPrice = price.getText().toString().trim();
                 mCategory = category.getText().toString().trim();
                 mDescription = description.getText().toString().trim();
-                if(availability.isChecked()){
-                    mAvailability = "true";
-                }
-                else{
-                    mAvailability = "false";
-                }
+
                 if(isValidInput()){
-                   EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(productId,retailerId,mTitle,mPrice,mCategory,mDescription,shopName,mAvailability,displayImage);
+                   EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(productId,retailerId,mTitle,mPrice,mCategory,mDescription,shopName,"true",displayImage,DashboardAddProduct.this);
                    ecommerceDashboardModel.createProduct();
                    ecommerceDashboardModel.setCreateProductListener(new EcommerceDashboardModel.CreateProductListener() {
                        @Override
@@ -190,9 +199,9 @@ public class DashboardAddProduct extends AppCompatActivity {
     }
 
     private void populateCategory(){
-        categoryList.add("Gadgets");
-        categoryList.add("Grocery");
-        categoryList.add("Wears");
+        categoryList.add("Fast-Foods");
+        categoryList.add("Electronics");
+        categoryList.add("Others");
     }
 
 
@@ -262,10 +271,12 @@ public class DashboardAddProduct extends AppCompatActivity {
 
                     @Override
                     public void onError(String message) {
+                        Toast.makeText(DashboardAddProduct.this, message, Toast.LENGTH_SHORT).show();
 
                     }
                 });
             } catch (IOException e) {
+                Toast.makeText(DashboardAddProduct.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
 

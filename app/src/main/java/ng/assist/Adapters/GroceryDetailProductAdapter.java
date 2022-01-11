@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,15 +43,17 @@ public class GroceryDetailProductAdapter extends RecyclerView.Adapter<GroceryDet
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
         GroceryModel groceryModel = groceryList.get(position);
-        holder.productPrice.setText(groceryModel.getPrice());
         holder.productName.setText(groceryModel.getProductName());
-        holder.shopname.setText(groceryModel.getShopName());
-
         Glide.with(context)
                 .load(groceryModel.getDisplayImage())
                 .placeholder(R.drawable.background_image)
                 .error(R.drawable.background_image)
                 .into(holder.productImage);
+        Locale NigerianLocale = new Locale("en","ng");
+        String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(groceryModel.getPrice()));
+        String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+        holder.productPrice.setText(formattedPrice);
+
     }
 
     public void addItem(ArrayList<GroceryModel> mGroceryList){
@@ -73,7 +77,7 @@ public class GroceryDetailProductAdapter extends RecyclerView.Adapter<GroceryDet
             productImage = ItemView.findViewById(R.id.grocery_item_image);
             productName = ItemView.findViewById(R.id.grocery_item_title);
             productPrice = ItemView.findViewById(R.id.grocery_item_price);
-            shopname = ItemView.findViewById(R.id.grocery_item_shopname);
+
         /*    ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
