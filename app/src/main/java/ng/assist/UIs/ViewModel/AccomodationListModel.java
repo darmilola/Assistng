@@ -36,6 +36,7 @@ public class AccomodationListModel implements Parcelable {
     private String bookingFee;
     private String address;
     private String agentId;
+    private String type;
     private AgentModel agentModel;
     private String nextPageUrl;
     private String totalPage;
@@ -49,77 +50,8 @@ public class AccomodationListModel implements Parcelable {
     private ArrayList<AccomodationListModel> listModelArrayList = new ArrayList<>();
     private ArrayList<String> imagesList = new ArrayList<>();
 
-    protected AccomodationListModel(Parcel in) {
-        houseId = in.readString();
-        houseTitle = in.readString();
-        beds = in.readString();
-        baths = in.readString();
-        houseDisplayImage = in.readString();
-        houseDesc = in.readString();
-        pricesPerMonth = in.readString();
-        totalRatings = in.readString();
-        totalRaters = in.readString();
-        bookingFee = in.readString();
-        address = in.readString();
-        agentId = in.readString();
-        nextPageUrl = in.readString();
-        totalPage = in.readString();
-        baseUrl = in.readString();
-        isAvailable = in.readString();
-        getAccomodationUrl = in.readString();
-        getDetailsUrl = in.readString();
-        accomodationType = in.readString();
-        location = in.readString();
-        maxPrice = in.readString();
-        minPrice = in.readString();
-        listModelArrayList = in.createTypedArrayList(AccomodationListModel.CREATOR);
-        imagesList = in.createStringArrayList();
-    }
 
-    public static final Creator<AccomodationListModel> CREATOR = new Creator<AccomodationListModel>() {
-        @Override
-        public AccomodationListModel createFromParcel(Parcel in) {
-            return new AccomodationListModel(in);
-        }
 
-        @Override
-        public AccomodationListModel[] newArray(int size) {
-            return new AccomodationListModel[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(houseId);
-        dest.writeString(houseTitle);
-        dest.writeString(beds);
-        dest.writeString(baths);
-        dest.writeString(houseDisplayImage);
-        dest.writeString(houseDesc);
-        dest.writeString(pricesPerMonth);
-        dest.writeString(totalRatings);
-        dest.writeString(totalRaters);
-        dest.writeString(bookingFee);
-        dest.writeString(address);
-        dest.writeString(agentId);
-        dest.writeString(nextPageUrl);
-        dest.writeString(totalPage);
-        dest.writeString(baseUrl);
-        dest.writeString(isAvailable);
-        dest.writeString(getAccomodationUrl);
-        dest.writeString(getDetailsUrl);
-        dest.writeString(accomodationType);
-        dest.writeString(location);
-        dest.writeString(maxPrice);
-        dest.writeString(minPrice);
-        dest.writeTypedList(listModelArrayList);
-        dest.writeStringList(imagesList);
-    }
 
     public interface AccomodationListReadyListener{
         void onListReady(ArrayList<AccomodationListModel> listModelArrayList,String nextPageUrl,String totalPage,int totalListingAvailable);
@@ -136,7 +68,7 @@ public class AccomodationListModel implements Parcelable {
         this.agentId = agentId;
     }
 
-    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable){
+    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type){
         this.houseId = houseId;
         this.agentId = agentId;
         this.houseDisplayImage = houseDisplayImage;
@@ -150,6 +82,7 @@ public class AccomodationListModel implements Parcelable {
         this.address  = address;
         this.bookingFee = bookingFee;
         this.isAvailable = isAvailable;
+        this.type = type;
     }
 
     public AccomodationListModel(String accomodationType, String location, String maxPrice, String minPrice){
@@ -188,7 +121,8 @@ public class AccomodationListModel implements Parcelable {
                         String address = data.getJSONObject(i).getString("address");
                         String bookingFee = data.getJSONObject(i).getString("bookingFee");
                         String isAvailable = data.getJSONObject(i).getString("isAvailable");
-                        AccomodationListModel accomodationListModel = new AccomodationListModel(houseId,agentId,displayImage,houseTitle,bed,bath,totalRaters,totalRatings,description,pricePerMonth,address,bookingFee,isAvailable);
+                        String type = data.getJSONObject(i).getString("type");
+                        AccomodationListModel accomodationListModel = new AccomodationListModel(houseId,agentId,displayImage,houseTitle,bed,bath,totalRaters,totalRatings,description,pricePerMonth,address,bookingFee,isAvailable,type);
                         listModelArrayList.add(accomodationListModel);
                     }
                     accomodationListReadyListener.onListReady(listModelArrayList,nextPageUrl,totalPage,totalListingsAvailable);
@@ -247,6 +181,81 @@ public class AccomodationListModel implements Parcelable {
     };
 
 
+    protected AccomodationListModel(Parcel in) {
+        houseId = in.readString();
+        houseTitle = in.readString();
+        beds = in.readString();
+        baths = in.readString();
+        houseDisplayImage = in.readString();
+        houseDesc = in.readString();
+        pricesPerMonth = in.readString();
+        totalRatings = in.readString();
+        totalRaters = in.readString();
+        bookingFee = in.readString();
+        address = in.readString();
+        agentId = in.readString();
+        type = in.readString();
+        nextPageUrl = in.readString();
+        totalPage = in.readString();
+        baseUrl = in.readString();
+        getAccomodationUrl = in.readString();
+        getDetailsUrl = in.readString();
+        accomodationType = in.readString();
+        location = in.readString();
+        maxPrice = in.readString();
+        minPrice = in.readString();
+        isAvailable = in.readString();
+        totalListingsAvailable = in.readInt();
+        listModelArrayList = in.createTypedArrayList(AccomodationListModel.CREATOR);
+        imagesList = in.createStringArrayList();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(houseId);
+        dest.writeString(houseTitle);
+        dest.writeString(beds);
+        dest.writeString(baths);
+        dest.writeString(houseDisplayImage);
+        dest.writeString(houseDesc);
+        dest.writeString(pricesPerMonth);
+        dest.writeString(totalRatings);
+        dest.writeString(totalRaters);
+        dest.writeString(bookingFee);
+        dest.writeString(address);
+        dest.writeString(agentId);
+        dest.writeString(type);
+        dest.writeString(nextPageUrl);
+        dest.writeString(totalPage);
+        dest.writeString(baseUrl);
+        dest.writeString(getAccomodationUrl);
+        dest.writeString(getDetailsUrl);
+        dest.writeString(accomodationType);
+        dest.writeString(location);
+        dest.writeString(maxPrice);
+        dest.writeString(minPrice);
+        dest.writeString(isAvailable);
+        dest.writeInt(totalListingsAvailable);
+        dest.writeTypedList(listModelArrayList);
+        dest.writeStringList(imagesList);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<AccomodationListModel> CREATOR = new Creator<AccomodationListModel>() {
+        @Override
+        public AccomodationListModel createFromParcel(Parcel in) {
+            return new AccomodationListModel(in);
+        }
+
+        @Override
+        public AccomodationListModel[] newArray(int size) {
+            return new AccomodationListModel[size];
+        }
+    };
 
     public void getAccomodations() {
         Runnable runnable = () -> {
@@ -408,6 +417,15 @@ public class AccomodationListModel implements Parcelable {
 
     public String getIsAvailable() {
         return isAvailable;
+    }
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setIsAvailable(String isAvailable) {

@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +25,12 @@ public class RealEstateDashboardListingAdapter extends RecyclerView.Adapter<Real
 
     ArrayList<AccomodationListModel> accomodationList;
     Context context;
+    ItemClickListener itemClickListener;
+
+
+    public interface ItemClickListener{
+        void onItemClick(int position);
+    }
 
 
     public RealEstateDashboardListingAdapter(ArrayList<AccomodationListModel> accomodationList, Context context){
@@ -31,6 +39,9 @@ public class RealEstateDashboardListingAdapter extends RecyclerView.Adapter<Real
 
     }
 
+    public void setItemClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
 
     @NonNull
     @Override
@@ -43,11 +54,22 @@ public class RealEstateDashboardListingAdapter extends RecyclerView.Adapter<Real
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
 
         AccomodationListModel accomodationListModel = accomodationList.get(position);
-        holder.ratings.setText(accomodationListModel.getTotalRatings());
-        holder.baths.setText(accomodationListModel.getBaths());
-        holder.beds.setText(accomodationListModel.getBeds());
         holder.houseTitle.setText(accomodationListModel.getHouseTitle());
         holder.pricePerMonth.setText(accomodationListModel.getPricesPerMonth());
+
+
+        Locale NigerianLocale = new Locale("en","ng");
+        String unFormattedPrice2 = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(accomodationListModel.getPricesPerMonth()));
+        String formattedPrice2 = unFormattedPrice2.replaceAll("\\.00","");
+
+        if(accomodationListModel.getType().equalsIgnoreCase("lodges")){
+            holder.pricePerMonth.setText(formattedPrice2+"/month");
+        }
+        else{
+            holder.pricePerMonth.setText(formattedPrice2+"/day");
+        }
+
+
         Glide.with(context)
                 .load(accomodationListModel.getHouseDisplayImage())
                 .placeholder(R.drawable.background_image)
@@ -61,25 +83,18 @@ public class RealEstateDashboardListingAdapter extends RecyclerView.Adapter<Real
     }
 
     public class itemViewHolder extends RecyclerView.ViewHolder {
-        TextView houseTitle,beds,baths,pricePerMonth,ratings,rateCount;
+        TextView houseTitle,pricePerMonth;
         ImageView displayImage;
         public itemViewHolder(View ItemView){
             super(ItemView);
             houseTitle = ItemView.findViewById(R.id.accomodation_title);
-            beds = ItemView.findViewById(R.id.accomodation_beds);
-            baths = ItemView.findViewById(R.id.accomodation_baths);
             pricePerMonth = ItemView.findViewById(R.id.accomodation_price_per_month);
-            ratings = ItemView.findViewById(R.id.accomodation_rating);
-            rateCount = ItemView.findViewById(R.id.accomodation_rate_counts);
             displayImage = ItemView.findViewById(R.id.accomodation_display_image);
 
             ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AccomodationListModel accomodationListModel = accomodationList.get(getAdapterPosition());
-                    Intent intent = new Intent(context,EstateDashboardListingDetails.class);
-                    intent.putExtra("accModel", accomodationListModel);
-                    context.startActivity(intent);
+                   itemClickListener.onItemClick(getAdapterPosition());
                 }
             });
 

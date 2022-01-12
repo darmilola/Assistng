@@ -3,14 +3,18 @@ package ng.assist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.AccomodationListingsAdapter;
+import ng.assist.Adapters.DasdhboardProductAdapter;
 import ng.assist.Adapters.RealEstateDashboardListingAdapter;
 import ng.assist.UIs.Utils.InputDialog;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.AgentModel;
+import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
 import ng.assist.UIs.ViewModel.EstateDashboardModel;
+import ng.assist.UIs.ViewModel.GroceryModel;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,7 +37,7 @@ public class EstateListingDashboard extends AppCompatActivity {
     RecyclerView recyclerView;
     RealEstateDashboardListingAdapter adapter;
     LinearLayout agentAddListing;
-    TextView agentName,agentPhone;
+    TextView agentName, agentPhone;
     ImageView agentPhoneSelect;
     InputDialog inputDialog;
     EstateDashboardModel estateDashboardModel;
@@ -49,7 +53,7 @@ public class EstateListingDashboard extends AppCompatActivity {
         initView();
     }
 
-    private void initView(){
+    private void initView() {
 
         noListingLayout = findViewById(R.id.no_listing_layout);
         progressBar = findViewById(R.id.estate_dashboard_progress);
@@ -61,9 +65,9 @@ public class EstateListingDashboard extends AppCompatActivity {
         recyclerView = findViewById(R.id.real_estate_dashboard_recyclerview);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EstateListingDashboard.this);
-        String firstname =  preferences.getString("firstname","");
-        String lastname =  preferences.getString("lastname","");
-        agentName.setText(firstname+" "+lastname);
+        String firstname = preferences.getString("firstname", "");
+        String lastname = preferences.getString("lastname", "");
+        agentName.setText(firstname + " " + lastname);
 
         estateDashboardModel = new EstateDashboardModel(EstateListingDashboard.this);
         estateDashboardModel.getAccomodations();
@@ -72,25 +76,30 @@ public class EstateListingDashboard extends AppCompatActivity {
             public void onInfoReady(ArrayList<AccomodationListModel> accomodationListModelArrayList, AgentModel agentModel) {
                 progressBar.setVisibility(View.GONE);
                 nestedScrollView.setVisibility(View.VISIBLE);
-                if(agentModel.getAgentPhone().equalsIgnoreCase("null")){
+                if (agentModel.getAgentPhone().equalsIgnoreCase("null")) {
                     agentPhone.setText("Not Available");
-                }
-                else{
+                } else {
                     agentPhone.setText(agentModel.getAgentPhone());
                 }
-
-
-                if(accomodationListModelArrayList.size() == 0){
+                if (accomodationListModelArrayList.size() == 0) {
                     noListingLayout.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
-                }
-                else{
+                } else {
                     noListingLayout.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
-                    adapter = new RealEstateDashboardListingAdapter(accomodationListModelArrayList,EstateListingDashboard.this);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(EstateListingDashboard.this,LinearLayoutManager.VERTICAL,false);
+                    adapter = new RealEstateDashboardListingAdapter(accomodationListModelArrayList, EstateListingDashboard.this);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(EstateListingDashboard.this, LinearLayoutManager.VERTICAL, false);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
+                    adapter.setItemClickListener(new RealEstateDashboardListingAdapter.ItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            AccomodationListModel accomodationListModel = accomodationListModelArrayList.get(position);
+                            Intent intent = new Intent(EstateListingDashboard.this,EstateDashboardListingDetails.class);
+                            intent.putExtra("accModel", accomodationListModel);
+                            startActivityForResult(intent,300);
+                        }
+                    });
                 }
 
             }
@@ -104,26 +113,26 @@ public class EstateListingDashboard extends AppCompatActivity {
         agentAddListing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(EstateListingDashboard.this,RealEsateAgentAddListing.class));
+                startActivityForResult(new Intent(EstateListingDashboard.this, RealEsateAgentAddListing.class), 100);
             }
         });
 
         agentPhoneSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inputDialog = new InputDialog(EstateListingDashboard.this,"Phone");
+                inputDialog = new InputDialog(EstateListingDashboard.this, "Phone");
                 inputDialog.showInputDialog();
                 inputDialog.setDialogActionClickListener(new InputDialog.OnDialogActionClickListener() {
                     @Override
                     public void saveClicked(String text) {
-                        EstateDashboardModel estateDashboardModel = new EstateDashboardModel("phonenumber",text,EstateListingDashboard.this);
+                        EstateDashboardModel estateDashboardModel = new EstateDashboardModel("phonenumber", text, EstateListingDashboard.this);
                         estateDashboardModel.updateProviderInfo();
                         estateDashboardModel.setUpdateInfoListener(new EstateDashboardModel.UpdateInfoListener() {
                             @Override
                             public void onSuccess() {
                                 agentPhone.setText(text);
                                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EstateListingDashboard.this);
-                                preferences.edit().putString("phone",text).apply();
+                                preferences.edit().putString("phone", text).apply();
                             }
 
                             @Override
@@ -148,8 +157,114 @@ public class EstateListingDashboard extends AppCompatActivity {
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
-            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 100 && resultCode == 100) {
+            progressBar.setVisibility(View.VISIBLE);
+            nestedScrollView.setVisibility(View.GONE);
+            estateDashboardModel = new EstateDashboardModel(EstateListingDashboard.this);
+            estateDashboardModel.getAccomodations();
+            estateDashboardModel.setEstateDashboardListener(new EstateDashboardModel.EstateDashboardListener() {
+                @Override
+                public void onInfoReady(ArrayList<AccomodationListModel> accomodationListModelArrayList, AgentModel agentModel) {
+                    progressBar.setVisibility(View.GONE);
+                    nestedScrollView.setVisibility(View.VISIBLE);
+                    if (agentModel.getAgentPhone().equalsIgnoreCase("null")) {
+                        agentPhone.setText("Not Available");
+                    } else {
+                        agentPhone.setText(agentModel.getAgentPhone());
+                    }
+
+
+                    if (accomodationListModelArrayList.size() == 0) {
+                        noListingLayout.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        noListingLayout.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        adapter = new RealEstateDashboardListingAdapter(accomodationListModelArrayList, EstateListingDashboard.this);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(EstateListingDashboard.this, LinearLayoutManager.VERTICAL, false);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+
+                        adapter.setItemClickListener(new RealEstateDashboardListingAdapter.ItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                AccomodationListModel accomodationListModel = accomodationListModelArrayList.get(position);
+                                Intent intent = new Intent(EstateListingDashboard.this,EstateDashboardListingDetails.class);
+                                intent.putExtra("accModel", accomodationListModel);
+                                startActivityForResult(intent,300);
+                            }
+                        });
+                    }
+
+                }
+
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(EstateListingDashboard.this, message, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+
+
+        if (requestCode == 300 && resultCode == 300) {
+            progressBar.setVisibility(View.VISIBLE);
+            nestedScrollView.setVisibility(View.GONE);
+            estateDashboardModel = new EstateDashboardModel(EstateListingDashboard.this);
+            estateDashboardModel.getAccomodations();
+            estateDashboardModel.setEstateDashboardListener(new EstateDashboardModel.EstateDashboardListener() {
+                @Override
+                public void onInfoReady(ArrayList<AccomodationListModel> accomodationListModelArrayList, AgentModel agentModel) {
+                    progressBar.setVisibility(View.GONE);
+                    nestedScrollView.setVisibility(View.VISIBLE);
+                    if (agentModel.getAgentPhone().equalsIgnoreCase("null")) {
+                        agentPhone.setText("Not Available");
+                    } else {
+                        agentPhone.setText(agentModel.getAgentPhone());
+                    }
+
+
+                    if (accomodationListModelArrayList.size() == 0) {
+                        noListingLayout.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        noListingLayout.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        adapter = new RealEstateDashboardListingAdapter(accomodationListModelArrayList, EstateListingDashboard.this);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(EstateListingDashboard.this, LinearLayoutManager.VERTICAL, false);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+
+                        adapter.setItemClickListener(new RealEstateDashboardListingAdapter.ItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                AccomodationListModel accomodationListModel = accomodationListModelArrayList.get(position);
+                                Intent intent = new Intent(EstateListingDashboard.this,EstateDashboardListingDetails.class);
+                                intent.putExtra("accModel", accomodationListModel);
+                                startActivityForResult(intent,300);
+                            }
+                        });
+                    }
+
+                }
+
+                @Override
+                public void onError(String message) {
+                    Toast.makeText(EstateListingDashboard.this, message, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+    }
+
 }

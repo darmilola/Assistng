@@ -393,10 +393,10 @@ public class GroceryModel implements Parcelable {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
                 if(status.equalsIgnoreCase("success")){
-                   deleteProductListener.onSuccess();
+                    if(deleteProductListener != null) deleteProductListener.onSuccess();
                 }
                 else if(status.equalsIgnoreCase("failure")){
-                     deleteProductListener.onFailure();
+                    if(deleteProductListener != null) deleteProductListener.onFailure();
                 }
 
             } catch (JSONException e) {

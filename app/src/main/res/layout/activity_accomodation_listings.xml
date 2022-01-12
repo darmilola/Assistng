@@ -53,7 +53,7 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
-                android:text="250 Homes Available"
+                android:text="0 Homes Available"
                 android:maxLines="1"
                 android:id="@+id/total_homes_available"
                 android:ellipsize="end"

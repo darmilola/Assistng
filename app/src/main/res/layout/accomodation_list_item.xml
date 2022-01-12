@@ -100,52 +100,15 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp">
-            <LinearLayout
-                android:layout_width="150dp"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_alignParentLeft="true">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14dp"
-                    android:text="2"
-                    android:id="@+id/accomodation_beds"
-                    android:fontFamily="@font/clanmed"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/light_text_color"
-                    android:textSize="14dp"
-                    android:layout_marginLeft="5dp"
-                    android:text="Beds"
-                    android:fontFamily="@font/clannews"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14dp"
-                    android:id="@+id/accomodation_baths"
-                    android:text="2"
-                    android:layout_marginLeft="15dp"
-                    android:fontFamily="@font/clanmed"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/light_text_color"
-                    android:textSize="14dp"
-                    android:layout_marginLeft="5dp"
-                    android:text="Baths"
-                    android:fontFamily="@font/clannews"/>
-            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
                 android:layout_marginRight="10dp"
-                android:gravity="right"
+                android:gravity="left"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
              <TextView
@@ -158,14 +121,6 @@
                     android:id="@+id/accomodation_price_per_month"
                     android:layout_marginLeft="5dp"
                     android:text="$1120"
-                    android:fontFamily="@font/clannews"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/light_text_color"
-                    android:textSize="14dp"
-                    android:layout_marginLeft="3dp"
-                    android:text="/Month"
                     android:fontFamily="@font/clannews"/>
             </LinearLayout>
         </RelativeLayout>

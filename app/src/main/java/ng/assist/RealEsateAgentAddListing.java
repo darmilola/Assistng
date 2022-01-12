@@ -43,13 +43,11 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
     ArrayList<String> accommodationTypeList = new ArrayList<>();
     ArrayList<String> cityList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    EditText title,pricePerMonth,address,bed,bath,bookingFee,description;
+    EditText title,pricePerMonth,address,bookingFee,description;
     TextView type,city;
-    String mTitle = "",mPricePerMonth = "",mAddress = "",mCity = "",mBed = "",mBath = "",mBookingFee = "",mDescription = "",mType = "";
+    String mTitle = "",mPricePerMonth = "",mAddress = "",mCity = "",mBookingFee = "",mDescription = "",mType = "";
     String houseId = "";
     String displayImage = "";
-    String mAvailability = "false";
-    MaterialCheckBox availability;
     LinearLayout cancel,saveListing;
     LinearLayout scrollImageLayout;
     ListDialog listDialog;
@@ -74,12 +72,9 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
         pricePerMonth = findViewById(R.id.real_estate_add_listing_price);
         address = findViewById(R.id.real_estate_add_listing_addess);
         city = findViewById(R.id.real_estate_add_listing_city);
-        bed = findViewById(R.id.real_estate_add_listing_bed);
-        bath = findViewById(R.id.real_estate_add_listing_bath);
         bookingFee = findViewById(R.id.real_estate_add_listing_booking_fee);
         description = findViewById(R.id.real_estate_add_listing_desc);
         type = findViewById(R.id.real_estate_add_listing_type);
-        availability = findViewById(R.id.real_estate_add_listing_availability);
         imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
         imagesIndicator = findViewById(R.id.product_image_indicator);
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
@@ -101,24 +96,18 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
                 mAddress = address.getText().toString().trim();
                 mCity = city.getText().toString().trim();
                 mType = type.getText().toString().trim();
-                mBath = bath.getText().toString().trim();
-                mBed = bed.getText().toString().trim();
                 mBookingFee = bookingFee.getText().toString().trim();
                 mDescription = description.getText().toString().trim();
-                if(availability.isChecked()){
-                    mAvailability = "true";
-                }
-                else{
-                    mAvailability = "false";
-                }
 
                 if(isValidInput()){
-                    EstateDashboardModel estateDashboardModel = new EstateDashboardModel(RealEsateAgentAddListing.this,houseId,mTitle,mPricePerMonth,mCity,mBookingFee,Integer.parseInt(mBath),Integer.parseInt(mBed),mAddress,displayImage,mDescription,mType,mAvailability,userEmail);
+                    EstateDashboardModel estateDashboardModel = new EstateDashboardModel(RealEsateAgentAddListing.this,houseId,mTitle,mPricePerMonth,mCity,mBookingFee,mAddress,displayImage,mDescription,mType,userEmail);
                     estateDashboardModel.createAgentListing();
                     estateDashboardModel.setCreateListingListener(new EstateDashboardModel.CreateListingListener() {
                         @Override
                         public void onSuccess() {
                             Toast.makeText(RealEsateAgentAddListing.this, "Listing added successfully", Toast.LENGTH_SHORT).show();
+                            setResult(100);
+                            finish();
                         }
 
                         @Override
@@ -191,9 +180,8 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
         cityList.add("Kano");
         cityList.add("Lagos");
         cityList.add("Abuja");
-        accommodationTypeList.add("Employee");
-        accommodationTypeList.add("Corpers");
-        accommodationTypeList.add("others");
+        accommodationTypeList.add("Lodges");
+        accommodationTypeList.add("Hotels");
     }
     private boolean isValidInput(){
         boolean isValid = true;
@@ -216,16 +204,6 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
         if(TextUtils.isEmpty(mCity)){
             isValid = false;
             city.setError("Required");
-            return isValid;
-        }
-        if(TextUtils.isEmpty(mBed)){
-            isValid = false;
-            bed.setError("Required");
-            return isValid;
-        }
-        if(TextUtils.isEmpty(mBath)){
-            isValid = false;
-            bath.setError("Required");
             return isValid;
         }
         if(TextUtils.isEmpty(mBookingFee)){

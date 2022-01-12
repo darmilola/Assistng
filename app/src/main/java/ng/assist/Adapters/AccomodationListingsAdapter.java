@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,11 +45,20 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<Accomodati
     @Override
     public void onBindViewHolder(@NonNull AccomodationItemViewHolder viewHolder, int position) {
         AccomodationListModel accomodationListModel = accomodationList.get(position);
-            viewHolder.ratings.setText(accomodationListModel.getTotalRatings());
-            viewHolder.baths.setText(accomodationListModel.getBaths());
-            viewHolder.beds.setText(accomodationListModel.getBeds());
             viewHolder.houseTitle.setText(accomodationListModel.getHouseTitle());
             viewHolder.pricePerMonth.setText("₦"+accomodationListModel.getPricesPerMonth());
+
+        Locale NigerianLocale = new Locale("en","ng");
+        String unFormattedPrice2 = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(accomodationListModel.getPricesPerMonth()));
+        String formattedPrice2 = unFormattedPrice2.replaceAll("\\.00","");
+
+        if(accomodationListModel.getType().equalsIgnoreCase("lodges")){
+            viewHolder.pricePerMonth.setText(formattedPrice2+"/month");
+        }
+        else{
+            viewHolder.pricePerMonth.setText(formattedPrice2+"/day");
+        }
+
             Glide.with(context)
                     .load(accomodationListModel.getHouseDisplayImage())
                     .placeholder(R.drawable.background_image)
@@ -66,16 +77,12 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<Accomodati
     }
 
     public class AccomodationItemViewHolder extends RecyclerView.ViewHolder{
-        TextView houseTitle,beds,baths,pricePerMonth,ratings,rateCount;
+        TextView houseTitle,pricePerMonth;
         ImageView displayImage;
         public AccomodationItemViewHolder(View ItemView){
             super(ItemView);
             houseTitle = ItemView.findViewById(R.id.accomodation_title);
-            beds = ItemView.findViewById(R.id.accomodation_beds);
-            baths = ItemView.findViewById(R.id.accomodation_baths);
             pricePerMonth = ItemView.findViewById(R.id.accomodation_price_per_month);
-            ratings = ItemView.findViewById(R.id.accomodation_rating);
-            rateCount = ItemView.findViewById(R.id.accomodation_rate_counts);
             displayImage = ItemView.findViewById(R.id.accomodation_display_image);
 
             ItemView.setOnClickListener(new View.OnClickListener() {

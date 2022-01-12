@@ -111,14 +111,13 @@ public class EstateDashboardModel {
         this.value = value;
     }
 
-    public EstateDashboardModel(Context context, String houseId, String houseTitle, String pricesPerMonth, String location,String bookingFee, int beds, int bath, String address, String houseDisplayImage, String houseDesc, String type,String isAvailable, String agentId){
+    public EstateDashboardModel(Context context, String houseId, String houseTitle, String pricesPerMonth, String location,String bookingFee, String address, String houseDisplayImage, String houseDesc, String type, String agentId){
            this.houseId = houseId;
            this.houseTitle = houseTitle;
            this.pricesPerMonth = pricesPerMonth;
            this.location = location;
            this.bookingFee = bookingFee;
            this.beds = beds;
-           this.baths = bath;
            this.address = address;
            this.houseDisplayImage = houseDisplayImage;
            this.type = type;
@@ -205,7 +204,8 @@ public class EstateDashboardModel {
                             String address = data.getJSONObject(i).getString("address");
                             String bookingFee = data.getJSONObject(i).getString("bookingFee");
                             String isAvailable = data.getJSONObject(i).getString("isAvailable");
-                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable);
+                            String type = data.getJSONObject(i).getString("type");
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type);
                             accomodationListModelArrayList.add(accomodationListModel);
                         }
                     }
@@ -671,13 +671,10 @@ public class EstateDashboardModel {
             jsonObject.put("location",location);
             jsonObject.put("bookingFee",bookingFee);
             jsonObject.put("agentId",agentId);
-            jsonObject.put("bed",bed);
-            jsonObject.put("bath",bath);
             jsonObject.put("address",address);
             jsonObject.put("displayImg",displayImg);
             jsonObject.put("description",description);
             jsonObject.put("type",type);
-            jsonObject.put("isAvailable",isAvailable);
 
         } catch (JSONException e) {
             e.printStackTrace();

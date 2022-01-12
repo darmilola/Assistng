@@ -48,7 +48,7 @@ public class AccomodationBooking extends AppCompatActivity {
     ProductImageScrollAdapter adapter;
     ArrayList<String> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    TextView houseTitle,beds,baths,pricePerMonth,ratings,rateCount,adddress,agentName,description,bookingFee;
+    TextView houseTitle,pricePerMonth,adddress,agentName,description,bookingFee;
     ImageView agentPicture;
     ProgressBar loadingBar;
     NestedScrollView rootLayout;
@@ -76,11 +76,7 @@ public class AccomodationBooking extends AppCompatActivity {
         rootLayout = findViewById(R.id.acc_details_root);
         bookNowLayout = findViewById(R.id.acc_booknow_layout);
         houseTitle = findViewById(R.id.acc_details_title);
-        beds = findViewById(R.id.acc_details_bed);
-        baths = findViewById(R.id.acc_details_bath);
         pricePerMonth = findViewById(R.id.acc_details_price_per_month);
-        ratings = findViewById(R.id.acc_details_rating);
-        rateCount = findViewById(R.id.acc_details_rate_count);
         adddress = findViewById(R.id.acc_details_address);
         agentName = findViewById(R.id.acc_details_agent_name);
         description = findViewById(R.id.acc_details_desc);
@@ -93,11 +89,15 @@ public class AccomodationBooking extends AppCompatActivity {
         houseId = accomodationListModel.getHouseId();
 
         houseTitle.setText(accomodationListModel.getHouseTitle());
-        beds.setText(accomodationListModel.getBeds());
-        baths.setText(accomodationListModel.getBaths());
-        pricePerMonth.setText("₦"+accomodationListModel.getPricesPerMonth()+" permonth");
-        ratings.setText(accomodationListModel.getTotalRatings());
-        rateCount.setText(accomodationListModel.getTotalRaters());
+
+        if(accomodationListModel.getType().equalsIgnoreCase("lodges")){
+            pricePerMonth.setText("₦"+accomodationListModel.getPricesPerMonth()+" per month");
+        }
+        else{
+            pricePerMonth.setText("₦"+accomodationListModel.getPricesPerMonth()+" permonth");
+        }
+
+
         adddress.setText(accomodationListModel.getAddress());
         description.setText(accomodationListModel.getHouseDesc());
         bookingFee.setText("₦"+accomodationListModel.getBookingFee());
@@ -185,6 +185,7 @@ public class AccomodationBooking extends AppCompatActivity {
                             String walletBalance = preferences.getString("walletBalance","0");
                             preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(accomodationListModel.getBookingFee()))).apply();
 
+                            finish();
 
                         }
 

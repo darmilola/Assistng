@@ -28,7 +28,7 @@ public class Accomodation extends AppCompatActivity {
     boolean isCorpmemberSelected = false, isEmployeeSelected = true, isOthersSelected = false;
     RangeSeekBar priceRangebar;
     TextView priceRangeText;
-    String selectedCity,type = "employee",min_price,max_price;
+    String selectedCity,type = "employee",min_price = "0",max_price = "1000000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +115,8 @@ public class Accomodation extends AppCompatActivity {
             public void onClick(View v) {
                 authCorpmemberSelection();
                 unSelEmployee();
-                unSelOthers();
-                type = "corper";
+                //unSelOthers();
+                type = "lodges";
             }
         });
 
@@ -125,8 +125,8 @@ public class Accomodation extends AppCompatActivity {
             public void onClick(View v) {
                 authEmployeeSelection();
                 unSelCorpmemebers();
-                unSelOthers();
-                type = "employee";
+                //unSelOthers();
+                type = "hotels";
             }
         });
 

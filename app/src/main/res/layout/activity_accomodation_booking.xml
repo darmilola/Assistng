@@ -53,43 +53,6 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="45dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:backgroundTint="#0FAA31"
-                    android:visibility="gone"
-                    android:background="@drawable/accomodation_rating_background"
-                    android:layout_marginLeft="20dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/clannews"
-                        android:gravity="center"
-                        android:text="4.9"
-                        android:id="@+id/acc_details_rating"
-                        android:textColor="@color/White"
-                        android:textSize="15dp" />
-                </LinearLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/clannews"
-                    android:gravity="center"
-                    android:text="290 ratings"
-                    android:visibility="gone"
-                    android:id="@+id/acc_details_rate_count"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14dp" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
@@ -115,56 +78,6 @@
                     android:ellipsize="end"
                     android:textColor="@color/dark_text_color"
                     android:textSize="14dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="20dp">
-
-                <ImageView
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_gravity="center"
-                    android:tint="@color/pinkypinky"
-                    android:src="@drawable/iconfinder_bathtub"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/clanbold"
-                    android:gravity="center"
-                    android:text="2"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
-                    android:maxLines="1"
-                    android:id="@+id/acc_details_bath"
-                    android:ellipsize="end"
-                    android:textColor="@color/dark_text_color"
-                    android:textSize="14dp" />
-
-                <ImageView
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_gravity="center"
-                    android:tint="@color/pinkypinky"
-                    android:src="@drawable/iconfinder_twin_bed"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/clanbold"
-                    android:gravity="center"
-                    android:text="5"
-                    android:id="@+id/acc_details_bed"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/dark_text_color"
-                    android:textSize="14dp" />
-
             </LinearLayout>
 
             <TextView
@@ -362,7 +275,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:text="Book Inspection"
+                android:text="Book"
                 android:textSize="15dp"
                 android:id="@+id/acc_details_book_inspection"
                 app:cornerRadius="5dp"

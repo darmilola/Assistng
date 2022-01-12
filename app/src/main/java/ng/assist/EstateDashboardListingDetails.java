@@ -29,7 +29,9 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class EstateDashboardListingDetails extends AppCompatActivity {
 
@@ -37,13 +39,12 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
     ProductImageScrollAdapter adapter;
     ArrayList<String> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    TextView houseTitle,beds,baths,pricePerMonth,ratings,rateCount,adddress,agentName,description,bookingFee;
+    TextView houseTitle,pricePerMonth,adddress,description,bookingFee;
     ImageView agentPicture;
     ProgressBar loadingBar;
     NestedScrollView rootLayout;
     AccomodationListModel accomodationListModel;
     String houseId, agentId;
-    SwitchMaterial availabilitySwitch;
     MaterialButton deleteListing;
     LinearLayout imageScrollLayout;
     @Override
@@ -56,14 +57,11 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
     private void initView(){
 
         imageScrollLayout = findViewById(R.id.scroll_image_layout);
-        availabilitySwitch = findViewById(R.id.estate_dashboard_details_availability_switch);
         deleteListing = findViewById(R.id.estate_dashboard_details_delete_listing);
         loadingBar = findViewById(R.id.estate_dashboard_details_progress);
         rootLayout = findViewById(R.id.estate_dashboard_details_nested_scroll);
         accomodationListModel = getIntent().getParcelableExtra("accModel");
         houseTitle = findViewById(R.id.estate_dashboard_details_title);
-        beds = findViewById(R.id.estate_dashboard_details_bed);
-        baths = findViewById(R.id.estate_dashboard_details_bath);
         pricePerMonth = findViewById(R.id.estate_dashboard_details_price);
         adddress = findViewById(R.id.estate_dashboard_details_address);
         description = findViewById(R.id.estate_dashboard_details_description);
@@ -76,62 +74,30 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
         houseId = accomodationListModel.getHouseId();
 
         houseTitle.setText(accomodationListModel.getHouseTitle());
-        beds.setText(accomodationListModel.getBeds());
-        baths.setText(accomodationListModel.getBaths());
         pricePerMonth.setText(accomodationListModel.getPricesPerMonth());
         adddress.setText(accomodationListModel.getAddress());
         description.setText(accomodationListModel.getHouseDesc());
-        bookingFee.setText(accomodationListModel.getBookingFee());
+
+
+        Locale NigerianLocale = new Locale("en","ng");
+        String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(accomodationListModel.getBookingFee()));
+        String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+
+        String unFormattedPrice2 = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(accomodationListModel.getPricesPerMonth()));
+        String formattedPrice2 = unFormattedPrice2.replaceAll("\\.00","");
+
+        if(accomodationListModel.getType().equalsIgnoreCase("lodges")){
+            pricePerMonth.setText(formattedPrice2+"/month");
+        }
+        else{
+            pricePerMonth.setText(formattedPrice2+"/day");
+        }
+
+        bookingFee.setText(formattedPrice);
+
 
         Toast.makeText(this, accomodationListModel.getIsAvailable(), Toast.LENGTH_SHORT).show();
 
-        if(accomodationListModel.getIsAvailable().equalsIgnoreCase("true")){
-            availabilitySwitch.setChecked(true);
-        }
-        else{
-            availabilitySwitch.setChecked(false);
-        }
-
-
-        availabilitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isValidateAgent() && isChecked){
-                    EstateDashboardModel estateDashboardModel = new EstateDashboardModel(accomodationListModel.getHouseId(),"true",1);
-                    estateDashboardModel.updateAgentListingInfo();
-                    estateDashboardModel.setUpdateInfoListener(new EstateDashboardModel.UpdateInfoListener() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(EstateDashboardListingDetails.this, "House is now Available for inspection", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onError(String message) {
-                            Toast.makeText(EstateDashboardListingDetails.this, message, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-                else if(!isValidateAgent()){
-                    availabilitySwitch.setChecked(false);
-                    Toast.makeText(EstateDashboardListingDetails.this, "Please provide your phonenumber", Toast.LENGTH_SHORT).show();
-                }
-                else if(!isChecked){
-                    EstateDashboardModel estateDashboardModel = new EstateDashboardModel(accomodationListModel.getHouseId(),"false",0);
-                    estateDashboardModel.updateAgentListingInfo();
-                    estateDashboardModel.setUpdateInfoListener(new EstateDashboardModel.UpdateInfoListener() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(EstateDashboardListingDetails.this, "House is no more available for inspection", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onError(String message) {
-
-                        }
-                    });
-                }
-            }
-        });
 
 
         deleteListing.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +109,7 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
                   @Override
                   public void onSuccess() {
                       Toast.makeText(EstateDashboardListingDetails.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                      setResult(300);
                       finish();
                   }
 
