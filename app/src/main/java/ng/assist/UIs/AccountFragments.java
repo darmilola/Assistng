@@ -49,11 +49,9 @@ public class AccountFragments extends Fragment {
 
     View view;
     LinearLayout dashboardLayout,switchAccount;
-    LinearLayout verifyAccount,aboutUs,rateUs,logOut;
-    View verificationView;
+    LinearLayout aboutUs,rateUs,logOut,provideAService;
     ArrayList<String> accountList = new ArrayList<>();
     CircleImageView circleImageView;
-    String userAccountType = "Normal User";
     TextView usernameField;
     String accountType;
     SharedPreferences preferences;
@@ -80,16 +78,15 @@ public class AccountFragments extends Fragment {
         dashboardLayout = view.findViewById(R.id.account_users_dashboard);
         aboutUs = view.findViewById(R.id.account_about_us);
         rateUs = view.findViewById(R.id.account_rate_us);
-        verifyAccount = view.findViewById(R.id.account_verify_account);
         switchAccount = view.findViewById(R.id.account_switch_account);
-        verificationView = view.findViewById(R.id.verification_needed_dot);
-        verifyAccount.setVisibility(View.GONE);
+        provideAService = view.findViewById(R.id.account_provide_a_service);
         dashboardLayout.setVisibility(View.GONE);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String userImage =  preferences.getString("imageUrl","");
         String firstname =  preferences.getString("firstname","");
         String lastname =  preferences.getString("lastname","");
+        String role =  preferences.getString("role","");
         accountType =  preferences.getString("accountType","");
 
         usernameField.setText(firstname+" "+lastname);
@@ -101,6 +98,15 @@ public class AccountFragments extends Fragment {
 
         initAccount();
 
+        if(role.equalsIgnoreCase("admin")){
+           dashboardLayout.setVisibility(View.VISIBLE);
+           switchAccount.setVisibility(View.VISIBLE);
+        }
+        else{
+            dashboardLayout.setVisibility(View.GONE);
+            switchAccount.setVisibility(View.GONE);
+        }
+
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,12 +114,6 @@ public class AccountFragments extends Fragment {
             }
         });
 
-        verifyAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), ServiceProviderVerifications.class));
-            }
-        });
 
         rateUs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,11 +122,16 @@ public class AccountFragments extends Fragment {
             }
         });
 
+        provideAService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),ServiceProviderDashboard.class));
+            }
+        });
+
         dashboardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(accountType.equalsIgnoreCase("Service Provider"))startActivity(new Intent(getContext(),ServiceProviderDashboard.class));
                 if(accountType.equalsIgnoreCase("Eccommerce"))startActivity(new Intent(getContext(),EcommerceDashboard.class));
                 if(accountType.equalsIgnoreCase("House Agent"))startActivity(new Intent(getContext(), EstateListingDashboard.class));
 
@@ -158,18 +163,13 @@ public class AccountFragments extends Fragment {
                                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                                 preferences.edit().putString("accountType",item).apply();
                                 if(item.equalsIgnoreCase("Normal User")){
-                                    verifyAccount.setVisibility(View.GONE);
+
                                     dashboardLayout.setVisibility(View.GONE);
                                 }
                                 else{
-                                    verifyAccount.setVisibility(View.VISIBLE);
+
                                     dashboardLayout.setVisibility(View.VISIBLE);
-                                    if(preferences.getString("isVerified","false").equalsIgnoreCase("false")){
-                                        verificationView.setVisibility(View.VISIBLE);
-                                    }
-                                    else{
-                                        verificationView.setVisibility(View.GONE);
-                                    }
+
 
                                 }
                             }
@@ -186,40 +186,23 @@ public class AccountFragments extends Fragment {
 
     private void initAccount(){
         accountList = new ArrayList<>();
-        accountList.add("Service Provider");
         accountList.add("House Agent");
         accountList.add("Eccommerce");
-        accountList.add("Normal User");
 
         if(accountType.equalsIgnoreCase("Service Provider")){
 
         }
         else if(accountType.equalsIgnoreCase("House Agent")){
-            verifyAccount.setVisibility(View.VISIBLE);
+
             dashboardLayout.setVisibility(View.VISIBLE);
-            if(preferences.getString("isVerified","false").equalsIgnoreCase("false")){
-                verificationView.setVisibility(View.VISIBLE);
-            }
-            else{
-                verificationView.setVisibility(View.GONE);
-            }
-
-
         }
         else if(accountType.equalsIgnoreCase("Eccommerce")){
-            verifyAccount.setVisibility(View.VISIBLE);
+
             dashboardLayout.setVisibility(View.VISIBLE);
-            if(preferences.getString("isVerified","false").equalsIgnoreCase("false")){
-                verificationView.setVisibility(View.VISIBLE);
-            }
-            else{
-                verificationView.setVisibility(View.GONE);
-            }
 
 
         }
         else if(accountType.equalsIgnoreCase("Normal User")){
-            verifyAccount.setVisibility(View.GONE);
             dashboardLayout.setVisibility(View.GONE);
         }
 

@@ -44,7 +44,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
     PortfolioAdapter adapter;
     ArrayList<String> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    TextView serviceType,jobTitle,phone,rate,ratings,providerName;
+    TextView serviceType,jobTitle,phone,rate,providerName;
     ImageView serviceTypeSelect,jobTitleSelect,phoneSelect,rateSelect;
     LinearLayout selectPortfolio,noPortfolio,scrollImageLayout;
     SwitchMaterial availabilitySwitch;
@@ -69,7 +69,6 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         jobTitle  = findViewById(R.id.service_provider_dashboard_job_type_text);
         phone = findViewById(R.id.service_provider_dashboard_phone_text);
         rate = findViewById(R.id.service_provider_dashboard_rate_text);
-        ratings = findViewById(R.id.service_provider_dashboard_rate);
         availabilitySwitch = findViewById(R.id.service_provider_dashboard_availability_switch);
         serviceTypeSelect = findViewById(R.id.service_provider_dashboard_service_type_select);
         jobTitleSelect = findViewById(R.id.service_provider_dashboard_job_type_select);

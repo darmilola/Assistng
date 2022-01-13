@@ -31,6 +31,7 @@ public class MainActivityModel {
     private String userWalletBalance;
     private String accountType;
     private String isVerified;
+    private String role;
     private Context context;
     private MainactivityContentListener mainactivityContentListener;
     private String baseUrl = new URL().getBaseUrl();
@@ -53,13 +54,14 @@ public class MainActivityModel {
         this.userEmail = userEmail;
         this.context = context;
     }
-    public MainActivityModel(String userFirstname, String userWalletBalance,String userLastname,String userImageUrl,String accountType,String isVerified){
+    public MainActivityModel(String userFirstname, String userWalletBalance,String userLastname,String userImageUrl,String accountType,String isVerified, String role){
         this.userFirstname = userFirstname;
         this.userWalletBalance = userWalletBalance;
         this.userLastname = userLastname;
         this.userImageUrl = userImageUrl;
         this.accountType = accountType;
         this.isVerified = isVerified;
+        this.role = role;
     }
 
     public void setMainactivityContentListener(MainactivityContentListener mainactivityContentListener) {
@@ -115,7 +117,8 @@ public class MainActivityModel {
                    String imageUrl = data.getJSONObject(0).getString("profileImage");
                    String accountType = data.getJSONObject(0).getString("accountType");
                    String isVerified = data.getJSONObject(0).getString("isVerified");
-                   MainActivityModel mainActivityModel = new MainActivityModel(firstname,walletBalance,lastname,imageUrl,accountType,isVerified);
+                   String role = data.getJSONObject(0).getString("role");
+                   MainActivityModel mainActivityModel = new MainActivityModel(firstname,walletBalance,lastname,imageUrl,accountType,isVerified,role);
                    mainactivityContentListener.onContentReady(mainActivityModel);
                 }
                 else if(status.equalsIgnoreCase("failure")){
@@ -160,5 +163,9 @@ public class MainActivityModel {
 
     public String getIsVerified() {
         return isVerified;
+    }
+
+    public String getRole() {
+        return role;
     }
 }
