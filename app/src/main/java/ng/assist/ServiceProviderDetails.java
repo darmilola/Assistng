@@ -40,8 +40,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
     ProductImageScrollAdapter adapter;
     ArrayList<String> portfolioItemList = new ArrayList<>();
     LinearLayout chat,call;
-    TextView name, jobTitle;
-    TextView ratings, jobsCount, ratePerHour;
+    TextView name, jobTitle,rate;
     ServicesModel servicesModel;
     ProviderDetailsModel providerDetailsModel;
     CircleIndicator2 imagesIndicator;
@@ -59,6 +58,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
     }
 
     private void initView() {
+        rate = findViewById(R.id.provider_details_rate_per_hour);
         call = findViewById(R.id.service_item_call);
         chat = findViewById(R.id.service_item_chat);
         serviceProviderBook = findViewById(R.id.provider_details_book);
@@ -68,10 +68,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
         servicesModel = getIntent().getParcelableExtra("provider_info");
         name = findViewById(R.id.provider_details_name);
         jobTitle = findViewById(R.id.provider_details_title);
-        ratings = findViewById(R.id.provider_details_rating);
         profileImage = findViewById(R.id.provider_details_image);
-        jobsCount = findViewById(R.id.provider_details_jobs);
-        ratePerHour = findViewById(R.id.provider_details_rate_per_hour);
         imagesIndicator = findViewById(R.id.product_image_indicator);
         recyclerView = findViewById(R.id.product_image_recyclerview);
 
@@ -83,9 +80,8 @@ public class ServiceProviderDetails extends AppCompatActivity {
 
         name.setText(servicesModel.getHandymanFirstname()+" "+ servicesModel.getHandymanLastname());
         jobTitle.setText(servicesModel.getJobTitle());
-        ratePerHour.setText(servicesModel.getRatePerHour());
-        jobsCount.setText(servicesModel.getHandymanJobs());
-        ratings.setText(servicesModel.getHandymanRatings());
+        rate.setText(servicesModel.getRatePerHour());
+
 
         chat.setOnClickListener(new View.OnClickListener() {
             @Override

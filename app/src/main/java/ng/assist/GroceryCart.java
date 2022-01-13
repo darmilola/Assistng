@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import ng.assist.Adapters.GroceryCartAdapter;
+import ng.assist.UIs.ViewModel.CabHailingModel;
 import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.GroceryModel;
 import ng.assist.UIs.ViewModel.TransactionDao;
@@ -103,8 +104,15 @@ public class GroceryCart extends AppCompatActivity {
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GroceryCart.this);
+                String walletBalance = preferences.getString("walletBalance","0");
+                String userId = preferences.getString("userEmail", "");
                 ArrayList<GroceryModel> groceryModelArrayList = adapter.getGroceryList();
-                if(groceryModelArrayList.size() < 1){
+                if (Integer.parseInt(walletBalance) < Integer.parseInt(mTotalPriceValue)) {
+                    Toast.makeText(GroceryCart.this, "Insufficient Balance", Toast.LENGTH_SHORT).show();
+                }
+
+               else if(groceryModelArrayList.size() < 1){
                     Toast.makeText(GroceryCart.this, "Nothing in Cart", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -123,6 +131,7 @@ public class GroceryCart extends AppCompatActivity {
                                     Timestamp timestamp = new Timestamp(date.getTime());
                                     insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,"");
                                     Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
+                                    setResult(300);
                                     finish();
                                 }
 

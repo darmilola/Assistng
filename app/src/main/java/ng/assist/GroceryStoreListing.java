@@ -12,6 +12,7 @@ import ng.assist.Adapters.GroceryDetailProductAdapter;
 import ng.assist.Adapters.GroceryDisplayAdapter;
 import ng.assist.Adapters.GroceryStoreListingAdapter;
 import ng.assist.Adapters.ProductImageScrollAdapter;
+import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
 import ng.assist.UIs.ViewModel.GroceryListingDetailsModel;
 import ng.assist.UIs.ViewModel.GroceryModel;
 import ng.assist.UIs.ViewModel.RetailerInfoModel;
@@ -19,10 +20,12 @@ import ng.assist.UIs.ViewModel.RetailerInfoModel;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -31,6 +34,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -150,7 +154,7 @@ public class GroceryStoreListing extends AppCompatActivity {
                 Intent intent = new Intent(GroceryStoreListing.this,GroceryCart.class);
                 intent.putExtra("retailerId",groceryModel.getRetailerId());
                 intent.putExtra("retailerShopName",groceryModel.getShopName());
-                startActivity(intent);
+                startActivityForResult(intent,300);
             }
         });
 
@@ -183,6 +187,14 @@ public class GroceryStoreListing extends AppCompatActivity {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 300 && resultCode == 300) {
+           finish();
         }
     }
 

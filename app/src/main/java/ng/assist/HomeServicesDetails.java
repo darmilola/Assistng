@@ -45,7 +45,7 @@ public class HomeServicesDetails extends AppCompatActivity {
         serviceProviderRecyclerview.setLayoutManager(providersLayoutManager);
 
 
-        ServicesModel servicesModel = new ServicesModel("home_service");
+        ServicesModel servicesModel = new ServicesModel("Home Services");
         servicesModel.getServiceProvider();
         servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
             @Override

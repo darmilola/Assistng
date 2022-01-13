@@ -2,6 +2,8 @@ package ng.assist.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import ng.assist.BillPayment;
+import ng.assist.GroceryCart;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.BillsModel;
 import ng.assist.UIs.ViewModel.TransactionDao;
@@ -147,6 +150,10 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
                         public void onSuccess() {
                             Date date = new Date();
                             Timestamp timestamp = new Timestamp(date.getTime());
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                            String currentWalletBalance = preferences.getString("walletBalance","0");
+                            int newBalance = Integer.parseInt(currentWalletBalance) + cost;
+                            preferences.edit().putString("walletBalance",Integer.toString(newBalance));
                             insertBooking(0,7,"Bills",timestamp.toString(),Integer.toString(cost),"");
                             billsList.remove(getAdapterPosition());
                             notifyDataSetChanged();

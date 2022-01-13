@@ -43,8 +43,6 @@ public class ServiceProvidersAdapter extends RecyclerView.Adapter<ServiceProvide
         ServicesModel servicesModel = mServiceProviderList.get(position);
         holder.title.setText(servicesModel.getJobTitle());
         holder.ratePerhour.setText(servicesModel.getRatePerHour());
-        holder.ratings.setText(servicesModel.getHandymanRatings());
-        holder.jobs.setText(servicesModel.getHandymanJobs());
         holder.name.setText(servicesModel.getHandymanFirstname()+" "+ servicesModel.getHandymanLastname());
 
         Glide.with(context)
@@ -66,14 +64,12 @@ public class ServiceProvidersAdapter extends RecyclerView.Adapter<ServiceProvide
 
     public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
        ImageView imageView;
-       TextView name,ratings,jobs,ratePerhour,title;
+       TextView name,ratePerhour,title;
 
         public itemViewHolder(View ItemView){
             super(ItemView);
             imageView = ItemView.findViewById(R.id.service_provider_image);
             name = ItemView.findViewById(R.id.service_provider_name);
-            ratings = ItemView.findViewById(R.id.service_provider_rating);
-            jobs = ItemView.findViewById(R.id.service_provider_jobs_count);
             ratePerhour = ItemView.findViewById(R.id.services_provider_rate_per_hour);
             title = ItemView.findViewById(R.id.service_provider_job_title);
             ItemView.setOnClickListener(this);

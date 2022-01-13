@@ -137,6 +137,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                 if(providerPortfolios.size() == 0){
                     scrollImageLayout.setVisibility(View.GONE);
                     noPortfolio.setVisibility(View.VISIBLE);
+                    adapter = new PortfolioAdapter(providerPortfolios,ServiceProviderDashboard.this);
                 }
                 else{
                     scrollImageLayout.setVisibility(View.VISIBLE);
