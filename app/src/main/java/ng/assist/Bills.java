@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.BillsAdapter;
 import ng.assist.UIs.ViewModel.BillsModel;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ public class Bills extends AppCompatActivity {
     ArrayList<BillsModel> billList = new ArrayList<>();
     BillsAdapter adapter;
     ProgressBar progressBar;
+    LinearLayout refundImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +32,7 @@ public class Bills extends AppCompatActivity {
     }
 
     private void initView(){
+        refundImage = findViewById(R.id.bills_refund_image);
         progressBar = findViewById(R.id.bills_loading_bar);
         recyclerView = findViewById(R.id.bills_recyclerview);
         BillsModel billsModel = new BillsModel(Bills.this);
@@ -58,6 +62,12 @@ public class Bills extends AppCompatActivity {
             }
         });
 
+        refundImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Bills.this,RefundHistory.class));
+            }
+        });
 
     }
 

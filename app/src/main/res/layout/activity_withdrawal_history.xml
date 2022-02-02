@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Bills"
-    android:background="@color/special_activity_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".WithdrawalHistory">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
-                android:text="Bills"
+                android:text="History"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/clannews"/>
@@ -48,33 +48,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/bills_refund_image"
             android:orientation="vertical"
-            android:gravity="right|center">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/_643768_info_information_letter_mark_sign_icon"
-                android:tint="@color/colorPrimary"/>
-        </LinearLayout>
+            android:gravity="right|center"/>
     </LinearLayout>
-
-    <ProgressBar
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/bills_loading_bar"
-        android:layout_gravity="center"
-        android:layout_marginTop="200dp"/>
-
-   <androidx.recyclerview.widget.RecyclerView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:id="@+id/bills_recyclerview"
-       android:visibility="gone"
-       tools:listitem="@layout/bills_item">
-
-   </androidx.recyclerview.widget.RecyclerView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/withdraw_history_recyclerview"
+        tools:listitem="@layout/withdrawal_history_item"/>
 
 </LinearLayout>

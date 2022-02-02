@@ -94,7 +94,7 @@ public class AccomodationBooking extends AppCompatActivity {
             pricePerMonth.setText("₦"+accomodationListModel.getPricesPerMonth()+" per month");
         }
         else{
-            pricePerMonth.setText("₦"+accomodationListModel.getPricesPerMonth()+" permonth");
+            pricePerMonth.setText("₦"+accomodationListModel.getPricesPerMonth()+" per day");
         }
 
 
@@ -139,7 +139,7 @@ public class AccomodationBooking extends AppCompatActivity {
                 bookNowLayout.setVisibility(View.VISIBLE);
                 AccomodationBooking.this.agentModel = agentModel;
                 adapter = new ProductImageScrollAdapter(mImageList,AccomodationBooking.this);
-                agentName.setText(agentModel.getAgentFirstname()+" "+agentModel.getAgentLastName());
+                agentName.setText(agentModel.getAgentFirstname());
                 imagesRecyclerview.setAdapter(adapter);
                 imagesRecyclerview.setVisibility(View.VISIBLE);
                 imageScrollLayout.setVisibility(View.VISIBLE);

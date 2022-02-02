@@ -24,6 +24,7 @@ import androidx.room.Room;
 import ng.assist.BillPayment;
 import ng.assist.GroceryCart;
 import ng.assist.R;
+import ng.assist.UIs.Utils.RefundDialog;
 import ng.assist.UIs.ViewModel.BillsModel;
 import ng.assist.UIs.ViewModel.TransactionDao;
 import ng.assist.UIs.ViewModel.TransactionDatabase;
@@ -91,38 +92,44 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
             requestRefund.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String reason = "";
-                    String payerId = billsList.get(getAdapterPosition()).getPayerId();
-                    String payeeId = billsList.get(getAdapterPosition()).getPayeeId();
-                    int cost = billsList.get(getAdapterPosition()).getCost();
-                    String type = billsList.get(getAdapterPosition()).getType();
-                    int billId = billsList.get(getAdapterPosition()).getBillId();
 
-                    if(type.equalsIgnoreCase("1"))reason = "Transport";
-                    if(type.equalsIgnoreCase("3"))reason = "Accomodation";
-                    if(type.equalsIgnoreCase("2"))reason = "Marketplace";
-                    if(type.equalsIgnoreCase("4"))reason = "Services";
-
-
-                    BillsModel billsModel = new BillsModel(payeeId,payerId,cost,reason,billId,context);
-
-                    billsModel.RequestRefund();
-
-                    billsModel.setBillsActionLitener(new BillsModel.BillsActionLitener() {
+                    RefundDialog refundDialog = new RefundDialog(context);
+                    refundDialog.setDialogActionClickListener(new RefundDialog.OnDialogActionClickListener() {
                         @Override
-                        public void onSuccess() {
-                            billsList.remove(getAdapterPosition());
-                            notifyDataSetChanged();
-                            Toast.makeText(context, "You have successfully request refund for this bill", Toast.LENGTH_SHORT).show();
-                        }
+                        public void onActionClicked(String text) {
+                            refundDialog.CloseRefundDialog();
+                            String reason = text;
+                            String payerId = billsList.get(getAdapterPosition()).getPayerId();
+                            String payeeId = billsList.get(getAdapterPosition()).getPayeeId();
+                            int cost = billsList.get(getAdapterPosition()).getCost();
+                            int billId = billsList.get(getAdapterPosition()).getBillId();
 
-                        @Override
-                        public void onError() {
-                            Toast.makeText(context, "Error occurred please try again", Toast.LENGTH_LONG).show();
+                            BillsModel billsModel = new BillsModel(payeeId,payerId,cost,reason,billId,context);
+                            billsModel.RequestRefund();
+
+                            billsModel.setBillsActionLitener(new BillsModel.BillsActionLitener() {
+                                @Override
+                                public void onSuccess() {
+
+                                    billsList.remove(getAdapterPosition());
+                                    notifyDataSetChanged();
+                                    Toast.makeText(context, "You have requested refund for this bill", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Toast.makeText(context, "Error occurred please try again", Toast.LENGTH_LONG).show();
+                                }
+                            });
                         }
                     });
+
+                    refundDialog.ShowRefundDialog();
+
                 }
             });
+
 
             releaseFund.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -171,6 +178,8 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
 
         }
     }
+
+
 
     private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
         TransactionDatabase db = Room.databaseBuilder(context,

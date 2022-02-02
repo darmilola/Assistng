@@ -47,8 +47,17 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:id="@+id/withdrawl_history_image"
             android:orientation="vertical"
-            android:gravity="right|center"/>
+            android:gravity="right|center">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/_643768_info_information_letter_mark_sign_icon"
+            android:tint="@color/colorPrimary"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

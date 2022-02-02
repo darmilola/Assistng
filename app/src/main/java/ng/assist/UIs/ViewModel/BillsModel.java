@@ -330,6 +330,7 @@ public class BillsModel {
             loadingDialogUtils.cancelLoadingDialog();
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
+            Log.e("handleMessage: ",response.toString() );
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
@@ -341,7 +342,8 @@ public class BillsModel {
                 }
             } catch (JSONException e) {
                      billsActionLitener.onError();
-                e.printStackTrace();
+                Log.e("ErrorHandleMessage: ", e.getLocalizedMessage());
+
             }
         }
     };
@@ -384,9 +386,9 @@ public class BillsModel {
     private String BuildRefund(String payerId, String payeeId, int cost, String reason,int billId){
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("payerId",payerId);
-            jsonObject.put("payeeId",payeeId);
-            jsonObject.put("cost",cost);
+            jsonObject.put("userId",payerId);
+            jsonObject.put("providerId",payeeId);
+            jsonObject.put("amount",cost);
             jsonObject.put("reason",reason);
             jsonObject.put("billId",billId);
         } catch (JSONException e) {
