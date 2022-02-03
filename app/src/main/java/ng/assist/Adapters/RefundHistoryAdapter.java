@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,14 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import ng.assist.R;
+import ng.assist.UIs.ViewModel.RefundModel;
 
 public class RefundHistoryAdapter extends RecyclerView.Adapter<RefundHistoryAdapter.itemViewHolder> {
 
-    ArrayList<String> refundList;
+    ArrayList<RefundModel> refundList;
     Context context;
 
 
-    public RefundHistoryAdapter(ArrayList<String> refundList, Context context){
+    public RefundHistoryAdapter(ArrayList<RefundModel> refundList, Context context){
         this.refundList = refundList;
         this.context = context;
     }
@@ -36,6 +38,10 @@ public class RefundHistoryAdapter extends RecyclerView.Adapter<RefundHistoryAdap
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
 
+        RefundModel refundModel = refundList.get(position);
+        holder.status.setText(refundModel.getStatus());
+        holder.amount.setText("NGN "+refundModel.getAmount());
+
     }
 
 
@@ -46,9 +52,12 @@ public class RefundHistoryAdapter extends RecyclerView.Adapter<RefundHistoryAdap
 
     public class itemViewHolder extends RecyclerView.ViewHolder {
 
+        TextView amount, status;
 
         public itemViewHolder(View ItemView) {
             super(ItemView);
+            amount = ItemView.findViewById(R.id.refund_history_amount);
+            status = ItemView.findViewById(R.id.refund_history_status);
 
         }
 

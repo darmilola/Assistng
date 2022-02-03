@@ -88,6 +88,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:id="@+id/withdraw_amount"
+        android:inputType="number"
+        android:paddingLeft="10dp"
         android:background="@drawable/edit_profile_edittext_background"/>
 
     <LinearLayout
@@ -118,6 +121,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:paddingLeft="10dp"
+        android:inputType="text"
+        android:id="@+id/withdraw_account_name"
         android:background="@drawable/edit_profile_edittext_background"/>
 
 
@@ -173,7 +179,10 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/clannews"
                 android:gravity="center|left"
-                android:hint="Guaranty Trust Bank(GTB)"
+                android:hint="Select Bank"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:id="@+id/withdraw_bank_name"
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="#8D8C8C"
                 android:textSize="16dp" />
@@ -227,6 +236,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:paddingLeft="10dp"
+        android:inputType="number"
+        android:id="@+id/withdraw_account_number"
         android:background="@drawable/edit_profile_edittext_background"/>
 
     <com.google.android.material.button.MaterialButton
@@ -235,6 +247,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="20dp"
+        android:id="@+id/withdraw_request_withdraw_button"
         android:text="Request withdrawal"
         android:textAllCaps="false"
         android:textSize="15dp"/>

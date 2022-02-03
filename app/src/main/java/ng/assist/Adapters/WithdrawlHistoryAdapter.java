@@ -20,15 +20,16 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ng.assist.R;
+import ng.assist.UIs.ViewModel.WithdrawalModel;
 
 
 public class WithdrawlHistoryAdapter extends RecyclerView.Adapter<WithdrawlHistoryAdapter.itemViewHolder> {
 
-        ArrayList<String> withdrwalList;
+        ArrayList<WithdrawalModel> withdrwalList;
         Context context;
 
 
-public WithdrawlHistoryAdapter(ArrayList<String> withdrwalList, Context context){
+public WithdrawlHistoryAdapter(ArrayList<WithdrawalModel> withdrwalList, Context context){
         this.withdrwalList = withdrwalList;
         this.context = context;
         }
@@ -45,7 +46,9 @@ public itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType
 
 @Override
 public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
-
+      WithdrawalModel withdrawalModel = withdrwalList.get(position);
+      holder.status.setText(withdrawalModel.getStatus());
+      holder.amount.setText(Integer.toString(withdrawalModel.getmAmount()));
 }
 
 
@@ -56,9 +59,12 @@ public int getItemCount() {
 
 public class itemViewHolder extends RecyclerView.ViewHolder {
 
+    TextView amount,status;
 
     public itemViewHolder(View ItemView) {
         super(ItemView);
+        amount = ItemView.findViewById(R.id.withdrawal_history_amount);
+        status = ItemView.findViewById(R.id.withdrawal_history_status);
 
     }
 

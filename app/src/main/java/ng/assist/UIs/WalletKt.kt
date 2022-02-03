@@ -164,7 +164,7 @@ class WalletKt : Fragment() {
 
         adapter = WalletAdapter(ArrayList(transactions), context)
         walletRecyclerview.adapter = adapter
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
         walletRecyclerview.layoutManager = layoutManager
         walletRecyclerview.adapter = adapter
     }
