@@ -19,6 +19,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".EditProduct"
+            android:exported="false" />
+        <activity
             android:name=".RefundHistory"
             android:exported="false" />
         <activity

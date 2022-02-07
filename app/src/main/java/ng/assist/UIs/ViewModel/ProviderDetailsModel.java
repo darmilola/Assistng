@@ -23,7 +23,7 @@ import okhttp3.Response;
 public class ProviderDetailsModel {
 
     private String userId;
-    private ArrayList<String> imagesList = new ArrayList<>();
+    private ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     private String baseUrl = new URL().getBaseUrl();
     private String imagesUrl = baseUrl+"handyman_portfolio/userId";
     private ImagesReadyListener imagesReadyListener;
@@ -32,7 +32,7 @@ public class ProviderDetailsModel {
     }
 
     public interface ImagesReadyListener{
-        void onImageReady(ArrayList<String> imagesList);
+        void onImageReady(ArrayList<ProductImageModel> imagesList);
         void onError(String message);
     }
 
@@ -48,7 +48,9 @@ public class ProviderDetailsModel {
                     JSONArray data = jsonObject.getJSONArray("data");
                     for(int i = 0; i < data.length(); i++){
                         String imageUrl = data.getJSONObject(i).getString("imageUrl");
-                         imagesList.add(imageUrl);
+                        String userId = data.getJSONObject(i).getString("userId");
+                        int id = data.getJSONObject(i).getInt("id");
+                         imagesList.add(new ProductImageModel(id,imageUrl,userId));
                     }
                     imagesReadyListener.onImageReady(imagesList);
                 }

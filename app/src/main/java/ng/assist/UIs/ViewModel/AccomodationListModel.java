@@ -48,7 +48,7 @@ public class AccomodationListModel implements Parcelable {
     private String accomodationType,location,maxPrice,minPrice,isAvailable;
     int totalListingsAvailable;
     private ArrayList<AccomodationListModel> listModelArrayList = new ArrayList<>();
-    private ArrayList<String> imagesList = new ArrayList<>();
+    private ArrayList<ProductImageModel> imagesList = new ArrayList<>();
 
 
 
@@ -59,7 +59,7 @@ public class AccomodationListModel implements Parcelable {
     }
 
     public interface AccomodationDetailsListener{
-        void onDetailsReady(ArrayList<String> imageList, AgentModel agentModel);
+        void onDetailsReady(ArrayList<ProductImageModel> imageList, AgentModel agentModel);
         void onError(String message);
     }
 
@@ -164,7 +164,9 @@ public class AccomodationListModel implements Parcelable {
                     JSONArray images = jsonObject.getJSONArray("images");
                     for(int i = 0; i < images.length(); i++){
                         String imageUrl = images.getJSONObject(i).getString("imageUrl");
-                        imagesList.add(imageUrl);
+                        String houseId = images.getJSONObject(i).getString("houseId");
+                        int id = images.getJSONObject(i).getInt("id");
+                        imagesList.add(new ProductImageModel(id,imageUrl,houseId));
                     }
                      accomodationDetailsListener.onDetailsReady(imagesList,agentModel);
                 }
@@ -207,7 +209,7 @@ public class AccomodationListModel implements Parcelable {
         isAvailable = in.readString();
         totalListingsAvailable = in.readInt();
         listModelArrayList = in.createTypedArrayList(AccomodationListModel.CREATOR);
-        imagesList = in.createStringArrayList();
+
     }
 
     @Override
@@ -237,7 +239,7 @@ public class AccomodationListModel implements Parcelable {
         dest.writeString(isAvailable);
         dest.writeInt(totalListingsAvailable);
         dest.writeTypedList(listModelArrayList);
-        dest.writeStringList(imagesList);
+
     }
 
     @Override

@@ -11,6 +11,7 @@ import ng.assist.Adapters.PortfolioAdapter;
 import ng.assist.Adapters.ProductImageScrollAdapter;
 import ng.assist.Adapters.ServiceProvidersAdapter;
 import ng.assist.UIs.ItemDecorator;
+import ng.assist.UIs.ViewModel.ProductImageModel;
 import ng.assist.UIs.ViewModel.ProviderDetailsModel;
 import ng.assist.UIs.ViewModel.ServicesModel;
 
@@ -112,7 +113,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
         providerDetailsModel.getProviderPortfolio();
         providerDetailsModel.setImagesReadyListener(new ProviderDetailsModel.ImagesReadyListener() {
             @Override
-            public void onImageReady(ArrayList<String> imagesList) {
+            public void onImageReady(ArrayList<ProductImageModel> imagesList) {
                 adapter = new ProductImageScrollAdapter(imagesList,ServiceProviderDetails.this);
                 recyclerView.setAdapter(adapter);
                 pagerSnapHelper.attachToRecyclerView(recyclerView);

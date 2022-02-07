@@ -35,6 +35,7 @@ public class ServicesModel implements Parcelable {
     private String nextPageUrl;
     private String totalPage;
     private String jobTitle;
+    private String city;
     private ArrayList<ServicesModel> servicesModelArrayList = new ArrayList<>();
     private String baseUrl = new URL().getBaseUrl();
     private String servicesUrl = baseUrl+"handyman/category/type";
@@ -112,8 +113,9 @@ public class ServicesModel implements Parcelable {
          this.jobTitle = jobTitle;
     }
 
-    public ServicesModel(String serviceType){
+    public ServicesModel(String serviceType, String city){
         this.serviceType = serviceType;
+        this.city = city;
     }
 
     public void setServiceProviderListener(ServiceProviderListener serviceProviderListener) {
@@ -198,10 +200,11 @@ public class ServicesModel implements Parcelable {
         }
     };
 
-    private String buildServicesCredentials(String requestType){
+    private String buildServicesCredentials(String requestType, String city){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("type",requestType);
+            jsonObject.put("city",city);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -217,7 +220,7 @@ public class ServicesModel implements Parcelable {
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildServicesCredentials(this.serviceType));
+            RequestBody requestBody = RequestBody.create(JSON,buildServicesCredentials(this.serviceType,this.city));
             Request request = new Request.Builder()
                     .url(servicesUrl)
                     .post(requestBody)
@@ -249,7 +252,7 @@ public class ServicesModel implements Parcelable {
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildServicesCredentials(this.serviceType));
+            RequestBody requestBody = RequestBody.create(JSON,buildServicesCredentials(this.serviceType,this.city));
             Request request = new Request.Builder()
                     .url(url)
                     .post(requestBody)

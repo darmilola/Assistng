@@ -10,6 +10,7 @@ import ng.assist.Adapters.GroceryDetailProductAdapter;
 import ng.assist.Adapters.ProductImageScrollAdapter;
 import ng.assist.UIs.ViewModel.GroceryListingDetailsModel;
 import ng.assist.UIs.ViewModel.GroceryModel;
+import ng.assist.UIs.ViewModel.ProductImageModel;
 import ng.assist.UIs.ViewModel.RetailerInfoModel;
 
 import android.content.Intent;
@@ -32,7 +33,7 @@ public class DashboardProductDetails extends AppCompatActivity {
 
     RecyclerView imagesRecyclerview;
     ProductImageScrollAdapter adapter;
-    ArrayList<String> imagesList = new ArrayList<>();
+    ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
     TextView productName,description,price,shopname;
     RecyclerView recyclerView;
@@ -41,7 +42,7 @@ public class DashboardProductDetails extends AppCompatActivity {
     GroceryModel groceryModel;
     LinearLayout productImageviewScroll;
     RetailerInfoModel retailerInfoModel;
-    MaterialButton deleteProduct;
+    MaterialButton deleteProduct,editProduct;
     int position;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class DashboardProductDetails extends AppCompatActivity {
         description = findViewById(R.id.ecc_dashboard_products_description);
         price = findViewById(R.id.ecc_dashboard_products_price);
         detailsProgressbar = findViewById(R.id.ecc_dashboard_progress_bar);
+        editProduct = findViewById(R.id.product_details_edit_listing);
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         LinearLayoutManager imagesManager = new LinearLayoutManager(DashboardProductDetails.this, LinearLayoutManager.HORIZONTAL,false);
@@ -84,15 +86,17 @@ public class DashboardProductDetails extends AppCompatActivity {
         groceryListingDetailsModel.getGroceryDetails();
         groceryListingDetailsModel.setDetailsReadyListener(new GroceryListingDetailsModel.DetailsReadyListener() {
             @Override
-            public void onDetailsReady(ArrayList<String> images, ArrayList<GroceryModel> groceryModelArrayList, RetailerInfoModel retailerInfoModel) {
+            public void onDetailsReady(ArrayList<ProductImageModel> images, ArrayList<GroceryModel> groceryModelArrayList, RetailerInfoModel retailerInfoModel) {
                 detailsProgressbar.setVisibility(View.GONE);
                 detailsRootLayout.setVisibility(View.VISIBLE);
                 adapter = new ProductImageScrollAdapter(images,DashboardProductDetails.this);
                 imagesRecyclerview.setAdapter(adapter);
+                DashboardProductDetails.this.imagesList = images;
                 productImageviewScroll.setVisibility(View.VISIBLE);
                 pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
                 imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
                 adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
+
 
             }
 
@@ -127,8 +131,17 @@ public class DashboardProductDetails extends AppCompatActivity {
             }
         });
 
-    }
+        editProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DashboardProductDetails.this,EditProduct.class);
+                intent.putExtra("products",groceryModel);
+                intent.putParcelableArrayListExtra("images",imagesList);
+                startActivity(intent);
+            }
+        });
 
+    }
 
 
 

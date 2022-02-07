@@ -25,7 +25,7 @@ import okhttp3.Response;
 public class GroceryListingDetailsModel {
     private String productName;
     private String storeName;
-    private ArrayList<String> productImages = new ArrayList<>();
+    private ArrayList<ProductImageModel> productImages = new ArrayList<>();
     private String productDescription;
     private String productId;
     private String productPrice;
@@ -37,7 +37,7 @@ public class GroceryListingDetailsModel {
     private DetailsReadyListener detailsReadyListener;
 
     public interface DetailsReadyListener{
-        void onDetailsReady(ArrayList<String> images, ArrayList<GroceryModel> groceryModelArrayList, RetailerInfoModel retailerInfoModel);
+        void onDetailsReady(ArrayList<ProductImageModel> images, ArrayList<GroceryModel> groceryModelArrayList, RetailerInfoModel retailerInfoModel);
         void onError(String message);
     }
 
@@ -67,7 +67,9 @@ public class GroceryListingDetailsModel {
                     JSONArray images = jsonObject.getJSONArray("images");
                     for(int i = 0; i < images.length(); i++){
                         String imageUrl = images.getJSONObject(i).getString("imageUrl");
-                        productImages.add(imageUrl);
+                        int id = images.getJSONObject(i).getInt("id");
+                        String productId = images.getJSONObject(i).getString("productId");
+                        productImages.add(new ProductImageModel(id,imageUrl,productId));
                     }
 
                     JSONArray products = jsonObject.getJSONArray("retailerProducts");
@@ -153,4 +155,5 @@ public class GroceryListingDetailsModel {
     public void setDetailsReadyListener(DetailsReadyListener detailsReadyListener) {
         this.detailsReadyListener = detailsReadyListener;
     }
+
 }

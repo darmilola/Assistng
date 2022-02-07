@@ -48,7 +48,7 @@ public class ServiceProviderDashboardModel {
     private String encodedImage;
     private PortfolioUploadListener portfolioUploadListener;
     private UpdateInfoListener updateInfoListener;
-    private String jsonKey,value;
+    private String jsonKey,value,city;
 
     public interface PortfolioUploadListener{
         void onImageUpload(ProviderPortfolio providerPortfolio);
@@ -98,7 +98,7 @@ public class ServiceProviderDashboardModel {
            mEmail = preferences.getString("userEmail","");
     }
 
-    public ServiceProviderDashboardModel(String userId, String serviceType, String phonenumber, String jobTitle, String ratePerHour, int totalRaters, int totalRatings, String isAvailable){
+    public ServiceProviderDashboardModel(String userId, String serviceType, String phonenumber, String jobTitle, String ratePerHour, int totalRaters, int totalRatings, String isAvailable, String city){
            this.userId = userId;
            this.serviceType = serviceType;
            this.phonenumber = phonenumber;
@@ -107,6 +107,7 @@ public class ServiceProviderDashboardModel {
            this.totalRaters = totalRaters;
            this.totalRatings = totalRatings;
            this.isAvailable = isAvailable;
+           this.city = city;
     }
 
 
@@ -158,6 +159,13 @@ public class ServiceProviderDashboardModel {
         return isAvailable;
     }
 
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCity() {
+        return city;
+    }
 
     public void setServiceType(String serviceType) {
         this.serviceType = serviceType;
@@ -229,7 +237,8 @@ public class ServiceProviderDashboardModel {
                         int totalRaters = data.getJSONObject(i).getInt("totalRaters");
                         int totalRatings = data.getJSONObject(i).getInt("totalRatings");
                         String isAvailable = data.getJSONObject(i).getString("isAvailable");
-                        ServiceProviderDashboardModel serviceProviderDashboardModel = new ServiceProviderDashboardModel(userId,type,phonenumber,jobTitle,ratePerHour,totalRaters,totalRatings,isAvailable);
+                        String city = data.getJSONObject(i).getString("city");
+                        ServiceProviderDashboardModel serviceProviderDashboardModel = new ServiceProviderDashboardModel(userId,type,phonenumber,jobTitle,ratePerHour,totalRaters,totalRatings,isAvailable,city);
                         serviceProviderDashboardModels.add(serviceProviderDashboardModel);
                     }
                     providerListener.onInfoReady(serviceProviderDashboardModels,providerPortfolios);

@@ -2,18 +2,21 @@ package ng.assist.UIs;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
@@ -22,6 +25,7 @@ import ng.assist.BuildLocation;
 import ng.assist.GroceryLanding;
 import ng.assist.QuickCreditApplication;
 import ng.assist.R;
+import ng.assist.ServiceProviderVerifications;
 import ng.assist.ServicesLanding;
 import ng.assist.TopUp;
 import ng.assist.Transportation;
@@ -56,6 +60,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initView(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String status = preferences.getString("verificationStatus","notVerified");
         topUp = view.findViewById(R.id.home_topup_layout);
         transportationLayout = view.findViewById(R.id.home_transportation_layout);
         groceryLayout = view.findViewById(R.id.home_grocery_layout);
@@ -82,7 +88,13 @@ public class HomeFragment extends Fragment {
         applyForQucikCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), QuickCreditApplication.class));
+
+                if(status.equalsIgnoreCase("pending") || status.equalsIgnoreCase("notVerified")){
+                    Toast.makeText(getContext(), "Please Get Verified To Apply", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    startActivity(new Intent(getContext(), QuickCreditApplication.class));
+                }
             }
         });
         transportationLayout.setOnClickListener(new View.OnClickListener() {

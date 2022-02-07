@@ -15,6 +15,7 @@ import ng.assist.UIs.ItemDecorator;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.AgentModel;
 import ng.assist.UIs.ViewModel.CreatBill;
+import ng.assist.UIs.ViewModel.ProductImageModel;
 import ng.assist.UIs.ViewModel.TransactionDao;
 import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
@@ -46,7 +47,7 @@ import java.util.Date;
 public class AccomodationBooking extends AppCompatActivity {
     RecyclerView imagesRecyclerview;
     ProductImageScrollAdapter adapter;
-    ArrayList<String> imagesList = new ArrayList<>();
+    ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
     TextView houseTitle,pricePerMonth,adddress,agentName,description,bookingFee;
     ImageView agentPicture;
@@ -132,7 +133,7 @@ public class AccomodationBooking extends AppCompatActivity {
         accomodationListModel1.getAccomodationDetails();
         accomodationListModel1.setAccomodationDetailsListener(new AccomodationListModel.AccomodationDetailsListener() {
             @Override
-            public void onDetailsReady(ArrayList<String> mImageList, AgentModel agentModel) {
+            public void onDetailsReady(ArrayList<ProductImageModel> mImageList, AgentModel agentModel) {
 
                 loadingBar.setVisibility(View.GONE);
                 rootLayout.setVisibility(View.VISIBLE);

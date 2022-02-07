@@ -12,6 +12,7 @@ import ng.assist.Adapters.ProductImageScrollAdapter;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.AgentModel;
 import ng.assist.UIs.ViewModel.EstateDashboardModel;
+import ng.assist.UIs.ViewModel.ProductImageModel;
 
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -129,7 +130,7 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
         estateDashboardModel.getAccomodationDetails();
         estateDashboardModel.setAccomodationDetailsListener(new EstateDashboardModel.AccomodationDetailsListener() {
             @Override
-            public void onDetailsReady(ArrayList<String> imageList, AgentModel agentModel) {
+            public void onDetailsReady(ArrayList<ProductImageModel> imageList, AgentModel agentModel) {
 
                 rootLayout.setVisibility(View.VISIBLE);
                 loadingBar.setVisibility(View.GONE);
@@ -139,6 +140,7 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
                 pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
                 imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
                 adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
+
             }
 
             @Override

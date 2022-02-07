@@ -25,7 +25,7 @@ import ng.assist.UIs.ViewModel.ServicesModel;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GroceryFastFoods extends Fragment {
+public class Electronics extends Fragment {
 
 
     RecyclerView recyclerView;
@@ -36,7 +36,7 @@ public class GroceryFastFoods extends Fragment {
     ArrayList<GroceryModel> groceryList = new ArrayList<>();
     private String nextPageUrl;
 
-    public GroceryFastFoods() {
+    public Electronics() {
         // Required empty public constructor
     }
 
@@ -45,12 +45,12 @@ public class GroceryFastFoods extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         view = inflater.inflate(R.layout.fragment_grocery_fast_foods, container, false);
-         initView();
-         return  view;
+        view = inflater.inflate(R.layout.fragment_electronics, container, false);
+        //initView();
+        return  view;
     }
 
-    private void initView(){
+ /*   private void initView(){
         recyclerProgress = view.findViewById(R.id.grocery_fastfoods_recycler_progress);
         recyclerView = view.findViewById(R.id.grocery_fastfoods_recyclerview);
         progressBar = view.findViewById(R.id.grocery_fastfoods_progressbar);
@@ -63,11 +63,11 @@ public class GroceryFastFoods extends Fragment {
         groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
             @Override
             public void onProductReady(ArrayList<GroceryModel> groceryModels, String mNextPageUrl) {
-                    progressBar.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    groceryDisplayAdapter = new GroceryDisplayAdapter(groceryModels,getContext());
-                    recyclerView.setAdapter(groceryDisplayAdapter);
-                    nextPageUrl = mNextPageUrl;
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                groceryDisplayAdapter = new GroceryDisplayAdapter(groceryModels,getContext());
+                recyclerView.setAdapter(groceryDisplayAdapter);
+                nextPageUrl = mNextPageUrl;
             }
             @Override
             public void onError(String message) {
@@ -75,7 +75,7 @@ public class GroceryFastFoods extends Fragment {
                 recyclerView.setVisibility(View.VISIBLE);
                 Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
             }
-         });
+        });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -106,12 +106,13 @@ public class GroceryFastFoods extends Fragment {
                 }
             }
         });
-    }
+    }*/
 
     public void refreshFragment(String city){
 
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
+
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
 

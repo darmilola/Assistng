@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 preferences.edit().putString("imageUrl",mainActivityModel.getUserImageUrl()).apply();
                 preferences.edit().putString("accountType",mainActivityModel.getAccountType()).apply();
                 preferences.edit().putString("isVerified",mainActivityModel.getIsVerified()).apply();
+                preferences.edit().putString("verificationStatus",mainActivityModel.getVerificationStatus()).apply();
                 preferences.edit().putString("role",mainActivityModel.getRole()).apply();
                 setupViewPager(viewPager);
             }

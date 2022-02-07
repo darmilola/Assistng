@@ -38,6 +38,8 @@ public class EcommerceDashboardModel {
     private String getRetailerProductUrl = baseUrl+"products/retailer/products";
     private String uploadImageUrl = baseUrl+"products/retailer/products/image";
     private String createProductUrl = baseUrl+"products";
+    private String updateProductUrl = baseUrl+"products/update";
+    private String deleteProductImageUrl = baseUrl+"products/image/delete";
     private String displayOrderUrl = baseUrl+"orders/show";
     private String deleteOrderUrl = baseUrl+"orders/delete";
     private String updateOrderUrl = baseUrl+"orders/update";
@@ -52,6 +54,7 @@ public class EcommerceDashboardModel {
     private ImageUploadListener imageUploadListener;
     private String retailerId, title, price, category, description,availability,displayImage,orderStatus;
     private int orderId;
+    private int imageId;
     private CreateProductListener createProductListener;
     private OrderReadyListener orderReadyListener;
     private ArrayList<Orders> ordersArrayList = new ArrayList<>();
@@ -110,11 +113,30 @@ public class EcommerceDashboardModel {
             loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
+    public EcommerceDashboardModel(String productId, String retailerId, String title, String price, String category, String description, String shopname, String availability, Context context){
+        this.retailerId = retailerId;
+        this.title = title;
+        this.price = price;
+        this.category = category;
+        this.description = description;
+        this.shopname = shopname;
+        this.availability = availability;
+        this.productId = productId;
+        this.context = context;
+        loadingDialogUtils = new LoadingDialogUtils(context);
+    }
+
     public EcommerceDashboardModel(String encodedImage,String productId, Context context){
         this.context = context;
         imageUploadDialog = new ImageUploadDialog(context);
         this.encodedImage = encodedImage;
         this.productId = productId;
+    }
+
+    public EcommerceDashboardModel(Context context, int imageId){
+           this.context = context;
+           this.imageId = imageId;
+           loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
 
@@ -218,6 +240,34 @@ public class EcommerceDashboardModel {
             RequestBody requestBody = RequestBody.create(JSON,buildDeleteOrder(orderId));
             Request request = new Request.Builder()
                     .url(deleteOrderUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = deleteInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            deleteInfoHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+    public void deleteProductImage(){
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildDeleteImage(imageId));
+            Request request = new Request.Builder()
+                    .url(deleteProductImageUrl)
                     .post(requestBody)
                     .build();
             try (Response response = client.newCall(request).execute()) {
@@ -368,6 +418,34 @@ public class EcommerceDashboardModel {
             RequestBody requestBody = RequestBody.create(JSON,buildCreateProduct(productId,retailerId,title,price,category,description,shopname,availability,displayImage));
             Request request = new Request.Builder()
                     .url(createProductUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = createProductHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            createProductHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+    public void updateProduct(){
+        loadingDialogUtils.showLoadingDialog("Updating Product...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildUpdateProduct(productId,retailerId,title,price,category,description,shopname,availability));
+            Request request = new Request.Builder()
+                    .url(updateProductUrl)
                     .post(requestBody)
                     .build();
             try (Response response = client.newCall(request).execute()) {
@@ -666,6 +744,23 @@ public class EcommerceDashboardModel {
         return jsonObject.toString();
     }
 
+    private String buildUpdateProduct(String productId, String retailerId, String title, String price, String category, String description, String shopname, String availability){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("retailerId",retailerId);
+            jsonObject.put("name",title);
+            jsonObject.put("price",price);
+            jsonObject.put("category",category);
+            jsonObject.put("description",description);
+            jsonObject.put("shopName",shopname);
+            jsonObject.put("isAvailable",availability);
+            jsonObject.put("productId",productId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
     private String buildCreateRetailer(String userId){
         JSONObject jsonObject = new JSONObject();
         try {
@@ -697,6 +792,16 @@ public class EcommerceDashboardModel {
         return jsonObject.toString();
     }
 
+    private String buildDeleteImage(int id){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id",id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
     private String buildShowRetailerOrder(String userId){
         JSONObject jsonObject = new JSONObject();
         try {
@@ -715,29 +820,6 @@ public class EcommerceDashboardModel {
             e.printStackTrace();
         }
         return jsonObject.toString();
-    }
-    public class ProductImageModel{
-        private int id;
-        private String imageUrl;
-        private String productId;
-
-        ProductImageModel(int id, String imageUrl, String productId){
-            this.id = id;
-            this.imageUrl = imageUrl;
-            this.productId = productId;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public String getImageUrl() {
-            return imageUrl;
-        }
-
-        public String getProductId() {
-            return productId;
-        }
     }
 
 

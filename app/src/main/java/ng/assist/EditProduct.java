@@ -5,13 +5,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import me.relex.circleindicator.CircleIndicator2;
-import ng.assist.Adapters.AddProductImageAdapter;
-import ng.assist.Adapters.ProductImageScrollAdapter;
-import ng.assist.UIs.Utils.ListDialog;
-import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
-import ng.assist.UIs.ViewModel.EstateDashboardModel;
-import ng.assist.UIs.ViewModel.ProductImageModel;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,34 +24,41 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class DashboardAddProduct extends AppCompatActivity {
+import me.relex.circleindicator.CircleIndicator2;
+import ng.assist.Adapters.AddProductImageAdapter;
+import ng.assist.Adapters.EditProductImageAdapter;
+import ng.assist.UIs.Utils.ListDialog;
+import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
+import ng.assist.UIs.ViewModel.GroceryModel;
+import ng.assist.UIs.ViewModel.ProductImageModel;
+
+public class EditProduct extends AppCompatActivity {
 
     private static int PICK_IMAGE = 1;
     RecyclerView imagesRecyclerview;
     EditText title,price,description;
     String mTitle,mPrice,mDescription,mCategory,mAvailability;
-    TextView  category;
+    TextView category;
     LinearLayout cancel,save;
-    AddProductImageAdapter adapter;
+    EditProductImageAdapter adapter;
     ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     ArrayList<String> categoryList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
     ListDialog listDialog;
-    String productId = "",displayImage = "";
+    String productId = "";
     MaterialButton selectImage;
     String shopName, retailerId;
     LinearLayout scrollImageLayout;
-
+    GroceryModel groceryModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard_add_product);
+        setContentView(R.layout.activity_edit_product);
         initView();
     }
 
@@ -75,8 +75,14 @@ public class DashboardAddProduct extends AppCompatActivity {
         imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
         imagesIndicator = findViewById(R.id.product_image_indicator);
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
-
-        adapter = new AddProductImageAdapter(imagesList,this);
+        groceryModel = getIntent().getParcelableExtra("products");
+        imagesList = getIntent().getParcelableArrayListExtra("images");
+        adapter = new EditProductImageAdapter(imagesList,this);
+        title.setText(groceryModel.getProductName());
+        price.setText(groceryModel.getPrice());
+        category.setText(groceryModel.getCategory());
+        scrollImageLayout.setVisibility(View.VISIBLE);
+        description.setText(groceryModel.getDescription());
         LinearLayoutManager imagesManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
         imagesRecyclerview.setLayoutManager(imagesManager);
         imagesRecyclerview.setAdapter(adapter);
@@ -84,7 +90,7 @@ public class DashboardAddProduct extends AppCompatActivity {
         imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
         adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(DashboardAddProduct.this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EditProduct.this);
         retailerId = preferences.getString("userEmail","");
         shopName = preferences.getString("shopName","");
 
@@ -106,7 +112,7 @@ public class DashboardAddProduct extends AppCompatActivity {
         category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listDialog = new ListDialog(categoryList,DashboardAddProduct.this);
+                listDialog = new ListDialog(categoryList,EditProduct.this);
                 listDialog.showListDialog();
                 listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
                     @Override
@@ -127,6 +133,7 @@ public class DashboardAddProduct extends AppCompatActivity {
             }
         });
 
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,22 +141,23 @@ public class DashboardAddProduct extends AppCompatActivity {
                 mPrice = price.getText().toString().trim();
                 mCategory = category.getText().toString().trim();
                 mDescription = description.getText().toString().trim();
+                productId = groceryModel.getItemId();
 
                 if(isValidInput()){
-                   EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(productId,retailerId,mTitle,mPrice,mCategory,mDescription,shopName,"true",displayImage,DashboardAddProduct.this);
-                   ecommerceDashboardModel.createProduct();
-                   ecommerceDashboardModel.setCreateProductListener(new EcommerceDashboardModel.CreateProductListener() {
-                       @Override
-                       public void onSuccess() {
-                           setResult(1);
-                           finish();
-                       }
+                    EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(productId,retailerId,mTitle,mPrice,mCategory,mDescription,shopName,"true",EditProduct.this);
+                    ecommerceDashboardModel.updateProduct();
+                    ecommerceDashboardModel.setCreateProductListener(new EcommerceDashboardModel.CreateProductListener() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(EditProduct.this, "Update Successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
 
-                       @Override
-                       public void onError(String message) {
-                           Toast.makeText(DashboardAddProduct.this, message, Toast.LENGTH_SHORT).show();
-                       }
-                   });
+                        @Override
+                        public void onError(String message) {
+                            Toast.makeText(EditProduct.this, message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
@@ -191,11 +199,6 @@ public class DashboardAddProduct extends AppCompatActivity {
             description.setError("Required");
             return isValid;
         }
-        if(displayImage.equalsIgnoreCase("")){
-            isValid = false;
-            Toast.makeText(this, "Upload at least one image", Toast.LENGTH_SHORT).show();
-            return isValid;
-        }
         return  isValid;
     }
 
@@ -204,43 +207,6 @@ public class DashboardAddProduct extends AppCompatActivity {
         categoryList.add("Electronics");
         categoryList.add("Others");
     }
-
-
-    // function to generate a random string of length n
-    static String generateProductId()
-    {
-        // chose a Character random from this String
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "0123456789"
-                + "abcdefghijklmnopqrstuvxyz";
-
-        // create StringBuffer size of AlphaNumericString
-        StringBuilder sb = new StringBuilder(50);
-
-        for (int i = 0; i < 50; i++) {
-
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index
-                    = (int)(AlphaNumericString.length()
-                    * Math.random());
-
-            // add Character one by one in end of sb
-            sb.append(AlphaNumericString
-                    .charAt(index));
-        }
-
-        return sb.toString();
-    }
-
-    public String BitmapToString(Bitmap image) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 60, baos);
-        byte[] b = baos.toByteArray();
-        String imgString = Base64.encodeToString(b, Base64.DEFAULT);
-        return imgString;
-    }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -252,18 +218,12 @@ public class DashboardAddProduct extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
                 String imageString = BitmapToString(bitmap);
 
-                if(productId.equalsIgnoreCase("")){
-                    productId = generateProductId();
-                }
-
-                EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(imageString,productId,DashboardAddProduct.this);
+                EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(imageString,groceryModel.getItemId(),EditProduct.this);
                 ecommerceDashboardModel.uploadImage();
                 ecommerceDashboardModel.setImageUploadListener(new EcommerceDashboardModel.ImageUploadListener() {
                     @Override
                     public void onUploadSuccessful(ProductImageModel productImageModel) {
-                        if(displayImage.equalsIgnoreCase("")){
-                            displayImage = productImageModel.getImageUrl();
-                        }
+
                         adapter.addItem(productImageModel);
                         adapter.notifyDataSetChanged();
                         scrollImageLayout.setVisibility(View.VISIBLE);
@@ -272,15 +232,24 @@ public class DashboardAddProduct extends AppCompatActivity {
 
                     @Override
                     public void onError(String message) {
-                        Toast.makeText(DashboardAddProduct.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProduct.this, message, Toast.LENGTH_SHORT).show();
 
                     }
                 });
             } catch (IOException e) {
-                Toast.makeText(DashboardAddProduct.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditProduct.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
 
         }
     }
+
+    public String BitmapToString(Bitmap image) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 60, baos);
+        byte[] b = baos.toByteArray();
+        String imgString = Base64.encodeToString(b, Base64.DEFAULT);
+        return imgString;
+    }
+
 }

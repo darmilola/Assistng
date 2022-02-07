@@ -44,8 +44,8 @@ public class ServiceProviderDashboard extends AppCompatActivity {
     PortfolioAdapter adapter;
     ArrayList<String> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    TextView serviceType,jobTitle,phone,rate,providerName;
-    ImageView serviceTypeSelect,jobTitleSelect,phoneSelect,rateSelect;
+    TextView serviceType,jobTitle,phone,rate,providerName,cityName;
+    ImageView serviceTypeSelect,jobTitleSelect,phoneSelect,rateSelect,citySelect;
     LinearLayout selectPortfolio,noPortfolio,scrollImageLayout;
     SwitchMaterial availabilitySwitch;
     InputDialog inputDialog;
@@ -56,6 +56,13 @@ public class ServiceProviderDashboard extends AppCompatActivity {
     ArrayList<String> rateList = new ArrayList<>();
     ServiceProviderDashboardModel serviceProviderDashboardModel;
     ServiceProviderDashboardModel mServiceProviderModel;
+    ArrayList<String> locationList = new ArrayList<>();
+    ArrayList<String> edList = new ArrayList<>();
+    ArrayList<String> repairList = new ArrayList<>();
+    ArrayList<String> autoList = new ArrayList<>();
+    ArrayList<String> personalServicesList = new ArrayList<>();
+    ArrayList<String> homeServiceList = new ArrayList<>();
+    ListDialog cityListDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +72,9 @@ public class ServiceProviderDashboard extends AppCompatActivity {
     private void initProductImageView(){
 
         populateList();
+        populateLocation();
+        cityName = findViewById(R.id.service_provider_dashboard_city);
+        citySelect = findViewById(R.id.service_provider_dashboard_city_select);
         serviceType = findViewById(R.id.service_provider_dashboard_service_type_text);
         jobTitle  = findViewById(R.id.service_provider_dashboard_job_type_text);
         phone = findViewById(R.id.service_provider_dashboard_phone_text);
@@ -90,6 +100,28 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         String lastname =  preferences.getString("lastname","");
         providerName.setText(firstname+" "+lastname);
 
+        citySelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cityListDialog = new ListDialog(locationList,ServiceProviderDashboard.this);
+                cityListDialog.showListDialog();
+                cityListDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
+                    @Override
+                    public void onItemClicked(String city) {
+                        ServiceProviderDashboardModel mServiceProviderDashboardModel = new ServiceProviderDashboardModel("city",city,ServiceProviderDashboard.this);
+                        mServiceProviderDashboardModel.updateProviderInfo();
+                        mServiceProviderDashboardModel.setUpdateInfoListener(new ServiceProviderDashboardModel.UpdateInfoListener() {
+                            @Override
+                            public void onSuccess() {
+                                serviceProviderDashboardModel.setCity(city);
+                                cityName.setText(city);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
 
         serviceProviderDashboardModel = new ServiceProviderDashboardModel(ServiceProviderDashboard.this);
         serviceProviderDashboardModel.ShowProvider();
@@ -110,6 +142,13 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                 }
                 else{
                     jobTitle.setText(serviceProviderDashboardModels.get(0).getJobTitle());
+                }
+
+                if(serviceProviderDashboardModels.get(0).getCity().equalsIgnoreCase("null")){
+                    cityName.setText("Not Available");
+                }
+                else{
+                    cityName.setText(serviceProviderDashboardModels.get(0).getCity());
                 }
 
                 if(serviceProviderDashboardModels.get(0).getPhonenumber().equalsIgnoreCase("null")){
@@ -192,30 +231,51 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         jobTitleSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inputDialog = new InputDialog(ServiceProviderDashboard.this,"Job Title");
-                inputDialog.showInputDialog();
-                inputDialog.setDialogActionClickListener(new InputDialog.OnDialogActionClickListener() {
-                    @Override
-                    public void saveClicked(String text) {
-                      ServiceProviderDashboardModel mServiceProviderDashboardModel = new ServiceProviderDashboardModel("jobTitle",text,ServiceProviderDashboard.this);
-                      mServiceProviderDashboardModel.updateProviderInfo();
-                      mServiceProviderDashboardModel.setUpdateInfoListener(new ServiceProviderDashboardModel.UpdateInfoListener() {
-                          @Override
-                          public void onSuccess() {
-                              serviceProviderDashboardModel.setJobTitle(text);
-                              jobTitle.setText(text);
-                          }
-                      });
+                ListDialog listDialog = null;
+                if(serviceType.getText().toString().equalsIgnoreCase("Not Available")){
+                    Toast.makeText(ServiceProviderDashboard.this, "Please select service type", Toast.LENGTH_SHORT).show();
+                }
+                else{
 
+                    if(serviceType.getText().toString().equalsIgnoreCase("Home Services")){
+                        listDialog = new ListDialog(homeServiceList,ServiceProviderDashboard.this);
                     }
-
-                    @Override
-                    public void cancelClicked() {
-
+                    else if(serviceType.getText().toString().equalsIgnoreCase("Personal Services")){
+                        listDialog = new ListDialog(personalServicesList,ServiceProviderDashboard.this);
                     }
-                });
+                    else if(serviceType.getText().toString().equalsIgnoreCase("Educational Services")){
+                        listDialog = new ListDialog(edList,ServiceProviderDashboard.this);
+                    }
+                    else if(serviceType.getText().toString().equalsIgnoreCase("Repair Services")){
+                        listDialog = new ListDialog(repairList,ServiceProviderDashboard.this);
+                    }
+                    else if(serviceType.getText().toString().equalsIgnoreCase("Auto Services")){
+                        listDialog = new ListDialog(autoList,ServiceProviderDashboard.this);
+                    }
+                    else{
+                        listDialog = new ListDialog(homeServiceList,ServiceProviderDashboard.this);
+                    }
+                    listDialog.showListDialog();
+                    listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
+                        @Override
+                        public void onItemClicked(String city) {
+                            ServiceProviderDashboardModel mServiceProviderDashboardModel = new ServiceProviderDashboardModel("jobTitle",city,ServiceProviderDashboard.this);
+                            mServiceProviderDashboardModel.updateProviderInfo();
+                            mServiceProviderDashboardModel.setUpdateInfoListener(new ServiceProviderDashboardModel.UpdateInfoListener() {
+                                @Override
+                                public void onSuccess() {
+                                    serviceProviderDashboardModel.setJobTitle(city);
+                                    jobTitle.setText(city);
+                                }
+                            });
+
+                        }
+                    });
+
+                }
             }
         });
+
 
         phoneSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,11 +421,40 @@ public class ServiceProviderDashboard extends AppCompatActivity {
     private void populateList(){
         serviceTypeList.add("Home Services");
         serviceTypeList.add("Personal Services");
-        serviceTypeList.add("Children Services");
+        serviceTypeList.add("Educational Services");
         serviceTypeList.add("Repair Services");
+        serviceTypeList.add("Auto Services");
         rateList.add("$");
         rateList.add("$$");
         rateList.add("$$$");
+
+        edList.add("Home Lesson ");
+        edList.add("STEM Tutor");
+        edList.add("Results Checking Pin");
+        edList.add("Registration pin");
+
+        personalServicesList.add("Hair Salon");
+        personalServicesList.add("Barber Shop");
+        personalServicesList.add("Makeup artist");
+        personalServicesList.add("Massage Therapy");
+
+        homeServiceList.add("Laundry Service");
+        homeServiceList.add("Cooking-Gas Refill");
+        homeServiceList.add("Electrical Repair");
+        homeServiceList.add("Furniture Repair");
+
+        repairList.add("AC repair");
+        repairList.add("Electronics repair");
+        repairList.add("Fridge repair");
+        repairList.add("Plumbing ");
+
+        autoList.add("Benz Autotech");
+        autoList.add("Toyota Autotech");
+        autoList.add("General Auto mechanic");
+        autoList.add("Spare parts dealer");
+        autoList.add("Driving School");
+
+
     }
 
     private boolean isValidProvider(){
@@ -389,7 +478,19 @@ public class ServiceProviderDashboard extends AppCompatActivity {
             isValid = false;
             return  isValid;
         }
+
+        if(mServiceProviderModel.getCity().equalsIgnoreCase("null")){
+            isValid = false;
+            return  isValid;
+        }
+
         return  isValid;
+    }
+
+    private void populateLocation(){
+        locationList.add("Lagos");
+        locationList.add("Abuja");
+        locationList.add("Kano");
     }
 
 }

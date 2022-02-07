@@ -15,15 +15,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.EstateDashboardModel;
+import ng.assist.UIs.ViewModel.GroceryListingDetailsModel;
+import ng.assist.UIs.ViewModel.ProductImageModel;
 import ng.assist.UIs.ViewModel.ServicesModel;
 
 public class ProductImageScrollAdapter extends RecyclerView.Adapter<ProductImageScrollAdapter.itemViewHolder> {
 
-    ArrayList<String> imagesList;
+    ArrayList<ProductImageModel> imagesList;
     Context context;
 
 
-    public ProductImageScrollAdapter(ArrayList<String> imagesList, Context context){
+    public ProductImageScrollAdapter(ArrayList<ProductImageModel> imagesList, Context context){
         this.imagesList = imagesList;
         this.context = context;
     }
@@ -38,7 +40,7 @@ public class ProductImageScrollAdapter extends RecyclerView.Adapter<ProductImage
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
         Glide.with(context)
-                .load(imagesList.get(position))
+                .load(imagesList.get(position).getImageUrl())
                 .placeholder(R.drawable.background_image)
                 .error(R.drawable.background_image)
                 .into(holder.imageView);

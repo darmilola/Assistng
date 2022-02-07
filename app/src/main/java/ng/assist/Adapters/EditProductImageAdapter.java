@@ -1,32 +1,29 @@
 package ng.assist.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
-import ng.assist.UIs.ViewModel.EstateDashboardModel;
 import ng.assist.UIs.ViewModel.ProductImageModel;
-import ng.assist.UIs.ViewModel.ServiceProviderDashboardModel;
-import ng.assist.UIs.ViewModel.ServicesModel;
 
-public class AddProductImageAdapter extends RecyclerView.Adapter<AddProductImageAdapter.itemViewHolder> {
+public class EditProductImageAdapter extends RecyclerView.Adapter<EditProductImageAdapter.itemViewHolder> {
 
     ArrayList<ProductImageModel> imagesList;
     Context context;
 
 
-    public AddProductImageAdapter(ArrayList<ProductImageModel> imagesList, Context context){
+    public EditProductImageAdapter(ArrayList<ProductImageModel> imagesList, Context context){
         this.imagesList = imagesList;
         this.context = context;
     }
@@ -50,6 +47,7 @@ public class AddProductImageAdapter extends RecyclerView.Adapter<AddProductImage
                 .placeholder(R.drawable.background_image)
                 .error(R.drawable.background_image)
                 .into(holder.imageView);
+
     }
 
 
@@ -66,8 +64,35 @@ public class AddProductImageAdapter extends RecyclerView.Adapter<AddProductImage
             super(ItemView);
             imageView = ItemView.findViewById(R.id.recycler_image_item);
             removeItem = ItemView.findViewById(R.id.image_remove);
-            removeItem.setVisibility(View.GONE);
             ItemView.setOnClickListener(this);
+
+            removeItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(imagesList.size() == 1){
+
+                    }
+                    else{
+                        EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(context,imagesList.get(getAdapterPosition()).getId());
+                        imagesList.remove(getAdapterPosition());
+                        notifyDataSetChanged();
+                        ecommerceDashboardModel.deleteProductImage();
+                        ecommerceDashboardModel.setUpdateInfoListener(new EcommerceDashboardModel.UpdateInfoListener() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onError(String message) {
+
+                            }
+                        });
+
+
+                    }
+                }
+            });
 
         }
         @Override

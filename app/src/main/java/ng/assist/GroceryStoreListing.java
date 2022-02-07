@@ -15,6 +15,7 @@ import ng.assist.Adapters.ProductImageScrollAdapter;
 import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
 import ng.assist.UIs.ViewModel.GroceryListingDetailsModel;
 import ng.assist.UIs.ViewModel.GroceryModel;
+import ng.assist.UIs.ViewModel.ProductImageModel;
 import ng.assist.UIs.ViewModel.RetailerInfoModel;
 
 import android.content.DialogInterface;
@@ -104,7 +105,7 @@ public class GroceryStoreListing extends AppCompatActivity {
         groceryListingDetailsModel.getGroceryDetails();
         groceryListingDetailsModel.setDetailsReadyListener(new GroceryListingDetailsModel.DetailsReadyListener() {
             @Override
-            public void onDetailsReady(ArrayList<String> images, ArrayList<GroceryModel> groceryModelArrayList, RetailerInfoModel retailerInfoModel) {
+            public void onDetailsReady(ArrayList<ProductImageModel> images, ArrayList<GroceryModel> groceryModelArrayList, RetailerInfoModel retailerInfoModel) {
                 GroceryStoreListing.this.retailerInfoModel = retailerInfoModel;
                 detailsProgressbar.setVisibility(View.GONE);
                 detailsRootLayout.setVisibility(View.VISIBLE);
@@ -114,11 +115,12 @@ public class GroceryStoreListing extends AppCompatActivity {
                 pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
                 imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
                 adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
-
                 groceryDisplayAdapter = new GroceryDetailProductAdapter(groceryModelArrayList,GroceryStoreListing.this);
                 recyclerView.setAdapter(groceryDisplayAdapter);
 
             }
+
+
             @Override
             public void onError(String message) {
                 detailsProgressbar.setVisibility(View.VISIBLE);

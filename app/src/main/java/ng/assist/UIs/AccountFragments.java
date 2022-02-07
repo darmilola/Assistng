@@ -48,7 +48,7 @@ public class AccountFragments extends Fragment {
 
 
     View view;
-    LinearLayout dashboardLayout,switchAccount;
+    LinearLayout dashboardLayout,switchAccount,userVerification;
     LinearLayout aboutUs,rateUs,logOut,provideAService;
     ArrayList<String> accountList = new ArrayList<>();
     CircleImageView circleImageView;
@@ -72,6 +72,7 @@ public class AccountFragments extends Fragment {
     }
 
     private void initView() {
+        userVerification = view.findViewById(R.id.account_users_verification);
         usernameField = view.findViewById(R.id.account_name);
         logOut = view.findViewById(R.id.account_log_out);
         circleImageView = view.findViewById(R.id.account_profile_image);
@@ -111,6 +112,13 @@ public class AccountFragments extends Fragment {
             @Override
             public void onClick(View v) {
               logOut();
+            }
+        });
+
+        userVerification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),ServiceProviderVerifications.class));
             }
         });
 

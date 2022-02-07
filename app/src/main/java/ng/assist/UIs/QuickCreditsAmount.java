@@ -103,7 +103,6 @@ public class QuickCreditsAmount extends Fragment {
                                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                                 preferences.edit().putString("loanAmount",selectAmount.getText().toString()).apply();
                                 preferences.edit().putString("accountCode",account.getCode()).apply();
-                                Toast.makeText(getContext(), account.getCode(), Toast.LENGTH_SHORT).show();
                                 authenticateWithMono.setText("Next");
                             }) // onSuccess function
                             .addReference(reference)
@@ -123,7 +122,6 @@ public class QuickCreditsAmount extends Fragment {
 
             }
         });
-
 
     }
 

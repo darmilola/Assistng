@@ -21,6 +21,8 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -44,7 +46,8 @@ public class ServiceProviderVerifications extends AppCompatActivity {
     MaterialButton apply;
     String mFirstname,mLastname,mAddress,mPhonenumber;
     String userId;
-
+    ScrollView rootView;
+    TextView statusText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,28 @@ public class ServiceProviderVerifications extends AppCompatActivity {
     }
 
     private void initView(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ServiceProviderVerifications.this);
+        String status = preferences.getString("verificationStatus","notVerified");
+
+
+        rootView = findViewById(R.id.verification_form_root);
+        statusText = findViewById(R.id.verification_status_text);
+
+        if(status.equalsIgnoreCase("pending")){
+            statusText.setText("Your Verification is Pending...");
+            statusText.setVisibility(View.VISIBLE);
+            rootView.setVisibility(View.GONE);
+        }
+        else if(status.equalsIgnoreCase("approved")){
+            statusText.setText("You have been successfully Verified");
+            statusText.setVisibility(View.VISIBLE);
+            rootView.setVisibility(View.GONE);
+        }
+        else{
+            statusText.setVisibility(View.GONE);
+            rootView.setVisibility(View.VISIBLE);
+        }
+
         firstname = findViewById(R.id.verification_firstname);
         lastname = findViewById(R.id.verification_lastname);
         address = findViewById(R.id.verification_address);
@@ -61,7 +86,6 @@ public class ServiceProviderVerifications extends AppCompatActivity {
         idLayout = findViewById(R.id.verification_id_layout);
         uploadIdImg = findViewById(R.id.verification_upload_img);
         apply = findViewById(R.id.verification_apply);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ServiceProviderVerifications.this);
         userId = preferences.getString("userEmail","");
 
         apply.setOnClickListener(new View.OnClickListener() {
@@ -188,16 +212,12 @@ public class ServiceProviderVerifications extends AppCompatActivity {
 
     @Override
     public void onResume() {
-
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
-            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
-
 
 }

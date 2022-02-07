@@ -140,6 +140,48 @@
                 android:layout_height="wrap_content"
                 android:textSize="12dp"
                 android:fontFamily="@font/clanbold"
+                android:text="City:"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/dark_text_color"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:fontFamily="@font/clannews"
+                android:text="Not Available"
+                android:gravity="center"
+                android:id="@+id/service_provider_dashboard_city"
+                android:maxLines="1"
+                android:layout_marginLeft="5dp"
+                android:ellipsize="end"
+                android:textColor="#797878"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:tint="@color/dark_text_color"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                android:id="@+id/service_provider_dashboard_city_select"
+                android:src="@drawable/ic_mode_edit_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:fontFamily="@font/clanbold"
                 android:text="Phone:"
                 android:gravity="center"
                 android:maxLines="1"

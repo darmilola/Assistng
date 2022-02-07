@@ -66,7 +66,7 @@ public class EstateDashboardModel {
     private String agentHouseId;
     private String encodedImage;
     private ImageUploadDialog imageUploadDialog;
-    private ArrayList<String> imagesList = new ArrayList<>();
+    private ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     private UpdateInfoListener updateInfoListener;
     private AccomodationDetailsListener accomodationDetailsListener;
     private HouseUploadListener houseUploadListener;
@@ -138,7 +138,7 @@ public class EstateDashboardModel {
     }
 
     public interface AccomodationDetailsListener{
-        void onDetailsReady(ArrayList<String> imageList, AgentModel agentModel);
+        void onDetailsReady(ArrayList<ProductImageModel> imageList, AgentModel agentModel);
         void onError(String message);
     }
 
@@ -604,7 +604,9 @@ public class EstateDashboardModel {
                     JSONArray images = jsonObject.getJSONArray("images");
                     for(int i = 0; i < images.length(); i++){
                         String imageUrl = images.getJSONObject(i).getString("imageUrl");
-                        imagesList.add(imageUrl);
+                        String houseId = images.getJSONObject(i).getString("houseId");
+                        int id = images.getJSONObject(i).getInt("id");
+                        imagesList.add(new ProductImageModel(id,imageUrl,houseId));
                     }
                     accomodationDetailsListener.onDetailsReady(imagesList,agentModel);
                 }
