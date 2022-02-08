@@ -26,7 +26,9 @@ public class CabHailingActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
+    TextView noRideAvailable;
     TextView currentLocationTextView;
+    LinearLayout changeLocationText;
     ArrayList<String> rideList = new ArrayList<>();
     RideDisplayAdapter rideDisplayAdapter;
     LinearLayout rideLayout;
@@ -48,6 +50,8 @@ public class CabHailingActivity extends AppCompatActivity {
     }
 
     private void initView(){
+        changeLocationText = findViewById(R.id.change_location);
+        noRideAvailable = findViewById(R.id.no_ride_available);
         cabHailingRoot = findViewById(R.id.cab_hailing_root);
         progressBar = findViewById(R.id.cab_hailing_progressbar);
         rideLayout = findViewById(R.id.ride_display_layout);
@@ -58,6 +62,12 @@ public class CabHailingActivity extends AppCompatActivity {
         imagesIndicator = findViewById(R.id.product_image_indicator);
         currentLocationTextView.setText(from+" - "+to);
         recyclerView = findViewById(R.id.ride_display_recyclerview);
+        changeLocationText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
        // ZoomCenterCardLayoutManager zoomCenterCardLayoutManager = new ZoomCenterCardLayoutManager(CabHailingActivity.this,LinearLayout.HORIZONTAL,false);
         LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(manager);
@@ -70,6 +80,7 @@ public class CabHailingActivity extends AppCompatActivity {
                 rideDisplayAdapter = new RideDisplayAdapter(cabHailingModelArrayList,CabHailingActivity.this);
                 recyclerView.setAdapter(rideDisplayAdapter);
                 cabHailingRoot.setVisibility(View.VISIBLE);
+                noRideAvailable.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
                 PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
                 pagerSnapHelper.attachToRecyclerView(recyclerView);
@@ -80,7 +91,8 @@ public class CabHailingActivity extends AppCompatActivity {
             @Override
             public void onError(String message) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(CabHailingActivity.this, message, Toast.LENGTH_SHORT).show();
+                noRideAvailable.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
             }
         });
     }

@@ -67,7 +67,7 @@ public class ChatActivity  extends AppCompatActivity  implements MessageInput.In
     private ChatModel chatModel;
     private String imageString;
     private TextView receiverDisplayName;
-    ImageView receiverImageView;
+    ImageView receiverImageView,backNav;
     TextView chatStatus;
 
     @Override
@@ -83,6 +83,7 @@ public class ChatActivity  extends AppCompatActivity  implements MessageInput.In
         senderLastname = preferences.getString("lastname", "");
         senderImageUrl = preferences.getString("imageUrl", "");
         chatStatus = findViewById(R.id.chat_receiver_status);
+        backNav = findViewById(R.id.chat_activity_back);
         Intent intent = getIntent();
         this.messagesList = (MessagesList) findViewById(R.id.messagesList);
         MessageInput input = (MessageInput) findViewById(R.id.input);
@@ -103,6 +104,13 @@ public class ChatActivity  extends AppCompatActivity  implements MessageInput.In
                 .placeholder(R.drawable.profileplaceholder)
                 .error(R.drawable.profileplaceholder)
                 .into(receiverImageView);
+
+        backNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         initAdapter();
         initSocket();

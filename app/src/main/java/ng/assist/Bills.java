@@ -24,6 +24,7 @@ public class Bills extends AppCompatActivity {
     BillsAdapter adapter;
     ProgressBar progressBar;
     LinearLayout refundImage;
+    LinearLayout navBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,7 @@ public class Bills extends AppCompatActivity {
     }
 
     private void initView(){
+        navBack = findViewById(R.id.bills_back_nav);
         refundImage = findViewById(R.id.bills_refund_image);
         progressBar = findViewById(R.id.bills_loading_bar);
         recyclerView = findViewById(R.id.bills_recyclerview);
@@ -66,6 +68,13 @@ public class Bills extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Bills.this,RefundHistory.class));
+            }
+        });
+
+        navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

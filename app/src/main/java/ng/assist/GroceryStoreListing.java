@@ -30,6 +30,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -59,6 +60,7 @@ public class GroceryStoreListing extends AppCompatActivity {
     View cartIndicator;
     LinearLayout productImageviewScroll;
     RetailerInfoModel retailerInfoModel;
+    ImageView backNav;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +69,13 @@ public class GroceryStoreListing extends AppCompatActivity {
     }
 
     private void initView(){
+        backNav = findViewById(R.id.back_nav);
+        backNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         call = findViewById(R.id.acc_details_call);
         chat = findViewById(R.id.acc_details_chat);
         productImageviewScroll = findViewById(R.id.scroll_image_layout);

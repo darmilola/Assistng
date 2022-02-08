@@ -12,6 +12,16 @@
         android:layout_gravity="center"
         android:id="@+id/cab_hailing_progressbar"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Ride Available"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:visibility="gone"
+        android:id="@+id/no_ride_available"
+        android:layout_gravity="center"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,6 +37,7 @@
                 android:layout_height="120dp"
                 android:orientation="horizontal"
                 android:weightSum="4"
+                android:id="@+id/change_location"
                 android:layout_marginTop="30dp"
                 android:gravity="center|left">
 

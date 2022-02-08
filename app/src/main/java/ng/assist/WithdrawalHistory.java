@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class WithdrawalHistory extends AppCompatActivity {
     RecyclerView recyclerView;
     WithdrawlHistoryAdapter adapter;
     ProgressBar progressBar;
+    LinearLayout backNav;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,14 @@ public class WithdrawalHistory extends AppCompatActivity {
         String userId = preferences.getString("userEmail","");
         recyclerView = findViewById(R.id.withdraw_history_recyclerview);
         progressBar = findViewById(R.id.progressBar);
+
+        backNav = findViewById(R.id.withdrawal_history_back_nav);
+        backNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         WithdrawalModel withdrawalModel = new WithdrawalModel(userId);
         withdrawalModel.GetUserWithdrawals();

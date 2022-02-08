@@ -70,6 +70,14 @@ public class DashboardAddProduct extends AppCompatActivity {
         description = findViewById(R.id.add_product_description);
         category = findViewById(R.id.add_product_product_category);
         cancel = findViewById(R.id.add_product_cancel);
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         save = findViewById(R.id.add_product_save);
         scrollImageLayout = findViewById(R.id.scroll_image_layout);
         imagesRecyclerview = findViewById(R.id.product_image_recyclerview);

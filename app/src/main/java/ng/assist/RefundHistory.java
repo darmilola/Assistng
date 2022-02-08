@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class RefundHistory extends AppCompatActivity {
     RefundHistoryAdapter adapter;
     RefundModel refundModel;
     ProgressBar progressBar;
+    LinearLayout backNav;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,15 @@ public class RefundHistory extends AppCompatActivity {
         String userId = preferences.getString("userEmail","");
         recyclerView = findViewById(R.id.refund_history_recyclerview);
         progressBar = findViewById(R.id.progressBar);
+        backNav = findViewById(R.id.refund_back_nav);
+
+        backNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         refundModel = new RefundModel(userId,this);
         refundModel.GetUserRefunds();
         refundModel.setRefundsReadyListener(new RefundModel.RefundsReadyListener() {

@@ -1,5 +1,6 @@
 package ng.assist;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -20,6 +21,7 @@ import ng.assist.UIs.ViewModel.TransactionDao;
 import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -49,16 +51,18 @@ public class AccomodationBooking extends AppCompatActivity {
     ProductImageScrollAdapter adapter;
     ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    TextView houseTitle,pricePerMonth,adddress,agentName,description,bookingFee;
+    TextView houseTitle, pricePerMonth, adddress, agentName, description, bookingFee;
     ImageView agentPicture;
     ProgressBar loadingBar;
     NestedScrollView rootLayout;
     CardView bookNowLayout;
     AccomodationListModel accomodationListModel;
     String houseId, agentId;
-    LinearLayout imageScrollLayout,call,chat;
+    LinearLayout imageScrollLayout, call, chat;
     MaterialButton bookInspection;
     AgentModel agentModel;
+    AlertDialog.Builder builder;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +71,7 @@ public class AccomodationBooking extends AppCompatActivity {
         initView();
     }
 
-    private void initView(){
+    private void initView() {
         call = findViewById(R.id.acc_details_call);
         chat = findViewById(R.id.acc_details_chat);
         bookInspection = findViewById(R.id.acc_details_book_inspection);
@@ -91,32 +95,31 @@ public class AccomodationBooking extends AppCompatActivity {
 
         houseTitle.setText(accomodationListModel.getHouseTitle());
 
-        if(accomodationListModel.getType().equalsIgnoreCase("lodges")){
-            pricePerMonth.setText("₦"+accomodationListModel.getPricesPerMonth()+" per month");
-        }
-        else{
-            pricePerMonth.setText("₦"+accomodationListModel.getPricesPerMonth()+" per day");
+        if (accomodationListModel.getType().equalsIgnoreCase("lodges")) {
+            pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per month");
+        } else {
+            pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per day");
         }
 
 
         adddress.setText(accomodationListModel.getAddress());
         description.setText(accomodationListModel.getHouseDesc());
-        bookingFee.setText("₦"+accomodationListModel.getBookingFee());
-        String userId = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this).getString("userEmail","null");
+        bookingFee.setText("₦" + accomodationListModel.getBookingFee());
+        userId = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this).getString("userEmail", "null");
 
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
-        LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationBooking.this, LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationBooking.this, LinearLayoutManager.HORIZONTAL, false);
         imagesRecyclerview.setLayoutManager(imagesManager);
 
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AccomodationBooking.this,ChatActivity.class);
-                intent.putExtra("receiverId",agentModel.getAgentId());
-                intent.putExtra("receiverFirstname",agentModel.getAgentFirstname());
-                intent.putExtra("receiverLastname",agentModel.getAgentLastName());
-                intent.putExtra("receiverImageUrl",agentModel.getAgentPicUrl());
+                Intent intent = new Intent(AccomodationBooking.this, ChatActivity.class);
+                intent.putExtra("receiverId", agentModel.getAgentId());
+                intent.putExtra("receiverFirstname", agentModel.getAgentFirstname());
+                intent.putExtra("receiverLastname", agentModel.getAgentLastName());
+                intent.putExtra("receiverImageUrl", agentModel.getAgentPicUrl());
                 startActivity(intent);
             }
         });
@@ -129,7 +132,7 @@ public class AccomodationBooking extends AppCompatActivity {
             }
         });
 
-        AccomodationListModel accomodationListModel1 = new AccomodationListModel(houseId,agentId);
+        AccomodationListModel accomodationListModel1 = new AccomodationListModel(houseId, agentId);
         accomodationListModel1.getAccomodationDetails();
         accomodationListModel1.setAccomodationDetailsListener(new AccomodationListModel.AccomodationDetailsListener() {
             @Override
@@ -139,7 +142,7 @@ public class AccomodationBooking extends AppCompatActivity {
                 rootLayout.setVisibility(View.VISIBLE);
                 bookNowLayout.setVisibility(View.VISIBLE);
                 AccomodationBooking.this.agentModel = agentModel;
-                adapter = new ProductImageScrollAdapter(mImageList,AccomodationBooking.this);
+                adapter = new ProductImageScrollAdapter(mImageList, AccomodationBooking.this);
                 agentName.setText(agentModel.getAgentFirstname());
                 imagesRecyclerview.setAdapter(adapter);
                 imagesRecyclerview.setVisibility(View.VISIBLE);
@@ -168,56 +171,25 @@ public class AccomodationBooking extends AppCompatActivity {
         bookInspection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (isAuthorized(accomodationListModel.getBookingFee())) {
-
-                    String fullName = agentModel.getAgentFirstname() + " - " + agentModel.getAgentLastName();
-                    CreatBill creatBill = new CreatBill(userId, agentModel.getAgentId(), Integer.parseInt(accomodationListModel.getBookingFee()), "3", fullName, AccomodationBooking.this, "");
-                    creatBill.CreateBill();
-                    creatBill.setCreateBillListener(new CreatBill.CreateBillListener() {
-                        @Override
-                        public void onSuccess() {
-                            Date date = new Date();
-                            Timestamp timestamp = new Timestamp(date.getTime());
-                            insertBooking(0, 3, "Inspection", timestamp.toString(), accomodationListModel.getBookingFee(), "");
-                            Toast.makeText(AccomodationBooking.this, "You have booked Inspection Successfully", Toast.LENGTH_SHORT).show();
-
-                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this);
-                            String walletBalance = preferences.getString("walletBalance","0");
-                            preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(accomodationListModel.getBookingFee()))).apply();
-
-                            finish();
-
-                        }
-
-                        @Override
-                        public void onError() {
-                            Toast.makeText(AccomodationBooking.this, "Error Occurred please try again", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-                else{
-                    Toast.makeText(AccomodationBooking.this,"Insufficient Balance", Toast.LENGTH_SHORT).show();
-                }
+               showBookingDialog();
             }
         });
     }
 
-    public boolean isAuthorized(String inspectionFee){
+    public boolean isAuthorized(String inspectionFee) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this);
-        String walletBalance = preferences.getString("walletBalance","0");
-        if(Integer.parseInt(walletBalance) < Integer.parseInt(inspectionFee)){
+        String walletBalance = preferences.getString("walletBalance", "0");
+        if (Integer.parseInt(walletBalance) < Integer.parseInt(inspectionFee)) {
             return false;
-        }
-        else{
+        } else {
             return true;
         }
     }
 
-    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
+    private void insertBooking(int id, int type, String title, String timestamp, String amount, String orderId) {
         TransactionDatabase db = Room.databaseBuilder(AccomodationBooking.this,
                 TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
-        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
+        Transactions transactions = new Transactions(id, type, title, timestamp, amount, orderId);
         TransactionDao transactionDao = db.transactionDao();
         transactionDao.insert(transactions);
     }
@@ -227,8 +199,63 @@ public class AccomodationBooking extends AppCompatActivity {
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
-            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
+
+    private void showBookingDialog() {
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("You are about to pay booking fee for this listing")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        if (isAuthorized(accomodationListModel.getBookingFee())) {
+
+                            String fullName = agentModel.getAgentFirstname() + " - " + agentModel.getAgentLastName();
+                            CreatBill creatBill = new CreatBill(userId, agentModel.getAgentId(), Integer.parseInt(accomodationListModel.getBookingFee()), "3", fullName, AccomodationBooking.this, "");
+                            creatBill.CreateBill();
+                            creatBill.setCreateBillListener(new CreatBill.CreateBillListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Date date = new Date();
+                                    Timestamp timestamp = new Timestamp(date.getTime());
+                                    insertBooking(0, 3, "Inspection", timestamp.toString(), accomodationListModel.getBookingFee(), "");
+                                    Toast.makeText(AccomodationBooking.this, "You have booked Inspection Successfully", Toast.LENGTH_SHORT).show();
+
+                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this);
+                                    String walletBalance = preferences.getString("walletBalance", "0");
+                                    preferences.edit().putString("walletBalance", Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(accomodationListModel.getBookingFee()))).apply();
+
+                                    finish();
+
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Toast.makeText(AccomodationBooking.this, "Error Occurred please try again", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(AccomodationBooking.this, "Insufficient Balance", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Confirm Booking");
+        alert.show();
+    }
+
 }
+
+

@@ -56,17 +56,7 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
 
     MaterialButton next;
     LinearLayout flightBooking;
-    MaterialButton Next;
     LinearLayout chooseLocationFrom,chooseLocationTo;
-    LocationRequest mLocationRequest;
-    Location mLastLocation;
-    GoogleApiClient mGoogleApiClient;
-
-    Geocoder geocoder;
-    private static final int REQUEST_CHECK_SETTINGS = 0x1;
-    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private static final String PLACES_KEY = "AIzaSyDhWEtH-spkmhAaeLLTN-8Oaest6Gq4y50";
-    private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     TextView chooseLocationFromText, chooseLocationToText;
     ListDialog listDialog;
     LinearLayout rootLayout;
@@ -83,8 +73,11 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
 
     private void initView(){
 
+        initLocation();
         progressBar = findViewById(R.id.build_location_progress);
+        progressBar.setVisibility(View.GONE);
         rootLayout = findViewById(R.id.build_location_root);
+        rootLayout.setVisibility(View.VISIBLE);
         chooseLocationFromText = findViewById(R.id.choose_location_from_text);
         chooseLocationToText = findViewById(R.id.choose_location_to_text);
         chooseLocationFrom = findViewById(R.id.choose_location_from);
@@ -141,7 +134,7 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        CabHailingModel cabHailingModel = new CabHailingModel();
+    /*    CabHailingModel cabHailingModel = new CabHailingModel();
         cabHailingModel.DisplayAssistLocation();
         cabHailingModel.setLocationReadyListener(new CabHailingModel.LocationReadyListener() {
             @Override
@@ -158,7 +151,7 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
                 rootLayout.setVisibility(View.GONE);
                 Toast.makeText(BuildLocation.this, message, Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
 
@@ -177,7 +170,7 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
         return isValid;
     }
 
-    private void startLocationUpdates(){
+  /*  private void startLocationUpdates(){
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -195,10 +188,10 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
         else {
 
         }
-    }
+    }*/
 
 
-    private void checkLocationPermission() {
+   /* private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -232,8 +225,9 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
                         MY_PERMISSIONS_REQUEST_LOCATION );
             }
         }
-    }
+    }*/
 
+    /*
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -265,7 +259,7 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
             // other 'case' lines to check for other
             // permissions this app might request
         }
-    }
+    }*/
 
 
 
@@ -308,6 +302,12 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private void initLocation(){
+        locationList.add("Lagos");
+        locationList.add("Abuja");
+        locationList.add("Kano");
     }
 
 }

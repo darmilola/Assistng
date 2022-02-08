@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class GroceryFastFoods extends Fragment {
     GroceryDisplayAdapter groceryDisplayAdapter;
     ArrayList<GroceryModel> groceryList = new ArrayList<>();
     private String nextPageUrl;
+    TextView noProductAvailable;
 
     public GroceryFastFoods() {
         // Required empty public constructor
@@ -54,7 +56,8 @@ public class GroceryFastFoods extends Fragment {
         recyclerProgress = view.findViewById(R.id.grocery_fastfoods_recycler_progress);
         recyclerView = view.findViewById(R.id.grocery_fastfoods_recyclerview);
         progressBar = view.findViewById(R.id.grocery_fastfoods_progressbar);
-
+        noProductAvailable = view.findViewById(R.id.grocery_no_product_available);
+        noProductAvailable.setVisibility(View.GONE);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -72,8 +75,8 @@ public class GroceryFastFoods extends Fragment {
             @Override
             public void onError(String message) {
                 progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                recyclerView.setVisibility(View.GONE);
+                noProductAvailable.setVisibility(View.VISIBLE);
             }
          });
 
@@ -114,6 +117,7 @@ public class GroceryFastFoods extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
+        noProductAvailable.setVisibility(View.GONE);
 
         GroceryModel groceryModel = new GroceryModel("Electronics",city);
         groceryModel.getGroceryProducts();
@@ -129,8 +133,8 @@ public class GroceryFastFoods extends Fragment {
             @Override
             public void onError(String message) {
                 progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                recyclerView.setVisibility(View.GONE);
+                noProductAvailable.setVisibility(View.VISIBLE);
             }
         });
     }

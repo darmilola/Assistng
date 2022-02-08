@@ -86,6 +86,7 @@ public class Grocery extends AppCompatActivity {
                     if(!searchEdittext.getText().toString().trim().equalsIgnoreCase("")){
                         Intent intent = new Intent(Grocery.this, GrocerySearch.class);
                         intent.putExtra("query",searchEdittext.getText().toString().trim());
+                        intent.putExtra("city",changeLocationText.getText().toString());
                         startActivity(intent);
                     }
                     return true;

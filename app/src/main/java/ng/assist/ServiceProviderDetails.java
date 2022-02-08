@@ -50,6 +50,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
     ImageView profileImage;
     LinearLayout imageScrollLayout;
     LinearLayout serviceProviderBook;
+    LinearLayout providerBackNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class ServiceProviderDetails extends AppCompatActivity {
     }
 
     private void initView() {
+        providerBackNav = findViewById(R.id.service_provider_back_nav);
         rate = findViewById(R.id.provider_details_rate_per_hour);
         call = findViewById(R.id.service_item_call);
         chat = findViewById(R.id.service_item_chat);
@@ -83,6 +85,12 @@ public class ServiceProviderDetails extends AppCompatActivity {
         jobTitle.setText(servicesModel.getJobTitle());
         rate.setText(servicesModel.getRatePerHour());
 
+        providerBackNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         chat.setOnClickListener(new View.OnClickListener() {
             @Override

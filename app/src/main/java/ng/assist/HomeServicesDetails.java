@@ -36,6 +36,7 @@ public class HomeServicesDetails extends AppCompatActivity {
     ArrayList<String> locationList = new ArrayList<>();
     ListDialog listDialog;
     String mCity = "Lagos";
+    LinearLayout servicesBackNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class HomeServicesDetails extends AppCompatActivity {
     private void initView(){
 
         populateLocation();
+        servicesBackNav = findViewById(R.id.services_back_nav);
         changeLocationText = findViewById(R.id.change_location_text);
         changeLocationLayout = findViewById(R.id.change_location_layout);
         recyclerProgress = findViewById(R.id.home_services_recycler_progress);
@@ -72,10 +74,16 @@ public class HomeServicesDetails extends AppCompatActivity {
             public void onError(String message) {
                 rootLayout.setVisibility(View.VISIBLE);
                 loadingProgress.setVisibility(View.GONE);
-                Toast.makeText(HomeServicesDetails.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeServicesDetails.this, "No provider available for this location", Toast.LENGTH_SHORT).show();
             }
         });
 
+        servicesBackNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         changeLocationLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +114,7 @@ public class HomeServicesDetails extends AppCompatActivity {
                             public void onError(String message) {
                                 rootLayout.setVisibility(View.VISIBLE);
                                 loadingProgress.setVisibility(View.GONE);
-                                Toast.makeText(HomeServicesDetails.this, message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HomeServicesDetails.this, "No provider available for this location", Toast.LENGTH_SHORT).show();
                             }
                         });
 

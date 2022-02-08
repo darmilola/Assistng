@@ -1,6 +1,7 @@
 package ng.assist.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -19,13 +20,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+
+import ng.assist.AccomodationBooking;
 import ng.assist.BillPayment;
 import ng.assist.GroceryCart;
 import ng.assist.R;
 import ng.assist.UIs.Utils.RefundDialog;
 import ng.assist.UIs.ViewModel.BillsModel;
+import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.TransactionDao;
 import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
@@ -54,7 +59,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
             BillsModel billsModel = billsList.get(position);
             if(billsModel.getType().equalsIgnoreCase("1") )holder.type.setText("Transports");
            if(billsModel.getType().equalsIgnoreCase("3") )holder.type.setText("House Inspection");
-           if(billsModel.getType().equalsIgnoreCase("2") )holder.type.setText("Marketplace");
+           if(billsModel.getType().equalsIgnoreCase("2") )holder.type.setText("Shopping");
           if(billsModel.getType().equalsIgnoreCase("4") )holder.type.setText("Service");
           if(billsModel.getType().equalsIgnoreCase("1")){
               holder.name.setText(billsModel.getRoute());
@@ -80,6 +85,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
         TextView name;
         TextView cost;
         MaterialButton releaseFund,requestRefund;
+        AlertDialog.Builder builder;
 
         public itemViewHolder(View ItemView){
             super(ItemView);
@@ -134,48 +140,72 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
             releaseFund.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String payerId = billsList.get(getAdapterPosition()).getPayerId();
-                    String payeeId = billsList.get(getAdapterPosition()).getPayeeId();
-                    int cost = billsList.get(getAdapterPosition()).getCost();
-                    String type = billsList.get(getAdapterPosition()).getType();
-                    int billId = billsList.get(getAdapterPosition()).getBillId();
-                    int bookingId = billsList.get(getAdapterPosition()).getBookingId();
-
-                    BillsModel billsModel = null;
-
-                    if(type.equalsIgnoreCase("1")) {
-                       billsModel =  new BillsModel(billId,bookingId,context);
-                        billsModel.payTransportBill();
-                    }
-                    else{
-                        billsModel =  new BillsModel(billId,payeeId,cost,context);
-                        billsModel.payOtherBill();
-                    }
-
-                    billsModel.setBillsActionLitener(new BillsModel.BillsActionLitener() {
-                        @Override
-                        public void onSuccess() {
-                            Date date = new Date();
-                            Timestamp timestamp = new Timestamp(date.getTime());
-                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-                            String currentWalletBalance = preferences.getString("walletBalance","0");
-                            int newBalance = Integer.parseInt(currentWalletBalance) + cost;
-                            preferences.edit().putString("walletBalance",Integer.toString(newBalance));
-                            insertBooking(0,7,"Bills",timestamp.toString(),Integer.toString(cost),"");
-                            billsList.remove(getAdapterPosition());
-                            notifyDataSetChanged();
-                            Toast.makeText(context, "Bill paid successfully", Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onError() {
-                            Toast.makeText(context, "Error occurred please try again", Toast.LENGTH_LONG).show();
-                        }
-                    });
-
+                   showBillsDialog();
                 }
             });
 
+        }
+
+        private void showBillsDialog() {
+            builder = new AlertDialog.Builder(context);
+            builder.setMessage("You are about to complete this transaction")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            String payerId = billsList.get(getAdapterPosition()).getPayerId();
+                            String payeeId = billsList.get(getAdapterPosition()).getPayeeId();
+                            int cost = billsList.get(getAdapterPosition()).getCost();
+                            String type = billsList.get(getAdapterPosition()).getType();
+                            int billId = billsList.get(getAdapterPosition()).getBillId();
+                            int bookingId = billsList.get(getAdapterPosition()).getBookingId();
+
+                            BillsModel billsModel = null;
+
+                            if(type.equalsIgnoreCase("1")) {
+                                billsModel =  new BillsModel(billId,bookingId,context);
+                                billsModel.payTransportBill();
+                            }
+                            else{
+                                billsModel =  new BillsModel(billId,payeeId,cost,context);
+                                billsModel.payOtherBill();
+                            }
+
+                            billsModel.setBillsActionLitener(new BillsModel.BillsActionLitener() {
+                                @Override
+                                public void onSuccess() {
+                                    Date date = new Date();
+                                    Timestamp timestamp = new Timestamp(date.getTime());
+                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                                    String currentWalletBalance = preferences.getString("walletBalance","0");
+                                    int newBalance = Integer.parseInt(currentWalletBalance) + cost;
+                                    preferences.edit().putString("walletBalance",Integer.toString(newBalance));
+                                    insertBooking(0,7,"Bills",timestamp.toString(),Integer.toString(cost),"");
+                                    billsList.remove(getAdapterPosition());
+                                    notifyDataSetChanged();
+                                    Toast.makeText(context, "Bill paid successfully", Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Toast.makeText(context, "Error occurred please try again", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //  Action for 'NO' Button
+                            dialog.cancel();
+                        }
+                    });
+            //Creating dialog box
+            AlertDialog alert = builder.create();
+            //Setting the title manually
+            alert.setTitle("Complete Transaction");
+            alert.show();
         }
     }
 

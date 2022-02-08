@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class GroceryCart extends AppCompatActivity {
     TextView mTotalprice;
     MaterialButton checkout;
     String mTotalPriceValue,retailerShopName;
+    LinearLayout backNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class GroceryCart extends AppCompatActivity {
     }
 
     private void initView(){
+        backNav = findViewById(R.id.back_nav);
         String retailerId = getIntent().getStringExtra("retailerId");
         String retailerShopName = getIntent().getStringExtra("retailerShopName");
         String userId = PreferenceManager.getDefaultSharedPreferences(GroceryCart.this).getString("userEmail","null");
@@ -62,6 +65,12 @@ public class GroceryCart extends AppCompatActivity {
         mTotalprice = findViewById(R.id.cart_total_price);
         checkout = findViewById(R.id.cart_checkout_button);
 
+        backNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         GroceryModel groceryModel = new GroceryModel(retailerId,userId,GroceryCart.this);

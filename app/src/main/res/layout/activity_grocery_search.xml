@@ -17,12 +17,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:id="@+id/grocery_search_nav_back"
             android:gravity="center|left">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="15dp"
-                android:src="@drawable/iconfinder_chevron_left_4781844"/>
+                android:src="@drawable/_504219_left_arrow_navigation_direction_previous_icon"/>
 
         </LinearLayout>
         <TextView
@@ -52,6 +53,16 @@
         android:id="@+id/grocery_search_recyclerview"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+        android:id="@+id/grocery_search_no_product"
+        android:layout_marginTop="200dp"
+        android:text="No Product Available"/>
 
     <ProgressBar
         android:layout_width="40dp"

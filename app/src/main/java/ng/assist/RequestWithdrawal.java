@@ -31,6 +31,7 @@ public class RequestWithdrawal extends AppCompatActivity {
     TextView bankNameText;
     MaterialButton requestWithdrawal;
     String walletBalance,userId;
+    LinearLayout backNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class RequestWithdrawal extends AppCompatActivity {
     private void initView(){
         populateBanks();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        backNav = findViewById(R.id.withdrawal_back_nav);
         walletBalance = preferences.getString("walletBalance","0");
         userId = preferences.getString("userEmail","");
         amountEdit = findViewById(R.id.withdraw_amount);
@@ -50,6 +52,12 @@ public class RequestWithdrawal extends AppCompatActivity {
         bankNameText = findViewById(R.id.withdraw_bank_name);
         requestWithdrawal = findViewById(R.id.withdraw_request_withdraw_button);
 
+        backNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         bankNameText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

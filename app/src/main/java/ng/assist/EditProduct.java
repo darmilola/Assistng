@@ -71,6 +71,12 @@ public class EditProduct extends AppCompatActivity {
         category = findViewById(R.id.add_product_product_category);
         cancel = findViewById(R.id.add_product_cancel);
         save = findViewById(R.id.add_product_save);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         scrollImageLayout = findViewById(R.id.scroll_image_layout);
         imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
         imagesIndicator = findViewById(R.id.product_image_indicator);

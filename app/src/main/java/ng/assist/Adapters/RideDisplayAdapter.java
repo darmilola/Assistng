@@ -56,7 +56,7 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
        CabHailingModel model = rideDisplayList.get(position);
        holder.from.setText(model.getFromArea());
        holder.to.setText(model.getToArea());
-       holder.book.setText(model.getFare());
+       holder.book.setText("₦"+model.getFare());
        holder.departureDate.setText(model.getDepartureDate());
        holder.departureTime.setText(model.getDepartureTime());
        holder.point.setText(model.getMeetingpoint());

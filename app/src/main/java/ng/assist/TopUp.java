@@ -22,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -49,6 +50,7 @@ public class TopUp extends AppCompatActivity {
     int topUpAmountValue;
     LoadingDialogUtils loadingDialogUtils;
     String userId = "";
+    LinearLayout backNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class TopUp extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(TopUp.this);
         userId = preferences.getString("userEmail","");
 
+        backNav = findViewById(R.id.top_up_back_nav);
         loadingDialogUtils = new LoadingDialogUtils(TopUp.this);
         compactCreditCardInput = findViewById(R.id.compact_credit_card_input);
         topUpAmount = findViewById(R.id.top_up_amount_text);
@@ -70,6 +73,13 @@ public class TopUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chargeCard();
+            }
+        });
+
+        backNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

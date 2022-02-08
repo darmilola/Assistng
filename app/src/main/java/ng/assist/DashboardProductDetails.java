@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -44,6 +45,7 @@ public class DashboardProductDetails extends AppCompatActivity {
     RetailerInfoModel retailerInfoModel;
     MaterialButton deleteProduct,editProduct;
     int position;
+    ImageView backNav;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,13 @@ public class DashboardProductDetails extends AppCompatActivity {
     }
 
     private void initView(){
+        backNav = findViewById(R.id.eccommerce_details_back);
+        backNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         deleteProduct = findViewById(R.id.ecc_dashboard_products_delete);
         productImageviewScroll = findViewById(R.id.scroll_image_layout);
         detailsProgressbar = findViewById(R.id.details_progressbar);

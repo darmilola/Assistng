@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class DashboardViewOrder extends AppCompatActivity {
     MaterialButton deleteOrder;
     MaterialCheckBox deliveryStatus;
     ArrayList<CartModel> cartModelArrayList = new ArrayList<CartModel>();
+    ImageView backNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,13 @@ public class DashboardViewOrder extends AppCompatActivity {
         initView();
     }
     private void initView(){
+        backNav = findViewById(R.id.back_nav);
+        backNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         orders = getIntent().getParcelableExtra("orderList");
         recyclerView = findViewById(R.id.dashboard_order_recyclerview);
         totalPrice = findViewById(R.id.dashboard_order_totalprice);

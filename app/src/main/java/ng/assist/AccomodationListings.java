@@ -1,6 +1,7 @@
 package ng.assist;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,6 +38,8 @@ public class AccomodationListings extends AppCompatActivity {
     private LinearLayout rootLayout;
     private LinearLayout imageScrollLayout;
     TextView totalAvailable;
+    LinearLayout navback;
+   ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,7 @@ public class AccomodationListings extends AppCompatActivity {
     }
 
     private void initView(){
-
+        navback = findViewById(R.id.accomodation_listing_back);
         totalAvailable = findViewById(R.id.total_homes_available);
         recyclerProgressbar = findViewById(R.id.accommodation_recycler_progress);
         recyclerProgressbar.setVisibility(View.GONE);
@@ -109,6 +112,13 @@ public class AccomodationListings extends AppCompatActivity {
                         }
                     });
                 }
+            }
+        });
+
+        navback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
