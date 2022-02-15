@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ public class Grocery extends AppCompatActivity {
     TextView changeLocationText;
     ArrayList<String> locationList = new ArrayList<>();
     ListDialog listDialog;
+    ImageView navBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class Grocery extends AppCompatActivity {
 
     private void initView(){
         populateLocation();
+        navBack = findViewById(R.id.nav_back);
         changeLocationText = findViewById(R.id.change_location_text);
         changeLocationLayout = findViewById(R.id.change_location_layout);
         viewPager = findViewById(R.id.grocery_viewpager);
@@ -58,6 +61,13 @@ public class Grocery extends AppCompatActivity {
         searchEdittext = findViewById(R.id.grocery_search_edittext);
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+
+        navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         changeLocationLayout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -28,6 +28,7 @@ public class Accomodation extends AppCompatActivity {
     boolean isCorpmemberSelected = false, isEmployeeSelected = true, isOthersSelected = false;
     RangeSeekBar priceRangebar;
     TextView priceRangeText;
+    ImageView navBack;
     String selectedCity,type = "employee",min_price = "0",max_price = "1000000";
 
     @Override
@@ -59,6 +60,13 @@ public class Accomodation extends AppCompatActivity {
 
     private void initView(){
         priceRangebar = findViewById(R.id.price_range_progress);
+        navBack = findViewById(R.id.nav_back);
+        navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         priceRangebar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onProgressChanged(RangeSeekBar rangeSeekBar, int i, int i1, boolean b) {
@@ -187,16 +195,14 @@ public class Accomodation extends AppCompatActivity {
     }
 
 
+
     @Override
     public void onResume() {
-
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.transparent));
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
     }
 

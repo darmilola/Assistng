@@ -24,6 +24,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
     MaterialButton uploadImageButton;
     ArrayList<EstateDashboardModel.HouseImage> houseImageArrayList = new ArrayList<>();
     String userEmail;
+    ImageView navBack;
     EstateDashboardImageAdapter estateDashboardImageAdapter = new EstateDashboardImageAdapter(houseImageArrayList,RealEsateAgentAddListing.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
 
     private void initView(){
         populateList();
+        navBack = findViewById(R.id.nav_back);
         uploadImageButton = findViewById(R.id.real_estate_add_image);
         scrollImageLayout = findViewById(R.id.scroll_image_layout);
         cancel = findViewById(R.id.real_estate_add_listing_cancel);
@@ -87,6 +90,13 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
         pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
         imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
         estateDashboardImageAdapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
+
+        navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         saveListing.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -63,7 +63,7 @@ public class DmFragment extends Fragment {
                 loadingProgress.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
                 adapter = new DirectMessagesAdapter(messageConnectionModels,getContext());
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,true);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
             }

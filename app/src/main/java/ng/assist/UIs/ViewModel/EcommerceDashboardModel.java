@@ -514,7 +514,9 @@ public class EcommerceDashboardModel {
                         String totalPrice = jsonArray.getJSONObject(i).getString("totalPrice");
                         String userFirstname = jsonArray.getJSONObject(i).getString("firstname");
                         String userLastname = jsonArray.getJSONObject(i).getString("lastname");
-                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson, userFirstname, userLastname, userEmail);
+                        String deliveryAddress = jsonArray.getJSONObject(i).getString("deliveryAddress");
+                        String contactPhone = jsonArray.getJSONObject(i).getString("contactPhone");
+                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson, userFirstname, userLastname, userEmail,contactPhone,deliveryAddress);
                         ordersArrayList.add(order);
                     }
                     orderReadyListener.onOrderReady(ordersArrayList);
@@ -525,9 +527,7 @@ public class EcommerceDashboardModel {
             } catch (JSONException e) {
                 e.printStackTrace();
                 orderReadyListener.onError(e.getLocalizedMessage());
-
             }
-
         }
     };
 

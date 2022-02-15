@@ -153,6 +153,9 @@ class WalletKt : Fragment() {
         }
     }
 
+
+
+
     fun initTransactions(){
         val db = TransactionDatabase.getTransactionDatabase(context = activity!!.applicationContext!!)
        /* val db = Room.databaseBuilder(
@@ -170,8 +173,6 @@ class WalletKt : Fragment() {
     }
 
     companion object {
-
-
         private val TOP_UP_REQ = 0
         private val SEND_MONEY_REQ = 3
     }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import ng.assist.Adapters.GroceryCartAdapter;
+import ng.assist.UIs.Utils.CheckoutDialog;
 import ng.assist.UIs.ViewModel.CabHailingModel;
 import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.GroceryModel;
@@ -121,44 +122,57 @@ public class GroceryCart extends AppCompatActivity {
                     Toast.makeText(GroceryCart.this, "Insufficient Balance", Toast.LENGTH_SHORT).show();
                 }
 
-               else if(groceryModelArrayList.size() < 1){
+                else if(groceryModelArrayList.size() < 1){
                     Toast.makeText(GroceryCart.this, "Nothing in Cart", Toast.LENGTH_SHORT).show();
                 }
+
                 else {
-                    String orderJson = convertListToJsonString(groceryModelArrayList);
-                    GroceryModel groceryModel1 = new GroceryModel(retailerId, userId,orderJson,mTotalPriceValue,GroceryCart.this,0);
-                    groceryModel1.CheckOut();
-                    groceryModel1.setCartCheckoutListener(new GroceryModel.CartCheckoutListener() {
+
+                    CheckoutDialog checkoutDialog = new CheckoutDialog(GroceryCart.this);
+                    checkoutDialog.ShowCheckoutDialog();
+                    checkoutDialog.setDialogActionClickListener(new CheckoutDialog.OnDialogActionClickListener() {
                         @Override
-                        public void onSuccess() {
-                            CreatBill createBill = new CreatBill(userId,retailerId,Integer.parseInt(mTotalPriceValue),"2",retailerShopName);
-                            createBill.CreateBill();
-                            createBill.setCreateBillListener(new CreatBill.CreateBillListener() {
+                        public void checkOutClicked(String phone, String address) {
+
+                            String orderJson = convertListToJsonString(groceryModelArrayList);
+                            GroceryModel groceryModel1 = new GroceryModel(retailerId, userId,orderJson,mTotalPriceValue,address,phone,GroceryCart.this);
+                            groceryModel1.CheckOut();
+                            groceryModel1.setCartCheckoutListener(new GroceryModel.CartCheckoutListener() {
                                 @Override
                                 public void onSuccess() {
-                                    Date date = new Date();
-                                    Timestamp timestamp = new Timestamp(date.getTime());
-                                    insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,"");
-                                    Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
-                                    setResult(300);
-                                    finish();
-                                }
+                                    CreatBill createBill = new CreatBill(userId,retailerId,Integer.parseInt(mTotalPriceValue),"2",retailerShopName);
+                                    createBill.CreateBill();
+                                    createBill.setCreateBillListener(new CreatBill.CreateBillListener() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Date date = new Date();
+                                            Timestamp timestamp = new Timestamp(date.getTime());
+                                            insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,"");
+                                            Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
+                                            setResult(300);
+                                            finish();
+                                        }
 
+                                        @Override
+                                        public void onError() {
+
+                                        }
+                                    });
+
+                                    ;
+                                }
                                 @Override
                                 public void onError() {
 
                                 }
                             });
 
-                            ;
-                        }
-                        @Override
-                        public void onError() {
-
                         }
                     });
+
                 }
-                }
+
+            }
 
         });
     }

@@ -28,6 +28,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -62,6 +63,7 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
     LinearLayout rootLayout;
     ProgressBar progressBar;
     ArrayList<String> locationList = new ArrayList<>();
+    ImageView navBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +76,7 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
     private void initView(){
 
         initLocation();
+        navBack = findViewById(R.id.nav_back);
         progressBar = findViewById(R.id.build_location_progress);
         progressBar.setVisibility(View.GONE);
         rootLayout = findViewById(R.id.build_location_root);
@@ -82,6 +85,13 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
         chooseLocationToText = findViewById(R.id.choose_location_to_text);
         chooseLocationFrom = findViewById(R.id.choose_location_from);
         chooseLocationTo = findViewById(R.id.choose_location_to);
+
+        navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         chooseLocationTo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,18 +285,15 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
 
 
 
+
     @Override
     public void onResume() {
-
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
-
         }
-
-
     }
 
     @Override

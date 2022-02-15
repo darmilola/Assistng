@@ -47,6 +47,7 @@ public class EcommerceDashboard extends AppCompatActivity {
     ProgressBar progressBar;
     String phonenumber,shopName;
     ViewPagerAdapter adapter;
+    ImageView navBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class EcommerceDashboard extends AppCompatActivity {
     }
 
     private void initView(){
+        navBack = findViewById(R.id.nav_back);
         progressBar = findViewById(R.id.ecc_progress);
         phoneSelect = findViewById(R.id.ecommerce_dashboard_phone_select);
         nameSelect = findViewById(R.id.ecommerce_dashboard_store_name_select);
@@ -68,6 +70,12 @@ public class EcommerceDashboard extends AppCompatActivity {
         tabLayout1 = findViewById(R.id.ecommerce_dashboard_tabs1);
         appBar.setVisibility(View.GONE);
 
+        navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EcommerceDashboard.this);
         String userId = preferences.getString("userEmail","");

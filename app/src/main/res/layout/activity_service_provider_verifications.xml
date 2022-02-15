@@ -26,10 +26,11 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/nav_back"
                     android:tint="@color/colorPrimary"
-                    android:src="@drawable/iconfinder_chevron_left_4781844"
+                    android:src="@drawable/_504219_left_arrow_navigation_direction_previous_icon"
                     android:layout_gravity="center|left"
                     android:layout_marginLeft="15dp"/>
 

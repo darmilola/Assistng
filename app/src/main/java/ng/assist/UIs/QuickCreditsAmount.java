@@ -93,6 +93,8 @@ public class QuickCreditsAmount extends Fragment {
 
                else if(authenticateWithMono.getText().toString().equalsIgnoreCase("Next") && !selectAmount.getText().toString().trim().equalsIgnoreCase("")){
                     authenticationListener.onAuthSuccessful();
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    preferences.edit().putString("loanAmount",selectAmount.getText().toString().trim());
                 }
 
                 else{
@@ -130,6 +132,8 @@ public class QuickCreditsAmount extends Fragment {
         amountList.add("10,000");
         amountList.add("20,000");
         amountList.add("30,000");
+        amountList.add("40,000");
+        amountList.add("50,000");
     }
 
     // function to generate a random string of length n

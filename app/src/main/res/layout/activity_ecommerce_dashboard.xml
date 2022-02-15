@@ -15,7 +15,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/ecommerce_dashboard_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="250dp"
         android:fitsSystemWindows="true"
         android:background="#F6F5F8"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -23,7 +23,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/ecommerce_collapsing_toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="250dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorOnPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -31,11 +31,20 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 android:gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/nav_back"
+                    android:layout_gravity="left"
+                    android:src="@drawable/_504219_left_arrow_navigation_direction_previous_icon"
+                    android:tint="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

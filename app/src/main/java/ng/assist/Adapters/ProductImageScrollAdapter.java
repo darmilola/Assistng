@@ -54,10 +54,12 @@ public class ProductImageScrollAdapter extends RecyclerView.Adapter<ProductImage
 
     public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        ImageView imageView;
+        ImageView imageView,removeButton;
         public itemViewHolder(View ItemView){
             super(ItemView);
             imageView = ItemView.findViewById(R.id.recycler_image_item);
+            removeButton = ItemView.findViewById(R.id.image_remove);
+            removeButton.setVisibility(View.GONE);
             ItemView.setOnClickListener(this);
 
         }

@@ -14,7 +14,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/course_activity_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="350dp"
         android:fitsSystemWindows="true"
         android:background="#F6F5F8"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -22,7 +22,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/course_activity_collapsing_toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="350dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorOnPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -33,6 +33,14 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/nav_back"
+                    android:src="@drawable/_504219_left_arrow_navigation_direction_previous_icon"
+                    android:tint="@color/colorPrimary"/>
 
 
             <LinearLayout

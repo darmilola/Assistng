@@ -173,7 +173,7 @@
                         android:layout_width="23dp"
                         android:layout_height="23dp"
                         android:tint="@color/white"
-                        android:src="@drawable/booking_icon"/>
+                        android:src="@drawable/_circle_currency_dollar_money_icon"/>
                 </LinearLayout>
 
             </LinearLayout>

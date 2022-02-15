@@ -12,8 +12,10 @@ public class Orders implements Parcelable {
     private String userLastname;
     private String userEmail;
     private String price;
+    private String userPhone;
+    private String userAddress;
 
-    public Orders(int orderId, String totalPrice,String status,String orderJson,String userFirstname, String userLastname,String userEmail){
+    public Orders(int orderId, String totalPrice,String status,String orderJson,String userFirstname, String userLastname,String userEmail, String userPhone, String userAddress){
         this.totalPrice = totalPrice;
         this.status = status;
         this.orderJson = orderJson;
@@ -21,6 +23,8 @@ public class Orders implements Parcelable {
         this.userFirstname = userFirstname;
         this.userLastname = userLastname;
         this.userEmail = userEmail;
+        this.userPhone = userPhone;
+        this.userAddress = userAddress;
     }
 
 
@@ -33,6 +37,27 @@ public class Orders implements Parcelable {
         userLastname = in.readString();
         userEmail = in.readString();
         price = in.readString();
+        userPhone = in.readString();
+        userAddress = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(totalPrice);
+        dest.writeString(status);
+        dest.writeString(orderJson);
+        dest.writeInt(orderId);
+        dest.writeString(userFirstname);
+        dest.writeString(userLastname);
+        dest.writeString(userEmail);
+        dest.writeString(price);
+        dest.writeString(userPhone);
+        dest.writeString(userAddress);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Orders> CREATOR = new Creator<Orders>() {
@@ -47,6 +72,14 @@ public class Orders implements Parcelable {
         }
     };
 
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
     public void setPrice(String price) {
         this.price = price;
     }
@@ -58,7 +91,6 @@ public class Orders implements Parcelable {
     public String getStatus() {
         return status;
     }
-
 
     public String getUserFirstname() {
         return userFirstname;
@@ -85,20 +117,4 @@ public class Orders implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(totalPrice);
-        dest.writeString(status);
-        dest.writeString(orderJson);
-        dest.writeInt(orderId);
-        dest.writeString(userFirstname);
-        dest.writeString(userLastname);
-        dest.writeString(userEmail);
-        dest.writeString(price);
-    }
 }

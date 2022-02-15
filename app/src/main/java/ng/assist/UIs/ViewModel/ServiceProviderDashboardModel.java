@@ -43,12 +43,15 @@ public class ServiceProviderDashboardModel {
     private ArrayList<ProviderPortfolio> providerPortfolios = new ArrayList<>();
     private ProviderListener providerListener;
     private String uploadImageUrl = baseUrl+"users/upload/portfolio";
+    private String deleteImageUrl = baseUrl+"users/delete/portfolio";
     private String updateHandymanUrl = baseUrl+"handyman/update";
     private ImageUploadDialog imageUploadDialog;
     private String encodedImage;
     private PortfolioUploadListener portfolioUploadListener;
     private UpdateInfoListener updateInfoListener;
     private String jsonKey,value,city;
+    private int imageId;
+
 
     public interface PortfolioUploadListener{
         void onImageUpload(ProviderPortfolio providerPortfolio);
@@ -96,6 +99,10 @@ public class ServiceProviderDashboardModel {
            this.context = context;
            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
            mEmail = preferences.getString("userEmail","");
+    }
+
+    public ServiceProviderDashboardModel(int imageId){
+        this.imageId = imageId;
     }
 
     public ServiceProviderDashboardModel(String userId, String serviceType, String phonenumber, String jobTitle, String ratePerHour, int totalRaters, int totalRatings, String isAvailable, String city){
@@ -362,6 +369,59 @@ public class ServiceProviderDashboardModel {
         myThread.start();
     }
 
+    public void deletePortfolioImage(){
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildDeleteImage(imageId));
+            Request request = new Request.Builder()
+                    .url(deleteImageUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = deleteInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            deleteInfoHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+    private Handler deleteInfoHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                    updateInfoListener.onSuccess();
+                }
+                else if(status.equalsIgnoreCase("failure")){
+
+                }
+                else{
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+            }
+
+        }
+    };
+
     private Handler imageUploadHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NotNull Message msg) {
@@ -446,6 +506,16 @@ public class ServiceProviderDashboardModel {
         try {
             jsonObject.put(jsonKey,value);
             jsonObject.put("userId",mEmail);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildDeleteImage(int id){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id",id);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -58,9 +58,32 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioAdapter.item
     public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView ImageItem;
+        ImageView removeButton;
         public itemViewHolder(View ItemView){
             super(ItemView);
             ImageItem = ItemView.findViewById(R.id.recycler_image_item);
+            removeButton = ItemView.findViewById(R.id.image_remove);
+
+            removeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(portfolioItemList.size() > 1) {
+
+                        ServiceProviderDashboardModel serviceProviderDashboardModel = new ServiceProviderDashboardModel(portfolioItemList.get(getAdapterPosition()).getId());
+                        serviceProviderDashboardModel.deletePortfolioImage();
+                        serviceProviderDashboardModel.setUpdateInfoListener(new ServiceProviderDashboardModel.UpdateInfoListener() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+                        });
+                        portfolioItemList.remove(getAdapterPosition());
+                        notifyDataSetChanged();
+                    }
+
+                }
+            });
+
 
         }
         @Override

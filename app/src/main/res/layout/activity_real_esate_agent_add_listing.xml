@@ -23,6 +23,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="16dp"
+                android:id="@+id/nav_back"
                 android:src="@drawable/iconfinder_close"
                 android:tint="@color/colorPrimary"/>
         </LinearLayout>

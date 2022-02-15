@@ -11,6 +11,7 @@ import ng.assist.UIs.ViewModel.Orders;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,11 +32,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class DashboardViewOrder extends AppCompatActivity {
-
     Orders orders;
     RecyclerView recyclerView;
-    TextView totalPrice;
-    LinearLayout chatWithCustomer;
+    TextView totalPrice,address;
+    LinearLayout chatWithCustomer,callCustomer;
     MaterialButton deleteOrder;
     MaterialCheckBox deliveryStatus;
     ArrayList<CartModel> cartModelArrayList = new ArrayList<CartModel>();
@@ -55,13 +55,25 @@ public class DashboardViewOrder extends AppCompatActivity {
                 finish();
             }
         });
+
         orders = getIntent().getParcelableExtra("orderList");
         recyclerView = findViewById(R.id.dashboard_order_recyclerview);
         totalPrice = findViewById(R.id.dashboard_order_totalprice);
         chatWithCustomer = findViewById(R.id.dashboard_order_chat_with_customer);
         deleteOrder = findViewById(R.id.dashboard_order_delete);
         deliveryStatus = findViewById(R.id.dashboard_order_is_delivered);
+        callCustomer = findViewById(R.id.dashboard_order_call_customer);
+        address = findViewById(R.id.dashboard_order_address);
 
+        callCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", orders.getUserPhone(), null));
+                startActivity(intent);
+            }
+        });
+
+        address.setText(orders.getUserAddress());
 
         deliveryStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

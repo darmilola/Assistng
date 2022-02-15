@@ -180,7 +180,17 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
                                     String currentWalletBalance = preferences.getString("walletBalance","0");
                                     int newBalance = Integer.parseInt(currentWalletBalance) + cost;
                                     preferences.edit().putString("walletBalance",Integer.toString(newBalance));
-                                    insertBooking(0,7,"Bills",timestamp.toString(),Integer.toString(cost),"");
+                                    if(billsList.get(getAdapterPosition()).getType().equalsIgnoreCase("1") ){
+                                        insertBooking(0,7,"Transport",timestamp.toString(),Integer.toString(cost),"");
+                                    }
+                                    else if(billsList.get(getAdapterPosition()).getType().equalsIgnoreCase("3") ){
+                                        insertBooking(0,7,"House Inspection",timestamp.toString(),Integer.toString(cost),"");
+                                    }
+                                    else if(billsList.get(getAdapterPosition()).getType().equalsIgnoreCase("2") ){
+                                        insertBooking(0,7,"Shopping",timestamp.toString(),Integer.toString(cost),"");
+                                    }else if(billsList.get(getAdapterPosition()).getType().equalsIgnoreCase("4") ){
+                                        insertBooking(0,7,"Service",timestamp.toString(),Integer.toString(cost),"");
+                                    }
                                     billsList.remove(getAdapterPosition());
                                     notifyDataSetChanged();
                                     Toast.makeText(context, "Bill paid successfully", Toast.LENGTH_LONG).show();

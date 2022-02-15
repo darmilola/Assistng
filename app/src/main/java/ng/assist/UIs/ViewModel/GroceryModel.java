@@ -38,6 +38,7 @@ public class GroceryModel implements Parcelable {
     private String totalPage;
     private String retailerId;
     private String shopName;
+    private String address,contactPhone;
     private int cartIndex;
     private ArrayList<GroceryModel> groceryModelArrayList = new ArrayList<>();
     private String baseUrl = new URL().getBaseUrl();
@@ -217,12 +218,14 @@ public class GroceryModel implements Parcelable {
         this.cartRetailerId = retailerId;
     }
 
-    public GroceryModel(String retailerId, String userId,String orderJson,String totalPrice,Context context,int y) {
+    public GroceryModel(String retailerId, String userId,String orderJson,String totalPrice,String address,String contactPhone,Context context) {
         dialogUtils = new LoadingDialogUtils(context);
         this.userId = userId;
         this.retailerId = retailerId;
         this.orderJson = orderJson;
         this.totalPrice = totalPrice;
+        this.address = address;
+        this.contactPhone = contactPhone;
     }
 
 
@@ -767,7 +770,7 @@ public class GroceryModel implements Parcelable {
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildCartCheckout(retailerId,userId,orderJson,totalPrice));
+            RequestBody requestBody = RequestBody.create(JSON,buildCartCheckout(retailerId,userId,orderJson,totalPrice,address,contactPhone));
             Request request = new Request.Builder()
                     .url(checkoutCartUrl)
                     .post(requestBody)
@@ -858,13 +861,15 @@ public class GroceryModel implements Parcelable {
         return jsonObject.toString();
     }
 
-    private String buildCartCheckout(String retailerId, String userId, String orderJson, String totalPrice){
+    private String buildCartCheckout(String retailerId, String userId, String orderJson, String totalPrice, String address, String contactPhone){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("retailerId",retailerId);
             jsonObject.put("userId", userId);
             jsonObject.put("orderJson",orderJson);
             jsonObject.put("totalPrice",totalPrice);
+            jsonObject.put("deliveryAddress",address);
+            jsonObject.put("contactPhone",contactPhone);
         } catch (JSONException e) {
             e.printStackTrace();
         }

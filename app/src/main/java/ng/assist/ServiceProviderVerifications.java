@@ -48,6 +48,7 @@ public class ServiceProviderVerifications extends AppCompatActivity {
     String userId;
     ScrollView rootView;
     TextView statusText;
+    ImageView navBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,13 @@ public class ServiceProviderVerifications extends AppCompatActivity {
         String status = preferences.getString("verificationStatus","notVerified");
 
 
+        navBack = findViewById(R.id.nav_back);
+        navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         rootView = findViewById(R.id.verification_form_root);
         statusText = findViewById(R.id.verification_status_text);
 
