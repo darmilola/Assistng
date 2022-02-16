@@ -129,11 +129,11 @@ public class QuickCreditsAmount extends Fragment {
 
     private void initAmount(){
         amountList = new ArrayList<>();
-        amountList.add("10,000");
-        amountList.add("20,000");
-        amountList.add("30,000");
-        amountList.add("40,000");
-        amountList.add("50,000");
+        amountList.add("10000");
+        amountList.add("20000");
+        amountList.add("30000");
+        amountList.add("40000");
+        amountList.add("50000");
     }
 
     // function to generate a random string of length n

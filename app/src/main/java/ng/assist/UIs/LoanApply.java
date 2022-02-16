@@ -78,11 +78,12 @@ public class LoanApply extends Fragment {
         amount = view.findViewById(R.id.quick_credit_loan_amount);
         paybackPeriod = view.findViewById(R.id.quick_credit_loan_payback_period);
         monthlyDue = view.findViewById(R.id.quick_credit_monthly_due);
-        totalRepayment = view.findViewById(R.id.quick_credit_loan_payback_period);
+        totalRepayment = view.findViewById(R.id.quick_credit_total_repayment);
         paybackDropdown = view.findViewById(R.id.loan_apply_payback_dropdown);
         apply = view.findViewById(R.id.quick_credit_apply_button);
         accountCode = preferences.getString("accountCode","");
         userId = preferences.getString("userEmail","");
+        amount.setText(loanAmount);
         populateRepaymentList();
 
         paybackDropdown.setOnClickListener(new View.OnClickListener() {
@@ -92,8 +93,12 @@ public class LoanApply extends Fragment {
                 listDialog.showListDialog();
                 listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
                     @Override
-                    public void onItemClicked(String city) {
-
+                    public void onItemClicked(String month) {
+                         String mMonthlyDue = calcMonthlyDue(month);
+                         paybackPeriod.setText(month);
+                         monthlyDue.setText(mMonthlyDue);
+                         String mTotalRepayment = calcTotalRepayment(month,mMonthlyDue);
+                         totalRepayment.setText(mTotalRepayment);
                     }
                 });
             }
@@ -109,13 +114,12 @@ public class LoanApply extends Fragment {
                     Toast.makeText(getContext(), "Please Select Payback Month", Toast.LENGTH_SHORT).show();
                 }
                 else {
-
                     loanModel = new LoanModel(getContext());
                     loanModel.ExchangeToken(accountCode);
                     loanModel.setExchangeTokenListener(new LoanModel.ExchangeTokenListener() {
                         @Override
                         public void onSuccess(String accountToken) {
-                            LoanModel loanModel = new LoanModel(getContext(), userId, "3", "20000", "8000", accountCode, accountToken, "pendingApproval");
+                            LoanModel loanModel = new LoanModel(getContext(), userId, getPaybackMonth(paybackPeriod.getText().toString()), totalRepayment.getText().toString().trim(), monthlyDue.getText().toString(), accountCode, accountToken, "pendingApproval");
                             loanModel.Apply();
                             loanModel.setLoanApplyListener(new LoanModel.LoanApplyListener() {
                                 @Override
@@ -142,27 +146,102 @@ public class LoanApply extends Fragment {
 
     }
 
+    private String calcTotalRepayment(String paybackMonth,String monthlyDue){
+        if(paybackMonth.equalsIgnoreCase("1 month")){
+            int total = Integer.parseInt(monthlyDue) * 1;
+            return Integer.toString(total);
+        }
+        else if(paybackMonth.equalsIgnoreCase("2 months")){
+            int total = Integer.parseInt(monthlyDue) * 2;
+            return Integer.toString(total);
+        }
+        else if(paybackMonth.equalsIgnoreCase("3 months")){
+            int total = Integer.parseInt(monthlyDue) * 3;
+            return Integer.toString(total);
+        }
+        else if(paybackMonth.equalsIgnoreCase("4 months")){
+            int total = Integer.parseInt(monthlyDue) * 4;
+            return Integer.toString(total);
+        }
+        else if(paybackMonth.equalsIgnoreCase("5 months")){
+            int total = Integer.parseInt(monthlyDue) * 5;
+            return Integer.toString(total);
+        }
+        else{
+            int total = Integer.parseInt(monthlyDue) * 1;
+            return Integer.toString(total);
+        }
+    }
+
+    private String calcMonthlyDue(String paybackMonth){
+        if(paybackMonth.equalsIgnoreCase("1 month")){
+            int due = Integer.parseInt(loanAmount) + 1000;
+            return Integer.toString(due);
+        }
+        else if(paybackMonth.equalsIgnoreCase("2 months")){
+            int due = ((int)(Integer.parseInt(loanAmount)/2)) + 1000;
+            return Integer.toString(due);
+        }
+        else if(paybackMonth.equalsIgnoreCase("3 months")){
+            int due = ((int)(Integer.parseInt(loanAmount)/3)) + 1000;
+            return Integer.toString(due);
+        }
+        else if(paybackMonth.equalsIgnoreCase("4 months")){
+            int due = ((int)(Integer.parseInt(loanAmount)/4)) + 1000;
+            return Integer.toString(due);
+        }
+        else if(paybackMonth.equalsIgnoreCase("5 months")){
+            int due = ((int)(Integer.parseInt(loanAmount)/5)) + 1000;
+            return Integer.toString(due);
+        }
+        else{
+            int due = Integer.parseInt(loanAmount) + 1000;
+            return Integer.toString(due);
+        }
+    }
+
+    private String getPaybackMonth(String paybackMonth){
+        if(paybackMonth.equalsIgnoreCase("1 month")){
+            return "1";
+        }
+        else if(paybackMonth.equalsIgnoreCase("2 months")){
+            return "2";
+        }
+        else if(paybackMonth.equalsIgnoreCase("3 months")){
+            return "3";
+        }
+        else if(paybackMonth.equalsIgnoreCase("4 months")){
+            return "4";
+        }
+        else if(paybackMonth.equalsIgnoreCase("5 months")){
+            return "5";
+        }
+        else{
+            return "1";
+        }
+    }
+
     private void populateRepaymentList(){
-        if(loanAmount.equalsIgnoreCase("10,000")){
+        if(loanAmount.equalsIgnoreCase("10000")){
                 repaymentList.add("1 month");
             }
-        else  if(loanAmount.equalsIgnoreCase("20,000")){
+        else  if(loanAmount.equalsIgnoreCase("20000")){
             repaymentList.add("1 month");
             repaymentList.add("2 months");
         }
-        else  if(loanAmount.equalsIgnoreCase("30,000")){
+        else  if(loanAmount.equalsIgnoreCase("30000")){
             repaymentList.add("1 month");
             repaymentList.add("2 months");
             repaymentList.add("3 months");
         }
-        else  if(loanAmount.equalsIgnoreCase("40,000")){
+        else  if(loanAmount.equalsIgnoreCase("40000")){
             repaymentList.add("1 month");
             repaymentList.add("2 months");
             repaymentList.add("3 months");
             repaymentList.add("4 Months");
         }
 
-        else  if(loanAmount.equalsIgnoreCase("50,000")){
+        else  if(loanAmount.equalsIgnoreCase("50000")){
             repaymentList.add("1 month");
             repaymentList.add("2 months");
             repaymentList.add("3 months");
@@ -170,6 +249,13 @@ public class LoanApply extends Fragment {
             repaymentList.add("5 Months");
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preferences.edit().remove("loanAmount").apply();
+        super.onDestroy();
     }
 
 }

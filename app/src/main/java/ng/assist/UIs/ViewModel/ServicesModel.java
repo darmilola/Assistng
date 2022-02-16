@@ -39,6 +39,7 @@ public class ServicesModel implements Parcelable {
     private ArrayList<ServicesModel> servicesModelArrayList = new ArrayList<>();
     private String baseUrl = new URL().getBaseUrl();
     private String servicesUrl = baseUrl+"handyman/category/type";
+    private String servicesCategoryUrl = baseUrl+"handyman/category/type/inner";
     private ServiceProviderListener serviceProviderListener;
 
     protected ServicesModel(Parcel in) {
@@ -116,6 +117,12 @@ public class ServicesModel implements Parcelable {
     public ServicesModel(String serviceType, String city){
         this.serviceType = serviceType;
         this.city = city;
+    }
+
+    public ServicesModel(String serviceType, String city, String jobTitle){
+        this.serviceType = serviceType;
+        this.city = city;
+        this.jobTitle = jobTitle;
     }
 
     public void setServiceProviderListener(ServiceProviderListener serviceProviderListener) {
@@ -211,6 +218,19 @@ public class ServicesModel implements Parcelable {
         return jsonObject.toString();
     }
 
+
+    private String buildServicesCategoryCredentials(String requestType, String city, String category){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("type",requestType);
+            jsonObject.put("city",city);
+            jsonObject.put("category",category);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
     public void getServiceProvider() {
         Runnable runnable = () -> {
             String mResponse = "";
@@ -223,6 +243,38 @@ public class ServicesModel implements Parcelable {
             RequestBody requestBody = RequestBody.create(JSON,buildServicesCredentials(this.serviceType,this.city));
             Request request = new Request.Builder()
                     .url(servicesUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = servicesHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            servicesHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+    public void getServiceCategoryProvider() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildServicesCategoryCredentials(this.serviceType,this.city,this.jobTitle));
+            Request request = new Request.Builder()
+                    .url(servicesCategoryUrl)
                     .post(requestBody)
                     .build();
             try (Response response = client.newCall(request).execute()) {

@@ -7,12 +7,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.HomeServicesTypesAdapter;
+import ng.assist.Adapters.ServiceCategoryAdapter;
 import ng.assist.Adapters.ServiceProvidersAdapter;
 import ng.assist.UIs.GroceryFastFoods;
 import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.ServicesModel;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -37,6 +39,9 @@ public class HomeServicesDetails extends AppCompatActivity {
     ListDialog listDialog;
     String mCity = "Lagos";
     LinearLayout servicesBackNav;
+    ServiceCategoryAdapter serviceCategoryAdapter;
+    RecyclerView categoryRecyclerview;
+    ArrayList<String> categoryList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,8 @@ public class HomeServicesDetails extends AppCompatActivity {
     private void initView(){
 
         populateLocation();
+        populateCategory();
+        categoryRecyclerview = findViewById(R.id.home_service_category_recyclerview);
         servicesBackNav = findViewById(R.id.services_back_nav);
         changeLocationText = findViewById(R.id.change_location_text);
         changeLocationLayout = findViewById(R.id.change_location_layout);
@@ -57,6 +64,23 @@ public class HomeServicesDetails extends AppCompatActivity {
         serviceProviderRecyclerview = findViewById(R.id.home_services_experts_recyclerview);
         LinearLayoutManager providersLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         serviceProviderRecyclerview.setLayoutManager(providersLayoutManager);
+
+        LinearLayoutManager categoriesLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        categoryRecyclerview.setLayoutManager(categoriesLayoutManager);
+
+        serviceCategoryAdapter = new ServiceCategoryAdapter(categoryList,HomeServicesDetails.this);
+        categoryRecyclerview.setAdapter(serviceCategoryAdapter);
+
+        serviceCategoryAdapter.setItemClickedListener(new ServiceCategoryAdapter.ItemClickedListener() {
+            @Override
+            public void onItemClicked(String item) {
+                Intent intent = new Intent(HomeServicesDetails.this,CategorySearch.class);
+                intent.putExtra("title",item);
+                intent.putExtra("city",mCity);
+                intent.putExtra("category","Home Services");
+                startActivity(intent);
+            }
+        });
 
 
         ServicesModel servicesModel = new ServicesModel("Home Services","Lagos");
@@ -170,6 +194,13 @@ public class HomeServicesDetails extends AppCompatActivity {
         locationList.add("Lagos");
         locationList.add("Abuja");
         locationList.add("Kano");
+    }
+
+    private void populateCategory(){
+        categoryList.add("Laundry Service");
+        categoryList.add("Cooking-Gas Refill");
+        categoryList.add("Electrical Repair");
+        categoryList.add("Furniture Repair");
     }
 
 }
