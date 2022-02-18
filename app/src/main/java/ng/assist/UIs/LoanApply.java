@@ -1,12 +1,14 @@
 package ng.assist.UIs;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.preference.PreferenceManager;
@@ -26,6 +28,8 @@ import com.tiper.MaterialSpinner;
 
 import java.util.ArrayList;
 
+import ng.assist.LoanApplySuccessListener;
+import ng.assist.QuickCreditApplication;
 import ng.assist.R;
 import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.LoanModel;
@@ -33,7 +37,7 @@ import ng.assist.UIs.ViewModel.LoanModel;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoanApply extends Fragment {
+public class LoanApply extends Fragment implements QuickCreditApplication.AmountReadyListener {
 
     TextView amount,paybackPeriod,monthlyDue,totalRepayment;
     RelativeLayout paybackDropdown;
@@ -47,11 +51,17 @@ public class LoanApply extends Fragment {
     String loanAmount;
     ListDialog listDialog;
 
-    public interface LoanApplySuccessListener{
-           void onSuccess();
+    @Override
+    public void onAmountReady(String Amount) {
+         loanAmount = Amount;
+         amount.setText(loanAmount);
+         populateRepaymentList();
     }
 
+
+
     public LoanApply() {
+
         // Required empty public constructor
     }
 
@@ -67,13 +77,18 @@ public class LoanApply extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_loan_apply, container, false);
+
+
         initView();
+
+
         return  view;
     }
 
     private void initView(){
+        QuickCreditApplication activityCompat = (QuickCreditApplication)getActivity();
+        activityCompat.setAmountReadyListener(this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        loanAmount = preferences.getString("loanAmount","");
         termsAndConditions = view.findViewById(R.id.loan_apply_terms_and_condition);
         amount = view.findViewById(R.id.quick_credit_loan_amount);
         paybackPeriod = view.findViewById(R.id.quick_credit_loan_payback_period);
@@ -83,8 +98,7 @@ public class LoanApply extends Fragment {
         apply = view.findViewById(R.id.quick_credit_apply_button);
         accountCode = preferences.getString("accountCode","");
         userId = preferences.getString("userEmail","");
-        amount.setText(loanAmount);
-        populateRepaymentList();
+
 
         paybackDropdown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,11 +265,5 @@ public class LoanApply extends Fragment {
 
     }
 
-    @Override
-    public void onDestroy() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        preferences.edit().remove("loanAmount").apply();
-        super.onDestroy();
-    }
 
 }

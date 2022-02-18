@@ -50,7 +50,7 @@ public class QuickCreditsAmount extends Fragment {
 
 
     public interface MonoAuthenticationListener{
-          void onAuthSuccessful();
+          void onAuthSuccessful(String amount);
     }
 
     @Override
@@ -92,9 +92,9 @@ public class QuickCreditsAmount extends Fragment {
                 }
 
                else if(authenticateWithMono.getText().toString().equalsIgnoreCase("Next") && !selectAmount.getText().toString().trim().equalsIgnoreCase("")){
-                    authenticationListener.onAuthSuccessful();
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                    preferences.edit().putString("loanAmount",selectAmount.getText().toString().trim());
+                   // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                   // preferences.edit().putString("loanAmount",selectAmount.getText().toString().trim()).apply();
+                    authenticationListener.onAuthSuccessful(selectAmount.getText().toString().trim());
                 }
 
                 else{
@@ -103,7 +103,6 @@ public class QuickCreditsAmount extends Fragment {
                             "test_pk_EAY6dsTsaS0u3T1WQDz3", // your publicKey
                             (account) -> {
                                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                                preferences.edit().putString("loanAmount",selectAmount.getText().toString()).apply();
                                 preferences.edit().putString("accountCode",account.getCode()).apply();
                                 authenticateWithMono.setText("Next");
                             }) // onSuccess function

@@ -1,5 +1,7 @@
 package ng.assist;
 
+import static java.security.AccessController.getContext;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -11,8 +13,10 @@ import ng.assist.UIs.QuickCreditsApplicationSuccess;
 import ng.assist.UIs.QuickCreditsAmount;
 import ng.assist.UIs.QuickCreditsOccupation;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -20,11 +24,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuickCreditApplication extends AppCompatActivity implements QuickCreditsAmount.MonoAuthenticationListener, LoanApply.LoanApplySuccessListener {
+public class QuickCreditApplication extends AppCompatActivity implements QuickCreditsAmount.MonoAuthenticationListener, LoanApplySuccessListener {
 
     viewPagerAdapter adapter = new viewPagerAdapter(getSupportFragmentManager());
     NoSwipeViewPager viewPager;
     boolean isSuccess = false;
+    AmountReadyListener amountReadyListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,15 +38,24 @@ public class QuickCreditApplication extends AppCompatActivity implements QuickCr
         setupViewPager(viewPager);
     }
 
+    public interface AmountReadyListener{
+        void onAmountReady(String Amount);
+    }
+
+    public void setAmountReadyListener(AmountReadyListener amountReadyListener) {
+        this.amountReadyListener = amountReadyListener;
+    }
+
     @Override
     public void onSuccess() {
          viewPager.setCurrentItem(2,true);
     }
 
     @Override
-    public void onAuthSuccessful() {
+    public void onAuthSuccessful(String Amount) {
 
-        viewPager.setCurrentItem(1,true);
+         amountReadyListener.onAmountReady(Amount);
+         viewPager.setCurrentItem(1,true);
     }
 
     public class viewPagerAdapter extends FragmentPagerAdapter {
