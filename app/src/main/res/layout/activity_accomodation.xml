@@ -249,7 +249,7 @@
             android:lineSpacingExtra="1dp"
             android:id="@+id/price_range_text"
             android:fontFamily="@font/clannews"
-            android:textColor="@color/pinkypinky"
+            android:textColor="@color/pink"
             android:layout_alignParentRight="true"
             android:text="₦0 - ₦1,000,000"/>
 

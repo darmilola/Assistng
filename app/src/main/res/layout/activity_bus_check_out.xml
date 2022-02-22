@@ -423,7 +423,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Total Amount"
                                     android:textSize="14dp"
-                                    android:textColor="@color/pinkypinky"
+                                    android:textColor="@color/pink"
                                     android:layout_marginLeft="10dp"
                                     android:fontFamily="@font/clannews"/>
                             </LinearLayout>
@@ -442,7 +442,7 @@
                                     android:textSize="20dp"
                                     android:maxLines="1"
                                     android:ellipsize="end"
-                                    android:textColor="@color/pinkypinky"
+                                    android:textColor="@color/pink"
                                     android:layout_marginLeft="10dp"
                                     android:fontFamily="@font/clannews"/>
 
@@ -466,7 +466,7 @@
                     android:fontFamily="@font/clannews"
                     android:textSize="18dp"
                     android:textAllCaps="false"
-                    app:backgroundTint="@color/pinkypinky"/>
+                    app:backgroundTint="@color/pink"/>
 
             </LinearLayout>
         </ScrollView>

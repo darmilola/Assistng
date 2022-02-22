@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import me.relex.circleindicator.CircleIndicator2;
 import ng.assist.Adapters.GroceryDetailProductAdapter;
+import ng.assist.Adapters.GroceryDetailsProductAdapter;
 import ng.assist.Adapters.GroceryDisplayAdapter;
 import ng.assist.Adapters.GroceryStoreListingAdapter;
 import ng.assist.Adapters.ProductImageScrollAdapter;
@@ -52,7 +53,7 @@ public class GroceryStoreListing extends AppCompatActivity {
     ArrayList<String> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
     TextView productName,description,price,shopname;
-    GroceryDetailProductAdapter groceryDisplayAdapter;
+    GroceryDetailsProductAdapter groceryDisplayAdapter;
     ProgressBar detailsProgressbar;
     LinearLayout detailsRootLayout;
     LinearLayout addToCart,call,chat;
@@ -124,7 +125,7 @@ public class GroceryStoreListing extends AppCompatActivity {
                 pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
                 imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
                 adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
-                groceryDisplayAdapter = new GroceryDetailProductAdapter(groceryModelArrayList,GroceryStoreListing.this);
+                groceryDisplayAdapter = new GroceryDetailsProductAdapter(groceryModelArrayList,GroceryStoreListing.this);
                 recyclerView.setAdapter(groceryDisplayAdapter);
 
             }
@@ -217,7 +218,7 @@ public class GroceryStoreListing extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        deleteCart();
+        //deleteCart();
     }
 
     private void showAlert(){

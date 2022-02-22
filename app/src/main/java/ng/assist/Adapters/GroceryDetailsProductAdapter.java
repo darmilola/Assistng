@@ -29,13 +29,13 @@ import ng.assist.UIs.Utils.LoadingDialogUtils;
 import ng.assist.UIs.ViewModel.GroceryModel;
 import ng.assist.UIs.ViewModel.ServicesModel;
 
-public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAdapter.itemViewHolder> {
+public class GroceryDetailsProductAdapter extends RecyclerView.Adapter<GroceryDetailsProductAdapter.itemViewHolder> {
 
     ArrayList<GroceryModel> groceryList;
     Context context;
 
 
-    public GroceryDisplayAdapter(ArrayList<GroceryModel> groceryList, Context context){
+    public GroceryDetailsProductAdapter(ArrayList<GroceryModel> groceryList, Context context){
         this.groceryList = groceryList;
         this.context = context;
     }
@@ -44,15 +44,15 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
     @NonNull
     @Override
     public itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.dashboard_grocery_item, parent, false);
+        View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.grocery_details_item, parent, false);
         return new itemViewHolder(view2);
     }
 
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
-          GroceryModel groceryModel = groceryList.get(position);
-          holder.productName.setText(groceryModel.getProductName());
-          //holder.shopname.setText(groceryModel.getShopName());
+        GroceryModel groceryModel = groceryList.get(position);
+        holder.productName.setText(groceryModel.getProductName());
+        //holder.shopname.setText(groceryModel.getShopName());
 
 
         Locale NigerianLocale = new Locale("en","ng");
@@ -79,18 +79,38 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
     }
 
     public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-         TextView productName;
-         ImageView productImage;
-         TextView productPrice;
-         MaterialButton addToCart;
+        TextView productName;
+        ImageView productImage;
+        TextView productPrice;
+        MaterialButton addToCart;
         public itemViewHolder(View ItemView){
             super(ItemView);
             productImage = ItemView.findViewById(R.id.grocery_item_image);
             productName = ItemView.findViewById(R.id.grocery_item_title);
             productPrice = ItemView.findViewById(R.id.grocery_item_price);
             addToCart = ItemView.findViewById(R.id.add_to_cart_button);
-           // shopname = ItemView.findViewById(R.id.grocery_item_shopname);
-        /*    ItemView.setOnClickListener(new View.OnClickListener() {
+
+            addToCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GroceryModel groceryModel = groceryList.get(getAdapterPosition());
+                    String userEmail = PreferenceManager.getDefaultSharedPreferences(context).getString("userEmail","");
+                    GroceryModel CartModel = new GroceryModel(groceryModel.getItemId(),groceryModel.getRetailerId(),userEmail,"1",context);
+                    CartModel.addToCart();
+                    CartModel.setCartListener(new GroceryModel.CartListener() {
+                        @Override
+                        public void onAdded() {
+                            Toast.makeText(context, "Added to Cart", Toast.LENGTH_SHORT).show();
+                        }
+                        @Override
+                        public void onError() {
+                            Toast.makeText(context, "Error adding to Cart", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+            // shopname = ItemView.findViewById(R.id.grocery_item_shopname);
+            /*ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                      String userEmail = PreferenceManager.getDefaultSharedPreferences(context).getString("userEmail","");

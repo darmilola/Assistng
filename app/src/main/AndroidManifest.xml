@@ -19,6 +19,18 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".RepairServicesDetails"
+            android:exported="false" />
+        <activity
+            android:name=".AutoServicesDetails"
+            android:exported="false" />
+        <activity
+            android:name=".EducationalServicesDetails"
+            android:exported="false" />
+        <activity
+            android:name=".PersonalServicesDetails"
+            android:exported="false" />
+        <activity
             android:name=".CategorySearch"
             android:exported="false" />
         <activity

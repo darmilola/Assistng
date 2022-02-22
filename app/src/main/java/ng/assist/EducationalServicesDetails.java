@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class HomeServicesDetails extends AppCompatActivity {
+public class EducationalServicesDetails extends AppCompatActivity {
 
     RecyclerView serviceProviderRecyclerview;
     ServiceProvidersAdapter serviceProvidersAdapter;
@@ -46,7 +46,7 @@ public class HomeServicesDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_services_details);
+        setContentView(R.layout.activity_educational_services_details);
         initView();
     }
 
@@ -68,28 +68,28 @@ public class HomeServicesDetails extends AppCompatActivity {
         LinearLayoutManager categoriesLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         categoryRecyclerview.setLayoutManager(categoriesLayoutManager);
 
-        serviceCategoryAdapter = new ServiceCategoryAdapter(categoryList,HomeServicesDetails.this);
+        serviceCategoryAdapter = new ServiceCategoryAdapter(categoryList,EducationalServicesDetails.this);
         categoryRecyclerview.setAdapter(serviceCategoryAdapter);
 
         serviceCategoryAdapter.setItemClickedListener(new ServiceCategoryAdapter.ItemClickedListener() {
             @Override
             public void onItemClicked(String item) {
-                Intent intent = new Intent(HomeServicesDetails.this,CategorySearch.class);
+                Intent intent = new Intent(EducationalServicesDetails.this,CategorySearch.class);
                 intent.putExtra("title",item);
                 intent.putExtra("city",mCity);
-                intent.putExtra("category","Home Services");
+                intent.putExtra("category","Educational Services");
                 startActivity(intent);
             }
         });
 
 
-        ServicesModel servicesModel = new ServicesModel("Home Services","Lagos");
+        ServicesModel servicesModel = new ServicesModel("Auto Services","Lagos");
         servicesModel.getServiceProvider();
         servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
             @Override
             public void onProvidersReadyListener(ArrayList<ServicesModel> servicesModelArrayList, String nextPageUrl, String totalPage) {
-                HomeServicesDetails.this.nextPageUrl = nextPageUrl;
-                serviceProvidersAdapter = new ServiceProvidersAdapter(servicesModelArrayList,HomeServicesDetails.this);
+                EducationalServicesDetails.this.nextPageUrl = nextPageUrl;
+                serviceProvidersAdapter = new ServiceProvidersAdapter(servicesModelArrayList,EducationalServicesDetails.this);
                 serviceProviderRecyclerview.setAdapter(serviceProvidersAdapter);
                 rootLayout.setVisibility(View.VISIBLE);
                 loadingProgress.setVisibility(View.GONE);
@@ -98,7 +98,7 @@ public class HomeServicesDetails extends AppCompatActivity {
             public void onError(String message) {
                 rootLayout.setVisibility(View.VISIBLE);
                 loadingProgress.setVisibility(View.GONE);
-                Toast.makeText(HomeServicesDetails.this, "No provider available for this location", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EducationalServicesDetails.this, "No provider available for this location", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -112,7 +112,7 @@ public class HomeServicesDetails extends AppCompatActivity {
         changeLocationLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listDialog = new ListDialog(locationList,HomeServicesDetails.this);
+                listDialog = new ListDialog(locationList,EducationalServicesDetails.this);
                 listDialog.showListDialog();
                 listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
                     @Override
@@ -127,8 +127,8 @@ public class HomeServicesDetails extends AppCompatActivity {
                         servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                             @Override
                             public void onProvidersReadyListener(ArrayList<ServicesModel> servicesModelArrayList, String nextPageUrl, String totalPage) {
-                                HomeServicesDetails.this.nextPageUrl = nextPageUrl;
-                                serviceProvidersAdapter = new ServiceProvidersAdapter(servicesModelArrayList,HomeServicesDetails.this);
+                                EducationalServicesDetails.this.nextPageUrl = nextPageUrl;
+                                serviceProvidersAdapter = new ServiceProvidersAdapter(servicesModelArrayList,EducationalServicesDetails.this);
                                 serviceProviderRecyclerview.setAdapter(serviceProvidersAdapter);
                                 rootLayout.setVisibility(View.VISIBLE);
                                 loadingProgress.setVisibility(View.GONE);
@@ -138,7 +138,7 @@ public class HomeServicesDetails extends AppCompatActivity {
                             public void onError(String message) {
                                 rootLayout.setVisibility(View.VISIBLE);
                                 loadingProgress.setVisibility(View.GONE);
-                                Toast.makeText(HomeServicesDetails.this, "No provider available for this location", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EducationalServicesDetails.this, "No provider available for this location", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -158,11 +158,11 @@ public class HomeServicesDetails extends AppCompatActivity {
                     }
                     recyclerProgress.setVisibility(View.VISIBLE);
                     ServicesModel servicesModel = new ServicesModel("Home Services",mCity);
-                    servicesModel.getServiceProviderNextPage(HomeServicesDetails.this.nextPageUrl);
+                    servicesModel.getServiceProviderNextPage(EducationalServicesDetails.this.nextPageUrl);
                     servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                         @Override
                         public void onProvidersReadyListener(ArrayList<ServicesModel> servicesModelArrayList, String nextPageUrl, String totalPage) {
-                            HomeServicesDetails.this.nextPageUrl = nextPageUrl;
+                            EducationalServicesDetails.this.nextPageUrl = nextPageUrl;
                             //serviceProvidersAdapter = new ServiceProvidersAdapter(servicesModelArrayList,HomeServicesDetails.this);
                             serviceProvidersAdapter.addItem(servicesModelArrayList);
                             recyclerProgress.setVisibility(View.GONE);
@@ -170,7 +170,7 @@ public class HomeServicesDetails extends AppCompatActivity {
                         @Override
                         public void onError(String message) {
                             recyclerProgress.setVisibility(View.GONE);
-                            Toast.makeText(HomeServicesDetails.this, message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EducationalServicesDetails.this, message, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -196,7 +196,7 @@ public class HomeServicesDetails extends AppCompatActivity {
         locationList.add("Kano");
 
         String[] stateList = {"Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi"
-                ,"Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"};
+        ,"Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"};
 
         for (String city : stateList) {
             locationList.add(city);
@@ -205,10 +205,11 @@ public class HomeServicesDetails extends AppCompatActivity {
     }
 
     private void populateCategory(){
-        categoryList.add("Laundry Service");
-        categoryList.add("Cooking-Gas Refill");
-        categoryList.add("Electrical Repair");
-        categoryList.add("Furniture Repair");
+        categoryList.add("Home Lesson");
+        categoryList.add("STEM Tutor");
+        categoryList.add("Results Checking Pin");
+        categoryList.add("Registration Pin");
+        categoryList.add("Training Centre");
     }
 
 }

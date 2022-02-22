@@ -26,7 +26,7 @@ import ng.assist.UIs.ViewModel.ServicesModel;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Electronics extends Fragment {
+public class HomeAndOffice extends Fragment {
 
 
     RecyclerView recyclerView;
@@ -38,7 +38,7 @@ public class Electronics extends Fragment {
     private String nextPageUrl;
     TextView noProductAvailable;
 
-    public Electronics() {
+    public HomeAndOffice() {
         // Required empty public constructor
     }
 
@@ -47,7 +47,7 @@ public class Electronics extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_electronics, container, false);
+        view = inflater.inflate(R.layout.fragment_home_and_office, container, false);
         initView();
         return  view;
     }
@@ -91,7 +91,7 @@ public class Electronics extends Fragment {
 
                     recyclerProgress.setVisibility(View.VISIBLE);
                     GroceryModel groceryModel = new GroceryModel("fast-foods","lagos");
-                    groceryModel.getGroceryProductsNextPage(Electronics.this.nextPageUrl);
+                    groceryModel.getGroceryProductsNextPage(HomeAndOffice.this.nextPageUrl);
                     groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
                         @Override
                         public void onProductReady(ArrayList<GroceryModel> groceryModels, String mNextPageUrl) {

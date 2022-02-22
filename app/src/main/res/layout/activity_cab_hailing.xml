@@ -53,7 +53,7 @@
                         android:id="@+id/drawer_toggle"
                         android:layout_marginTop="4dp"
                         android:src="@drawable/iconfinder_map_location_pin_map_marker_glyph"
-                        android:tint="@color/pinkypinky"/>
+                        android:tint="@color/pink"/>
 
                 </LinearLayout>
 

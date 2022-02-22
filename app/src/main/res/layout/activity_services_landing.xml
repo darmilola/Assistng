@@ -163,7 +163,8 @@
                 app:cardElevation="0dp">
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:id="@+id/personal_services_layout">
 
 
                     <ImageView
@@ -172,7 +173,7 @@
                         android:src="@drawable/glitters"
                         android:scaleType="centerInside"
                         android:layout_marginRight="-20dp"
-                        android:tint="@color/pinkypinky"
+                        android:tint="@color/pink"
                         android:layout_gravity="center|top"/>
 
                     <ImageView
@@ -191,7 +192,7 @@
                         android:src="@drawable/yellow_circle"
                         android:scaleType="centerCrop"
                         android:paddingLeft="0dp"
-                        android:tint="@color/pinkypinky"
+                        android:tint="@color/pink"
                         android:paddingTop="20dp"
                         android:layout_marginRight="-60dp"
                         android:layout_marginTop="35dp"
@@ -245,7 +246,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/baby_sitting_layout">
+                    android:id="@+id/educational_services_layout">
 
 
                     <ImageView
@@ -330,7 +331,8 @@
                 app:cardElevation="0dp">
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:id="@+id/auto_services_layout">
 
 
                     <ImageView
@@ -414,7 +416,8 @@
                 app:cardElevation="0dp">
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:id="@+id/repair_services_layout">
 
 
                     <ImageView

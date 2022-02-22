@@ -21,13 +21,15 @@ public class ServicesLanding extends AppCompatActivity {
 
 
     FrameLayout homeServicesLayout;
-    FrameLayout babySittingLayout;
+    FrameLayout personalServicesLayout;
+    FrameLayout educationalServicesLayout;
+    FrameLayout autoServicesLayout;
+    FrameLayout repairServicesLayout;
     ImageView navBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_services_landing);
-
         initView();
     }
 
@@ -35,6 +37,10 @@ public class ServicesLanding extends AppCompatActivity {
 
     private void initView(){
         homeServicesLayout = findViewById(R.id.home_services_layout);
+        personalServicesLayout = findViewById(R.id.personal_services_layout);
+        educationalServicesLayout = findViewById(R.id.educational_services_layout);
+        autoServicesLayout = findViewById(R.id.auto_services_layout);
+        repairServicesLayout = findViewById(R.id.repair_services_layout);
         navBack = findViewById(R.id.nav_back);
         navBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,17 +48,39 @@ public class ServicesLanding extends AppCompatActivity {
                 finish();
             }
         });
+
         homeServicesLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ServicesLanding.this,HomeServicesDetails.class));
             }
         });
-        babySittingLayout = findViewById(R.id.baby_sitting_layout);
-        babySittingLayout.setOnClickListener(new View.OnClickListener() {
+
+        personalServicesLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ServicesLanding.this,ChildrenServicesDetails.class));
+                startActivity(new Intent(ServicesLanding.this,PersonalServicesDetails.class));
+            }
+        });
+
+        educationalServicesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ServicesLanding.this,EducationalServicesDetails.class));
+            }
+        });
+
+        autoServicesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ServicesLanding.this,AutoServicesDetails.class));
+            }
+        });
+
+        repairServicesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ServicesLanding.this,RepairServicesDetails.class));
             }
         });
 
@@ -68,4 +96,5 @@ public class ServicesLanding extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
+
 }

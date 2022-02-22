@@ -7,9 +7,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import ng.assist.UIs.Babies;
+import ng.assist.UIs.Computing;
 import ng.assist.UIs.Electronics;
+import ng.assist.UIs.Fashion;
 import ng.assist.UIs.GroceryFastFoods;
+import ng.assist.UIs.HealthAndBeauty;
+import ng.assist.UIs.HomeAndOffice;
 import ng.assist.UIs.HomeFragment;
+import ng.assist.UIs.PhoneAndSupplies;
 import ng.assist.UIs.Utils.ListDialog;
 
 import android.content.Intent;
@@ -77,12 +83,32 @@ public class Grocery extends AppCompatActivity {
                 listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
                     @Override
                     public void onItemClicked(String city) {
-                        changeLocationText.setText(city);
-
+                        changeLocationText.setText("Your current location is "+city);
                         int pos = viewPager.getCurrentItem();
                         Fragment activeFragment = adapter.getRegisteredFragment(pos);
                         if(pos == 0){
                             ((GroceryFastFoods)activeFragment).refreshFragment(city);
+                        }
+                        if(pos == 1){
+                            ((Electronics)activeFragment).refreshFragment(city);
+                        }
+                        if(pos == 2){
+                            ((Computing)activeFragment).refreshFragment(city);
+                        }
+                        if(pos == 3){
+                            ((Babies)activeFragment).refreshFragment(city);
+                        }
+                        if(pos == 4){
+                            ((Fashion)activeFragment).refreshFragment(city);
+                        }
+                        if(pos == 5){
+                            ((HealthAndBeauty)activeFragment).refreshFragment(city);
+                        }
+                        if(pos == 6){
+                            ((HomeAndOffice)activeFragment).refreshFragment(city);
+                        }
+                        if(pos == 7){
+                            ((PhoneAndSupplies)activeFragment).refreshFragment(city);
                         }
                     }
                 });
@@ -125,13 +151,23 @@ public class Grocery extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
 
             switch (position) {
-
                 case 0:
                     return new GroceryFastFoods();
                 case 1:
                     return new Electronics();
                 case 2:
-                    return new Electronics();
+                    return new Computing();
+                case 3:
+                    return new Babies();
+                case 4:
+                    return new Fashion();
+                case 5:
+                    return new HealthAndBeauty();
+                case 6:
+                    return new HomeAndOffice();
+                case 7:
+                    return new PhoneAndSupplies();
+
             }
             return null;
         }
@@ -139,7 +175,7 @@ public class Grocery extends AppCompatActivity {
         @Override
         public int getCount() {
 
-            return 3;
+            return 8;
         }
 
 
@@ -175,10 +211,14 @@ public class Grocery extends AppCompatActivity {
     }
     private void setupViewPager(ViewPager viewPager) {
 
-        adapter.addFragment(new GroceryFastFoods(), "Fast-Foods");
+        adapter.addFragment(new GroceryFastFoods(), "Groceries");
         adapter.addFragment(new Electronics(), "Electronics");
-        adapter.addFragment(new Electronics(), "Others");
-        //adapter.addFragment(new GroceryFastFoods(), "Clothings");
+        adapter.addFragment(new Computing(), "Computing");
+        adapter.addFragment(new Babies(), "Babies");
+        adapter.addFragment(new Fashion(), "Fashion");
+        adapter.addFragment(new HealthAndBeauty(), "Health And Beauty");
+        adapter.addFragment(new HomeAndOffice(), "Home And Office");
+        adapter.addFragment(new PhoneAndSupplies(), "Phone And  Supplies");
         viewPager.setAdapter(adapter);
     }
 
@@ -199,6 +239,14 @@ public class Grocery extends AppCompatActivity {
         locationList.add("Lagos");
         locationList.add("Abuja");
         locationList.add("Kano");
+
+        String[] stateList = {"Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi"
+                ,"Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"};
+
+        for (String city : stateList) {
+            locationList.add(city);
+        }
+
     }
 
 

@@ -52,6 +52,7 @@ public class EcommerceLocations extends Fragment {
         return view;
     }
     private void initView(){
+        populateLocation();
         progressBar = view.findViewById(R.id.eccommerce_location_progress);
         recyclerView = view.findViewById(R.id.dashboard_locations_recyclerview);
         addLocation = view.findViewById(R.id.eccommerce_location_add_location);
@@ -68,7 +69,7 @@ public class EcommerceLocations extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 locationList = new ArrayList<>();
                 for (LocationModel locationModel1: assistLocations) {
-                     locationList.add(locationModel1.getCity());
+                     //locationList.add(locationModel1.getCity());
                 }
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
                 recyclerView.setLayoutManager(layoutManager);
@@ -110,6 +111,20 @@ public class EcommerceLocations extends Fragment {
                 });
             }
         });
+    }
+
+    private void populateLocation(){
+        locationList.add("Lagos");
+        locationList.add("Abuja");
+        locationList.add("Kano");
+
+        String[] stateList = {"Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi"
+                ,"Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"};
+
+        for (String city : stateList) {
+            locationList.add(city);
+        }
+
     }
 
 }

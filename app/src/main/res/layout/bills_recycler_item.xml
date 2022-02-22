@@ -57,7 +57,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="Inspection Service"
-                    android:textColor="@color/pinkypinky"
+                    android:textColor="@color/pink"
                     android:textSize="15dp"
                     android:gravity="center|left"
                     android:ellipsize="end"

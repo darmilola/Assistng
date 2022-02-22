@@ -60,7 +60,7 @@
                     android:layout_height="20dp"
                     android:layout_marginLeft="5dp"
                     android:layout_gravity="center"
-                    android:tint="@color/pinkypinky"
+                    android:tint="@color/pink"
                     android:src="@drawable/location_pin_1_2x"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -156,7 +156,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:id="@+id/estate_dashboard_details_delete_listing"
-                app:backgroundTint="@color/pinkypinky"
+                app:backgroundTint="@color/pink"
                 android:text="Delete this listing"
                 android:textAllCaps="false"/>
         </LinearLayout>

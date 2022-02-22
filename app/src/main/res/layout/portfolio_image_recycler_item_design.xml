@@ -14,7 +14,7 @@
         android:layout_margin="5dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/pinkypinky">
+        app:cardBackgroundColor="@color/pink">
 
         <ImageView
             android:layout_width="match_parent"

@@ -63,7 +63,7 @@
                     android:layout_height="20dp"
                     android:layout_marginLeft="5dp"
                     android:layout_gravity="center"
-                    android:tint="@color/pinkypinky"
+                    android:tint="@color/pink"
                     android:src="@drawable/location_pin_1_2x"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -169,7 +169,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:id="@+id/acc_details_call"
-                        android:backgroundTint="@color/pinkypinky"
+                        android:backgroundTint="@color/pink"
                         android:background="@drawable/transport_mode_unselected_background">
 
                         <ImageView

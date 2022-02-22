@@ -4,13 +4,13 @@
     <item android:height="20dp" android:width="20dp">
         <shape android:shape="rectangle">
            <corners android:radius="20dp"/>
-            <stroke android:color="@color/pinkypinky" android:width="3dp"/>
+            <stroke android:color="@color/pink" android:width="3dp"/>
         </shape>
     </item>
 
     <item android:top="20dp" android:left="9dp" android:width="3dp" android:height="240dp">
         <shape android:shape="rectangle">
-            <gradient android:startColor="@color/pinkypinky" android:endColor="@color/colorPrimary" android:angle="-90"/>
+            <gradient android:startColor="@color/pink" android:endColor="@color/colorPrimary" android:angle="-90"/>
         </shape>
     </item>
 

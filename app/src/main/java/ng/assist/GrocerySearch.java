@@ -5,8 +5,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -43,6 +45,7 @@ public class GrocerySearch extends AppCompatActivity {
         recyclerView = findViewById(R.id.grocery_search_recyclerview);
         progressBar = findViewById(R.id.grocery_search_progress);
         searchTitle.setText(query);
+        deleteCart();
 
         GridLayoutManager layoutManager = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
@@ -87,6 +90,13 @@ public class GrocerySearch extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
+    }
+
+    private void deleteCart(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GrocerySearch.this);
+        String userId =  preferences.getString("userEmail","");
+        GroceryModel groceryModel = new GroceryModel(userId);
+        groceryModel.deleteUsersCart();
     }
 
 }

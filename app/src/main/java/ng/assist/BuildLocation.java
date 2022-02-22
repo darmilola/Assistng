@@ -75,7 +75,7 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
 
     private void initView(){
 
-        initLocation();
+        populateLocation();
         navBack = findViewById(R.id.nav_back);
         progressBar = findViewById(R.id.build_location_progress);
         progressBar.setVisibility(View.GONE);
@@ -311,10 +311,18 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    private void initLocation(){
+    private void populateLocation(){
         locationList.add("Lagos");
         locationList.add("Abuja");
         locationList.add("Kano");
+
+        String[] stateList = {"Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi"
+                ,"Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"};
+
+        for (String city : stateList) {
+            locationList.add(city);
+        }
+
     }
 
 }

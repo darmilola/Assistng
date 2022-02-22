@@ -60,7 +60,7 @@
                     android:layout_weight="1"
                     android:text="Cleaner"
                     android:id="@+id/service_provider_job_title"
-                    android:textColor="@color/pinkypinky"
+                    android:textColor="@color/pink"
                     android:textSize="15dp"
                     android:gravity="center|left"
                     android:ellipsize="end"

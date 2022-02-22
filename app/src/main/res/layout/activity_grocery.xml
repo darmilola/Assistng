@@ -164,7 +164,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:layout_margin="5dp"
-                        android:text="Lagos"
+                        android:text="Your current location is Lagos"
                         android:id="@+id/change_location_text"
                         android:textColor="@color/dark_text_color"/>
 
@@ -183,7 +183,7 @@
                     android:layout_marginRight="15dp"
                     android:background="@color/transparent"
                     app:tabGravity="fill"
-                    app:tabIndicatorColor="@color/pinkypinky"
+                    app:tabIndicatorColor="@color/pink"
                     app:tabMode="auto"
                     android:id="@+id/grocery_tab_layout"
                     app:tabIndicatorHeight="7dp"

@@ -142,7 +142,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:id="@+id/ecc_dashboard_products_delete"
-            app:backgroundTint="@color/pinkypinky"
+            app:backgroundTint="@color/pink"
             android:text="Delete this product"
             android:textAllCaps="false"/>
 

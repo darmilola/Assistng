@@ -57,7 +57,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
-                app:backgroundTint="@color/pinkypinky"
+                app:backgroundTint="@color/pink"
                 android:text="Request refund"
                 android:id="@+id/bills_item_request_refund"
                 android:textAllCaps="false"/>

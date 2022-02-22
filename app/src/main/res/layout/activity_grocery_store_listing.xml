@@ -62,7 +62,7 @@
                     android:elevation="3dp"
                     android:id="@+id/cart_indicator"
                     android:background="@drawable/store_listing_cart_background"
-                    android:backgroundTint="@color/pinkypinky"/>
+                    android:backgroundTint="@color/pink"/>
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -108,7 +108,7 @@
                         android:gravity="center"
                         android:visibility="gone"
                         android:id="@+id/acc_details_call"
-                        android:backgroundTint="@color/pinkypinky"
+                        android:backgroundTint="@color/pink"
                         android:background="@drawable/transport_mode_unselected_background">
 
                         <ImageView
