@@ -28,6 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
     viewPagerAdapter adapter = new viewPagerAdapter(getSupportFragmentManager());
     NoSwipeViewPager viewPager;
     ProgressBar mainActivityContentProgressbar;
-    LinearLayout bottomBarLayout;
+    LinearLayout bottomBarLayout,errorOccuredRoot;
     String userWalletBalance,userFirstname;
+    MaterialButton retry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,39 +57,24 @@ public class MainActivity extends AppCompatActivity {
         bottomBarLayout = findViewById(R.id.bottomnav_root_layout);
         bottomNavigationView = findViewById(R.id.chip_navigation);
         viewPager = findViewById(R.id.content_frame);
+        errorOccuredRoot = findViewById(R.id.error_occurred_layout_root);
+        retry = findViewById(R.id.error_occurred_retry);
         viewPager.setOffscreenPageLimit(3);
         viewPager.setCurrentItem(0, false);
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setSelected(true);
-        String userEmail = getIntent().getStringExtra("email");
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        preferences.edit().putString("userEmail",userEmail).apply();
-        MainActivityModel mainActivityModel = new MainActivityModel(userEmail,MainActivity.this);
-        mainActivityModel.getUserInfo();
-        mainActivityModel.setMainactivityContentListener(new MainActivityModel.MainactivityContentListener() {
-            @Override
-            public void onContentReady(MainActivityModel mainActivityModel) {
-                viewPager.setVisibility(View.VISIBLE);
-                bottomBarLayout.setVisibility(View.VISIBLE);
-                mainActivityContentProgressbar.setVisibility(View.GONE);
-                MainActivity.this.userFirstname = mainActivityModel.getUserFirstname();
-                MainActivity.this.userWalletBalance = mainActivityModel.getUserWalletBalance();
-                preferences.edit().putString("walletBalance",userWalletBalance).apply();
-                preferences.edit().putString("firstname",mainActivityModel.getUserFirstname()).apply();
-                preferences.edit().putString("lastname",mainActivityModel.getUserLastname()).apply();
-                preferences.edit().putString("imageUrl",mainActivityModel.getUserImageUrl()).apply();
-                preferences.edit().putString("accountType",mainActivityModel.getAccountType()).apply();
-                preferences.edit().putString("isVerified",mainActivityModel.getIsVerified()).apply();
-                preferences.edit().putString("verificationStatus",mainActivityModel.getVerificationStatus()).apply();
-                preferences.edit().putString("role",mainActivityModel.getRole()).apply();
-                setupViewPager(viewPager);
-            }
 
+        refreshPage();
+
+        retry.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onError(String message) {
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                refreshPage();
             }
         });
+
+
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -188,6 +175,41 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new AccountFragments(), "Accounts");
         viewPager.setAdapter(adapter);
 
+    }
+
+    public void refreshPage(){
+        mainActivityContentProgressbar.setVisibility(View.VISIBLE);
+        errorOccuredRoot.setVisibility(View.GONE);
+        String userEmail = getIntent().getStringExtra("email");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        preferences.edit().putString("userEmail",userEmail).apply();
+        MainActivityModel mainActivityModel = new MainActivityModel(userEmail,MainActivity.this);
+        mainActivityModel.getUserInfo();
+        mainActivityModel.setMainactivityContentListener(new MainActivityModel.MainactivityContentListener() {
+            @Override
+            public void onContentReady(MainActivityModel mainActivityModel) {
+                viewPager.setVisibility(View.VISIBLE);
+                bottomBarLayout.setVisibility(View.VISIBLE);
+                mainActivityContentProgressbar.setVisibility(View.GONE);
+                MainActivity.this.userFirstname = mainActivityModel.getUserFirstname();
+                MainActivity.this.userWalletBalance = mainActivityModel.getUserWalletBalance();
+                preferences.edit().putString("walletBalance",userWalletBalance).apply();
+                preferences.edit().putString("firstname",mainActivityModel.getUserFirstname()).apply();
+                preferences.edit().putString("lastname",mainActivityModel.getUserLastname()).apply();
+                preferences.edit().putString("imageUrl",mainActivityModel.getUserImageUrl()).apply();
+                preferences.edit().putString("accountType",mainActivityModel.getAccountType()).apply();
+                preferences.edit().putString("isVerified",mainActivityModel.getIsVerified()).apply();
+                preferences.edit().putString("verificationStatus",mainActivityModel.getVerificationStatus()).apply();
+                preferences.edit().putString("role",mainActivityModel.getRole()).apply();
+                setupViewPager(viewPager);
+            }
+            @Override
+            public void onError(String message) {
+                mainActivityContentProgressbar.setVisibility(View.GONE);
+                errorOccuredRoot.setVisibility(View.VISIBLE);
+
+            }
+        });
     }
 
 

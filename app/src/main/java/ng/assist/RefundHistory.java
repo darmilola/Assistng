@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+
 import java.util.ArrayList;
 
 import ng.assist.Adapters.RefundHistoryAdapter;
@@ -27,7 +29,10 @@ public class RefundHistory extends AppCompatActivity {
     RefundHistoryAdapter adapter;
     RefundModel refundModel;
     ProgressBar progressBar;
+    MaterialButton retry;
+    LinearLayout errorOccurredLayout;
     LinearLayout backNav;
+    String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +42,12 @@ public class RefundHistory extends AppCompatActivity {
 
     private void initView(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String userId = preferences.getString("userEmail","");
+        userId = preferences.getString("userEmail","");
         recyclerView = findViewById(R.id.refund_history_recyclerview);
         progressBar = findViewById(R.id.progressBar);
         backNav = findViewById(R.id.refund_back_nav);
+        errorOccurredLayout = findViewById(R.id.error_occurred_layout_root);
+        retry = findViewById(R.id.error_occurred_retry);
 
         backNav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +73,7 @@ public class RefundHistory extends AppCompatActivity {
             public void onError(String message) {
                 recyclerView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(RefundHistory.this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(RefundHistory.this, "Refunds is Empty", Toast.LENGTH_LONG).show();
 
             }
         });

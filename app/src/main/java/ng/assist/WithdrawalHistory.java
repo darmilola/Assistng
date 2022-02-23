@@ -63,7 +63,7 @@ public class WithdrawalHistory extends AppCompatActivity {
             public void onError(String message) {
                 recyclerView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(WithdrawalHistory.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(WithdrawalHistory.this, "Withdrawal is Empty", Toast.LENGTH_SHORT).show();
             }
         });
     }

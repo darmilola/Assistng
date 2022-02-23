@@ -16,6 +16,8 @@
         android:layout_gravity="center"
         android:id="@+id/details_progressbar"/>
 
+    <include layout="@layout/error_layout"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -97,8 +97,6 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
         bookingFee.setText(formattedPrice);
 
 
-        Toast.makeText(this, accomodationListModel.getIsAvailable(), Toast.LENGTH_SHORT).show();
-
 
 
         deleteListing.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +146,7 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
                 rootLayout.setVisibility(View.GONE);
                 loadingBar.setVisibility(View.GONE);
                 imageScrollLayout.setVisibility(View.GONE);
-                Toast.makeText(EstateDashboardListingDetails.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(EstateDashboardListingDetails.this, "Error Occurred", Toast.LENGTH_SHORT).show();
             }
         });
 

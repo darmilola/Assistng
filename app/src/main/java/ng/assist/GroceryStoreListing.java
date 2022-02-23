@@ -37,6 +37,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -60,8 +62,13 @@ public class GroceryStoreListing extends AppCompatActivity {
     GroceryModel groceryModel;
     View cartIndicator;
     LinearLayout productImageviewScroll;
+    LinearLayout errorOccuredLayout;
+    MaterialButton retry;
     RetailerInfoModel retailerInfoModel;
     ImageView backNav;
+    PagerSnapHelper pagerSnapHelper;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,13 +77,17 @@ public class GroceryStoreListing extends AppCompatActivity {
     }
 
     private void initView(){
+
         backNav = findViewById(R.id.back_nav);
         backNav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                showAlert();
             }
         });
+
+        errorOccuredLayout = findViewById(R.id.error_occurred_layout_root);
+        retry = findViewById(R.id.error_occurred_retry);
         call = findViewById(R.id.acc_details_call);
         chat = findViewById(R.id.acc_details_chat);
         productImageviewScroll = findViewById(R.id.scroll_image_layout);
@@ -102,40 +113,19 @@ public class GroceryStoreListing extends AppCompatActivity {
         String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
         price.setText(formattedPrice);
 
-        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper = new PagerSnapHelper();
         LinearLayoutManager imagesManager = new LinearLayoutManager(GroceryStoreListing.this, LinearLayoutManager.HORIZONTAL,false);
         imagesRecyclerview.setLayoutManager(imagesManager);
         pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
-        imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
-        GridLayoutManager layoutManager = new GridLayoutManager(GroceryStoreListing.this,2,GridLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager);
 
-        GroceryListingDetailsModel groceryListingDetailsModel = new GroceryListingDetailsModel(groceryModel.getRetailerId(),groceryModel.getItemId());
 
-        groceryListingDetailsModel.getGroceryDetails();
-        groceryListingDetailsModel.setDetailsReadyListener(new GroceryListingDetailsModel.DetailsReadyListener() {
+        refresh();
+
+
+        retry.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDetailsReady(ArrayList<ProductImageModel> images, ArrayList<GroceryModel> groceryModelArrayList, RetailerInfoModel retailerInfoModel) {
-                GroceryStoreListing.this.retailerInfoModel = retailerInfoModel;
-                detailsProgressbar.setVisibility(View.GONE);
-                detailsRootLayout.setVisibility(View.VISIBLE);
-                adapter = new ProductImageScrollAdapter(images,GroceryStoreListing.this);
-                imagesRecyclerview.setAdapter(adapter);
-                productImageviewScroll.setVisibility(View.VISIBLE);
-                pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
-                imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
-                adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
-                groceryDisplayAdapter = new GroceryDetailsProductAdapter(groceryModelArrayList,GroceryStoreListing.this);
-                recyclerView.setAdapter(groceryDisplayAdapter);
-
-            }
-
-
-            @Override
-            public void onError(String message) {
-                detailsProgressbar.setVisibility(View.VISIBLE);
-                detailsRootLayout.setVisibility(View.GONE);
-                Toast.makeText(GroceryStoreListing.this, message, Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                refresh();
             }
         });
 
@@ -188,6 +178,38 @@ public class GroceryStoreListing extends AppCompatActivity {
                         Toast.makeText(GroceryStoreListing.this, "Error adding to Cart", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+    }
+
+    public void refresh(){
+
+        detailsProgressbar.setVisibility(View.VISIBLE);
+        errorOccuredLayout.setVisibility(View.GONE);
+        GroceryListingDetailsModel groceryListingDetailsModel = new GroceryListingDetailsModel(groceryModel.getRetailerId(),groceryModel.getItemId());
+        groceryListingDetailsModel.getGroceryDetails();
+        groceryListingDetailsModel.setDetailsReadyListener(new GroceryListingDetailsModel.DetailsReadyListener() {
+            @Override
+            public void onDetailsReady(ArrayList<ProductImageModel> images, ArrayList<GroceryModel> groceryModelArrayList, RetailerInfoModel retailerInfoModel) {
+                GroceryStoreListing.this.retailerInfoModel = retailerInfoModel;
+                detailsProgressbar.setVisibility(View.GONE);
+                detailsRootLayout.setVisibility(View.VISIBLE);
+                errorOccuredLayout.setVisibility(View.GONE);
+                adapter = new ProductImageScrollAdapter(images,GroceryStoreListing.this);
+                imagesRecyclerview.setAdapter(adapter);
+                productImageviewScroll.setVisibility(View.VISIBLE);
+                pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
+                imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
+                adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
+                groceryDisplayAdapter = new GroceryDetailsProductAdapter(groceryModelArrayList,GroceryStoreListing.this);
+                recyclerView.setAdapter(groceryDisplayAdapter);
+
+            }
+            @Override
+            public void onError(String message) {
+                detailsProgressbar.setVisibility(View.GONE);
+                detailsRootLayout.setVisibility(View.GONE);
+                errorOccuredLayout.setVisibility(View.VISIBLE);
             }
         });
     }

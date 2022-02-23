@@ -10,7 +10,9 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:id="@+id/ecc_progress"/>
+        android:id="@+id/ecc_progress"
+        android:visibility="gone"/>
+    <include layout="@layout/error_layout"/>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/ecommerce_dashboard_app_bar"

@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -48,6 +49,9 @@ public class EcommerceDashboard extends AppCompatActivity {
     String phonenumber,shopName;
     ViewPagerAdapter adapter;
     ImageView navBack;
+    String userId;
+    LinearLayout errorLayout;
+    MaterialButton retry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,9 @@ public class EcommerceDashboard extends AppCompatActivity {
     }
 
     private void initView(){
+
+        errorLayout = findViewById(R.id.error_occurred_layout_root);
+        retry = findViewById(R.id.error_occurred_retry);
         navBack = findViewById(R.id.nav_back);
         progressBar = findViewById(R.id.ecc_progress);
         phoneSelect = findViewById(R.id.ecommerce_dashboard_phone_select);
@@ -78,46 +85,19 @@ public class EcommerceDashboard extends AppCompatActivity {
         });
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EcommerceDashboard.this);
-        String userId = preferences.getString("userEmail","");
+        userId = preferences.getString("userEmail","");
 
+        loadPage();
 
-        ecommerceDashboardModel = new EcommerceDashboardModel(EcommerceDashboard.this,userId);
-        ecommerceDashboardModel.createRetailerInfo();
-        ecommerceDashboardModel.setCreateInfoListener(new EcommerceDashboardModel.CreateInfoListener() {
+        retry.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(String phone, String shopname) {
-                   progressBar.setVisibility(View.GONE);
-                   appBar.setVisibility(View.VISIBLE);
-                   phonenumber = phone;
-                   shopName = shopname;
-
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EcommerceDashboard.this);
-                preferences.edit().putString("phone",phone).apply();
-                preferences.edit().putString("shopName",shopname).apply();
-
-                   if(shopName.equalsIgnoreCase("null")){
-                       storeName.setText("Not Available");
-                   }
-                   else{
-                       storeName.setText(shopname);
-                   }
-                  if(phonenumber.equalsIgnoreCase("null")){
-                    mPhone.setText("Not Available");
-                   }
-                  else{
-                      mPhone.setText(phone);
-                  }
-                   adapter = new ViewPagerAdapter(getSupportFragmentManager());
-                   setupViewPager(viewPager);
-                   tabLayout.setupWithViewPager(viewPager);
-                   tabLayout1.setupWithViewPager(viewPager);
-            }
-
-            @Override
-            public void onError(String message) {
-                Toast.makeText(EcommerceDashboard.this, message, Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                loadPage();
             }
         });
+
+
+
 
         phoneSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -262,6 +242,53 @@ public class EcommerceDashboard extends AppCompatActivity {
         }
 
     }
+
+    void loadPage(){
+        progressBar.setVisibility(View.VISIBLE);
+        errorLayout.setVisibility(View.GONE);
+
+        ecommerceDashboardModel = new EcommerceDashboardModel(EcommerceDashboard.this,userId);
+        ecommerceDashboardModel.createRetailerInfo();
+        ecommerceDashboardModel.setCreateInfoListener(new EcommerceDashboardModel.CreateInfoListener() {
+            @Override
+            public void onSuccess(String phone, String shopname) {
+                progressBar.setVisibility(View.GONE);
+                errorLayout.setVisibility(View.GONE);
+                appBar.setVisibility(View.VISIBLE);
+                phonenumber = phone;
+                shopName = shopname;
+
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EcommerceDashboard.this);
+                preferences.edit().putString("phone",phone).apply();
+                preferences.edit().putString("shopName",shopname).apply();
+
+                if(shopName.equalsIgnoreCase("null")){
+                    storeName.setText("Not Available");
+                }
+                else{
+                    storeName.setText(shopname);
+                }
+                if(phonenumber.equalsIgnoreCase("null")){
+                    mPhone.setText("Not Available");
+                }
+                else{
+                    mPhone.setText(phone);
+                }
+                adapter = new ViewPagerAdapter(getSupportFragmentManager());
+                setupViewPager(viewPager);
+                tabLayout.setupWithViewPager(viewPager);
+                tabLayout1.setupWithViewPager(viewPager);
+            }
+
+            @Override
+            public void onError(String message) {
+                progressBar.setVisibility(View.GONE);
+                errorLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+    }
+
    void setupViewPager(ViewPager viewPager) {
 
         adapter.addFragment(new EcommerceProduct(), "Products");

@@ -14,6 +14,8 @@
         android:layout_height="40dp"
         android:id="@+id/service_provider_dashboard_progress"/>
 
+    <include layout="@layout/error_layout"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -18,6 +18,9 @@
             android:layout_gravity="center"
             android:id="@+id/mainactivity_content_loader_progress"
             android:indeterminateTint="@color/colorPrimary"/>
+        <include layout="@layout/error_layout"/>
+
+
         <ng.assist.NoSwipeViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
