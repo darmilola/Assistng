@@ -24,7 +24,7 @@ import okhttp3.Response;
 
 public class VerificationModel {
 
-    private String firstname, lastname, address, phonenumber, imageLink, userId;
+    private String firstname, lastname, address, phonenumber, imageLink, userId,state,lga;
     private LoadingDialogUtils loadingDialogUtils;
     private String baseUrl = new URL().getBaseUrl();
     private String verificationUrl = baseUrl+"verification";
@@ -44,14 +44,14 @@ public class VerificationModel {
 
     public interface CreateVerifyListener{
         void onSuccess();
-        void onFailure();
+        void onFailure(String message);
     }
 
     public interface ImageUploadListener{
           void onUploaded(String link);
     }
 
-   public VerificationModel(Context context, String firstname, String lastname, String address, String phonenumber, String imageLink, String userId){
+   public VerificationModel(Context context, String firstname, String lastname, String address, String phonenumber, String imageLink, String userId, String state, String lga){
                       this.context = context;
                       this.firstname = firstname;
                       this.lastname = lastname;
@@ -59,6 +59,8 @@ public class VerificationModel {
                       this.phonenumber = phonenumber;
                       this.userId = userId;
                       this.imageLink = imageLink;
+                      this.state = state;
+                      this.lga = lga;
                       loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
@@ -79,7 +81,7 @@ public class VerificationModel {
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildVerify(firstname,lastname,address,phonenumber,userId,imageLink));
+            RequestBody requestBody = RequestBody.create(JSON,buildVerify(firstname,lastname,address,phonenumber,userId,imageLink,state,lga));
             Request request = new Request.Builder()
                     .url(verificationUrl)
                     .post(requestBody)
@@ -114,11 +116,11 @@ public class VerificationModel {
                     createVerifyListener.onSuccess();
                 }
                 else if(status.equalsIgnoreCase("failure")){
-                    createVerifyListener.onFailure();
+                    createVerifyListener.onFailure("Error Occurred");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                createVerifyListener.onFailure();
+                createVerifyListener.onFailure(e.getLocalizedMessage());
             }
         }
     };
@@ -126,7 +128,7 @@ public class VerificationModel {
 
 
 
-    private String buildVerify(String firstname, String lastname, String address, String phonenumber, String userId, String imageLink){
+    private String buildVerify(String firstname, String lastname, String address, String phonenumber, String userId, String imageLink, String state, String lga){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("firstname",firstname);
@@ -134,7 +136,10 @@ public class VerificationModel {
             jsonObject.put("address",address);
             jsonObject.put("phonenumber",phonenumber);
             jsonObject.put("valid_id",imageLink);
+            jsonObject.put("state",state);
+            jsonObject.put("lga",lga);
             jsonObject.put("userId",userId);
+            jsonObject.put("status","pending");
         } catch (JSONException e) {
             e.printStackTrace();
         }

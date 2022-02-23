@@ -40,11 +40,11 @@ public class ServiceProviderVerifications extends AppCompatActivity {
 
     static int PICK_IMAGE = 1;
     String uploadIdUrl = "";
-    EditText firstname,lastname,address,phonenumber;
+    EditText firstname,lastname,address,phonenumber,state,lga;
     LinearLayout idLayout;
     ImageView uploadIdImg;
     MaterialButton apply;
-    String mFirstname,mLastname,mAddress,mPhonenumber;
+    String mFirstname,mLastname,mAddress,mPhonenumber,mState,mLga;
     String userId;
     ScrollView rootView;
     TextView statusText;
@@ -69,8 +69,11 @@ public class ServiceProviderVerifications extends AppCompatActivity {
                 finish();
             }
         });
+
         rootView = findViewById(R.id.verification_form_root);
         statusText = findViewById(R.id.verification_status_text);
+        state = findViewById(R.id.verification_state);
+        lga = findViewById(R.id.verification_lga);
 
         if(status.equalsIgnoreCase("pending")){
             statusText.setText("Your Verification is Pending...");
@@ -103,19 +106,21 @@ public class ServiceProviderVerifications extends AppCompatActivity {
               mLastname = lastname.getText().toString().trim();
               mAddress = address.getText().toString().trim();
               mPhonenumber = phonenumber.getText().toString().trim();
-
+              mState = state.getText().toString().trim();
+              mLga = lga.getText().toString().trim();
               if(isValidForm()){
-                  VerificationModel verificationModel = new VerificationModel(ServiceProviderVerifications.this,mFirstname,mLastname,mAddress,mPhonenumber,uploadIdUrl,userId);
+                  VerificationModel verificationModel = new VerificationModel(ServiceProviderVerifications.this,mFirstname,mLastname,mAddress,mPhonenumber,uploadIdUrl,userId,mState,mLga);
                   verificationModel.CreateVerification();
                   verificationModel.setCreateVerifyListener(new VerificationModel.CreateVerifyListener() {
                       @Override
                       public void onSuccess() {
+                          finish();
                           Toast.makeText(ServiceProviderVerifications.this, "Verification Applied Successfully", Toast.LENGTH_SHORT).show();
                       }
 
                       @Override
-                      public void onFailure() {
-
+                      public void onFailure(String message) {
+                          Toast.makeText(ServiceProviderVerifications.this, message, Toast.LENGTH_LONG).show();
                       }
                   });
               }
@@ -207,6 +212,16 @@ public class ServiceProviderVerifications extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(mPhonenumber)) {
             phonenumber.setError("Required");
+            valid = false;
+            return valid;
+        }
+        if (TextUtils.isEmpty(mState)) {
+            state.setError("Required");
+            valid = false;
+            return valid;
+        }
+        if (TextUtils.isEmpty(mLga)) {
+            lga.setError("Required");
             valid = false;
             return valid;
         }

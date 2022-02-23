@@ -57,9 +57,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
-
-
-
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -111,6 +108,42 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
 
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:maxLines="1"
+                android:gravity="center"
+                android:inputType="text"
+                android:id="@+id/verification_state"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:padding="2dp"
+                android:hint="State"
+                android:textColorHint="@color/light_text_color"
+                android:fontFamily="@font/clannews"
+                android:textSize="17dp"
+                android:background="@drawable/edit_profile_edittext_background"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:maxLines="1"
+                android:gravity="center"
+                android:inputType="text"
+                android:id="@+id/verification_lga"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:padding="2dp"
+                android:hint="LGA"
+                android:textColorHint="@color/light_text_color"
+                android:fontFamily="@font/clannews"
+                android:textSize="17dp"
+                android:background="@drawable/edit_profile_edittext_background"/>
+
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -139,7 +172,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:padding="2dp"
-        android:hint="Valid Phonenumber"
+        android:hint="Valid Phone Number"
         android:textColorHint="@color/light_text_color"
         android:fontFamily="@font/clannews"
         android:textSize="17dp"
@@ -148,13 +181,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Upload Valid ID"
-        android:textSize="16dp"
+        android:text="Upload Valid ID \n(National ID/Drivers license/ Int Passport/NYSC ID for current serving Corper)"
+        android:textSize="15dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="25dp"
-        android:fontFamily="@font/clanmed"
+        android:fontFamily="@font/clannews"
         android:gravity="center"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@color/light_text_color"/>
 
    <LinearLayout
         android:layout_width="match_parent"
@@ -178,7 +212,7 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Apply"
+        android:text="Submit"
         android:paddingLeft="10dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"

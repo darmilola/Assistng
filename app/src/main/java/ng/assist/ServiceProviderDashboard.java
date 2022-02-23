@@ -473,7 +473,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                 availabilitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isValidProvider() && isChecked){
+                        if(isValidProvider() && isVerified() && isChecked){
                             Toast.makeText(ServiceProviderDashboard.this, "You are now Available for hiring", Toast.LENGTH_SHORT).show();
                             ServiceProviderDashboardModel mServiceProviderDashboardModel = new ServiceProviderDashboardModel("isAvailable","true",ServiceProviderDashboard.this);
                             mServiceProviderDashboardModel.updateProviderInfo();
@@ -483,6 +483,10 @@ public class ServiceProviderDashboard extends AppCompatActivity {
 
                                 }
                             });
+                        }
+                        else if(!isVerified()){
+                            Toast.makeText(ServiceProviderDashboard.this, "Please Get Verified To Be Available", Toast.LENGTH_SHORT).show();
+                            availabilitySwitch.setChecked(false);
                         }
                         else if(!isValidProvider()){
                             Toast.makeText(ServiceProviderDashboard.this, "Please complete your profile", Toast.LENGTH_SHORT).show();
@@ -520,6 +524,19 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         for (String city : stateList) {
             locationList.add(city);
         }
+    }
+
+    private boolean isVerified(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ServiceProviderDashboard.this);
+        String status = preferences.getString("verificationStatus","notVerified");
+
+        if(status.equalsIgnoreCase("pending") || status.equalsIgnoreCase("notVerified")){
+            return false;
+        }
+        else{
+            return true;
+        }
+
     }
 
 }
