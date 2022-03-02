@@ -15,12 +15,12 @@ public class CheckoutDialog {
 
     private Dialog checkoutDialog;
     private Context mContext;
-    private EditText address,phone;
+    private EditText address,phone,landmark,state,lga;
     private MaterialButton checkOut;
     private OnDialogActionClickListener dialogActionClickListener;
 
     public interface OnDialogActionClickListener{
-        void checkOutClicked(String phone, String address);
+        void checkOutClicked(String phone, String address,String landmark, String state, String lga);
     }
 
     public void setDialogActionClickListener(OnDialogActionClickListener dialogActionClickListener) {
@@ -34,6 +34,9 @@ public class CheckoutDialog {
         address = checkoutDialog.findViewById(R.id.checkout_dialog_delivery_address);
         phone = checkoutDialog.findViewById(R.id.checkout_dialog_delivery_phone);
         checkOut = checkoutDialog.findViewById(R.id.check_out_dialog_button);
+        landmark = checkoutDialog.findViewById(R.id.checkout_dialog_closest_landmark);
+        state = checkoutDialog.findViewById(R.id.checkout_dialog_state);
+        lga = checkoutDialog.findViewById(R.id.checkout_dialog_lga);
 
 
         checkOut.setOnClickListener(new View.OnClickListener() {
@@ -45,8 +48,17 @@ public class CheckoutDialog {
                 if(TextUtils.isEmpty(phone.getText().toString().trim())){
                     phone.setError("Required");
                 }
+                if(TextUtils.isEmpty(landmark.getText().toString().trim())){
+                    landmark.setError("Required");
+                }
+                if(TextUtils.isEmpty(state.getText().toString().trim())){
+                    state.setError("Required");
+                }
+                if(TextUtils.isEmpty(lga.getText().toString().trim())){
+                    lga.setError("Required");
+                }
                 else {
-                    dialogActionClickListener.checkOutClicked(phone.getText().toString().trim(),address.getText().toString().trim());
+                    dialogActionClickListener.checkOutClicked(phone.getText().toString().trim(),address.getText().toString().trim(),landmark.getText().toString().trim(),state.getText().toString().trim(),lga.getText().toString().trim());
                     checkoutDialog.dismiss();
                 }
             }

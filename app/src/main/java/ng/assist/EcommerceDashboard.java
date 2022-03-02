@@ -75,6 +75,7 @@ public class EcommerceDashboard extends AppCompatActivity {
         collapsingToolbarLayout = findViewById(R.id.ecommerce_collapsing_toolbar_layout);
         appBar = findViewById(R.id.ecommerce_dashboard_app_bar);
         tabLayout1 = findViewById(R.id.ecommerce_dashboard_tabs1);
+        toolbar = findViewById(R.id.wallet_toolbar);
         appBar.setVisibility(View.GONE);
 
         navBack.setOnClickListener(new View.OnClickListener() {
@@ -175,6 +176,7 @@ public class EcommerceDashboard extends AppCompatActivity {
                 if(scrollRange + verticalOffset == 0){
 
                     tabLayout1.setVisibility(View.VISIBLE);
+                    toolbar.setVisibility(View.VISIBLE);
                     tabLayout.setVisibility(View.GONE);
                     isShown = true;
                     return;
@@ -182,6 +184,7 @@ public class EcommerceDashboard extends AppCompatActivity {
                 else if(isShown){
                     tabLayout1.setVisibility(View.GONE);
                     tabLayout.setVisibility(View.VISIBLE);
+                    toolbar.setVisibility(View.GONE);
                     isShown = false;
                     return;
                 }

@@ -516,7 +516,10 @@ public class EcommerceDashboardModel {
                         String userLastname = jsonArray.getJSONObject(i).getString("lastname");
                         String deliveryAddress = jsonArray.getJSONObject(i).getString("deliveryAddress");
                         String contactPhone = jsonArray.getJSONObject(i).getString("contactPhone");
-                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson, userFirstname, userLastname, userEmail,contactPhone,deliveryAddress);
+                        String landmark = jsonArray.getJSONObject(i).getString("landmark");
+                        String state = jsonArray.getJSONObject(i).getString("state");
+                        String lga = jsonArray.getJSONObject(i).getString("lga");
+                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson, userFirstname, userLastname, userEmail,contactPhone,deliveryAddress,landmark,state,lga);
                         ordersArrayList.add(order);
                     }
                     orderReadyListener.onOrderReady(ordersArrayList);

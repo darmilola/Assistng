@@ -34,7 +34,7 @@ import java.util.Locale;
 public class DashboardViewOrder extends AppCompatActivity {
     Orders orders;
     RecyclerView recyclerView;
-    TextView totalPrice,address;
+    TextView totalPrice,address,landmark,state,lga;
     LinearLayout chatWithCustomer,callCustomer;
     MaterialButton deleteOrder;
     MaterialCheckBox deliveryStatus;
@@ -64,6 +64,9 @@ public class DashboardViewOrder extends AppCompatActivity {
         deliveryStatus = findViewById(R.id.dashboard_order_is_delivered);
         callCustomer = findViewById(R.id.dashboard_order_call_customer);
         address = findViewById(R.id.dashboard_order_address);
+        landmark = findViewById(R.id.dashboard_order_landmark);
+        state = findViewById(R.id.dashboard_order_state);
+        lga = findViewById(R.id.dashboard_order_lga);
 
         callCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +77,9 @@ public class DashboardViewOrder extends AppCompatActivity {
         });
 
         address.setText(orders.getUserAddress());
+        landmark.setText(orders.getLandmark());
+        state.setText(orders.getState());
+        lga.setText(orders.getLga());
 
         deliveryStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

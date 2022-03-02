@@ -132,10 +132,10 @@ public class GroceryCart extends AppCompatActivity {
                     checkoutDialog.ShowCheckoutDialog();
                     checkoutDialog.setDialogActionClickListener(new CheckoutDialog.OnDialogActionClickListener() {
                         @Override
-                        public void checkOutClicked(String phone, String address) {
+                        public void checkOutClicked(String phone, String address, String landmark, String state, String lga) {
 
                             String orderJson = convertListToJsonString(groceryModelArrayList);
-                            GroceryModel groceryModel1 = new GroceryModel(retailerId, userId,orderJson,mTotalPriceValue,address,phone,GroceryCart.this);
+                            GroceryModel groceryModel1 = new GroceryModel(retailerId, userId,orderJson,mTotalPriceValue,address,phone,landmark,state,lga,GroceryCart.this);
                             groceryModel1.CheckOut();
                             groceryModel1.setCartCheckoutListener(new GroceryModel.CartCheckoutListener() {
                                 @Override

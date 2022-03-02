@@ -38,7 +38,7 @@ public class GroceryModel implements Parcelable {
     private String totalPage;
     private String retailerId;
     private String shopName;
-    private String address,contactPhone;
+    private String address,contactPhone,landmark,state,lga;
     private int cartIndex;
     private ArrayList<GroceryModel> groceryModelArrayList = new ArrayList<>();
     private String baseUrl = new URL().getBaseUrl();
@@ -218,7 +218,7 @@ public class GroceryModel implements Parcelable {
         this.cartRetailerId = retailerId;
     }
 
-    public GroceryModel(String retailerId, String userId,String orderJson,String totalPrice,String address,String contactPhone,Context context) {
+    public GroceryModel(String retailerId, String userId,String orderJson,String totalPrice,String address,String contactPhone,String landmark,String state,String lga,Context context) {
         dialogUtils = new LoadingDialogUtils(context);
         this.userId = userId;
         this.retailerId = retailerId;
@@ -226,6 +226,9 @@ public class GroceryModel implements Parcelable {
         this.totalPrice = totalPrice;
         this.address = address;
         this.contactPhone = contactPhone;
+        this.landmark = landmark;
+        this.state = state;
+        this.lga = lga;
     }
 
 
@@ -770,7 +773,7 @@ public class GroceryModel implements Parcelable {
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildCartCheckout(retailerId,userId,orderJson,totalPrice,address,contactPhone));
+            RequestBody requestBody = RequestBody.create(JSON,buildCartCheckout(retailerId,userId,orderJson,totalPrice,address,contactPhone,landmark,state,lga));
             Request request = new Request.Builder()
                     .url(checkoutCartUrl)
                     .post(requestBody)
@@ -861,7 +864,7 @@ public class GroceryModel implements Parcelable {
         return jsonObject.toString();
     }
 
-    private String buildCartCheckout(String retailerId, String userId, String orderJson, String totalPrice, String address, String contactPhone){
+    private String buildCartCheckout(String retailerId, String userId, String orderJson, String totalPrice, String address, String contactPhone,String landmark, String state, String lga){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("retailerId",retailerId);
@@ -870,6 +873,9 @@ public class GroceryModel implements Parcelable {
             jsonObject.put("totalPrice",totalPrice);
             jsonObject.put("deliveryAddress",address);
             jsonObject.put("contactPhone",contactPhone);
+            jsonObject.put("landmark",landmark);
+            jsonObject.put("state",state);
+            jsonObject.put("lga",lga);
         } catch (JSONException e) {
             e.printStackTrace();
         }

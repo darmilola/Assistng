@@ -83,7 +83,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="180dp"
                 app:cardCornerRadius="8dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="2dp"
@@ -199,23 +199,155 @@
                             android:ellipsize="end"
                             android:fontFamily="@font/clannews"/>
                     </LinearLayout>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:fontFamily="@font/clannews"
-                        android:gravity="center"
-                        android:text="The Address is here fbvdjf fdjggbdbsgu dsguidshguds hguidshg dhgfesyg dfygdfy "
-                        android:layout_marginTop="10dp"
-                        android:maxLines="2"
-                        android:ellipsize="end"
-                        android:id="@+id/dashboard_order_address"
-                        android:layout_alignParentLeft="true"
-                        android:textColor="@color/light_text_color"
-                        android:textSize="14dp"/>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/clannews"
+                android:gravity="center"
+                android:text="The Address is here fbvdjf fdjggbdbsgu dsguidshguds hguidshg dhgfesyg dfygdfy "
+                android:layout_marginTop="10dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:id="@+id/dashboard_order_address"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/light_text_color"
+                android:textSize="14dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Landmark"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/clannews"
+                android:gravity="center"
+                android:text="The Address is here fbvdjf fdjggbdbsgu dsguidshguds hguidshg dhgfesyg dfygdfy "
+                android:layout_marginTop="10dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:id="@+id/dashboard_order_landmark"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/light_text_color"
+                android:textSize="14dp"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="State"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/clannews"
+                android:gravity="center"
+                android:text="The Address is here fbvdjf fdjggbdbsgu dsguidshguds hguidshg dhgfesyg dfygdfy "
+                android:layout_marginTop="10dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:id="@+id/dashboard_order_state"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/light_text_color"
+                android:textSize="14dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LGA"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/clannews"
+                android:gravity="center"
+                android:text="The Address is here fbvdjf fdjggbdbsgu dsguidshguds hguidshg dhgfesyg dfygdfy "
+                android:layout_marginTop="10dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:id="@+id/dashboard_order_lga"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/light_text_color"
+                android:textSize="14dp"/>
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:layout_width="match_parent"

@@ -14,8 +14,11 @@ public class Orders implements Parcelable {
     private String price;
     private String userPhone;
     private String userAddress;
+    private String landmark;
+    private String state;
+    private String lga;
 
-    public Orders(int orderId, String totalPrice,String status,String orderJson,String userFirstname, String userLastname,String userEmail, String userPhone, String userAddress){
+    public Orders(int orderId, String totalPrice,String status,String orderJson,String userFirstname, String userLastname,String userEmail, String userPhone, String userAddress, String landmark, String state, String lga){
         this.totalPrice = totalPrice;
         this.status = status;
         this.orderJson = orderJson;
@@ -25,6 +28,9 @@ public class Orders implements Parcelable {
         this.userEmail = userEmail;
         this.userPhone = userPhone;
         this.userAddress = userAddress;
+        this.landmark = landmark;
+        this.state = state;
+        this.lga = lga;
     }
 
 
@@ -39,25 +45,9 @@ public class Orders implements Parcelable {
         price = in.readString();
         userPhone = in.readString();
         userAddress = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(totalPrice);
-        dest.writeString(status);
-        dest.writeString(orderJson);
-        dest.writeInt(orderId);
-        dest.writeString(userFirstname);
-        dest.writeString(userLastname);
-        dest.writeString(userEmail);
-        dest.writeString(price);
-        dest.writeString(userPhone);
-        dest.writeString(userAddress);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+        landmark = in.readString();
+        state = in.readString();
+        lga = in.readString();
     }
 
     public static final Creator<Orders> CREATOR = new Creator<Orders>() {
@@ -117,4 +107,37 @@ public class Orders implements Parcelable {
     }
 
 
+    public String getLandmark() {
+        return landmark;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getLga() {
+        return lga;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(totalPrice);
+        dest.writeString(status);
+        dest.writeString(orderJson);
+        dest.writeInt(orderId);
+        dest.writeString(userFirstname);
+        dest.writeString(userLastname);
+        dest.writeString(userEmail);
+        dest.writeString(price);
+        dest.writeString(userPhone);
+        dest.writeString(userAddress);
+        dest.writeString(landmark);
+        dest.writeString(state);
+        dest.writeString(lga);
+    }
 }
