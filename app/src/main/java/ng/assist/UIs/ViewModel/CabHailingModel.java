@@ -375,7 +375,7 @@ public class CabHailingModel {
     }
 
     public String getDriverPhone() {
-        return driverPhone;
+        return phone;
     }
 
     public String getTotalPassenger() {

@@ -187,9 +187,16 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
     }
 
     private void populateList(){
-        cityList.add("Kano");
         cityList.add("Lagos");
         cityList.add("Abuja");
+        cityList.add("Kano");
+
+        String[] stateList = {"Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi"
+                ,"Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"};
+
+        for (String city : stateList) {
+            cityList.add(city);
+        }
         accommodationTypeList.add("Lodges");
         accommodationTypeList.add("Hotels");
     }

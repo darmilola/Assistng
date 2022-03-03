@@ -1,5 +1,6 @@
 package ng.assist.UIs.ViewModel;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -45,12 +46,12 @@ public class AccomodationListModel implements Parcelable {
     private String baseUrl = new URL().getBaseUrl();
     private String getAccomodationUrl = baseUrl+"house_listings/filter/by/details";
     private String getDetailsUrl = baseUrl+"house_listing_details/houseInfo";
+    private String updateListing = baseUrl+"agent/listings/update";
     private String accomodationType,location,maxPrice,minPrice,isAvailable;
     int totalListingsAvailable;
     private ArrayList<AccomodationListModel> listModelArrayList = new ArrayList<>();
     private ArrayList<ProductImageModel> imagesList = new ArrayList<>();
-
-
+    private UpdateListener updateListener;
 
 
     public interface AccomodationListReadyListener{
@@ -63,9 +64,23 @@ public class AccomodationListModel implements Parcelable {
         void onError(String message);
     }
 
+    public interface UpdateListener{
+        void onUpdateSuccess();
+        void onError();
+    }
+
+    public void setUpdateListener(UpdateListener updateListener) {
+        this.updateListener = updateListener;
+    }
+
     public AccomodationListModel(String houseId, String agentId){
         this.houseId = houseId;
         this.agentId = agentId;
+    }
+
+    public AccomodationListModel(String houseId, String isAvailable, Context context){
+        this.houseId = houseId;
+        this.isAvailable = isAvailable;
     }
 
     public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type){
@@ -179,6 +194,59 @@ public class AccomodationListModel implements Parcelable {
                 accomodationDetailsListener.onError(e.getLocalizedMessage());
             }
 
+        }
+    };
+
+
+    public void updateHouseInfo(){
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildUpdateAccomodation(houseId,isAvailable));
+            Request request = new Request.Builder()
+                    .url(updateListing)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = updateInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            updateInfoHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+    private Handler updateInfoHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                    updateListener.onUpdateSuccess();
+                }
+                else if(status.equalsIgnoreCase("failure")){
+                    updateListener.onError();
+                }
+                else{
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                updateListener.onError();
+            }
         }
     };
 
@@ -452,6 +520,17 @@ public class AccomodationListModel implements Parcelable {
         try {
             jsonObject.put("houseId",houseId);
             jsonObject.put("agentId",agentId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildUpdateAccomodation(String houseId, String isAvailable){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("houseId",houseId);
+            jsonObject.put("isAvailable",isAvailable);
         } catch (JSONException e) {
             e.printStackTrace();
         }

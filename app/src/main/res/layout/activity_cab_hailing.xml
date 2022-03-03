@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     android:background="@color/special_activity_background"
     tools:context=".CabHailingActivity">
 
@@ -115,6 +116,6 @@
 
         </LinearLayout>
 
-        <include layout="@layout/ride_display_view"/>
+        <include layout="@layout/ride_display_view" android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_gravity="center"/>
     </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

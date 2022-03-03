@@ -29,7 +29,7 @@ public class Accomodation extends AppCompatActivity {
     RangeSeekBar priceRangebar;
     TextView priceRangeText;
     ImageView navBack;
-    String selectedCity,type = "employee",min_price = "0",max_price = "1000000";
+    String selectedCity,type = "Hotels",min_price = "0",max_price = "1000000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +41,15 @@ public class Accomodation extends AppCompatActivity {
     private void initDialog(){
         ArrayList<String> cityList = new ArrayList<>();
         cityList.add("Lagos");
-        cityList.add("Kano");
         cityList.add("Abuja");
+        cityList.add("Kano");
 
+        String[] stateList = {"Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi"
+                ,"Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"};
+
+        for (String city : stateList) {
+            cityList.add(city);
+        }
 
         ListDialog listDialog = new ListDialog(cityList,Accomodation.this);
         listDialog.showListDialog();
@@ -133,7 +139,6 @@ public class Accomodation extends AppCompatActivity {
             public void onClick(View v) {
                 authEmployeeSelection();
                 unSelCorpmemebers();
-                //unSelOthers();
                 type = "hotels";
             }
         });

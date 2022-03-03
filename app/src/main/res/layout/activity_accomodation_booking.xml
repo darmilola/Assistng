@@ -14,6 +14,8 @@
         android:layout_height="40dp"
         android:id="@+id/acc_details_progress"/>
 
+    <include layout="@layout/error_layout"/>
+
 
 
 

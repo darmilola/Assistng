@@ -53,6 +53,7 @@ public class EcommerceLocations extends Fragment {
     }
     private void initView(){
         populateLocation();
+        listDialog = new ListDialog(locationList,getContext());
         progressBar = view.findViewById(R.id.eccommerce_location_progress);
         recyclerView = view.findViewById(R.id.dashboard_locations_recyclerview);
         addLocation = view.findViewById(R.id.eccommerce_location_add_location);
@@ -88,7 +89,6 @@ public class EcommerceLocations extends Fragment {
         addLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listDialog = new ListDialog(locationList,getContext());
                 listDialog.showListDialog();
                 listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
                     @Override

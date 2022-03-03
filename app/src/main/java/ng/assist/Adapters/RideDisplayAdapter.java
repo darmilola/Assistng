@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,6 +96,14 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
             departureTime = ItemView.findViewById(R.id.bus_departure_time);
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             String walletBalance = preferences.getString("walletBalance","0");
+
+            call.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", rideDisplayList.get(getAdapterPosition()).getDriverPhone(), null));
+                    context.startActivity(intent);
+                }
+            });
 
 
             book.setOnClickListener(new View.OnClickListener() {

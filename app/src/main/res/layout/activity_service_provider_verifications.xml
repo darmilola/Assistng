@@ -207,6 +207,16 @@
             android:id="@+id/verification_upload_img"
             android:src="@drawable/cloud_upload_2x"/>
     </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/clannews"
+                android:gravity="center|left"
+                android:id="@+id/verification_uploaded_image_name"
+                android:textColor="@color/light_text_color"/>
 
 
     <com.google.android.material.button.MaterialButton

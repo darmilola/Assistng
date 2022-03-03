@@ -2,11 +2,15 @@ package ng.assist;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -32,8 +36,12 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 
+import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.VerificationModel;
 
 public class ServiceProviderVerifications extends AppCompatActivity {
@@ -47,8 +55,9 @@ public class ServiceProviderVerifications extends AppCompatActivity {
     String mFirstname,mLastname,mAddress,mPhonenumber,mState,mLga;
     String userId;
     ScrollView rootView;
-    TextView statusText;
+    TextView statusText,uploadedImageName;
     ImageView navBack;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +83,7 @@ public class ServiceProviderVerifications extends AppCompatActivity {
         statusText = findViewById(R.id.verification_status_text);
         state = findViewById(R.id.verification_state);
         lga = findViewById(R.id.verification_lga);
+        uploadedImageName = findViewById(R.id.verification_uploaded_image_name);
 
         if(status.equalsIgnoreCase("pending")){
             statusText.setText("Your Verification is Pending...");
@@ -81,9 +91,9 @@ public class ServiceProviderVerifications extends AppCompatActivity {
             rootView.setVisibility(View.GONE);
         }
         else if(status.equalsIgnoreCase("approved")){
-            statusText.setText("You have been successfully Verified");
-            statusText.setVisibility(View.VISIBLE);
-            rootView.setVisibility(View.GONE);
+           statusText.setText("You have been successfully Verified");
+           statusText.setVisibility(View.VISIBLE);
+           rootView.setVisibility(View.VISIBLE);
         }
         else{
             statusText.setVisibility(View.GONE);
@@ -114,8 +124,7 @@ public class ServiceProviderVerifications extends AppCompatActivity {
                   verificationModel.setCreateVerifyListener(new VerificationModel.CreateVerifyListener() {
                       @Override
                       public void onSuccess() {
-                          finish();
-                          Toast.makeText(ServiceProviderVerifications.this, "Verification Applied Successfully", Toast.LENGTH_SHORT).show();
+                         showSuccessDialog();
                       }
 
                       @Override
@@ -149,6 +158,9 @@ public class ServiceProviderVerifications extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImageUri = data.getData();
+            File f = new File(getPath(ServiceProviderVerifications.this,selectedImageUri));
+            String imageName = f.getName();
+            uploadedImageName.setText(imageName);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
                 String imageString = BitmapToString(bitmap);
@@ -233,6 +245,23 @@ public class ServiceProviderVerifications extends AppCompatActivity {
         return valid;
     }
 
+    public static String getPath(Context context, Uri uri) {
+        String result = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver( ).query( uri, proj, null, null, null );
+        if(cursor != null){
+            if ( cursor.moveToFirst( ) ) {
+                int column_index = cursor.getColumnIndexOrThrow( proj[0] );
+                result = cursor.getString( column_index );
+            }
+            cursor.close( );
+        }
+        if(result == null) {
+            result = "Not found";
+        }
+        return result;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -241,6 +270,24 @@ public class ServiceProviderVerifications extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+    }
+
+    private void showSuccessDialog() {
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your submission has been received, the review process may take up to 24 hours")
+                .setCancelable(false)
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                       finish();
+                    }
+                });
+
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Assist Verification");
+        alert.show();
     }
 
 }

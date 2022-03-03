@@ -63,6 +63,8 @@ public class AccomodationBooking extends AppCompatActivity {
     AgentModel agentModel;
     AlertDialog.Builder builder;
     String userId;
+    LinearLayout errorRoot;
+    MaterialButton errorRetry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,8 @@ public class AccomodationBooking extends AppCompatActivity {
     }
 
     private void initView() {
+        errorRoot = findViewById(R.id.error_occurred_layout_root);
+        errorRetry = findViewById(R.id.error_occurred_retry);
         call = findViewById(R.id.acc_details_call);
         chat = findViewById(R.id.acc_details_chat);
         bookInspection = findViewById(R.id.acc_details_book_inspection);
@@ -89,17 +93,19 @@ public class AccomodationBooking extends AppCompatActivity {
         imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
         imagesIndicator = findViewById(R.id.product_image_indicator);
         agentPicture = findViewById(R.id.acc_details_agent_pic);
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationBooking.this, LinearLayoutManager.HORIZONTAL, false);
+        imagesRecyclerview.setLayoutManager(imagesManager);
+        pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
+        imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
+
 
         agentId = accomodationListModel.getAgentId();
         houseId = accomodationListModel.getHouseId();
 
         houseTitle.setText(accomodationListModel.getHouseTitle());
 
-        if (accomodationListModel.getType().equalsIgnoreCase("lodges")) {
-            pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per month");
-        } else {
-            pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per day");
-        }
+
 
 
         adddress.setText(accomodationListModel.getAddress());
@@ -107,66 +113,47 @@ public class AccomodationBooking extends AppCompatActivity {
         bookingFee.setText("₦" + accomodationListModel.getBookingFee());
         userId = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this).getString("userEmail", "null");
 
-
-        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
-        LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationBooking.this, LinearLayoutManager.HORIZONTAL, false);
-        imagesRecyclerview.setLayoutManager(imagesManager);
+        loadPage();
 
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AccomodationBooking.this, ChatActivity.class);
-                intent.putExtra("receiverId", agentModel.getAgentId());
-                intent.putExtra("receiverFirstname", agentModel.getAgentFirstname());
-                intent.putExtra("receiverLastname", agentModel.getAgentLastName());
-                intent.putExtra("receiverImageUrl", agentModel.getAgentPicUrl());
-                startActivity(intent);
+                if (!isValidBalance()) {
+                    Toast.makeText(AccomodationBooking.this, "You do not have sufficient balance to complete this action", Toast.LENGTH_SHORT).show();
+                } else{
+                    Intent intent = new Intent(AccomodationBooking.this, ChatActivity.class);
+                    intent.putExtra("receiverId", agentModel.getAgentId());
+                    intent.putExtra("receiverFirstname", agentModel.getAgentFirstname());
+                    intent.putExtra("receiverLastname", agentModel.getAgentLastName());
+                    intent.putExtra("receiverImageUrl", agentModel.getAgentPicUrl());
+                    startActivity(intent);
+            }
+            }
+        });
+
+        errorRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPage();
             }
         });
 
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", agentModel.getAgentPhone(), null));
-                startActivity(intent);
+
+                if(!isValidBalance()){
+                    Toast.makeText(AccomodationBooking.this, "You do not have sufficient balance to complete this action", Toast.LENGTH_SHORT).show();
+                }
+                else {
+
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", agentModel.getAgentPhone(), null));
+                    startActivity(intent);
+                }
             }
         });
 
-        AccomodationListModel accomodationListModel1 = new AccomodationListModel(houseId, agentId);
-        accomodationListModel1.getAccomodationDetails();
-        accomodationListModel1.setAccomodationDetailsListener(new AccomodationListModel.AccomodationDetailsListener() {
-            @Override
-            public void onDetailsReady(ArrayList<ProductImageModel> mImageList, AgentModel agentModel) {
 
-                loadingBar.setVisibility(View.GONE);
-                rootLayout.setVisibility(View.VISIBLE);
-                bookNowLayout.setVisibility(View.VISIBLE);
-                AccomodationBooking.this.agentModel = agentModel;
-                adapter = new ProductImageScrollAdapter(mImageList, AccomodationBooking.this);
-                agentName.setText(agentModel.getAgentFirstname());
-                imagesRecyclerview.setAdapter(adapter);
-                imagesRecyclerview.setVisibility(View.VISIBLE);
-                imageScrollLayout.setVisibility(View.VISIBLE);
-                pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
-                imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
-                adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
-
-
-                Glide.with(AccomodationBooking.this)
-                        .load(agentModel.getAgentPicUrl())
-                        .placeholder(R.drawable.background_image)
-                        .error(R.drawable.background_image)
-                        .into(agentPicture);
-            }
-
-            @Override
-            public void onError(String message) {
-                loadingBar.setVisibility(View.GONE);
-                rootLayout.setVisibility(View.GONE);
-                bookNowLayout.setVisibility(View.GONE);
-                Toast.makeText(AccomodationBooking.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         bookInspection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +170,63 @@ public class AccomodationBooking extends AppCompatActivity {
             return false;
         } else {
             return true;
+        }
+    }
+
+    public boolean isValidBalance() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this);
+        String walletBalance = preferences.getString("walletBalance", "0");
+        if (Integer.parseInt(walletBalance) < 1000) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void loadPage(){
+
+        loadingBar.setVisibility(View.VISIBLE);
+        rootLayout.setVisibility(View.GONE);
+        errorRoot.setVisibility(View.GONE);
+        AccomodationListModel accomodationListModel1 = new AccomodationListModel(houseId, agentId);
+        accomodationListModel1.getAccomodationDetails();
+        accomodationListModel1.setAccomodationDetailsListener(new AccomodationListModel.AccomodationDetailsListener() {
+            @Override
+            public void onDetailsReady(ArrayList<ProductImageModel> mImageList, AgentModel agentModel) {
+
+                loadingBar.setVisibility(View.GONE);
+                rootLayout.setVisibility(View.VISIBLE);
+                errorRoot.setVisibility(View.GONE);
+                AccomodationBooking.this.agentModel = agentModel;
+                adapter = new ProductImageScrollAdapter(mImageList, AccomodationBooking.this);
+                adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
+                agentName.setText(agentModel.getAgentFirstname());
+                imagesRecyclerview.setAdapter(adapter);
+                imagesRecyclerview.setVisibility(View.VISIBLE);
+                imageScrollLayout.setVisibility(View.VISIBLE);
+
+
+                Glide.with(AccomodationBooking.this)
+                        .load(agentModel.getAgentPicUrl())
+                        .placeholder(R.drawable.background_image)
+                        .error(R.drawable.background_image)
+                        .into(agentPicture);
+            }
+
+            @Override
+            public void onError(String message) {
+                loadingBar.setVisibility(View.GONE);
+                rootLayout.setVisibility(View.GONE);
+                errorRoot.setVisibility(View.VISIBLE);
+            }
+        });
+
+        if (accomodationListModel.getType().equalsIgnoreCase("lodges")) {
+            pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per month");
+            bookNowLayout.setVisibility(View.VISIBLE);
+        } else {
+            pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per day");
+            bookNowLayout.setVisibility(View.GONE);
         }
     }
 

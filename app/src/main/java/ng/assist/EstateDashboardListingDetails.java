@@ -11,6 +11,7 @@ import me.relex.circleindicator.CircleIndicator2;
 import ng.assist.Adapters.ProductImageScrollAdapter;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.AgentModel;
+import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
 import ng.assist.UIs.ViewModel.EstateDashboardModel;
 import ng.assist.UIs.ViewModel.ProductImageModel;
 
@@ -19,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,6 +50,7 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
     String houseId, agentId;
     MaterialButton deleteListing;
     LinearLayout imageScrollLayout;
+    CheckBox isAvailable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +72,7 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
         imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
         imagesIndicator = findViewById(R.id.product_image_indicator);
         bookingFee = findViewById(R.id.estate_dashboard_details_booking_fee);
-
+        isAvailable = findViewById(R.id.estate_dashboard_details_is_available);
 
         agentId = accomodationListModel.getAgentId();
         houseId = accomodationListModel.getHouseId();
@@ -94,7 +97,42 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
             pricePerMonth.setText(formattedPrice2+"/day");
         }
 
+        if(accomodationListModel.getIsAvailable().equalsIgnoreCase("false")){
+            isAvailable.setChecked(false);
+        }
+        else{
+            isAvailable.setChecked(true);
+        }
+
+
         bookingFee.setText(formattedPrice);
+
+
+        isAvailable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AccomodationListModel mAccomodationListModel = null;
+                if(isChecked){
+                    mAccomodationListModel = new AccomodationListModel(accomodationListModel.getHouseId(),"true",null);
+                }
+                else{
+                    mAccomodationListModel = new AccomodationListModel(accomodationListModel.getHouseId(),"false",null);
+
+                }
+                mAccomodationListModel.updateHouseInfo();
+                mAccomodationListModel.setUpdateListener(new AccomodationListModel.UpdateListener() {
+                    @Override
+                    public void onUpdateSuccess() {
+                        Toast.makeText(EstateDashboardListingDetails.this, "Update Successful", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(EstateDashboardListingDetails.this, "Update Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
 
 

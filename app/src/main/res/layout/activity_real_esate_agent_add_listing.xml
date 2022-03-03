@@ -212,8 +212,9 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:paddingLeft="5dp"
+                android:paddingLeft="15dp"
                 android:paddingRight="5dp"
+                android:gravity="center|left"
                 android:id="@+id/real_estate_add_listing_type"
                 android:background="@drawable/edit_profile_edittext_background"/>
 
@@ -260,7 +261,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:maxLines="1"
                 android:maxLength="500"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"

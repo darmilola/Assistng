@@ -149,6 +149,15 @@
                 android:fontFamily="@font/clannews"
                 android:text="@string/long_text"/>
 
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="Make this Listing Available"
+                android:layout_marginTop="10dp"
+                android:id="@+id/estate_dashboard_details_is_available"
+                android:layout_marginBottom="10dp"/>
+
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="200dp"
