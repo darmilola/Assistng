@@ -1,6 +1,7 @@
 package ng.assist.UIs;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.DirectMessagesAdapter;
 import ng.assist.MainActivity;
 import ng.assist.R;
+import ng.assist.UIs.ViewModel.Message;
 import ng.assist.UIs.ViewModel.MessageConnectionModel;
 
 /**
@@ -34,9 +36,23 @@ public class DmFragment extends Fragment {
     DirectMessagesAdapter adapter;
     RecyclerView recyclerView;
     MessageConnectionModel messageConnectionModel;
+    ArrayList<MessageConnectionModel> messageConnectionModelArrayList;
     ProgressBar loadingProgress;
+    UnreadReadyListener unreadReadyListener;
+    int unreadCount = 0;
     public DmFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        unreadReadyListener = (UnreadReadyListener) context;
+    }
+
+
+    public interface UnreadReadyListener{
+        void onUnreadReady(int count);
     }
 
 
@@ -60,12 +76,14 @@ public class DmFragment extends Fragment {
         messageConnectionModel.setConnectionListener(new MessageConnectionModel.ConnectionListener() {
             @Override
             public void onConnectionReady(ArrayList<MessageConnectionModel> messageConnectionModels) {
+                messageConnectionModelArrayList = messageConnectionModels;
                 loadingProgress.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
                 adapter = new DirectMessagesAdapter(messageConnectionModels,getContext());
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,true);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
+                validateUnreadMessage();
             }
             @Override
             public void onConnectionEmpty(String message) {
@@ -86,6 +104,24 @@ public class DmFragment extends Fragment {
             getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
+
+    private void addUnreadAvailable(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preferences.edit().putBoolean("isUnread",true).apply();
+    }
+
+    private void validateUnreadMessage(){
+        for(MessageConnectionModel messageConnectionModel: messageConnectionModelArrayList){
+            if(messageConnectionModel.getUnreadCount() > 0){
+                unreadCount = unreadCount + messageConnectionModel.getUnreadCount();
+                addUnreadAvailable();
+            }
+            if(unreadCount > 0){
+                unreadReadyListener.onUnreadReady(unreadCount);
+            }
+        }
+    }
+
 
 
 

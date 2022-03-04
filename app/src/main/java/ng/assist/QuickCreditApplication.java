@@ -53,7 +53,6 @@ public class QuickCreditApplication extends AppCompatActivity implements QuickCr
 
     @Override
     public void onAuthSuccessful(String Amount) {
-
          amountReadyListener.onAmountReady(Amount);
          viewPager.setCurrentItem(1,true);
     }

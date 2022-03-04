@@ -14,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,7 @@ public class AccountFragments extends Fragment {
     TextView usernameField;
     String accountType;
     SharedPreferences preferences;
+    ImageView isVerifiedBadge;
 
 
     public AccountFragments() {
@@ -72,6 +74,7 @@ public class AccountFragments extends Fragment {
     }
 
     private void initView() {
+        isVerifiedBadge = view.findViewById(R.id.verification_badge);
         userVerification = view.findViewById(R.id.account_users_verification);
         usernameField = view.findViewById(R.id.account_name);
         logOut = view.findViewById(R.id.account_log_out);
@@ -82,6 +85,13 @@ public class AccountFragments extends Fragment {
         switchAccount = view.findViewById(R.id.account_switch_account);
         provideAService = view.findViewById(R.id.account_provide_a_service);
         dashboardLayout.setVisibility(View.GONE);
+
+        if(!isVerified()){
+            isVerifiedBadge.setVisibility(View.VISIBLE);
+        }
+        else{
+            isVerifiedBadge.setVisibility(View.GONE);
+        }
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String userImage =  preferences.getString("imageUrl","");
@@ -244,6 +254,19 @@ public class AccountFragments extends Fragment {
                     }
                 });
            }
+
+    private boolean isVerified(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String isVerified =  preferences.getString("isVerified","false");
+        if(isVerified.equalsIgnoreCase("true")){
+            return true;
+        }
+        else{
+            return false;
+
+
+        }
+    }
 
 
 }

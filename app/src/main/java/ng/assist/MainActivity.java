@@ -34,7 +34,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DmFragment.UnreadReadyListener {
 
     BottomNavigationView bottomNavigationView;
     viewPagerAdapter adapter = new viewPagerAdapter(getSupportFragmentManager());
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             addWalletBadge();
         }
 
+
         refreshPage();
 
         retry.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +101,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onUnreadReady(int count) {
+        addUnreadBadge(count);
+    }
 
 
     public class viewPagerAdapter extends FragmentPagerAdapter {
@@ -214,10 +218,26 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        if(!isVerified()){
+            addVerificationBadge();
+        }
+
     }
 
     private void addWalletBadge(){
         BadgeDrawable badgeDrawable = bottomNavigationView.showBadge(R.id.wallet);
+        badgeDrawable.setVisible(true);
+    }
+
+    private void addUnreadBadge(int count){
+        BadgeDrawable badgeDrawable = bottomNavigationView.showBadge(R.id.explore);
+        badgeDrawable.setVisible(true);
+        badgeDrawable.setNumber(count);
+    }
+
+    private void addVerificationBadge(){
+        BadgeDrawable badgeDrawable = bottomNavigationView.showBadge(R.id.my_dm);
         badgeDrawable.setVisible(true);
     }
 
@@ -247,6 +267,21 @@ public class MainActivity extends AppCompatActivity {
         boolean isAvailable =  preferences.getBoolean("isPending",false);
         return isAvailable;
     }
+
+    private boolean isVerified(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String isVerified =  preferences.getString("isVerified","false");
+        if(isVerified.equalsIgnoreCase("true")){
+            return true;
+        }
+        else{
+            return false;
+
+
+        }
+    }
+
+
 
 
 

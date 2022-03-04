@@ -97,8 +97,8 @@ public class ServiceProviderVerifications extends AppCompatActivity {
             rootView.setVisibility(View.GONE);
         }
         else if(status.equalsIgnoreCase("approved")){
-          // statusText.setText("You have been successfully Verified");
-          // statusText.setVisibility(View.VISIBLE);
+           statusText.setText("You have been successfully Verified");
+           statusText.setVisibility(View.VISIBLE);
            rootView.setVisibility(View.VISIBLE);
         }
         else{

@@ -115,6 +115,7 @@ public class ChatActivity  extends AppCompatActivity  implements MessageInput.In
         initAdapter();
         initSocket();
         performHttpRequest();
+        removeUnread();
 
     }
 
@@ -448,7 +449,11 @@ public class ChatActivity  extends AppCompatActivity  implements MessageInput.In
     public void onDestroy() {
         mSocket.emit("disconnected",senderId,receiverId);
         super.onDestroy();
+    }
 
+    private void removeUnread(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ChatActivity.this);
+        preferences.edit().remove("isUnread").apply();
     }
 
 }
