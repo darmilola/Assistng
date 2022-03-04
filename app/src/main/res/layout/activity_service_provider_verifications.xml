@@ -109,7 +109,7 @@
     </LinearLayout>
 
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:maxLines="1"
@@ -216,7 +216,7 @@
                 android:fontFamily="@font/clannews"
                 android:gravity="center|left"
                 android:id="@+id/verification_uploaded_image_name"
-                android:textColor="@color/light_text_color"/>
+                android:textColor="@color/pink"/>
 
 
     <com.google.android.material.button.MaterialButton
@@ -228,7 +228,7 @@
         android:layout_marginRight="40dp"
         android:gravity="center"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:textSize="17dp"
         android:id="@+id/verification_apply"
         android:fontFamily="@font/clannews"

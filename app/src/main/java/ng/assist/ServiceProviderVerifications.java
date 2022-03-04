@@ -39,8 +39,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
+import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.VerificationModel;
 
@@ -48,16 +50,17 @@ public class ServiceProviderVerifications extends AppCompatActivity {
 
     static int PICK_IMAGE = 1;
     String uploadIdUrl = "";
-    EditText firstname,lastname,address,phonenumber,state,lga;
+    EditText firstname,lastname,address,phonenumber,lga;
     LinearLayout idLayout;
     ImageView uploadIdImg;
     MaterialButton apply;
     String mFirstname,mLastname,mAddress,mPhonenumber,mState,mLga;
     String userId;
     ScrollView rootView;
-    TextView statusText,uploadedImageName;
+    TextView statusText,uploadedImageName,state;
     ImageView navBack;
     AlertDialog.Builder builder;
+    ListDialog listDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class ServiceProviderVerifications extends AppCompatActivity {
         String status = preferences.getString("verificationStatus","notVerified");
 
 
+        initDialog();
         navBack = findViewById(R.id.nav_back);
         navBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +82,8 @@ public class ServiceProviderVerifications extends AppCompatActivity {
                 finish();
             }
         });
+
+
 
         rootView = findViewById(R.id.verification_form_root);
         statusText = findViewById(R.id.verification_status_text);
@@ -91,8 +97,8 @@ public class ServiceProviderVerifications extends AppCompatActivity {
             rootView.setVisibility(View.GONE);
         }
         else if(status.equalsIgnoreCase("approved")){
-           statusText.setText("You have been successfully Verified");
-           statusText.setVisibility(View.VISIBLE);
+          // statusText.setText("You have been successfully Verified");
+          // statusText.setVisibility(View.VISIBLE);
            rootView.setVisibility(View.VISIBLE);
         }
         else{
@@ -135,6 +141,13 @@ public class ServiceProviderVerifications extends AppCompatActivity {
               }
 
 
+            }
+        });
+
+        state.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listDialog.showListDialog();
             }
         });
 
@@ -288,6 +301,28 @@ public class ServiceProviderVerifications extends AppCompatActivity {
         //Setting the title manually
         alert.setTitle("Assist Verification");
         alert.show();
+    }
+
+    private void initDialog(){
+        ArrayList<String> cityList = new ArrayList<>();
+        cityList.add("Lagos");
+        cityList.add("Abuja");
+        cityList.add("Kano");
+
+        String[] stateList = {"Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi"
+                ,"Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"};
+
+        for (String city : stateList) {
+            cityList.add(city);
+        }
+
+        listDialog = new ListDialog(cityList,ServiceProviderVerifications.this);
+        listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
+            @Override
+            public void onItemClicked(String city) {
+                state.setText(city);
+            }
+        });
     }
 
 }
