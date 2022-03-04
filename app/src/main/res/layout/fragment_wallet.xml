@@ -128,11 +128,24 @@
                     </LinearLayout>
 
 
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="right"
+                            android:elevation="1dp"
+                            android:id="@+id/pending_badge"
+                            android:background="@drawable/pink_radius"/>
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
+                        android:layout_marginTop="3dp"
                         android:layout_marginLeft="30dp">
 
 
@@ -161,8 +174,8 @@
                             android:gravity="center"
                             android:fontFamily="@font/clannews"
                             android:textColor="@color/light_text_color"/>
-                    </LinearLayout>
-
+                     </LinearLayout>
+                    </FrameLayout>
 
 
                     <LinearLayout

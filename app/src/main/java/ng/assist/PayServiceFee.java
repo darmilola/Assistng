@@ -88,6 +88,7 @@ public class PayServiceFee extends AppCompatActivity {
                             successAmount.setText(serviceFee.getText().toString().trim());
                             payLayout.setVisibility(View.GONE);
                             successLayout.setVisibility(View.VISIBLE);
+                            addPending();
                             Date date = new Date();
                             Timestamp timestamp = new Timestamp(date.getTime());
                             insertBooking(0,4,"Service",timestamp.toString(),Integer.toString(cost),"");
@@ -140,5 +141,10 @@ public class PayServiceFee extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+    }
+
+    private void addPending(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(PayServiceFee.this);
+        preferences.edit().putBoolean("isPending",true).apply();
     }
 }

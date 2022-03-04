@@ -1,9 +1,9 @@
 package ng.assist.UIs
 
 
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 
@@ -15,7 +15,7 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 
@@ -26,8 +26,6 @@ import java.text.DecimalFormat
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
-import co.paystack.android.PaystackSdk.applicationContext
 import ng.assist.Adapters.WalletAdapter
 import ng.assist.Bills
 import ng.assist.R
@@ -57,6 +55,7 @@ class WalletKt : Fragment() {
     internal lateinit var withdrawals: LinearLayout
     internal lateinit var bills: LinearLayout
     internal lateinit var walletBalanceText: TextView
+    internal lateinit var pendingImage: ImageView
     internal var mWalletBalance: String? = null
 
 
@@ -71,6 +70,7 @@ class WalletKt : Fragment() {
 
     private fun initView() {
 
+        pendingImage = view.findViewById(R.id.pending_badge)
         walletBalanceText = view.findViewById(R.id.wallet_balance_text)
         walletRecyclerview = view.findViewById(R.id.wallet_transcations_recyclerview)
         collapsingToolbarLayout = view.findViewById(R.id.wallet_collapsing_toolbar_layout)
@@ -95,6 +95,12 @@ class WalletKt : Fragment() {
         withdrawals.setOnClickListener { startActivity(Intent(context, RequestWithdrawal::class.java)) }
 
 
+        if(isPendingAvailable()){
+            pendingImage.visibility = View.VISIBLE
+        }
+        else{
+            pendingImage.visibility = View.GONE
+        }
 
 
         walletAppbar.addOnOffsetChangedListener(object :  AppBarLayout.OnOffsetChangedListener {
@@ -176,5 +182,12 @@ class WalletKt : Fragment() {
         private val TOP_UP_REQ = 0
         private val SEND_MONEY_REQ = 3
     }
+
+    private fun isPendingAvailable(): Boolean {
+        val preferences =
+            PreferenceManager.getDefaultSharedPreferences(requireContext())
+        return preferences.getBoolean("isPending", false)
+    }
+
 
 }// Required empty public constructor

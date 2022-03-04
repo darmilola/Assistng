@@ -145,6 +145,7 @@ public class GroceryCart extends AppCompatActivity {
                                     createBill.setCreateBillListener(new CreatBill.CreateBillListener() {
                                         @Override
                                         public void onSuccess() {
+                                            addPending();
                                             Date date = new Date();
                                             Timestamp timestamp = new Timestamp(date.getTime());
                                             insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,"");
@@ -203,5 +204,10 @@ public class GroceryCart extends AppCompatActivity {
         Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
         TransactionDao transactionDao = db.transactionDao();
         transactionDao.insert(transactions);
+    }
+
+    private void addPending(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GroceryCart.this);
+        preferences.edit().putBoolean("isPending",true).apply();
     }
 }

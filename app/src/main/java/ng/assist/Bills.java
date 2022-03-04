@@ -8,8 +8,10 @@ import ng.assist.Adapters.BillsAdapter;
 import ng.assist.UIs.ViewModel.BillsModel;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -37,6 +39,7 @@ public class Bills extends AppCompatActivity {
     }
 
     private void initView(){
+        removePending();
         retry = findViewById(R.id.error_occurred_retry);
         errorLayout = findViewById(R.id.error_occurred_layout_root);
         navBack = findViewById(R.id.bills_back_nav);
@@ -113,6 +116,11 @@ public class Bills extends AppCompatActivity {
                 errorLayout.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void removePending(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Bills.this);
+        preferences.edit().remove("isPending").apply();
     }
 
 }

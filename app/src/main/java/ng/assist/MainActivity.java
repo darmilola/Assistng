@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setCurrentItem(0, false);
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setSelected(true);
+        if(isPendingAvailable()){
+            addWalletBadge();
+        }
 
         refreshPage();
 
@@ -212,6 +216,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void addWalletBadge(){
+        BadgeDrawable badgeDrawable = bottomNavigationView.showBadge(R.id.wallet);
+        badgeDrawable.setVisible(true);
+    }
+
 
 
     @Override
@@ -231,6 +240,12 @@ public class MainActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
+    }
+
+    private boolean isPendingAvailable(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        boolean isAvailable =  preferences.getBoolean("isPending",false);
+        return isAvailable;
     }
 
 
