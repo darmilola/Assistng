@@ -39,7 +39,7 @@ import ng.assist.UIs.ViewModel.LoanModel;
  */
 public class LoanApply extends Fragment implements QuickCreditApplication.AmountReadyListener {
 
-    TextView amount,paybackPeriod,monthlyDue,totalRepayment;
+    TextView amount,paybackPeriod,monthlyDue,totalRepayment,serviceFee;
     RelativeLayout paybackDropdown;
     MaterialButton apply;
     View view;
@@ -96,6 +96,7 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
         totalRepayment = view.findViewById(R.id.quick_credit_total_repayment);
         paybackDropdown = view.findViewById(R.id.loan_apply_payback_dropdown);
         apply = view.findViewById(R.id.quick_credit_apply_button);
+        serviceFee = view.findViewById(R.id.quick_credit_service_fee);
         accountCode = preferences.getString("accountCode","");
         userId = preferences.getString("userEmail","");
 
@@ -113,10 +114,14 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
                          monthlyDue.setText(mMonthlyDue);
                          String mTotalRepayment = calcTotalRepayment(month,mMonthlyDue);
                          totalRepayment.setText(mTotalRepayment);
+                         serviceFee.setText(calcServiceFee(Integer.parseInt(getPaybackMonth(paybackPeriod.getText().toString()))));
+
                     }
                 });
             }
         });
+
+        serviceFee.setText(calcServiceFee(Integer.parseInt(getPaybackMonth(paybackPeriod.getText().toString()))));
 
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,27 +194,27 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
 
     private String calcMonthlyDue(String paybackMonth){
         if(paybackMonth.equalsIgnoreCase("1 month")){
-            int due = Integer.parseInt(loanAmount) + 1000;
+            int due = Integer.parseInt(loanAmount);
             return Integer.toString(due);
         }
         else if(paybackMonth.equalsIgnoreCase("2 months")){
-            int due = ((int)(Integer.parseInt(loanAmount)/2)) + 1000;
+            int due = ((int)(Integer.parseInt(loanAmount)/2));
             return Integer.toString(due);
         }
         else if(paybackMonth.equalsIgnoreCase("3 months")){
-            int due = ((int)(Integer.parseInt(loanAmount)/3)) + 1000;
+            int due = ((int)(Integer.parseInt(loanAmount)/3));
             return Integer.toString(due);
         }
         else if(paybackMonth.equalsIgnoreCase("4 months")){
-            int due = ((int)(Integer.parseInt(loanAmount)/4)) + 1000;
+            int due = ((int)(Integer.parseInt(loanAmount)/4));
             return Integer.toString(due);
         }
         else if(paybackMonth.equalsIgnoreCase("5 months")){
-            int due = ((int)(Integer.parseInt(loanAmount)/5)) + 1000;
+            int due = ((int)(Integer.parseInt(loanAmount)/5));
             return Integer.toString(due);
         }
         else{
-            int due = Integer.parseInt(loanAmount) + 1000;
+            int due = Integer.parseInt(loanAmount);
             return Integer.toString(due);
         }
     }
@@ -233,6 +238,11 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
         else{
             return "1";
         }
+    }
+
+    private String calcServiceFee(int paybackMonths){
+        int serviceFee = (700 * paybackMonths) + 250;
+        return Integer.toString(serviceFee);
     }
 
     private void populateRepaymentList(){

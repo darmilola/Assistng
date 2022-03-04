@@ -142,6 +142,34 @@
         android:background="@drawable/greyed_dotted_rect"/>
 
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Service Fee"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15dp"
+                android:layout_marginLeft="20dp"
+                android:gravity="center|left"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/clannews"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="18dp"
+                android:fontFamily="@font/clannews"
+                android:gravity="center|left"
+                android:paddingLeft="10dp"
+                android:maxLines="1"
+                android:id="@+id/quick_credit_service_fee"
+                android:ellipsize="end"
+                android:textColor="@color/grey"
+                android:background="@drawable/greyed_dotted_rect"/>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -153,6 +181,7 @@
         android:gravity="center|left"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/clannews"/>
     <TextView
         android:layout_width="match_parent"
@@ -173,7 +202,7 @@
            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="There will be a processing fee of N1500 to be deducted before crediting the wallet"
+                android:text="The Service fee will be deducted before crediting your wallet"
                 android:textColor="@color/light_text_color"
                 android:textSize="14dp"
                 android:layout_marginLeft="20dp"
