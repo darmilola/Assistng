@@ -105,6 +105,7 @@ public class LoanModel {
             Message msg = loanApplyHandler.obtainMessage();
             Bundle bundle = new Bundle();
             bundle.putString("response", mResponse);
+            Log.e("Apply ",mResponse );
             msg.setData(bundle);
             loanApplyHandler.sendMessage(msg);
         };

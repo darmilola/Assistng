@@ -66,6 +66,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
     ArrayList<String> personalServicesList = new ArrayList<>();
     ArrayList<String> homeServiceList = new ArrayList<>();
     ListDialog cityListDialog;
+    MaterialButton showBookings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +78,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         populateList();
         populateLocation();
 
+        showBookings = findViewById(R.id.service_provider_dashboard_view_bookings);
         errorLayout = findViewById(R.id.error_occurred_layout_root);
         retry = findViewById(R.id.error_occurred_retry);
         cityName = findViewById(R.id.service_provider_dashboard_city);
@@ -99,6 +101,13 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         progressBar = findViewById(R.id.service_provider_dashboard_progress);
         providerName = findViewById(R.id.service_provider_dashboard_provider_name);
 
+
+        showBookings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ServiceProviderDashboard.this,ServiceBookingActivity.class));
+            }
+        });
 
         showProvider();
 

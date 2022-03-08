@@ -19,6 +19,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ServiceBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ServiceBookingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".RepairServicesDetails"
             android:exported="false" />
         <activity

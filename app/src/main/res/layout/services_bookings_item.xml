@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:gravity="center"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:minHeight="60dp"
+        android:layout_marginBottom="5dp"
+        android:weightSum="5">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.2">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/message_connection_sender_profile_image"
+                android:src="@drawable/profileplaceholder"/>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:layout_weight="4.6">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/airsemi"
+                android:id="@+id/message_connection_sender_name"
+                android:text="John Doe"
+                android:textColor="@color/dark_text_color"
+                android:textSize="17dp"
+                android:layout_marginBottom="1dp"/>
+
+            <TextView
+                android:id="@+id/message_connection_last_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/airreg"
+                android:maxLines="2"
+                android:lineSpacingExtra="4dp"
+                android:text="Pending"
+                android:textColor="@color/light_text_color"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="15dp"
+            android:layout_weight="0.3">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Aug 29"
+                android:id="@+id/message_connection_timestamp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:fontFamily="@font/airreg"
+                android:textColor="#969595"
+                android:textSize="14dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginTop="6dp"
+                android:id="@+id/message_connection_unread_count_layout"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:text="NGN 2000"
+                    android:id="@+id/message_connection_unread_count"
+                    android:fontFamily="@font/airreg"
+                    android:textColor="@color/grey"
+                    android:textSize="12dp"/>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="7dp"
+        android:background="#F1F1F1" />
+</LinearLayout>
