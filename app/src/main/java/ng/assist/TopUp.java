@@ -25,6 +25,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.flutterwave.raveandroid.RavePayActivity;
+import com.flutterwave.raveandroid.RaveUiManager;
+import com.flutterwave.raveandroid.rave_java_commons.RaveConstants;
 import com.google.android.material.button.MaterialButton;
 import com.tenbis.library.consts.CardType;
 import com.tenbis.library.listeners.OnCreditCardStateChanged;
@@ -45,12 +48,16 @@ public class TopUp extends AppCompatActivity {
     private Card card;
     private boolean isCardValid = false;
     MaterialButton topUpButton;
-    CompactCreditCardInput compactCreditCardInput;
     EditText topUpAmount;
-    int topUpAmountValue;
+    double topUpAmountValue;
     LoadingDialogUtils loadingDialogUtils;
     String userId = "";
     LinearLayout backNav;
+    String firstname, lastname;
+    String publicKey = "FLWPUBK_TEST-61b223e8283eee1c9d387f5f9eba8316-X";
+    String encryptionKey = "FLWSECK_TESTa32b07c45304";
+    String transferRef = generateTransferRef();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +67,15 @@ public class TopUp extends AppCompatActivity {
         initView();
     }
 
-    private void initView(){
+    private void initView() {
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(TopUp.this);
-        userId = preferences.getString("userEmail","");
+        userId = preferences.getString("userEmail", "");
+        firstname = preferences.getString("firstname","");
+        lastname = preferences.getString("lastname","");
 
         backNav = findViewById(R.id.top_up_back_nav);
         loadingDialogUtils = new LoadingDialogUtils(TopUp.this);
-        compactCreditCardInput = findViewById(R.id.compact_credit_card_input);
         topUpAmount = findViewById(R.id.top_up_amount_text);
         topUpButton = findViewById(R.id.topup_charge_card_button);
         topUpButton.setOnClickListener(new View.OnClickListener() {
@@ -83,43 +92,8 @@ public class TopUp extends AppCompatActivity {
             }
         });
 
-        compactCreditCardInput.addOnCreditCardStateChangedListener(new OnCreditCardStateChanged() {
-            @Override
-            public void onCreditCardValid(@NotNull CreditCard creditCard) {
-                isCardValid = true;
-                mCardNumber = creditCard.getCardNumber();
-                mCvv = creditCard.getCvv();
-                mExpiryMonth = creditCard.getExpiryMonth();
-                mExpiryYear = creditCard.getExpiryYear();
-            }
-
-            @Override
-            public void onCreditCardNumberValid(@NotNull String s) {
-
-            }
-
-            @Override
-            public void onCreditCardExpirationDateValid(int i, int i1) {
-
-            }
-
-            @Override
-            public void onCreditCardCvvValid(@NotNull String s) {
-
-            }
-
-            @Override
-            public void onCreditCardTypeFound(@NotNull CardType cardType) {
-
-            }
-
-            @Override
-            public void onInvalidCardTyped() {
-               isCardValid = false;
-                Toast.makeText(TopUp.this, "Card not valid", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
+
 
     private void chargeCard(){
         card = new Card(mCardNumber, mExpiryMonth, mExpiryYear, mCvv);
@@ -127,65 +101,26 @@ public class TopUp extends AppCompatActivity {
             topUpAmount.setError("Required");
             return;
         }
-        topUpAmountValue = Integer.parseInt(topUpAmount.getText().toString().trim());
-        if (card.isValid() && isCardValid) {
-            performCharge();
-        } else {
-            Toast.makeText(this, "Error occurred please try again", Toast.LENGTH_SHORT).show();
-        }
+        topUpAmountValue = Double.parseDouble(topUpAmount.getText().toString().trim());
+
+        new RaveUiManager(TopUp.this).setAmount(topUpAmountValue)
+                .setCurrency("NGN")
+                .setEmail(userId)
+                .setfName(firstname)
+                .setlName(lastname)
+                .setPublicKey(publicKey)
+                .setEncryptionKey(encryptionKey)
+                .setTxRef(transferRef)
+                .acceptUssdPayments(true)
+                .acceptBarterPayments(true)
+                .allowSaveCardFeature(true)
+                .acceptAccountPayments(true)
+                .acceptCardPayments(true)
+                .shouldDisplayFee(true)
+                .initialize();
     }
 
-    public void performCharge(){
-         //create a Charge object
-        loadingDialogUtils.showLoadingDialog("Processing...");
-        Charge charge = new Charge();
-        charge.setAmount(topUpAmountValue*100);
-        charge.setCurrency("NGN");
-        charge.setEmail(userId);
-        charge.setCard(card); //sets the card to charge
 
-        PaystackSdk.chargeCard(TopUp.this, charge, new Paystack.TransactionCallback() {
-            @Override
-            public void onSuccess(Transaction transaction) {
-                TopUpModel topUpModel = new TopUpModel(userId,topUpAmountValue,TopUp.this);
-                topUpModel.topUpBalance();
-                topUpModel.setTopUpListener(new TopUpModel.TopUpListener() {
-                    @Override
-                    public void onTopUpSucessful(String balance) {
-                        Date date = new Date();
-                        Timestamp timestamp = new Timestamp(date.getTime());
-                        insertBooking(0,5,"Top Up",timestamp.toString(),Integer.toString(topUpAmountValue),"");
-                        Toast.makeText(TopUp.this, "TopUp Successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent();
-                        intent.putExtra("balance",balance);
-                        setResult(0,intent);
-                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(String message) {
-                        Toast.makeText(TopUp.this, message, Toast.LENGTH_SHORT).show();
-                        loadingDialogUtils.cancelLoadingDialog();
-                        finish();
-                    }
-                });
-            }
-
-            @Override
-            public void beforeValidate(Transaction transaction) {
-                // This is called only before requesting OTP.
-                // Save reference so you may send to server. If
-                // error occurs with OTP, you should still verify on server.
-            }
-
-            @Override
-            public void onError(Throwable error, Transaction transaction) {
-                //handle error here
-                Toast.makeText(TopUp.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-        });
-    }
 
     @Override
     public void onResume() {
@@ -208,5 +143,80 @@ public class TopUp extends AppCompatActivity {
         Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
         TransactionDao transactionDao = db.transactionDao();
         transactionDao.insert(transactions);
+    }
+
+    // function to generate a random string of length n
+    static String generateTransferRef()
+    {
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(50);
+
+        for (int i = 0; i < 50; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /*
+         *  We advise you to do a further verification of transaction's details on your server to be
+         *  sure everything checks out before providing service or goods.
+         */
+        if (requestCode == RaveConstants.RAVE_REQUEST_CODE && data != null) {
+            String message = data.getStringExtra("response");
+            if (resultCode == RavePayActivity.RESULT_SUCCESS) {
+
+                TopUpModel topUpModel = new TopUpModel(userId,(int)topUpAmountValue,TopUp.this);
+                topUpModel.topUpBalance();
+                topUpModel.setTopUpListener(new TopUpModel.TopUpListener() {
+                    @Override
+                    public void onTopUpSucessful(String balance) {
+                        Date date = new Date();
+                        Timestamp timestamp = new Timestamp(date.getTime());
+                        insertBooking(0,5,"Top Up",timestamp.toString(),Integer.toString((int)topUpAmountValue),"");
+                        Toast.makeText(TopUp.this, "TopUp Successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.putExtra("balance",balance);
+                        setResult(0,intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        Toast.makeText(TopUp.this, message, Toast.LENGTH_SHORT).show();
+                        loadingDialogUtils.cancelLoadingDialog();
+                        finish();
+                    }
+                });
+
+
+            }
+            else if (resultCode == RavePayActivity.RESULT_ERROR) {
+                Toast.makeText(this, "ERROR " + message, Toast.LENGTH_SHORT).show();
+            }
+            else if (resultCode == RavePayActivity.RESULT_CANCELLED) {
+                Toast.makeText(this, "CANCELLED " + message, Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

@@ -226,19 +226,22 @@ public class MainActivity extends AppCompatActivity implements DmFragment.Unread
     }
 
     private void addWalletBadge(){
-        BadgeDrawable badgeDrawable = bottomNavigationView.showBadge(R.id.wallet);
+        BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.wallet);
         badgeDrawable.setVisible(true);
+        badgeDrawable.setBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.pink));
     }
 
     private void addUnreadBadge(int count){
-        BadgeDrawable badgeDrawable = bottomNavigationView.showBadge(R.id.explore);
+        BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.explore);
         badgeDrawable.setVisible(true);
         badgeDrawable.setNumber(count);
+        badgeDrawable.setBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.pink));
     }
 
     private void addVerificationBadge(){
-        BadgeDrawable badgeDrawable = bottomNavigationView.showBadge(R.id.my_dm);
+        BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.my_dm);
         badgeDrawable.setVisible(true);
+        badgeDrawable.setBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.pink));
     }
 
 
@@ -251,14 +254,12 @@ public class MainActivity extends AppCompatActivity implements DmFragment.Unread
 
     @Override
     public void onResume() {
-
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
             getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-            // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
         }
     }
 

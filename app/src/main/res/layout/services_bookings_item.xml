@@ -26,7 +26,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:id="@+id/message_connection_sender_profile_image"
+                android:id="@+id/bookings_profile_image"
                 android:src="@drawable/profileplaceholder"/>
 
 
@@ -46,14 +46,14 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/airsemi"
-                android:id="@+id/message_connection_sender_name"
+                android:id="@+id/booking_user_name"
                 android:text="John Doe"
                 android:textColor="@color/dark_text_color"
                 android:textSize="17dp"
                 android:layout_marginBottom="1dp"/>
 
             <TextView
-                android:id="@+id/message_connection_last_message"
+                android:id="@+id/booking_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
@@ -79,7 +79,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:text="Aug 29"
-                android:id="@+id/message_connection_timestamp"
+                android:id="@+id/bookings_timestamp"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:fontFamily="@font/airreg"
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:text="NGN 2000"
-                    android:id="@+id/message_connection_unread_count"
+                    android:id="@+id/bookings_amount"
                     android:fontFamily="@font/airreg"
                     android:textColor="@color/grey"
                     android:textSize="12dp"/>

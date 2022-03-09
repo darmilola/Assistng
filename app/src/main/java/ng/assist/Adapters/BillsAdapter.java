@@ -31,6 +31,7 @@ import ng.assist.R;
 import ng.assist.UIs.Utils.RefundDialog;
 import ng.assist.UIs.ViewModel.BillsModel;
 import ng.assist.UIs.ViewModel.CreatBill;
+import ng.assist.UIs.ViewModel.ProviderBookingsModel;
 import ng.assist.UIs.ViewModel.TransactionDao;
 import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
@@ -108,7 +109,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
                             String payerId = billsList.get(getAdapterPosition()).getPayerId();
                             String payeeId = billsList.get(getAdapterPosition()).getPayeeId();
                             int cost = billsList.get(getAdapterPosition()).getCost();
-                            int billId = billsList.get(getAdapterPosition()).getBillId();
+                            String billId = billsList.get(getAdapterPosition()).getBillId();
 
                             BillsModel billsModel = new BillsModel(payeeId,payerId,cost,reason,billId,context);
                             billsModel.RequestRefund();
@@ -120,7 +121,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
                                     billsList.remove(getAdapterPosition());
                                     notifyDataSetChanged();
                                     Toast.makeText(context, "You have requested refund for this bill", Toast.LENGTH_SHORT).show();
-
+                                    UpdateServiceBooking(billId,"Refund");
                                 }
 
                                 @Override
@@ -157,7 +158,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
                             String payeeId = billsList.get(getAdapterPosition()).getPayeeId();
                             int cost = billsList.get(getAdapterPosition()).getCost();
                             String type = billsList.get(getAdapterPosition()).getType();
-                            int billId = billsList.get(getAdapterPosition()).getBillId();
+                            String billId = billsList.get(getAdapterPosition()).getBillId();
                             int bookingId = billsList.get(getAdapterPosition()).getBookingId();
 
                             BillsModel billsModel = null;
@@ -194,6 +195,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
                                     billsList.remove(getAdapterPosition());
                                     notifyDataSetChanged();
                                     Toast.makeText(context, "Bill paid successfully", Toast.LENGTH_LONG).show();
+                                    UpdateServiceBooking(billId,"Completed");
                                 }
 
                                 @Override
@@ -227,5 +229,21 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
         Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
         TransactionDao transactionDao = db.transactionDao();
         transactionDao.insert(transactions);
+    }
+
+    private void UpdateServiceBooking(String billId,String status){
+        ProviderBookingsModel providerBookingsModel = new ProviderBookingsModel(billId,status);
+        providerBookingsModel.updateBookings();
+        providerBookingsModel.setUpdateListener(new ProviderBookingsModel.UpdateListener() {
+            @Override
+            public void onUpdateSuccess() {
+
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
 }

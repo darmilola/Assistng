@@ -69,5 +69,6 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.50'
     implementation 'com.github.withmono:mono-connect-android:1.1.0'
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
+    implementation 'com.github.flutterwave.rave-android:rave_android:2.1.38'
 
 }

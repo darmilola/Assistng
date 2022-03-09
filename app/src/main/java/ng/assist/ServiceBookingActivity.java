@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -26,6 +27,7 @@ public class ServiceBookingActivity extends AppCompatActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
     ViewPagerAdapter adapter;
+    ImageView navBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,15 @@ public class ServiceBookingActivity extends AppCompatActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+
+        navBack = findViewById(R.id.nav_back);
+        navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {

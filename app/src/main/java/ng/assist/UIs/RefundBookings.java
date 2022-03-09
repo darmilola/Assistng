@@ -1,66 +1,81 @@
 package ng.assist.UIs;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import ng.assist.Adapters.ProviderBookingAdapter;
+import ng.assist.MainActivity;
 import ng.assist.R;
+import ng.assist.UIs.ViewModel.ProviderBookingsModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RefundBookings#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class RefundBookings extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    View view;
+    RecyclerView recyclerView;
+    ProviderBookingAdapter adapter;
+    ProviderBookingsModel providerBookingsModel;
+    ProgressBar serviceBookingProgress;
+    TextView serviceBookingEmpty;
 
     public RefundBookings() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RefundBookings.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RefundBookings newInstance(String param1, String param2) {
-        RefundBookings fragment = new RefundBookings();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_refund_bookings, container, false);
+        view =  inflater.inflate(R.layout.fragment_refund_bookings, container, false);
+        initView();
+        return  view;
+    }
+
+    private void initView(){
+        serviceBookingProgress = view.findViewById(R.id.service_booking_progress);
+        serviceBookingEmpty = view.findViewById(R.id.service_booking_empty_text);
+        recyclerView = view.findViewById(R.id.service_booking_recyclerview);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String userEmail = preferences.getString("userEmail","");
+
+        providerBookingsModel = new ProviderBookingsModel(userEmail,"Refund",getContext());
+
+        providerBookingsModel.getProviderBookings();
+        providerBookingsModel.setProviderBookingsReadyListener(new ProviderBookingsModel.ProviderBookingsReadyListener() {
+            @Override
+            public void onListReady(ArrayList<ProviderBookingsModel> listModelArrayList) {
+                adapter = new ProviderBookingAdapter(listModelArrayList,getContext());
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setVisibility(View.VISIBLE);
+                serviceBookingEmpty.setVisibility(View.GONE);
+                serviceBookingProgress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onEmpty(String message) {
+                recyclerView.setVisibility(View.GONE);
+                serviceBookingEmpty.setVisibility(View.VISIBLE);
+                serviceBookingProgress.setVisibility(View.GONE);
+            }
+        });
+
+
+
     }
 }

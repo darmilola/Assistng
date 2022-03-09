@@ -49,10 +49,8 @@
                 android:id="@+id/chip_navigation"
                 app:menu="@menu/main_menu"
                 app:itemIconSize="24dp"
-                android:paddingTop="10dp"
                 style="@style/Widget.BottomNavigationStyle"
                 app:labelVisibilityMode="labeled"/>
-
         </LinearLayout>
     </FrameLayout>
 

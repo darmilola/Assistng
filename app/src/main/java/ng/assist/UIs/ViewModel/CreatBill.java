@@ -24,7 +24,7 @@ import okhttp3.Response;
 public class CreatBill {
     private String baseUrl = new URL().getBaseUrl();
     private String createBillUrl = baseUrl+"bills";
-    private String payerId,payeeId,type,name;
+    private String payerId,payeeId,type,name,billId;
     private int cost;
     private CreateBillListener createBillListener;
     private LoadingDialogUtils loadingDialogUtils = null;
@@ -38,12 +38,13 @@ public class CreatBill {
         this.createBillListener = createBillListener;
     }
 
-    public CreatBill(String payerId, String payeeId, int cost, String type, String name, Context context, int x){
+    public CreatBill(String billId, String payerId, String payeeId, int cost, String type, String name, Context context, int x){
         this.payerId = payerId;
         this.payeeId = payeeId;
         this.cost = cost;
         this.type = type;
         this.name = name;
+        this.billId = billId;
         this.createBillUrl = baseUrl+"bills/service/create";
         loadingDialogUtils = new LoadingDialogUtils(context);
     }
@@ -75,7 +76,7 @@ public class CreatBill {
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildcreateBill(payerId,payeeId,cost,type,name));
+            RequestBody requestBody = RequestBody.create(JSON,buildcreateBill(payerId,payeeId,cost,type,name,billId));
             Request request = new Request.Builder()
                     .url(createBillUrl)
                     .post(requestBody)
@@ -122,8 +123,7 @@ public class CreatBill {
     };
 
 
-
-    private String buildcreateBill(String payerId, String payeeId, int cost, String type, String name){
+    private String buildcreateBill(String payerId, String payeeId, int cost, String type, String name,String billId){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("payerId",payerId);
@@ -131,6 +131,7 @@ public class CreatBill {
             jsonObject.put("mCost",cost);
             jsonObject.put("mType",type);
             jsonObject.put("mName",name);
+            jsonObject.put("billId",billId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

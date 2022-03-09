@@ -40,7 +40,7 @@ public class BillsModel {
     private String route;
     private int bookingId;
     private String name;
-    private int billId;
+    private String billId;
     private String userId;
     private String reason;
     private LoadingDialogUtils loadingDialogUtils = null;
@@ -58,7 +58,7 @@ public class BillsModel {
         void onError();
     }
 
-    public BillsModel(int billId, String payerId, String payeeId, int cost, String type, String route, int bookingId, String name){
+    public BillsModel(String billId, String payerId, String payeeId, int cost, String type, String route, int bookingId, String name){
            this.payerId = payerId;
            this.payeeId = payeeId;
            this.cost = cost;
@@ -69,13 +69,13 @@ public class BillsModel {
            this.billId = billId;
     }
 
-    public BillsModel(int billId, int bookingId,Context context){
+    public BillsModel(String billId, int bookingId,Context context){
           this.billId = billId;
           this.bookingId = bookingId;
           loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
-    public BillsModel(String payeeId, String payerId, int cost, String reason,int billId,Context context){
+    public BillsModel(String payeeId, String payerId, int cost, String reason, String billId,Context context){
         this.payeeId = payeeId;
         this.payerId = payerId;
         this.cost = cost;
@@ -84,7 +84,7 @@ public class BillsModel {
         loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
-    public BillsModel(int billId, String payeeId,int cost,Context context){
+    public BillsModel(String billId, String payeeId,int cost,Context context){
         this.billId = billId;
         this.payeeId = payeeId;
         this.cost = cost;
@@ -249,7 +249,7 @@ public class BillsModel {
                     JSONArray data = jsonObject.getJSONArray("data");
                     ArrayList<BillsModel> billsModelArrayList = new ArrayList<>();
                     for(int i = 0; i < data.length(); i++){
-                        int id = data.getJSONObject(i).getInt("billId");
+                        String id = data.getJSONObject(i).getString("billId");
                         String payeeId = data.getJSONObject(i).getString("payeeId");
                         String payerId  = data.getJSONObject(i).getString("payerId");
                         String mType = data.getJSONObject(i).getString("mType");
@@ -350,7 +350,7 @@ public class BillsModel {
 
 
 
-    private String buidPayTransportBill(int bookingId, int billId){
+    private String buidPayTransportBill(int bookingId, String billId){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("booking_id",bookingId);
@@ -361,7 +361,7 @@ public class BillsModel {
         return jsonObject.toString();
     }
 
-    private String buidPayOtherBill(int billId, String payeeId, int amount){
+    private String buidPayOtherBill(String billId, String payeeId, int amount){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("payeeId",payeeId);
@@ -383,7 +383,7 @@ public class BillsModel {
         return jsonObject.toString();
     }
 
-    private String BuildRefund(String payerId, String payeeId, int cost, String reason,int billId){
+    private String BuildRefund(String payerId, String payeeId, int cost, String reason,String billId){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("userId",payerId);
@@ -414,7 +414,7 @@ public class BillsModel {
         return userId;
     }
 
-    public int getBillId() {
+    public String getBillId() {
         return billId;
     }
 

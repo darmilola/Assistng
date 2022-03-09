@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 import ng.assist.UIs.ViewModel.CreatBill;
+import ng.assist.UIs.ViewModel.ProviderBookingsModel;
 import ng.assist.UIs.ViewModel.ServicesModel;
 import ng.assist.UIs.ViewModel.TransactionDao;
 import ng.assist.UIs.ViewModel.TransactionDatabase;
@@ -77,10 +78,11 @@ public class PayServiceFee extends AppCompatActivity {
         serviceFeeSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String billId = generateBillId();
                 if(isValidAmount()){
                     String fullname = servicesModel.getHandymanFirstname()+" "+servicesModel.getHandymanLastname();
                     int cost = Integer.parseInt(serviceFee.getText().toString().trim());
-                    CreatBill creatBill = new CreatBill(userId,servicesModel.getHandymanId(),cost,"4",fullname,PayServiceFee.this,1);
+                    CreatBill creatBill = new CreatBill(billId,userId,servicesModel.getHandymanId(),cost,"4",fullname,PayServiceFee.this,1);
                     creatBill.CreateBill();
                     creatBill.setCreateBillListener(new CreatBill.CreateBillListener() {
                         @Override
@@ -89,6 +91,7 @@ public class PayServiceFee extends AppCompatActivity {
                             payLayout.setVisibility(View.GONE);
                             successLayout.setVisibility(View.VISIBLE);
                             addPending();
+                            createBookings(billId,userId,servicesModel.getHandymanId(),Integer.toString(cost));
                             Date date = new Date();
                             Timestamp timestamp = new Timestamp(date.getTime());
                             insertBooking(0,4,"Service",timestamp.toString(),Integer.toString(cost),"");
@@ -102,6 +105,7 @@ public class PayServiceFee extends AppCompatActivity {
                 }
             }
         });
+
 
         successBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +129,22 @@ public class PayServiceFee extends AppCompatActivity {
         return isValid;
     }
 
+    private void createBookings(String bookingId, String userId, String providerId, String amount){
+        ProviderBookingsModel providerBookingsModel = new ProviderBookingsModel(providerId,bookingId,amount,userId);
+        providerBookingsModel.createBookings();
+        providerBookingsModel.setUpdateListener(new ProviderBookingsModel.UpdateListener() {
+            @Override
+            public void onUpdateSuccess() {
+
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(PayServiceFee.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
         TransactionDatabase db = Room.databaseBuilder(PayServiceFee.this,
                 TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
@@ -146,5 +166,33 @@ public class PayServiceFee extends AppCompatActivity {
     private void addPending(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(PayServiceFee.this);
         preferences.edit().putBoolean("isPending",true).apply();
+    }
+
+
+    // function to generate a random string of length n
+    static String generateBillId()
+    {
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(50);
+
+        for (int i = 0; i < 50; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
     }
 }
