@@ -2,19 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home"
-        android:icon="@drawable/iconfinder_home_01_1976053"
+        android:iconTint="@color/black"
+        android:icon="@drawable/homepage_house_architecture_icon"
         android:title="Home"/>
 
     <item
         android:id="@+id/wallet"
-        android:icon="@drawable/iconfinder_2_4753728"
+        android:iconTint="@color/black"
+        android:icon="@drawable/cash_money_payment_wallet_icon"
         android:title="Wallet"/>
     <item
         android:id="@+id/explore"
-        android:icon="@drawable/dms"
+        android:iconTint="@color/black"
+        android:icon="@drawable/chat_cloud_speech_talk_text_icon"
         android:title="Messages"/>
     <item
         android:id="@+id/my_dm"
-        android:icon="@drawable/iconfinder_user_profile"
+        android:iconTint="@color/black"
+        android:icon="@drawable/user_account_profile_icon"
         android:title="Account"/>
 </menu>

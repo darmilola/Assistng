@@ -130,6 +130,14 @@ class WalletKt : Fragment() {
 
         updateWalletBalanceFromSharedPref(requireContext())
         initTransactions()
+
+        if(isPendingAvailable()){
+            pendingImage.visibility = View.VISIBLE
+        }
+        else{
+            pendingImage.visibility = View.GONE
+        }
+
         super.onResume()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requireActivity().window.navigationBarColor = ContextCompat.getColor(requireContext(), R.color.special_activity_background)

@@ -271,11 +271,9 @@ public class AccomodationBooking extends AppCompatActivity {
                                     Timestamp timestamp = new Timestamp(date.getTime());
                                     insertBooking(0, 3, "Inspection", timestamp.toString(), accomodationListModel.getBookingFee(), "");
                                     Toast.makeText(AccomodationBooking.this, "You have booked Inspection Successfully", Toast.LENGTH_SHORT).show();
-
+                                    addPending();
                                     reduceWalletBalanceInSharedPref(AccomodationBooking.this,accomodationListModel.getBookingFee());
-
                                     finish();
-
                                 }
 
                                 @Override
@@ -334,6 +332,12 @@ public class AccomodationBooking extends AppCompatActivity {
         }
 
         return sb.toString();
+    }
+
+
+    private void addPending(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this);
+        preferences.edit().putBoolean("isPending",true).apply();
     }
 
 

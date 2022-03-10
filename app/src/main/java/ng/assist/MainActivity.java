@@ -254,6 +254,9 @@ public class MainActivity extends AppCompatActivity implements DmFragment.Unread
 
     @Override
     public void onResume() {
+        if(isPendingAvailable()){
+            addWalletBadge();
+        }
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
@@ -277,8 +280,6 @@ public class MainActivity extends AppCompatActivity implements DmFragment.Unread
         }
         else{
             return false;
-
-
         }
     }
 

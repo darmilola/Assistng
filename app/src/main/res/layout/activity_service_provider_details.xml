@@ -173,7 +173,7 @@
                         android:layout_width="23dp"
                         android:layout_height="23dp"
                         android:tint="@color/white"
-                        android:src="@drawable/_circle_currency_dollar_money_icon"/>
+                        android:src="@drawable/currency_naira_icon"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -197,7 +197,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Rate"
+                android:text="My service fee start from"
                 android:id="@+id/service_provider_rate"
                 android:textColor="#ADADAD"
                 android:textSize="12dp"

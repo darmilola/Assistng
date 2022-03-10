@@ -342,9 +342,12 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         serviceTypeList.add("Educational Services");
         serviceTypeList.add("Repair Services");
         serviceTypeList.add("Auto Services");
-        rateList.add("$");
-        rateList.add("$$");
-        rateList.add("$$$");
+
+        rateList.add("Min 500");
+        rateList.add("Min 1000");
+        rateList.add("Min 5000");
+        rateList.add("Min 10000");
+        rateList.add("Min 20000");
 
         edList.add("Home Lesson ");
         edList.add("STEM Tutor");
