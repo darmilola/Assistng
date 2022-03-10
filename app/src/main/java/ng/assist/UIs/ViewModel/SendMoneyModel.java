@@ -113,6 +113,7 @@ public class SendMoneyModel {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                Log.e("handleMessage: ", response);
                 sendMoneyListener.onFailure(e.getLocalizedMessage());
             }
             loadingDialogUtils.cancelLoadingDialog();

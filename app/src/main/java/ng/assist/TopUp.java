@@ -14,6 +14,7 @@ import ng.assist.UIs.ViewModel.TransactionDao;
 import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -49,7 +50,7 @@ public class TopUp extends AppCompatActivity {
     private boolean isCardValid = false;
     MaterialButton topUpButton;
     EditText topUpAmount;
-    double topUpAmountValue;
+    int topUpAmountValue;
     LoadingDialogUtils loadingDialogUtils;
     String userId = "";
     LinearLayout backNav;
@@ -101,7 +102,7 @@ public class TopUp extends AppCompatActivity {
             topUpAmount.setError("Required");
             return;
         }
-        topUpAmountValue = Double.parseDouble(topUpAmount.getText().toString().trim());
+        topUpAmountValue = Integer.parseInt(topUpAmount.getText().toString().trim());
 
         new RaveUiManager(TopUp.this).setAmount(topUpAmountValue)
                 .setCurrency("NGN")
@@ -195,6 +196,7 @@ public class TopUp extends AppCompatActivity {
                         Intent intent = new Intent();
                         intent.putExtra("balance",balance);
                         setResult(0,intent);
+                        increaseWalletBalanceInSharedPref(TopUp.this,Integer.toString(topUpAmountValue));
                         finish();
                     }
 
@@ -218,5 +220,11 @@ public class TopUp extends AppCompatActivity {
         else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void increaseWalletBalanceInSharedPref(Context context, String amount){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String walletBalance = preferences.getString("walletBalance","0");
+        preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) + Integer.parseInt(amount))).apply();
     }
 }

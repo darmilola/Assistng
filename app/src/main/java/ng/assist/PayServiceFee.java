@@ -10,6 +10,7 @@ import ng.assist.UIs.ViewModel.TransactionDao;
 import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -91,6 +92,7 @@ public class PayServiceFee extends AppCompatActivity {
                             payLayout.setVisibility(View.GONE);
                             successLayout.setVisibility(View.VISIBLE);
                             addPending();
+                            reduceWalletBalanceInSharedPref(PayServiceFee.this,Integer.toString(cost));
                             createBookings(billId,userId,servicesModel.getHandymanId(),Integer.toString(cost));
                             Date date = new Date();
                             Timestamp timestamp = new Timestamp(date.getTime());
@@ -194,5 +196,11 @@ public class PayServiceFee extends AppCompatActivity {
         }
 
         return sb.toString();
+    }
+
+    private void reduceWalletBalanceInSharedPref(Context context, String amount){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String walletBalance = preferences.getString("walletBalance","0");
+        preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(amount))).apply();
     }
 }

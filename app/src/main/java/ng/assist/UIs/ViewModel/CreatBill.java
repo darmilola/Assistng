@@ -49,20 +49,22 @@ public class CreatBill {
         loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
-    public CreatBill(String payerId, String payeeId, int cost, String type, String name){
+    public CreatBill(String payerId, String payeeId, int cost, String type, String name, String billId){
            this.payerId = payerId;
            this.payeeId = payeeId;
            this.cost = cost;
            this.type = type;
            this.name = name;
+           this.billId = billId;
     }
 
-    public CreatBill(String payerId, String payeeId, int cost, String type, String name,Context context,String y){
+    public CreatBill(String payerId, String payeeId, int cost, String type, String name,Context context,String billId){
         this.payerId = payerId;
         this.payeeId = payeeId;
         this.cost = cost;
         this.type = type;
         this.name = name;
+        this.billId = billId;
         loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
@@ -117,6 +119,7 @@ public class CreatBill {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                Log.e("handleMessage: ",e.getLocalizedMessage());
                  createBillListener.onError();
             }
         }

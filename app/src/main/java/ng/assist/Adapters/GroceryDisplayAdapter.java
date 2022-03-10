@@ -52,7 +52,7 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
           GroceryModel groceryModel = groceryList.get(position);
           holder.productName.setText(groceryModel.getProductName());
-          //holder.shopname.setText(groceryModel.getShopName());
+          holder.shopName.setText(groceryModel.getShopName());
 
 
         Locale NigerianLocale = new Locale("en","ng");
@@ -82,47 +82,20 @@ public class GroceryDisplayAdapter extends RecyclerView.Adapter<GroceryDisplayAd
          TextView productName;
          ImageView productImage;
          TextView productPrice;
-         MaterialButton addToCart;
+         TextView shopName;
         public itemViewHolder(View ItemView){
             super(ItemView);
             productImage = ItemView.findViewById(R.id.grocery_item_image);
             productName = ItemView.findViewById(R.id.grocery_item_title);
             productPrice = ItemView.findViewById(R.id.grocery_item_price);
-            addToCart = ItemView.findViewById(R.id.add_to_cart_button);
-           // shopname = ItemView.findViewById(R.id.grocery_item_shopname);
-        /*    ItemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                     String userEmail = PreferenceManager.getDefaultSharedPreferences(context).getString("userEmail","");
-                     GroceryModel groceryModel = groceryList.get(getAdapterPosition());
-                     GroceryModel CartModel = new GroceryModel(groceryModel.getItemId(),groceryModel.getRetailerId(),userEmail,"1",context);
-                     CartModel.addToCart();
-                     CartModel.setCartListener(new GroceryModel.CartListener() {
-                         @Override
-                         public void onAdded() {
-                             Intent intent = new Intent(context,GroceryStoreListing.class);
-                             intent.putExtra("product",groceryList.get(getAdapterPosition()));
-                             context.startActivity(intent);
-                             Toast.makeText(context, "Added to Cart", Toast.LENGTH_SHORT).show();
-                         }
-                         @Override
-                         public void onError() {
-                             Toast.makeText(context, "Error adding to Cart", Toast.LENGTH_SHORT).show();
-                         }
-                     });
-                }
-            });*/
-
+            shopName = ItemView.findViewById(R.id.grocery_product_shop_name);
             ItemView.setOnClickListener(this);
-
         }
         @Override
         public void onClick(View view) {
-
             Intent intent = new Intent(context,GroceryStoreListing.class);
             intent.putExtra("product",groceryList.get(getAdapterPosition()));
             context.startActivity(intent);
-
         }
     }
 }

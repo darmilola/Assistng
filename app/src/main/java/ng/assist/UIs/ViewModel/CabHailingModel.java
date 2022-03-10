@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -30,7 +31,7 @@ public class CabHailingModel {
     private String getBusesUrl = baseUrl+"drivers/buses";
     private String getDriversUrl = baseUrl+"drivers/available/drivers";
     private String displayAssistLocation = baseUrl+"retailer_location/assist";
-    private String bookTransport = baseUrl+"drivers/book";
+    private String bookTransport = baseUrl+"drivers/buses/book";
     private String driversCity;
     private CabHailingListener cabHailingListener;
     private LocationReadyListener locationReadyListener;
@@ -138,7 +139,8 @@ public class CabHailingModel {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                transportBookingListener.onFailure(e.getLocalizedMessage());
+                Log.e("handleMessage: ",response);
+                transportBookingListener.onFailure(response);
             }
         }
     };

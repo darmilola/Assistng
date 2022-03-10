@@ -15,6 +15,7 @@ import ng.assist.UIs.ViewModel.TransactionDao;
 import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -133,14 +134,15 @@ public class GroceryCart extends AppCompatActivity {
                     checkoutDialog.setDialogActionClickListener(new CheckoutDialog.OnDialogActionClickListener() {
                         @Override
                         public void checkOutClicked(String phone, String address, String landmark, String state, String lga) {
-
+                            String billId = generateBillId();
                             String orderJson = convertListToJsonString(groceryModelArrayList);
                             GroceryModel groceryModel1 = new GroceryModel(retailerId, userId,orderJson,mTotalPriceValue,address,phone,landmark,state,lga,GroceryCart.this);
                             groceryModel1.CheckOut();
                             groceryModel1.setCartCheckoutListener(new GroceryModel.CartCheckoutListener() {
                                 @Override
                                 public void onSuccess() {
-                                    CreatBill createBill = new CreatBill(userId,retailerId,Integer.parseInt(mTotalPriceValue),"2",retailerShopName);
+                                    reduceWalletBalanceInSharedPref(GroceryCart.this,mTotalPriceValue);
+                                    CreatBill createBill = new CreatBill(userId,retailerId,Integer.parseInt(mTotalPriceValue),"2",retailerShopName,billId);
                                     createBill.CreateBill();
                                     createBill.setCreateBillListener(new CreatBill.CreateBillListener() {
                                         @Override
@@ -149,9 +151,7 @@ public class GroceryCart extends AppCompatActivity {
                                             Date date = new Date();
                                             Timestamp timestamp = new Timestamp(date.getTime());
                                             insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,"");
-                                            Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
-                                            setResult(300);
-                                            finish();
+
                                         }
 
                                         @Override
@@ -160,11 +160,15 @@ public class GroceryCart extends AppCompatActivity {
                                         }
                                     });
 
+                                    Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
+                                    setResult(300);
+                                    finish();
+
                                     ;
                                 }
                                 @Override
                                 public void onError() {
-
+                                    Toast.makeText(GroceryCart.this, "Error Occurred", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -206,8 +210,43 @@ public class GroceryCart extends AppCompatActivity {
         transactionDao.insert(transactions);
     }
 
+
+    // function to generate a random string of length n
+    static String generateBillId()
+    {
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(50);
+
+        for (int i = 0; i < 50; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
+    }
+
+
     private void addPending(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GroceryCart.this);
         preferences.edit().putBoolean("isPending",true).apply();
+    }
+
+    private void reduceWalletBalanceInSharedPref(Context context, String amount){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String walletBalance = preferences.getString("walletBalance","0");
+        preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(amount))).apply();
     }
 }

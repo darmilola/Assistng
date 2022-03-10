@@ -1,6 +1,7 @@
 package ng.assist.UIs
 
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.opengl.Visibility
@@ -81,7 +82,7 @@ class WalletKt : Fragment() {
         topUp = view.findViewById(R.id.top_up_layout)
         withdrawals = view.findViewById(R.id.withdrawals)
         bills = view.findViewById(R.id.bills)
-        mWalletBalance = arguments!!.getString("walletBalance")
+        mWalletBalance = requireArguments().getString("walletBalance")
         val amount = java.lang.Double.parseDouble(mWalletBalance!!)
         val formatter = DecimalFormat("#,###.00")
         val formatted = formatter.format(amount)
@@ -127,14 +128,16 @@ class WalletKt : Fragment() {
 
     override fun onResume() {
 
+        updateWalletBalanceFromSharedPref(requireContext())
+        initTransactions()
         super.onResume()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activity!!.window.navigationBarColor = ContextCompat.getColor(context!!, R.color.special_activity_background)
-            activity!!.window.statusBarColor = ContextCompat.getColor(context!!, R.color.special_activity_background)
+            requireActivity().window.navigationBarColor = ContextCompat.getColor(requireContext(), R.color.special_activity_background)
+            requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.special_activity_background)
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
-            activity!!.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            activity!!.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
         }
     }
@@ -163,11 +166,7 @@ class WalletKt : Fragment() {
 
 
     fun initTransactions(){
-        val db = TransactionDatabase.getTransactionDatabase(context = activity!!.applicationContext!!)
-       /* val db = Room.databaseBuilder(
-                applicationContext,
-                TransactionDatabase::class.java, "transactions"
-        ).build()*/
+        val db = TransactionDatabase.getTransactionDatabase(context = requireActivity().applicationContext!!)
         val transactionDao = db!!.transactionDao();
         val transactions: List<Transactions> = transactionDao.getAll()
 
@@ -187,6 +186,15 @@ class WalletKt : Fragment() {
         val preferences =
             PreferenceManager.getDefaultSharedPreferences(requireContext())
         return preferences.getBoolean("isPending", false)
+    }
+
+    private fun updateWalletBalanceFromSharedPref(context: Context) {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val walletBalance = preferences.getString("walletBalance", "0")
+        val amount = walletBalance!!.toDouble()
+        val formatter = DecimalFormat("#,###.00")
+        val formatted = formatter.format(amount)
+        walletBalanceText.text = "NGN $formatted"
     }
 
 

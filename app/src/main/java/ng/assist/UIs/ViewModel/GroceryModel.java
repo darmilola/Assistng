@@ -286,7 +286,6 @@ public class GroceryModel implements Parcelable {
                         groceryModelArrayList.add(groceryModel);
                     }
                       productReadyListener.onProductReady(groceryModelArrayList,nextPageUrl);
-
                 }
                 else if(status.equalsIgnoreCase("failure")){
                     productReadyListener.onError("Error Occurred");

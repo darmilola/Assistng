@@ -2,7 +2,9 @@ package ng.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.room.Room;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -17,9 +19,14 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import ng.assist.UIs.Utils.ListDialog;
+import ng.assist.UIs.ViewModel.TransactionDao;
+import ng.assist.UIs.ViewModel.TransactionDatabase;
+import ng.assist.UIs.ViewModel.Transactions;
 import ng.assist.UIs.ViewModel.WithdrawalModel;
 
 public class RequestWithdrawal extends AppCompatActivity {
@@ -89,14 +96,17 @@ public class RequestWithdrawal extends AppCompatActivity {
                 String bankname = bankNameText.getText().toString().trim();
 
                 if(isValidForm()){
-
                     WithdrawalModel withdrawalModel = new WithdrawalModel(Integer.parseInt(amount),accountName,bankname,accountNumber,userId,RequestWithdrawal.this);
                     withdrawalModel.makeWithdrawal();
                     withdrawalModel.setWithdrawListener(new WithdrawalModel.WithdrawListener() {
                         @Override
                         public void onSuccess() {
+                            reduceWalletBalanceInSharedPref(RequestWithdrawal.this,amount);
                             Toast.makeText(RequestWithdrawal.this, "Your withdraw is been processed", Toast.LENGTH_SHORT).show();
-                             finish();
+                            Date date = new Date();
+                            Timestamp timestamp = new Timestamp(date.getTime());
+                            insertBooking(0,8,"Withdrawal",timestamp.toString(),amount,"");
+                            finish();
                         }
 
                         @Override
@@ -182,7 +192,19 @@ public class RequestWithdrawal extends AppCompatActivity {
             return isValid;
         }
         return  isValid;
+    }
 
+    private void reduceWalletBalanceInSharedPref(Context context, String amount){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String walletBalance = preferences.getString("walletBalance","0");
+        preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(amount))).apply();
+    }
 
+    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
+        TransactionDatabase db = Room.databaseBuilder(RequestWithdrawal.this,
+                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
+        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
+        TransactionDao transactionDao = db.transactionDao();
+        transactionDao.insert(transactions);
     }
 }

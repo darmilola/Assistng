@@ -21,6 +21,7 @@ import ng.assist.UIs.ViewModel.TransactionDao;
 import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -205,6 +206,14 @@ public class AccomodationBooking extends AppCompatActivity {
                 imagesRecyclerview.setVisibility(View.VISIBLE);
                 imageScrollLayout.setVisibility(View.VISIBLE);
 
+                if (accomodationListModel.getType().equalsIgnoreCase("lodges")) {
+                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per month");
+                    bookNowLayout.setVisibility(View.VISIBLE);
+                } else {
+                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per day");
+                    bookNowLayout.setVisibility(View.GONE);
+                }
+
 
                 Glide.with(AccomodationBooking.this)
                         .load(agentModel.getAgentPicUrl())
@@ -221,13 +230,7 @@ public class AccomodationBooking extends AppCompatActivity {
             }
         });
 
-        if (accomodationListModel.getType().equalsIgnoreCase("lodges")) {
-            pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per month");
-            bookNowLayout.setVisibility(View.VISIBLE);
-        } else {
-            pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per day");
-            bookNowLayout.setVisibility(View.GONE);
-        }
+
     }
 
     private void insertBooking(int id, int type, String title, String timestamp, String amount, String orderId) {
@@ -258,7 +261,8 @@ public class AccomodationBooking extends AppCompatActivity {
                         if (isAuthorized(accomodationListModel.getBookingFee())) {
 
                             String fullName = agentModel.getAgentFirstname() + " - " + agentModel.getAgentLastName();
-                            CreatBill creatBill = new CreatBill(userId, agentModel.getAgentId(), Integer.parseInt(accomodationListModel.getBookingFee()), "3", fullName, AccomodationBooking.this, "");
+                            String billId = generateBillId();
+                            CreatBill creatBill = new CreatBill(userId, agentModel.getAgentId(), Integer.parseInt(accomodationListModel.getBookingFee()), "3", fullName, AccomodationBooking.this, billId);
                             creatBill.CreateBill();
                             creatBill.setCreateBillListener(new CreatBill.CreateBillListener() {
                                 @Override
@@ -268,9 +272,7 @@ public class AccomodationBooking extends AppCompatActivity {
                                     insertBooking(0, 3, "Inspection", timestamp.toString(), accomodationListModel.getBookingFee(), "");
                                     Toast.makeText(AccomodationBooking.this, "You have booked Inspection Successfully", Toast.LENGTH_SHORT).show();
 
-                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this);
-                                    String walletBalance = preferences.getString("walletBalance", "0");
-                                    preferences.edit().putString("walletBalance", Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(accomodationListModel.getBookingFee()))).apply();
+                                    reduceWalletBalanceInSharedPref(AccomodationBooking.this,accomodationListModel.getBookingFee());
 
                                     finish();
 
@@ -299,6 +301,41 @@ public class AccomodationBooking extends AppCompatActivity {
         alert.setTitle("Confirm Booking");
         alert.show();
     }
+
+    private void reduceWalletBalanceInSharedPref(Context context, String amount){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String walletBalance = preferences.getString("walletBalance","0");
+        preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(amount))).apply();
+    }
+
+
+    // function to generate a random string of length n
+    static String generateBillId()
+    {
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(50);
+
+        for (int i = 0; i < 50; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
+    }
+
 
 }
 

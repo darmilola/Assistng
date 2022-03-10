@@ -138,7 +138,7 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
                                 cabHailingModel.setTransportBookingListener(new CabHailingModel.TransportBookingListener() {
                                     @Override
                                     public void onSuccess() {
-                                        preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(tFare))).apply();
+                                        reduceWalletBalanceInSharedPref(context,tFare);
                                         Date date = new Date();
                                         Timestamp timestamp = new Timestamp(date.getTime());
                                         insertTransportBooking(0, 1, "Transport", timestamp.toString(), tFare, "");
@@ -199,6 +199,12 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
                     }
                 })
                 .show();
+    }
+
+    private void reduceWalletBalanceInSharedPref(Context context, String amount){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String walletBalance = preferences.getString("walletBalance","0");
+        preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(amount))).apply();
     }
 
 

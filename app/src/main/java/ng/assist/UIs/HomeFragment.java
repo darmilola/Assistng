@@ -1,6 +1,7 @@
 package ng.assist.UIs;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -140,6 +141,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
 
+        updateWalletBalanceFromSharedPref(getContext());
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.special_activity_background));
@@ -149,6 +151,16 @@ public class HomeFragment extends Fragment {
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS,WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         }
+    }
+
+    private void updateWalletBalanceFromSharedPref(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String walletBalance = preferences.getString("walletBalance","0");
+        double amount = Double.parseDouble(walletBalance);
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        String formatted = formatter.format(amount);
+        userWalletBalance.setText(formatted);
+
     }
 
 

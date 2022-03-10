@@ -98,6 +98,7 @@ public class SendMoneyAmount extends Fragment {
                             preferences.edit().putString("sendMoneyAmount",amountToSend.getText().toString()).apply();
                             sendMoneyListener.onSendSuccess();
                             insertBooking(0,6,"Send Money",timestamp.toString(),amountToSend.getText().toString(),"");
+                            reduceWalletBalanceInSharedPref(getContext(),amountToSend.getText().toString());
                         }
                         @Override
                         public void onFailure(String message) {
@@ -134,6 +135,12 @@ public class SendMoneyAmount extends Fragment {
         Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
         TransactionDao transactionDao = db.transactionDao();
         transactionDao.insert(transactions);
+    }
+
+    private void reduceWalletBalanceInSharedPref(Context context, String amount){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String walletBalance = preferences.getString("walletBalance","0");
+        preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(amount))).apply();
     }
 
 
