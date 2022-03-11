@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class EcommerceOrders extends Fragment {
     ProgressBar progressBar;
     View view;
     String userId;
+    TextView noOrderAvailable;
     public EcommerceOrders() {
         // Required empty public constructor
     }
@@ -57,6 +59,7 @@ public class EcommerceOrders extends Fragment {
     private void initView(){
         progressBar = view.findViewById(R.id.dashboard_order_progress);
         recyclerView = view.findViewById(R.id.dashboard_orders_recyclerview);
+        noOrderAvailable = view.findViewById(R.id.dashboard_no_order_available);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         userId = preferences.getString("userEmail","");
 
@@ -71,6 +74,7 @@ public class EcommerceOrders extends Fragment {
                 recyclerView.setAdapter(adapter);
                 recyclerView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
+                noOrderAvailable.setVisibility(View.GONE);
                 adapter.setViewOrderClickedListener(new DashboardOrdersAdapter.ViewOrderClickedListener() {
                     @Override
                     public void onViewClicked(int position) {
@@ -86,11 +90,9 @@ public class EcommerceOrders extends Fragment {
             public void onError(String message) {
                 recyclerView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                noOrderAvailable.setVisibility(View.VISIBLE);
             }
         });
-
-
 
     }
 

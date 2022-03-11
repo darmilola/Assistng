@@ -1,11 +1,13 @@
 package ng.assist.UIs;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,8 @@ public class Electronics extends Fragment {
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
 
-        GroceryModel groceryModel = new GroceryModel("Electronics","lagos");
+        String city = getLocation();
+        GroceryModel groceryModel = new GroceryModel("Electronics",city);
         groceryModel.getGroceryProducts();
         groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
             @Override
@@ -90,7 +93,7 @@ public class Electronics extends Fragment {
                     }
 
                     recyclerProgress.setVisibility(View.VISIBLE);
-                    GroceryModel groceryModel = new GroceryModel("fast-foods","lagos");
+                    GroceryModel groceryModel = new GroceryModel("Electronics",city);
                     groceryModel.getGroceryProductsNextPage(Electronics.this.nextPageUrl);
                     groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
                         @Override
@@ -137,5 +140,11 @@ public class Electronics extends Fragment {
                 noProductAvailable.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    private String getLocation(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String city = preferences.getString("userCity","lagos");
+        return city;
     }
 }

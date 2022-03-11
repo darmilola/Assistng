@@ -9,15 +9,23 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+
+import ng.assist.Grocery;
 import ng.assist.R;
 
 public class CheckoutDialog {
 
     private Dialog checkoutDialog;
     private Context mContext;
-    private EditText address,phone,landmark,state,lga;
+    private EditText address,phone,landmark,lga;
     private MaterialButton checkOut;
+    private TextView state;
     private OnDialogActionClickListener dialogActionClickListener;
+    private ListDialog listDialog;
+    ArrayList<String> locationList = new ArrayList<>();
 
     public interface OnDialogActionClickListener{
         void checkOutClicked(String phone, String address,String landmark, String state, String lga);
@@ -28,6 +36,7 @@ public class CheckoutDialog {
     }
 
     public CheckoutDialog(Context context){
+        populateLocation();
         this.mContext = context;
         checkoutDialog = new Dialog(context);
         checkoutDialog.setContentView(R.layout.checkout_dialog_layout);
@@ -63,9 +72,38 @@ public class CheckoutDialog {
                 }
             }
         });
+
+        state.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listDialog = new ListDialog(locationList, context);
+                listDialog.showListDialog();
+                listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
+                    @Override
+                    public void onItemClicked(String city) {
+                        state.setText(city);
+                    }
+                });
+
+            }
+        });
     }
 
     public void ShowCheckoutDialog(){
         checkoutDialog.show();
+    }
+
+    private void populateLocation(){
+        locationList.add("Lagos");
+        locationList.add("Abuja");
+        locationList.add("Kano");
+
+        String[] stateList = {"Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi"
+                ,"Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"};
+
+        for (String city : stateList) {
+            locationList.add(city);
+        }
+
     }
 }

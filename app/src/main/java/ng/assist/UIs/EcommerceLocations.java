@@ -2,6 +2,7 @@ package ng.assist.UIs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -38,6 +40,8 @@ public class EcommerceLocations extends Fragment {
     ListDialog listDialog;
     MaterialButton addLocation;
     ProgressBar progressBar;
+    TextView noLocationAvailable;
+    ArrayList<LocationModel> locationModels = new ArrayList<>();
     public EcommerceLocations() {
         // Required empty public constructor
     }
@@ -53,12 +57,14 @@ public class EcommerceLocations extends Fragment {
     }
     private void initView(){
         populateLocation();
+        noLocationAvailable = view.findViewById(R.id.dashboard_no_location_available);
         listDialog = new ListDialog(locationList,getContext());
         progressBar = view.findViewById(R.id.eccommerce_location_progress);
         recyclerView = view.findViewById(R.id.dashboard_locations_recyclerview);
         addLocation = view.findViewById(R.id.eccommerce_location_add_location);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String retailerId =  preferences.getString("userEmail","");
+        adapter = new DashBoardLocationsAdapter(locationModels,getContext());
 
         LocationModel locationModel = new LocationModel(retailerId);
         locationModel.LoadDeliveryLocations();
@@ -68,6 +74,7 @@ public class EcommerceLocations extends Fragment {
                 addLocation.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
+                noLocationAvailable.setVisibility(View.GONE);
                 locationList = new ArrayList<>();
                 for (LocationModel locationModel1: assistLocations) {
                      //locationList.add(locationModel1.getCity());
@@ -80,8 +87,10 @@ public class EcommerceLocations extends Fragment {
 
             @Override
             public void onError(String message) {
+                addLocation.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                noLocationAvailable.setVisibility(View.VISIBLE);
             }
         });
 

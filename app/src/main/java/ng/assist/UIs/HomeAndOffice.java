@@ -1,11 +1,13 @@
 package ng.assist.UIs;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,9 @@ public class HomeAndOffice extends Fragment {
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
 
-        GroceryModel groceryModel = new GroceryModel("Electronics","lagos");
+        String city = getLocation();
+
+        GroceryModel groceryModel = new GroceryModel("Home And Office",city);
         groceryModel.getGroceryProducts();
         groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
             @Override
@@ -90,7 +94,7 @@ public class HomeAndOffice extends Fragment {
                     }
 
                     recyclerProgress.setVisibility(View.VISIBLE);
-                    GroceryModel groceryModel = new GroceryModel("fast-foods","lagos");
+                    GroceryModel groceryModel = new GroceryModel("Home And Office",city);
                     groceryModel.getGroceryProductsNextPage(HomeAndOffice.this.nextPageUrl);
                     groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
                         @Override
@@ -119,7 +123,7 @@ public class HomeAndOffice extends Fragment {
         recyclerView.setVisibility(View.GONE);
         noProductAvailable.setVisibility(View.GONE);
 
-        GroceryModel groceryModel = new GroceryModel("Electronics",city);
+        GroceryModel groceryModel = new GroceryModel("Home And Office",city);
         groceryModel.getGroceryProducts();
         groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
             @Override
@@ -137,5 +141,11 @@ public class HomeAndOffice extends Fragment {
                 noProductAvailable.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    private String getLocation(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String city = preferences.getString("userCity","lagos");
+        return city;
     }
 }

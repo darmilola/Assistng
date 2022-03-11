@@ -19,8 +19,10 @@ import ng.assist.UIs.PhoneAndSupplies;
 import ng.assist.UIs.Utils.ListDialog;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
@@ -67,6 +69,9 @@ public class Grocery extends AppCompatActivity {
         searchEdittext = findViewById(R.id.grocery_search_edittext);
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+        String savedCity = getLocation();
+        String locationText = "Your current location is "+savedCity;
+        changeLocationText.setText(locationText);
 
         navBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +88,7 @@ public class Grocery extends AppCompatActivity {
                 listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
                     @Override
                     public void onItemClicked(String city) {
+                        saveLocation(city);
                         changeLocationText.setText("Your current location is "+city);
                         int pos = viewPager.getCurrentItem();
                         Fragment activeFragment = adapter.getRegisteredFragment(pos);
@@ -247,6 +253,17 @@ public class Grocery extends AppCompatActivity {
             locationList.add(city);
         }
 
+    }
+
+    private void saveLocation(String city){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Grocery.this);
+        preferences.edit().putString("userCity",city).apply();
+    }
+
+    private String getLocation(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Grocery.this);
+        String city = preferences.getString("userCity","lagos");
+        return city;
     }
 
 

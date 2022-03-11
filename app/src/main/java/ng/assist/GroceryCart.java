@@ -249,4 +249,6 @@ public class GroceryCart extends AppCompatActivity {
         String walletBalance = preferences.getString("walletBalance","0");
         preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(amount))).apply();
     }
+
+
 }
