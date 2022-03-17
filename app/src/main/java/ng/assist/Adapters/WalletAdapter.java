@@ -18,11 +18,15 @@ import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
+
 import ng.assist.ProductTransaction;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.Transactions;
 import ng.assist.UIs.ViewModel.WalletTransactionsModel;
 import ng.assist.UIs.chatkit.utils.DateFormatter;
+import ng.assist.ViewOrder;
 
 public class WalletAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -117,6 +121,7 @@ public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int
 
         if(holder instanceof BillsItemViewHolder){
             ((BillsItemViewHolder) holder).amount.setText("₦"+transactions.getAmount());
+            ((BillsItemViewHolder) holder).name.setText(transactions.getTitle());
             if(DateFormatter.isSameDay(currentDate,chatDate)){
                 ((BillsItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
             }
@@ -125,7 +130,6 @@ public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int
             }
         }
         if(holder instanceof MarketplaceItemViewHolder){
-            ((MarketplaceItemViewHolder) holder).amount.setText("₦"+transactions.getAmount());
             if(DateFormatter.isSameDay(currentDate,chatDate)){
                 ((MarketplaceItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
             }
@@ -243,22 +247,32 @@ public int getItemCount() {
 
     public class BillsItemViewHolder extends RecyclerView.ViewHolder{
 
-        TextView date,amount;
+        TextView date,amount,name;
         public BillsItemViewHolder(View ItemView){
             super(ItemView);
             date = ItemView.findViewById(R.id.transactions_date);
             amount = ItemView.findViewById(R.id.transactions_amount);
+            name = ItemView.findViewById(R.id.bills_transaction_name);
         }
 
     }
 
     public class MarketplaceItemViewHolder extends RecyclerView.ViewHolder{
 
-        TextView date,amount;
+        TextView date;
+        MaterialButton viewOrder;
         public MarketplaceItemViewHolder(View ItemView){
             super(ItemView);
+            viewOrder = ItemView.findViewById(R.id.wallet_view_order);
             date = ItemView.findViewById(R.id.transactions_date);
-            amount = ItemView.findViewById(R.id.transactions_amount);
+
+            viewOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, ViewOrder.class));
+                }
+            });
+
         }
 
     }

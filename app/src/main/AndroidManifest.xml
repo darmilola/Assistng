@@ -19,6 +19,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ViewOrder"
+            android:exported="false" />
+        <activity
             android:name=".ServiceBookingActivity"
             android:exported="false" />
         <activity

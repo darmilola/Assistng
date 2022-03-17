@@ -7,6 +7,7 @@
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/drawable/location_change_background.xml" value="0.1953125" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/drawable/store_listing_cart_background.xml" value="0.1953125" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/accomodation_list_item.xml" value="0.18" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/accomodation_listing_content.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_accomodation.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_accomodation_booking.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_accomodation_listings.xml" value="0.17916666666666667" />
@@ -28,7 +29,7 @@
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_estate_listing_dashboard.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_flight_booking.xml" value="0.1" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_grocery.xml" value="0.22" />
-        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_grocery_cart.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_grocery_cart.xml" value="0.2" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_grocery_landing.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_grocery_search.xml" value="0.22" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_grocery_store_listing.xml" value="0.17916666666666667" />
@@ -52,11 +53,14 @@
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_top_up.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_transportation.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_verification_dash_board.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_view_order.xml" value="0.25" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_withdrawal_history.xml" value="0.22" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/bills_item.xml" value="0.25" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/book_transport_dialog_layout.xml" value="0.1802536231884058" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/bus_transport_itemview_layout.xml" value="0.25" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/cab_display_item.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/checkout_dialog_layout.xml" value="0.25" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/checkout_dialog_shop_pickup.xml" value="0.22" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/dashboard_grocery_item.xml" value="0.25" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/direct_message_item.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/ecommerce_dashboard_tab_layout.xml" value="0.17916666666666667" />
@@ -89,12 +93,15 @@
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/loan_dialog_layout.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/product_image_recycler_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/product_image_scrollview.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/product_transactions_item.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/refund_history_item.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/request_refund_dialog_layout.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/ride_display_view.xml" value="0.25" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/service_category_item.xml" value="0.33" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/service_provider_item.xml" value="0.2" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/services_bookings_item.xml" value="0.25" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/wallet_transactions_bills.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/wallet_transactions_marketplace.xml" value="0.33" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/wallet_transactions_withdraw.xml" value="0.25" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/withdrawal_history_item.xml" value="0.16510416666666666" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/menu/main_menu.xml" value="0.17916666666666667" />

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import ng.assist.Adapters.GroceryCartAdapter;
+import ng.assist.UIs.Utils.CheckOutPickupDialog;
 import ng.assist.UIs.Utils.CheckoutDialog;
 import ng.assist.UIs.ViewModel.CabHailingModel;
 import ng.assist.UIs.ViewModel.CreatBill;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,7 @@ public class GroceryCart extends AppCompatActivity {
     MaterialButton checkout;
     String mTotalPriceValue,retailerShopName;
     LinearLayout backNav;
+    RadioButton storePickup, homeDelivery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,8 @@ public class GroceryCart extends AppCompatActivity {
     }
 
     private void initView(){
+        storePickup = findViewById(R.id.store_pickup);
+        homeDelivery = findViewById(R.id.home_delivery);
         backNav = findViewById(R.id.back_nav);
         String retailerId = getIntent().getStringExtra("retailerId");
         String retailerShopName = getIntent().getStringExtra("retailerShopName");
@@ -129,56 +134,76 @@ public class GroceryCart extends AppCompatActivity {
 
                 else {
 
-                    CheckoutDialog checkoutDialog = new CheckoutDialog(GroceryCart.this);
-                    checkoutDialog.ShowCheckoutDialog();
-                    checkoutDialog.setDialogActionClickListener(new CheckoutDialog.OnDialogActionClickListener() {
-                        @Override
-                        public void checkOutClicked(String phone, String address, String landmark, String state, String lga) {
-                            String billId = generateBillId();
-                            String orderJson = convertListToJsonString(groceryModelArrayList);
-                            GroceryModel groceryModel1 = new GroceryModel(retailerId, userId,orderJson,mTotalPriceValue,address,phone,landmark,state,lga,GroceryCart.this);
-                            groceryModel1.CheckOut();
-                            groceryModel1.setCartCheckoutListener(new GroceryModel.CartCheckoutListener() {
-                                @Override
-                                public void onSuccess() {
-                                    reduceWalletBalanceInSharedPref(GroceryCart.this,mTotalPriceValue);
-                                    CreatBill createBill = new CreatBill(userId,retailerId,Integer.parseInt(mTotalPriceValue),"2",retailerShopName,billId);
-                                    createBill.CreateBill();
-                                    createBill.setCreateBillListener(new CreatBill.CreateBillListener() {
-                                        @Override
-                                        public void onSuccess() {
-                                            addPending();
-                                            Date date = new Date();
-                                            Timestamp timestamp = new Timestamp(date.getTime());
-                                            insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,"");
+                    if(homeDelivery.isChecked()){
+                        showHomeDeliveryDialog(groceryModelArrayList,retailerId,userId);
+                    }
+                    else if(storePickup.isChecked()){
+                         showStorePickup();
+                    }
+                    else{
+                        Toast.makeText(GroceryCart.this, "Please Select Delivery Method", Toast.LENGTH_SHORT).show();
+                    }
 
-                                        }
 
-                                        @Override
-                                        public void onError() {
-
-                                        }
-                                    });
-
-                                    Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
-                                    setResult(300);
-                                    finish();
-
-                                    ;
-                                }
-                                @Override
-                                public void onError() {
-                                    Toast.makeText(GroceryCart.this, "Error Occurred", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                        }
-                    });
 
                 }
 
             }
 
+        });
+    }
+
+    private void showStorePickup(){
+        CheckOutPickupDialog checkOutPickupDialog = new CheckOutPickupDialog(GroceryCart.this);
+        checkOutPickupDialog.ShowCheckoutDialog();
+    }
+
+
+    private void showHomeDeliveryDialog(ArrayList<GroceryModel> groceryModelArrayList,String retailerId, String userId){
+        CheckoutDialog checkoutDialog = new CheckoutDialog(GroceryCart.this);
+        checkoutDialog.ShowCheckoutDialog();
+        checkoutDialog.setDialogActionClickListener(new CheckoutDialog.OnDialogActionClickListener() {
+            @Override
+            public void checkOutClicked(String phone, String address, String landmark, String state, String lga) {
+                String billId = generateBillId();
+                String orderJson = convertListToJsonString(groceryModelArrayList);
+                GroceryModel groceryModel1 = new GroceryModel(retailerId, userId,orderJson,mTotalPriceValue,address,phone,landmark,state,lga,GroceryCart.this);
+                groceryModel1.CheckOut();
+                groceryModel1.setCartCheckoutListener(new GroceryModel.CartCheckoutListener() {
+                    @Override
+                    public void onSuccess() {
+                        reduceWalletBalanceInSharedPref(GroceryCart.this,mTotalPriceValue);
+                        CreatBill createBill = new CreatBill(userId,retailerId,Integer.parseInt(mTotalPriceValue),"2",retailerShopName,billId);
+                        createBill.CreateBill();
+                        createBill.setCreateBillListener(new CreatBill.CreateBillListener() {
+                            @Override
+                            public void onSuccess() {
+                                addPending();
+                                Date date = new Date();
+                                Timestamp timestamp = new Timestamp(date.getTime());
+                                insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,"");
+
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
+
+                        Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
+                        setResult(300);
+                        finish();
+
+                        ;
+                    }
+                    @Override
+                    public void onError() {
+                        Toast.makeText(GroceryCart.this, "Error Occurred", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
         });
     }
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="steps">
+        <item>Ordered</item>
+        <item>Processing</item>
+        <item>Ready for Pickup</item>
+    </string-array>
+</resources>

@@ -58,7 +58,7 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
        CabHailingModel model = rideDisplayList.get(position);
        holder.from.setText(model.getFromArea());
        holder.to.setText(model.getToArea());
-       holder.book.setText("₦"+model.getFare());
+       holder.price.setText("₦"+model.getFare());
        holder.departureDate.setText(model.getDepartureDate());
        holder.departureTime.setText(model.getDepartureTime());
        holder.point.setText(model.getMeetingpoint());
@@ -80,7 +80,7 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
 
     public class itemViewHolder extends RecyclerView.ViewHolder{
         MaterialButton book,call;
-        TextView from,to,point,seats,company,type,departureTime,departureDate;
+        TextView from,to,point,seats,company,type,departureTime,departureDate,price;
 
         public itemViewHolder(View ItemView){
             super(ItemView);
@@ -88,6 +88,7 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
             call = ItemView.findViewById(R.id.bus_item_call);
             from = ItemView.findViewById(R.id.bus_item_from);
             to = ItemView.findViewById(R.id.bus_item_to);
+            price = ItemView.findViewById(R.id.bus_item_price);
             point = ItemView.findViewById(R.id.bus_item_meeting_point);
             seats = ItemView.findViewById(R.id.bus_item_seats);
             company = ItemView.findViewById(R.id.bus_item_company);

@@ -71,16 +71,14 @@
                 android:gravity="center"
                 android:layout_gravity="left"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NGN 25,000"
-                    android:id="@+id/transactions_amount"
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="110dp"
+                    android:layout_height="45dp"
+                    android:text="View Order"
                     android:textSize="12dp"
-                    android:gravity="center"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/clannews"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textAllCaps="false"
+                    android:id="@+id/wallet_view_order"/>
 
             </LinearLayout>
 

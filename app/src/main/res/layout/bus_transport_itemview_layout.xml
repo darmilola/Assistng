@@ -100,9 +100,10 @@
                         app:cornerRadius="4dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginLeft="5dp"
-                        android:text="$1,150"
-                        android:id="@+id/bus_item_book"
+                        android:text="Call"
+                        android:textAllCaps="false"
                         android:maxLines="1"
+                        android:id="@+id/bus_item_call"
                         android:ellipsize="end"
                         android:textSize="12dp"
                         app:backgroundTint="@color/pink"/>
@@ -113,8 +114,8 @@
                         app:cornerRadius="4dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginLeft="5dp"
-                        android:text="Call"
-                        android:id="@+id/bus_item_call"
+                        android:text="Book"
+                        android:id="@+id/bus_item_book"
                         android:textAllCaps="false"
                         android:maxLines="1"
                         android:ellipsize="end"
@@ -140,6 +141,18 @@
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/dotted_line"/>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NGN 5000"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:id="@+id/bus_item_price"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/clannews"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
