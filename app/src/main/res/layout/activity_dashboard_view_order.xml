@@ -73,10 +73,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:itemCount="4"
+                    tools:itemCount="1"
                     android:id="@+id/dashboard_order_recyclerview"
                     tools:listitem="@layout/product_transactions_item"/>
-
             </RelativeLayout>
 
 
@@ -203,6 +202,12 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -348,6 +353,134 @@
                 android:layout_alignParentLeft="true"
                 android:textColor="@color/light_text_color"
                 android:textSize="14dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/clanbold"
+                    android:text="Store Address"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/dark_text_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/clannews"
+                    android:text="Not Available"
+                    android:id="@+id/dashboard_view_order_store_address_type_text"
+                    android:gravity="center"
+                    android:maxWidth="200dp"
+                    android:layout_marginLeft="5dp"
+                    android:ellipsize="end"
+                    android:textColor="#797878"/>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:tint="@color/dark_text_color"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/dashboard_view_order_store_address_type_select"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_mode_edit_black_24dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/clanbold"
+                    android:text="Delivery Time"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/dark_text_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/clannews"
+                    android:text="Not Available"
+                    android:id="@+id/dashboard_view_order_delivery_time_type_text"
+                    android:gravity="center"
+                    android:maxWidth="200dp"
+                    android:layout_marginLeft="5dp"
+                    android:ellipsize="end"
+                    android:textColor="#797878"/>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:tint="@color/dark_text_color"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/dashboard_view_order_delivery_time_type_select"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_mode_edit_black_24dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/clanbold"
+                    android:text="Tracking ID"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/dark_text_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/clannews"
+                    android:text="Not Available"
+                    android:id="@+id/dashboard_view_order_tracking_id_type_text"
+                    android:gravity="center"
+                    android:maxWidth="200dp"
+                    android:layout_marginLeft="5dp"
+                    android:ellipsize="end"
+                    android:textColor="#797878"/>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:tint="@color/dark_text_color"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/dashboard_view_order_tracking_id_type_select"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_mode_edit_black_24dp"/>
+
+            </LinearLayout>
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:layout_width="match_parent"

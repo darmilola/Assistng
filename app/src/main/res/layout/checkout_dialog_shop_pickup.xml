@@ -53,7 +53,7 @@
                     android:maxLines="1"
                     android:inputType="text"
                     android:maxLength="300"
-                    android:id="@+id/checkout_dialog_delivery_address"
+                    android:id="@+id/checkout_dialog_pickup_name"
                     android:background="@drawable/edittext_background"
                     android:layout_gravity="center"/>
 
@@ -76,7 +76,7 @@
                     android:maxLines="1"
                     android:inputType="number"
                     android:maxLength="300"
-                    android:id="@+id/checkout_dialog_closest_landmark"
+                    android:id="@+id/checkout_dialog_pickup_phone"
                     android:background="@drawable/edittext_background"
                     android:layout_gravity="center"/>
 

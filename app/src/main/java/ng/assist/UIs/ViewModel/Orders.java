@@ -7,7 +7,7 @@ public class Orders implements Parcelable {
     private String totalPrice;
     private String status;
     private String orderJson;
-    private int orderId;
+    private String orderId;
     private String userFirstname;
     private String userLastname;
     private String userEmail;
@@ -17,8 +17,11 @@ public class Orders implements Parcelable {
     private String landmark;
     private String state;
     private String lga;
+    private String pickupName,pickupPhone,type,deliveryDate,trackingId,storeAddress,pickupDate,stage;
 
-    public Orders(int orderId, String totalPrice,String status,String orderJson,String userFirstname, String userLastname,String userEmail, String userPhone, String userAddress, String landmark, String state, String lga){
+
+
+    public Orders(String orderId, String totalPrice,String status,String orderJson,String userFirstname, String userLastname,String userEmail, String userPhone, String userAddress, String landmark, String state, String lga,String pickupName,String pickupPhone, String pickupDate, String type,String deliveryDate,String trackingId,String storeAddress, String stage){
         this.totalPrice = totalPrice;
         this.status = status;
         this.orderJson = orderJson;
@@ -31,6 +34,14 @@ public class Orders implements Parcelable {
         this.landmark = landmark;
         this.state = state;
         this.lga = lga;
+        this.pickupName = pickupName;
+        this.pickupPhone = pickupPhone;
+        this.pickupDate = pickupDate;
+        this.type = type;
+        this.deliveryDate = deliveryDate;
+        this.trackingId = trackingId;
+        this.storeAddress = storeAddress;
+        this.stage = stage;
     }
 
 
@@ -38,7 +49,7 @@ public class Orders implements Parcelable {
         totalPrice = in.readString();
         status = in.readString();
         orderJson = in.readString();
-        orderId = in.readInt();
+        orderId = in.readString();
         userFirstname = in.readString();
         userLastname = in.readString();
         userEmail = in.readString();
@@ -48,6 +59,14 @@ public class Orders implements Parcelable {
         landmark = in.readString();
         state = in.readString();
         lga = in.readString();
+        pickupName = in.readString();
+        pickupPhone = in.readString();
+        type = in.readString();
+        deliveryDate = in.readString();
+        trackingId = in.readString();
+        storeAddress = in.readString();
+        pickupDate = in.readString();
+        stage = in.readString();
     }
 
     public static final Creator<Orders> CREATOR = new Creator<Orders>() {
@@ -86,7 +105,7 @@ public class Orders implements Parcelable {
         return userFirstname;
     }
 
-    public int getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
@@ -106,7 +125,6 @@ public class Orders implements Parcelable {
         return userEmail;
     }
 
-
     public String getLandmark() {
         return landmark;
     }
@@ -119,6 +137,38 @@ public class Orders implements Parcelable {
         return lga;
     }
 
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public String getPickupDate() {
+        return pickupDate;
+    }
+
+    public String getPickupName() {
+        return pickupName;
+    }
+
+    public String getPickupPhone() {
+        return pickupPhone;
+    }
+
+    public String getStage() {
+        return stage;
+    }
+
+    public String getStoreAddress() {
+        return storeAddress;
+    }
+
+    public String getTrackingId() {
+        return trackingId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -129,7 +179,7 @@ public class Orders implements Parcelable {
         dest.writeString(totalPrice);
         dest.writeString(status);
         dest.writeString(orderJson);
-        dest.writeInt(orderId);
+        dest.writeString(orderId);
         dest.writeString(userFirstname);
         dest.writeString(userLastname);
         dest.writeString(userEmail);
@@ -139,5 +189,13 @@ public class Orders implements Parcelable {
         dest.writeString(landmark);
         dest.writeString(state);
         dest.writeString(lga);
+        dest.writeString(pickupName);
+        dest.writeString(pickupPhone);
+        dest.writeString(type);
+        dest.writeString(deliveryDate);
+        dest.writeString(trackingId);
+        dest.writeString(storeAddress);
+        dest.writeString(pickupDate);
+        dest.writeString(stage);
     }
 }

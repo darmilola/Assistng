@@ -39,6 +39,7 @@ public class GroceryModel implements Parcelable {
     private String retailerId;
     private String shopName;
     private String address,contactPhone,landmark,state,lga;
+    String pickupName,pickupPhone,pickupDate;
     private int cartIndex;
     private ArrayList<GroceryModel> groceryModelArrayList = new ArrayList<>();
     private String baseUrl = new URL().getBaseUrl();
@@ -55,10 +56,10 @@ public class GroceryModel implements Parcelable {
     private String cartRetailerId, userId, quantity;
     private LoadingDialogUtils dialogUtils;
     private CartListener cartListener;
-    private String productQuantity;
+    private String productQuantity,orderId;
     private int qtyPrice;
     private String productId;
-    private String orderJson,totalPrice;
+    private String orderJson,totalPrice,type;
     private String searchQuery;
     private CartDisplayListener cartDisplayListener;
     private CartCheckoutListener cartCheckoutListener;
@@ -218,7 +219,7 @@ public class GroceryModel implements Parcelable {
         this.cartRetailerId = retailerId;
     }
 
-    public GroceryModel(String retailerId, String userId,String orderJson,String totalPrice,String address,String contactPhone,String landmark,String state,String lga,Context context) {
+    public GroceryModel(String orderId,String retailerId, String userId,String orderJson,String totalPrice,String address,String contactPhone,String landmark,String state,String lga,Context context, String type) {
         dialogUtils = new LoadingDialogUtils(context);
         this.userId = userId;
         this.retailerId = retailerId;
@@ -229,6 +230,20 @@ public class GroceryModel implements Parcelable {
         this.landmark = landmark;
         this.state = state;
         this.lga = lga;
+        this.type = type;
+        this.orderId = orderId;
+    }
+
+    public GroceryModel(String orderId, String retailerId, String userId,String orderJson,String pickupName, String pickupPhone, String pickupDate, String type, Context context) {
+        dialogUtils = new LoadingDialogUtils(context);
+        this.userId = userId;
+        this.retailerId = retailerId;
+        this.orderJson = orderJson;
+        this.pickupName = pickupName;
+        this.pickupPhone = pickupPhone;
+        this.pickupDate = pickupDate;
+        this.type = type;
+        this.orderId = orderId;
     }
 
 
@@ -772,7 +787,40 @@ public class GroceryModel implements Parcelable {
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildCartCheckout(retailerId,userId,orderJson,totalPrice,address,contactPhone,landmark,state,lga));
+            RequestBody requestBody = RequestBody.create(JSON,buildCartCheckout(orderId, retailerId,userId,orderJson,totalPrice,address,contactPhone,landmark,state,lga,type));
+            Request request = new Request.Builder()
+                    .url(checkoutCartUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = cartHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            cartHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+    public void CheckOutStore() {
+        dialogUtils.showLoadingDialog("Processing...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildCartCheckout(orderId,retailerId,userId,orderJson,pickupName,pickupPhone,pickupDate,type));
             Request request = new Request.Builder()
                     .url(checkoutCartUrl)
                     .post(requestBody)
@@ -863,7 +911,7 @@ public class GroceryModel implements Parcelable {
         return jsonObject.toString();
     }
 
-    private String buildCartCheckout(String retailerId, String userId, String orderJson, String totalPrice, String address, String contactPhone,String landmark, String state, String lga){
+    private String buildCartCheckout(String orderId, String retailerId, String userId, String orderJson, String totalPrice, String address, String contactPhone,String landmark, String state, String lga,String type){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("retailerId",retailerId);
@@ -875,6 +923,26 @@ public class GroceryModel implements Parcelable {
             jsonObject.put("landmark",landmark);
             jsonObject.put("state",state);
             jsonObject.put("lga",lga);
+            jsonObject.put("type",type);
+            jsonObject.put("orderId",orderId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildCartCheckout(String orderId, String retailerId, String userId, String orderJson, String pickupName, String pickupPhone, String pickupDate, String type){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("retailerId",retailerId);
+            jsonObject.put("userId", userId);
+            jsonObject.put("orderJson",orderJson);
+            jsonObject.put("pickupName",pickupName);
+            jsonObject.put("pickupPhone",pickupPhone);
+            jsonObject.put("pickupDate",pickupDate);
+            jsonObject.put("orderId",orderId);
+            jsonObject.put("type",type);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

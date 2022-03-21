@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.PlacedOrderAdapter;
+import ng.assist.UIs.Utils.InputDialog;
 import ng.assist.UIs.ViewModel.CartModel;
 import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
 import ng.assist.UIs.ViewModel.Orders;
@@ -40,6 +41,9 @@ public class DashboardViewOrder extends AppCompatActivity {
     MaterialCheckBox deliveryStatus;
     ArrayList<CartModel> cartModelArrayList = new ArrayList<CartModel>();
     ImageView backNav;
+    ImageView selectDeliveryTime,selectStoreAddress,selectTrackingId;
+    TextView deliveryTime, storeAddress, trackingId;
+    InputDialog inputDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,12 @@ public class DashboardViewOrder extends AppCompatActivity {
             }
         });
 
+        selectDeliveryTime = findViewById(R.id.dashboard_view_order_delivery_time_type_select);
+        selectStoreAddress = findViewById(R.id.dashboard_view_order_store_address_type_select);
+        selectTrackingId = findViewById(R.id.dashboard_view_order_tracking_id_type_select);
+        deliveryTime = findViewById(R.id.dashboard_view_order_delivery_time_type_text);
+        storeAddress = findViewById(R.id.dashboard_view_order_store_address_type_text);
+        trackingId = findViewById(R.id.dashboard_view_order_tracking_id_type_text);
         orders = getIntent().getParcelableExtra("orderList");
         recyclerView = findViewById(R.id.dashboard_order_recyclerview);
         totalPrice = findViewById(R.id.dashboard_order_totalprice);
@@ -76,6 +86,108 @@ public class DashboardViewOrder extends AppCompatActivity {
             }
         });
 
+        selectDeliveryTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inputDialog = new InputDialog(DashboardViewOrder.this,"Delivery Time");
+                inputDialog.showInputDialog();
+                inputDialog.setDialogActionClickListener(new InputDialog.OnDialogActionClickListener() {
+                    @Override
+                    public void saveClicked(String text) {
+
+                        EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(DashboardViewOrder.this,orders.getOrderId(),text,"deliveryDate");
+                        ecommerceDashboardModel.updateOrderInfo();
+                        ecommerceDashboardModel.setUpdateInfoListener(new EcommerceDashboardModel.UpdateInfoListener() {
+                            @Override
+                            public void onSuccess() {
+                                deliveryTime.setText(text);
+                                Toast.makeText(DashboardViewOrder.this, "Order updated successfully", Toast.LENGTH_SHORT).show();
+                            }
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(DashboardViewOrder.this, message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void cancelClicked() {
+
+                    }
+                });
+            }
+        });
+
+        selectTrackingId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                inputDialog = new InputDialog(DashboardViewOrder.this,"Tracking ID");
+                inputDialog.showInputDialog();
+                inputDialog.setDialogActionClickListener(new InputDialog.OnDialogActionClickListener() {
+                    @Override
+                    public void saveClicked(String text) {
+
+                        EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(DashboardViewOrder.this,orders.getOrderId(),text,"trackingId");
+                        ecommerceDashboardModel.updateOrderInfo();
+                        ecommerceDashboardModel.setUpdateInfoListener(new EcommerceDashboardModel.UpdateInfoListener() {
+                            @Override
+                            public void onSuccess() {
+                                trackingId.setText(text);
+                                Toast.makeText(DashboardViewOrder.this, "Order updated successfully", Toast.LENGTH_SHORT).show();
+                            }
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(DashboardViewOrder.this, message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void cancelClicked() {
+
+                    }
+                });
+
+            }
+        });
+
+        selectStoreAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                inputDialog = new InputDialog(DashboardViewOrder.this,"Store Address");
+                inputDialog.showInputDialog();
+                inputDialog.setDialogActionClickListener(new InputDialog.OnDialogActionClickListener() {
+                    @Override
+                    public void saveClicked(String text) {
+
+                        EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(DashboardViewOrder.this,orders.getOrderId(),text,"storeAddress");
+                        ecommerceDashboardModel.updateOrderInfo();
+                        ecommerceDashboardModel.setUpdateInfoListener(new EcommerceDashboardModel.UpdateInfoListener() {
+                            @Override
+                            public void onSuccess() {
+                                storeAddress.setText(text);
+                                Toast.makeText(DashboardViewOrder.this, "Order updated successfully", Toast.LENGTH_SHORT).show();
+                            }
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(DashboardViewOrder.this, message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void cancelClicked() {
+
+                    }
+                });
+            }
+        });
+
         address.setText(orders.getUserAddress());
         landmark.setText(orders.getLandmark());
         state.setText(orders.getState());
@@ -86,10 +198,10 @@ public class DashboardViewOrder extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 EcommerceDashboardModel ecommerceDashboardModel = null;
                 if(isChecked){
-                    ecommerceDashboardModel = new EcommerceDashboardModel(DashboardViewOrder.this,orders.getOrderId(),"delivered");
+                    ecommerceDashboardModel = new EcommerceDashboardModel(DashboardViewOrder.this,orders.getOrderId(),"delivered","OrderStatus");
                 }
                 else{
-                    ecommerceDashboardModel = new EcommerceDashboardModel(DashboardViewOrder.this,orders.getOrderId(),"pending delivery");
+                    ecommerceDashboardModel = new EcommerceDashboardModel(DashboardViewOrder.this,orders.getOrderId(),"pending delivery","OrderStatus");
 
                 }
 
@@ -123,7 +235,7 @@ public class DashboardViewOrder extends AppCompatActivity {
         deleteOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(DashboardViewOrder.this,orders.getOrderId(),"");
+                EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(DashboardViewOrder.this,orders.getOrderId(),"","");
                 ecommerceDashboardModel.deleteOrderInfo();
                 ecommerceDashboardModel.setUpdateInfoListener(new EcommerceDashboardModel.UpdateInfoListener() {
                     @Override

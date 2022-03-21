@@ -138,7 +138,7 @@ public class GroceryCart extends AppCompatActivity {
                         showHomeDeliveryDialog(groceryModelArrayList,retailerId,userId);
                     }
                     else if(storePickup.isChecked()){
-                         showStorePickup();
+                         showStorePickup(groceryModelArrayList,retailerId,userId);
                     }
                     else{
                         Toast.makeText(GroceryCart.this, "Please Select Delivery Method", Toast.LENGTH_SHORT).show();
@@ -153,21 +153,18 @@ public class GroceryCart extends AppCompatActivity {
         });
     }
 
-    private void showStorePickup(){
+    private void showStorePickup(ArrayList<GroceryModel> groceryModelArrayList,String retailerId, String userId){
         CheckOutPickupDialog checkOutPickupDialog = new CheckOutPickupDialog(GroceryCart.this);
         checkOutPickupDialog.ShowCheckoutDialog();
-    }
 
-
-    private void showHomeDeliveryDialog(ArrayList<GroceryModel> groceryModelArrayList,String retailerId, String userId){
-        CheckoutDialog checkoutDialog = new CheckoutDialog(GroceryCart.this);
-        checkoutDialog.ShowCheckoutDialog();
-        checkoutDialog.setDialogActionClickListener(new CheckoutDialog.OnDialogActionClickListener() {
+        checkOutPickupDialog.setDialogActionClickListener(new CheckOutPickupDialog.OnDialogActionClickListener() {
             @Override
-            public void checkOutClicked(String phone, String address, String landmark, String state, String lga) {
+            public void checkOutClicked(String name, String phone, String date) {
+
                 String billId = generateBillId();
+                String orderId = generateBillId();//generating order ID
                 String orderJson = convertListToJsonString(groceryModelArrayList);
-                GroceryModel groceryModel1 = new GroceryModel(retailerId, userId,orderJson,mTotalPriceValue,address,phone,landmark,state,lga,GroceryCart.this);
+                GroceryModel groceryModel1 = new GroceryModel(orderId, retailerId, userId,orderJson,name,phone,date,"store",GroceryCart.this);
                 groceryModel1.CheckOut();
                 groceryModel1.setCartCheckoutListener(new GroceryModel.CartCheckoutListener() {
                     @Override
@@ -181,7 +178,7 @@ public class GroceryCart extends AppCompatActivity {
                                 addPending();
                                 Date date = new Date();
                                 Timestamp timestamp = new Timestamp(date.getTime());
-                                insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,"");
+                                insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,orderId);
 
                             }
 
@@ -195,8 +192,58 @@ public class GroceryCart extends AppCompatActivity {
                         setResult(300);
                         finish();
 
-                        ;
+
+            }
+
+                    @Override
+                    public void onError() {
+
                     }
+                });
+
+            }
+        });
+    }
+
+
+    private void showHomeDeliveryDialog(ArrayList<GroceryModel> groceryModelArrayList,String retailerId, String userId){
+        CheckoutDialog checkoutDialog = new CheckoutDialog(GroceryCart.this);
+        checkoutDialog.ShowCheckoutDialog();
+        checkoutDialog.setDialogActionClickListener(new CheckoutDialog.OnDialogActionClickListener() {
+            @Override
+            public void checkOutClicked(String phone, String address, String landmark, String state, String lga) {
+                String billId = generateBillId();
+                String orderId = generateBillId();//generating order ID
+                String orderJson = convertListToJsonString(groceryModelArrayList);
+                GroceryModel groceryModel1 = new GroceryModel(orderId, retailerId, userId,orderJson,mTotalPriceValue,address,phone,landmark,state,lga,GroceryCart.this,"home");
+                groceryModel1.CheckOut();
+                groceryModel1.setCartCheckoutListener(new GroceryModel.CartCheckoutListener() {
+                    @Override
+                    public void onSuccess() {
+                        reduceWalletBalanceInSharedPref(GroceryCart.this,mTotalPriceValue);
+                        CreatBill createBill = new CreatBill(userId,retailerId,Integer.parseInt(mTotalPriceValue),"2",retailerShopName,billId);
+                        createBill.CreateBill();
+                        createBill.setCreateBillListener(new CreatBill.CreateBillListener() {
+                            @Override
+                            public void onSuccess() {
+                                addPending();
+                                Date date = new Date();
+                                Timestamp timestamp = new Timestamp(date.getTime());
+                                insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,orderId);
+
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
+
+                        Toast.makeText(GroceryCart.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
+                        setResult(300);
+                        finish();
+                    }
+
                     @Override
                     public void onError() {
                         Toast.makeText(GroceryCart.this, "Error Occurred", Toast.LENGTH_SHORT).show();
@@ -207,6 +254,8 @@ public class GroceryCart extends AppCompatActivity {
         });
     }
 
+
+
     private String convertListToJsonString(ArrayList<GroceryModel> orderlist){
         JSONArray jsonArray = new JSONArray();
         for(int i = 0; i < orderlist.size(); i++){
@@ -214,6 +263,8 @@ public class GroceryCart extends AppCompatActivity {
         }
         return jsonArray.toString();
     }
+
+
 
     @Override
     public void onResume() {

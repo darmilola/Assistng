@@ -25,7 +25,7 @@ public class CheckOutPickupDialog {
 
     private Dialog checkoutDialog;
     private Context mContext;
-    private EditText address,phone,landmark,lga;
+    private EditText name,phone;
     private MaterialButton checkOut;
     private TextView date;
     private OnDialogActionClickListener dialogActionClickListener;
@@ -33,7 +33,7 @@ public class CheckOutPickupDialog {
     ArrayList<String> locationList = new ArrayList<>();
 
     public interface OnDialogActionClickListener{
-        void checkOutClicked(String phone, String address,String landmark, String state, String lga);
+        void checkOutClicked(String name, String phone,String date);
     }
 
     public void setDialogActionClickListener(OnDialogActionClickListener dialogActionClickListener) {
@@ -46,6 +46,9 @@ public class CheckOutPickupDialog {
         checkoutDialog = new Dialog(context);
         checkoutDialog.setContentView(R.layout.checkout_dialog_shop_pickup);
         date = checkoutDialog.findViewById(R.id.checkout_dialog_pickup_date);
+        name = checkoutDialog.findViewById(R.id.checkout_dialog_pickup_name);
+        phone = checkoutDialog.findViewById(R.id.checkout_dialog_pickup_phone);
+        checkOut = checkoutDialog.findViewById(R.id.check_out_dialog_button);
 
         date.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -75,6 +78,19 @@ public class CheckOutPickupDialog {
              }
          });
 
+        checkOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               if(isValidForm()){
+                  String mName  = name.getText().toString().trim();
+                  String mPhone = phone.getText().toString().trim();
+                  String mDate = date.getText().toString().trim();
+
+                  dialogActionClickListener.checkOutClicked(mName,mPhone,mDate);
+               }
+            }
+        });
+
 
 
     }
@@ -100,4 +116,29 @@ public class CheckOutPickupDialog {
         }
 
     }
+
+    private boolean isValidForm(){
+      boolean isValid  = true;
+
+      if(name.getText().toString().trim().equalsIgnoreCase("")){
+          isValid = false;
+          name.setError("Required");
+          return isValid;
+      }
+
+        if(date.getText().toString().trim().equalsIgnoreCase("")){
+            isValid = false;
+            date.setError("Required");
+            return isValid;
+        }
+
+        if(phone.getText().toString().trim().equalsIgnoreCase("")){
+            isValid = false;
+            phone.setError("Required");
+            return isValid;
+        }
+
+      return  isValid;
+    }
+
 }

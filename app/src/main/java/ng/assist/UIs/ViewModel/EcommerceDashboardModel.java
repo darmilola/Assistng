@@ -5,10 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
-import android.view.Display;
 
 
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +38,7 @@ public class EcommerceDashboardModel {
     private String updateProductUrl = baseUrl+"products/update";
     private String deleteProductImageUrl = baseUrl+"products/image/delete";
     private String displayOrderUrl = baseUrl+"orders/show";
+    private String displaySingleOrderUrl = baseUrl+"orders/show/single";
     private String deleteOrderUrl = baseUrl+"orders/delete";
     private String updateOrderUrl = baseUrl+"orders/update";
     private Context context;
@@ -52,8 +50,8 @@ public class EcommerceDashboardModel {
     private ImageUploadDialog imageUploadDialog;
     private String encodedImage, productId;
     private ImageUploadListener imageUploadListener;
-    private String retailerId, title, price, category, description,availability,displayImage,orderStatus;
-    private int orderId;
+    private String retailerId, title, price,orderKey, category, description,availability,displayImage, orderValue;
+    private String orderId;
     private int imageId;
     private CreateProductListener createProductListener;
     private OrderReadyListener orderReadyListener;
@@ -145,10 +143,15 @@ public class EcommerceDashboardModel {
             this.userId = userId;
      }
 
-    public EcommerceDashboardModel(Context context, int orderId,String orderStatus){
+    public EcommerceDashboardModel(String OrderId){
+        this.orderId = OrderId;
+    }
+
+    public EcommerceDashboardModel(Context context, String orderId,String orderValue,String orderKey){
            this.context = context;
            this.orderId = orderId;
-           this.orderStatus = orderStatus;
+           this.orderValue = orderValue;
+           this.orderKey = orderKey;
            loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
@@ -208,7 +211,7 @@ public class EcommerceDashboardModel {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildUpdateOrder(orderId,orderStatus));
+            RequestBody requestBody = RequestBody.create(JSON,buildUpdateOrder(orderId, orderValue,orderKey));
             Request request = new Request.Builder()
                     .url(updateOrderUrl)
                     .post(requestBody)
@@ -409,6 +412,34 @@ public class EcommerceDashboardModel {
     }
 
 
+    public void displaySingleOrders(){
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildShowSingleOrder(orderId));
+            Request request = new Request.Builder()
+                    .url(displaySingleOrderUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = DisplayOrderHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            DisplayOrderHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
     public void createProduct(){
         loadingDialogUtils.showLoadingDialog("Creating Product...");
         Runnable runnable = () -> {
@@ -507,7 +538,7 @@ public class EcommerceDashboardModel {
                     JSONArray data = jsonObject.getJSONArray("data");
                     for(int i = 0; i < data.length(); i++) {
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
-                        int orderId = jsonArray.getJSONObject(i).getInt("orderId");
+                        String orderId = jsonArray.getJSONObject(i).getString("orderId");
                         String userEmail = jsonArray.getJSONObject(i).getString("email");
                         String orderJson = jsonArray.getJSONObject(i).getString("orderJson");
                         String orderStatus = jsonArray.getJSONObject(i).getString("orderStatus");
@@ -519,7 +550,15 @@ public class EcommerceDashboardModel {
                         String landmark = jsonArray.getJSONObject(i).getString("landmark");
                         String state = jsonArray.getJSONObject(i).getString("state");
                         String lga = jsonArray.getJSONObject(i).getString("lga");
-                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson, userFirstname, userLastname, userEmail,contactPhone,deliveryAddress,landmark,state,lga);
+                        String pickupName = jsonArray.getJSONObject(i).getString("pickupName");
+                        String pickupPhone = jsonArray.getJSONObject(i).getString("pickupPhone");
+                        String type = jsonArray.getJSONObject(i).getString("type");
+                        String deliveryDate = jsonArray.getJSONObject(i).getString("deliveryDate");
+                        String trackingId = jsonArray.getJSONObject(i).getString("trackingId");
+                        String storeAddress = jsonArray.getJSONObject(i).getString("storeAddress");
+                        String pickupDate = jsonArray.getJSONObject(i).getString("pickupDate");
+                        String stage = jsonArray.getJSONObject(i).getString("stage");
+                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson, userFirstname, userLastname, userEmail,contactPhone,deliveryAddress,landmark,state,lga,pickupName, pickupPhone,pickupDate,type,deliveryDate,trackingId,storeAddress,stage);
                         ordersArrayList.add(order);
                     }
                     orderReadyListener.onOrderReady(ordersArrayList);
@@ -774,18 +813,20 @@ public class EcommerceDashboardModel {
         return jsonObject.toString();
     }
 
-    private String buildUpdateOrder(int orderId,String orderStatus){
+    private String buildUpdateOrder(String orderId,String orderValue,String orderKey){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("orderId",orderId);
-            jsonObject.put("orderStatus",orderStatus);
+            jsonObject.put(orderKey,orderValue);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject.toString();
     }
 
-    private String buildDeleteOrder(int orderId){
+
+
+    private String buildDeleteOrder(String orderId){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("orderId",orderId);
@@ -814,6 +855,18 @@ public class EcommerceDashboardModel {
         }
         return jsonObject.toString();
     }
+
+
+    private String buildShowSingleOrder(String orderId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("orderId",orderId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
 
     private String buildShowRetailerProduct(String retailerId){
         JSONObject jsonObject = new JSONObject();
