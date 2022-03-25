@@ -53,9 +53,18 @@
         </LinearLayout>
     </LinearLayout>
 
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:id="@+id/view_order_loader"/>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/view_order_root_layout"
+        android:visibility="gone"
         android:layout_marginBottom="20dp">
 
     <LinearLayout
@@ -75,6 +84,7 @@
         android:layout_marginTop="20dp"
         android:text="Store Pickup"
         android:textSize="14dp"
+        android:id="@+id/store_pickup_or_home_delivery"
         android:fontFamily="@font/airreg"
         android:textColor="@color/dark_text_color"/>
 
@@ -98,6 +108,7 @@
             android:layout_height="wrap_content"
             android:text="500 S santa fe Dr Denver CO 80223 300023"
             android:textSize="14dp"
+            android:id="@+id/store_or_home_address"
             android:fontFamily="@font/airreg"
             android:textColor="@color/dark_text_color"
             android:lineSpacingExtra="5dp"/>
@@ -111,6 +122,7 @@
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:text="Pickup Person"
+                 android:id="@+id/pickup_person_or_delivery_time_title"
                  android:fontFamily="@font/airreg"
                  android:textSize="13dp"
                  android:textColor="@color/black"/>
@@ -118,11 +130,10 @@
              <TextView
                  android:layout_width="130dp"
                  android:layout_height="wrap_content"
-                 android:text="James Fox"
                  android:textSize="14dp"
+                 android:id="@+id/pickup_person_or_delivery_time_value"
                  android:fontFamily="@font/airreg"
-                 android:textColor="@color/dark_text_color"
-                 android:lineSpacingExtra="5dp"/>
+                 android:textColor="@color/dark_text_color"/>
 
          </LinearLayout>
 
@@ -133,7 +144,7 @@
     <com.shuhart.stepview.StepView
         android:id="@+id/step_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:padding="16dp"
         app:sv_selectedCircleColor="@color/green"
         app:sv_selectedTextColor="@color/colorAccent"
@@ -173,6 +184,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:id="@+id/gig_tracking_layout"
             android:layout_marginBottom="10dp">
             <TextView
                 android:layout_width="wrap_content"
@@ -187,9 +199,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EDC-345543"
+                android:text="Processing..."
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dp"
+                android:id="@+id/tracking_id"
                 android:fontFamily="@font/airsemi"
                 android:textSize="15dp"
                 android:textColor="@color/black"/>
@@ -216,7 +229,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$450.79"
+                android:text="$000"
+                android:id="@+id/total_costs"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/airsemi"

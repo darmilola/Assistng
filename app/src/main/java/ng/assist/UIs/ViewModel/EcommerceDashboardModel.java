@@ -429,11 +429,11 @@ public class EcommerceDashboardModel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Message msg = DisplayOrderHandler.obtainMessage();
+            Message msg = DisplaySingleOrderHandler.obtainMessage();
             Bundle bundle = new Bundle();
             bundle.putString("response", mResponse);
             msg.setData(bundle);
-            DisplayOrderHandler.sendMessage(msg);
+            DisplaySingleOrderHandler.sendMessage(msg);
         };
         Thread myThread = new Thread(runnable);
         myThread.start();
@@ -559,6 +559,53 @@ public class EcommerceDashboardModel {
                         String pickupDate = jsonArray.getJSONObject(i).getString("pickupDate");
                         String stage = jsonArray.getJSONObject(i).getString("stage");
                         Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson, userFirstname, userLastname, userEmail,contactPhone,deliveryAddress,landmark,state,lga,pickupName, pickupPhone,pickupDate,type,deliveryDate,trackingId,storeAddress,stage);
+                        ordersArrayList.add(order);
+                    }
+                    orderReadyListener.onOrderReady(ordersArrayList);
+                }
+                else if(status.equalsIgnoreCase("failure")){
+                    orderReadyListener.onError("Error Occurred");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                orderReadyListener.onError(e.getLocalizedMessage());
+            }
+        }
+    };
+
+
+
+    private Handler DisplaySingleOrderHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            Log.e("handleMessage: ", response);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    for(int i = 0; i < data.length(); i++) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+                        String orderId = jsonArray.getJSONObject(i).getString("orderId");
+                        String orderJson = jsonArray.getJSONObject(i).getString("orderJson");
+                        String orderStatus = jsonArray.getJSONObject(i).getString("orderStatus");
+                        String totalPrice = jsonArray.getJSONObject(i).getString("totalPrice");
+                        String deliveryAddress = jsonArray.getJSONObject(i).getString("deliveryAddress");
+                        String contactPhone = jsonArray.getJSONObject(i).getString("contactPhone");
+                        String landmark = jsonArray.getJSONObject(i).getString("landmark");
+                        String state = jsonArray.getJSONObject(i).getString("state");
+                        String lga = jsonArray.getJSONObject(i).getString("lga");
+                        String pickupName = jsonArray.getJSONObject(i).getString("pickupName");
+                        String pickupPhone = jsonArray.getJSONObject(i).getString("pickupPhone");
+                        String type = jsonArray.getJSONObject(i).getString("type");
+                        String deliveryDate = jsonArray.getJSONObject(i).getString("deliveryDate");
+                        String trackingId = jsonArray.getJSONObject(i).getString("trackingId");
+                        String storeAddress = jsonArray.getJSONObject(i).getString("storeAddress");
+                        String pickupDate = jsonArray.getJSONObject(i).getString("pickupDate");
+                        String stage = jsonArray.getJSONObject(i).getString("stage");
+                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson,"","", "",contactPhone,deliveryAddress,landmark,state,lga,pickupName, pickupPhone,pickupDate,type,deliveryDate,trackingId,storeAddress,stage);
                         ordersArrayList.add(order);
                     }
                     orderReadyListener.onOrderReady(ordersArrayList);

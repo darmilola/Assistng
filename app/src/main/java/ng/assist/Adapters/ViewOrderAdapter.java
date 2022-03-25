@@ -22,15 +22,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
 import ng.assist.UIs.ViewModel.CartModel;
+import ng.assist.UIs.ViewModel.GroceryModel;
 
 public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.itemViewHolder> {
 
-    ArrayList<String> cartModelArrayList;
+    ArrayList<CartModel> groceryList;
     Context context;
 
 
-    public ViewOrderAdapter(ArrayList<String> cartModelArrayList, Context context){
-        this.cartModelArrayList = cartModelArrayList;
+    public ViewOrderAdapter(ArrayList<CartModel> groceryList, Context context){
+        this.groceryList = groceryList;
         this.context = context;
     }
 
@@ -44,13 +45,30 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.item
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
 
-
+        CartModel groceryModel = groceryList.get(position);
+        holder.quantity.setText(groceryModel.getQuantity());
+        Locale NigerianLocale = new Locale("en","ng");
+        String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(groceryModel.getPrice()));
+        String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+        holder.price.setText(formattedPrice);
+        holder.productName.setText(groceryModel.getName());
+        int quantity = Integer.parseInt(groceryModel.getQuantity());
+        int price = Integer.parseInt(groceryModel.getPrice());
+        int quantityPrice = quantity * price;
+        String unFormattedQtyPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(quantityPrice);
+        String formattedQtyPrice = unFormattedQtyPrice.replaceAll("\\.00","");
+        holder.qtyPrice.setText(formattedQtyPrice);
+        Glide.with(context)
+                .load(groceryModel.getImageUrl())
+                .placeholder(R.drawable.background_image)
+                .error(R.drawable.background_image)
+                .into(holder.displayImage);
 
     }
 
     @Override
     public int getItemCount() {
-        return cartModelArrayList.size();
+        return groceryList.size();
     }
 
     public class itemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

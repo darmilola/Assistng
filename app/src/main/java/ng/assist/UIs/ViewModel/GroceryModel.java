@@ -234,7 +234,7 @@ public class GroceryModel implements Parcelable {
         this.orderId = orderId;
     }
 
-    public GroceryModel(String orderId, String retailerId, String userId,String orderJson,String pickupName, String pickupPhone, String pickupDate, String type, Context context) {
+    public GroceryModel(String orderId, String retailerId, String userId,String orderJson,String pickupName, String pickupPhone, String pickupDate, String type,String totalPrice, Context context) {
         dialogUtils = new LoadingDialogUtils(context);
         this.userId = userId;
         this.retailerId = retailerId;
@@ -244,6 +244,7 @@ public class GroceryModel implements Parcelable {
         this.pickupDate = pickupDate;
         this.type = type;
         this.orderId = orderId;
+        this.totalPrice = totalPrice;
     }
 
 
@@ -820,7 +821,7 @@ public class GroceryModel implements Parcelable {
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildCartCheckout(orderId,retailerId,userId,orderJson,pickupName,pickupPhone,pickupDate,type));
+            RequestBody requestBody = RequestBody.create(JSON,buildCartCheckout(orderId,retailerId,userId,orderJson,pickupName,pickupPhone,pickupDate,type,totalPrice));
             Request request = new Request.Builder()
                     .url(checkoutCartUrl)
                     .post(requestBody)
@@ -931,7 +932,7 @@ public class GroceryModel implements Parcelable {
         return jsonObject.toString();
     }
 
-    private String buildCartCheckout(String orderId, String retailerId, String userId, String orderJson, String pickupName, String pickupPhone, String pickupDate, String type){
+    private String buildCartCheckout(String orderId, String retailerId, String userId, String orderJson, String pickupName, String pickupPhone, String pickupDate, String type,String totalPrice){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("retailerId",retailerId);
@@ -940,6 +941,7 @@ public class GroceryModel implements Parcelable {
             jsonObject.put("pickupName",pickupName);
             jsonObject.put("pickupPhone",pickupPhone);
             jsonObject.put("pickupDate",pickupDate);
+            jsonObject.put("totalPrice",totalPrice);
             jsonObject.put("orderId",orderId);
             jsonObject.put("type",type);
 

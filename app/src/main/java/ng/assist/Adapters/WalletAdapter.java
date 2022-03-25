@@ -269,7 +269,9 @@ public int getItemCount() {
             viewOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, ViewOrder.class));
+                    Intent intent = new Intent(context, ViewOrder.class);
+                    intent.putExtra("orderId",walletTransactionsList.get(getAdapterPosition()).getOrderId());
+                    context.startActivity(intent);
                 }
             });
 

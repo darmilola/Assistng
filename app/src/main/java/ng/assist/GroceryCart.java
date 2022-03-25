@@ -64,7 +64,7 @@ public class GroceryCart extends AppCompatActivity {
         homeDelivery = findViewById(R.id.home_delivery);
         backNav = findViewById(R.id.back_nav);
         String retailerId = getIntent().getStringExtra("retailerId");
-        String retailerShopName = getIntent().getStringExtra("retailerShopName");
+        retailerShopName = getIntent().getStringExtra("retailerShopName");
         String userId = PreferenceManager.getDefaultSharedPreferences(GroceryCart.this).getString("userEmail","null");
         recyclerView = findViewById(R.id.grocery_cart_recyclerview);
         rootLayout = findViewById(R.id.cart_root_layout);
@@ -164,8 +164,8 @@ public class GroceryCart extends AppCompatActivity {
                 String billId = generateBillId();
                 String orderId = generateBillId();//generating order ID
                 String orderJson = convertListToJsonString(groceryModelArrayList);
-                GroceryModel groceryModel1 = new GroceryModel(orderId, retailerId, userId,orderJson,name,phone,date,"store",GroceryCart.this);
-                groceryModel1.CheckOut();
+                GroceryModel groceryModel1 = new GroceryModel(orderId, retailerId, userId,orderJson,name,phone,date,"store",mTotalPriceValue,GroceryCart.this);
+                groceryModel1.CheckOutStore();
                 groceryModel1.setCartCheckoutListener(new GroceryModel.CartCheckoutListener() {
                     @Override
                     public void onSuccess() {

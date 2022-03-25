@@ -203,4 +203,6 @@ public class PayServiceFee extends AppCompatActivity {
         String walletBalance = preferences.getString("walletBalance","0");
         preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(amount))).apply();
     }
+
+
 }
