@@ -24,7 +24,7 @@ import okhttp3.Response;
 
 public class VerificationModel {
 
-    private String firstname, lastname, address, phonenumber, imageLink, userId,state,lga;
+    private String firstname, lastname, address, phonenumber, imageLink, userId,state,lga,occupation;
     private LoadingDialogUtils loadingDialogUtils;
     private String baseUrl = new URL().getBaseUrl();
     private String verificationUrl = baseUrl+"verification";
@@ -51,7 +51,7 @@ public class VerificationModel {
           void onUploaded(String link);
     }
 
-   public VerificationModel(Context context, String firstname, String lastname, String address, String phonenumber, String imageLink, String userId, String state, String lga){
+   public VerificationModel(Context context, String firstname, String lastname, String address, String phonenumber, String imageLink, String userId, String state, String lga,String occupation){
                       this.context = context;
                       this.firstname = firstname;
                       this.lastname = lastname;
@@ -61,6 +61,7 @@ public class VerificationModel {
                       this.imageLink = imageLink;
                       this.state = state;
                       this.lga = lga;
+                      this.occupation = occupation;
                       loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
@@ -81,7 +82,7 @@ public class VerificationModel {
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildVerify(firstname,lastname,address,phonenumber,userId,imageLink,state,lga));
+            RequestBody requestBody = RequestBody.create(JSON,buildVerify(firstname,lastname,address,phonenumber,userId,imageLink,state,lga,occupation));
             Request request = new Request.Builder()
                     .url(verificationUrl)
                     .post(requestBody)
@@ -128,7 +129,7 @@ public class VerificationModel {
 
 
 
-    private String buildVerify(String firstname, String lastname, String address, String phonenumber, String userId, String imageLink, String state, String lga){
+    private String buildVerify(String firstname, String lastname, String address, String phonenumber, String userId, String imageLink, String state, String lga,String occupation){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("firstname",firstname);
@@ -140,6 +141,7 @@ public class VerificationModel {
             jsonObject.put("lga",lga);
             jsonObject.put("userId",userId);
             jsonObject.put("status","pending");
+            jsonObject.put("occupation",occupation);
         } catch (JSONException e) {
             e.printStackTrace();
         }

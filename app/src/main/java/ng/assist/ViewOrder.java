@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -42,6 +43,8 @@ public class ViewOrder extends AppCompatActivity {
     RelativeLayout gigTrackingLayout;
     ProgressBar loader;
     NestedScrollView rootLayout;
+    ArrayList<String> homeStep = new ArrayList<>();
+    ArrayList<String> storeStep = new ArrayList<>();
     TextView storeOrHomeDelivery,storeOrHomeAddress,pickupPersonOrDeliveryTimeTitle,pickupPersonOrDeliveryTimeValue,trackingId,totalPrice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class ViewOrder extends AppCompatActivity {
     }
 
     private void initView(){
+        populateSteps();
         rootLayout = findViewById(R.id.view_order_root_layout);
         loader = findViewById(R.id.view_order_loader);
         gigTrackingLayout = findViewById(R.id.gig_tracking_layout);
@@ -71,8 +75,7 @@ public class ViewOrder extends AppCompatActivity {
             }
         });
         recyclerView = findViewById(R.id.view_order_recyclerview);
-
-        stepView.go(2,true);
+        stepView.setStepsNumber(3);
 
 
         EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(orderId);
@@ -83,6 +86,13 @@ public class ViewOrder extends AppCompatActivity {
                 loader.setVisibility(View.GONE);
                 rootLayout.setVisibility(View.VISIBLE);
                 Orders orders = ordersArrayList.get(0);
+
+                if(orders.getType().equalsIgnoreCase("home")){
+                    stepView.setSteps(homeStep);
+                }
+                else{
+                    stepView.setSteps(storeStep);
+                }
                 totalPrice.setText(orders.getTotalPrice());
                 orderList = parseOrderJson(orders.getOrderJson());
 
@@ -98,6 +108,18 @@ public class ViewOrder extends AppCompatActivity {
                 else if(orders.getType().equalsIgnoreCase("store")){
                     displayStorePickup(orders);
                 }
+                stepView.done(true);
+
+
+                Log.e("onOrderReady: ", orders.getStage());
+
+                if(orders.getStage().equalsIgnoreCase("Processing")){
+                    stepView.go(0,false);
+                }
+                else{
+                    stepView.go(1,false);
+                }
+
             }
 
             @Override
@@ -174,6 +196,17 @@ public class ViewOrder extends AppCompatActivity {
 
         }
         return cartModelArrayList;
+    }
+
+    public void populateSteps(){
+        homeStep.add("Ordered");
+        homeStep.add("Processing");
+        homeStep.add("Handed to Logistics");
+
+        storeStep.add("Ordered");
+        storeStep.add("Processing");
+        storeStep.add("Ready for Pickup");
+
     }
 
 }

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.PlacedOrderAdapter;
 import ng.assist.UIs.Utils.InputDialog;
+import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.CartModel;
 import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
 import ng.assist.UIs.ViewModel.Orders;
@@ -44,6 +45,10 @@ public class DashboardViewOrder extends AppCompatActivity {
     ImageView selectDeliveryTime,selectStoreAddress,selectTrackingId;
     TextView deliveryTime, storeAddress, trackingId;
     InputDialog inputDialog;
+    TextView callCustomerText,orderState;
+    LinearLayout homeDeliveryInfo;
+    ListDialog listDialog;
+    ArrayList<String> orderStates = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,11 @@ public class DashboardViewOrder extends AppCompatActivity {
         initView();
     }
     private void initView(){
+
+
+        callCustomerText = findViewById(R.id.call_customer_text);
+        orderState = findViewById(R.id.order_state_select);
+        homeDeliveryInfo = findViewById(R.id.home_delivery_info_layout);
         backNav = findViewById(R.id.back_nav);
         backNav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,11 +88,88 @@ public class DashboardViewOrder extends AppCompatActivity {
         state = findViewById(R.id.dashboard_order_state);
         lga = findViewById(R.id.dashboard_order_lga);
 
+        populateStages();
+
+        listDialog = new ListDialog(orderStates,DashboardViewOrder.this);
+        listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
+            @Override
+            public void onItemClicked(String city) {
+                orderState.setText(city);
+
+                EcommerceDashboardModel ecommerceDashboardModel = new EcommerceDashboardModel(DashboardViewOrder.this,orders.getOrderId(),city,"stage");
+                ecommerceDashboardModel.updateOrderInfo();
+                ecommerceDashboardModel.setUpdateInfoListener(new EcommerceDashboardModel.UpdateInfoListener() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(DashboardViewOrder.this, "Order updated successfully", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(DashboardViewOrder.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        if(orders.getType().equalsIgnoreCase("home")){
+            homeDeliveryInfo.setVisibility(View.VISIBLE);
+        }
+        else{
+            homeDeliveryInfo.setVisibility(View.GONE);
+        }
+
+        orderState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listDialog.showListDialog();
+
+            }
+        });
+
+        if(orders.getStoreAddress().equalsIgnoreCase("null")){
+            storeAddress.setText("Not Available");
+        }
+        else{
+            storeAddress.setText(orders.getStoreAddress());
+        }
+
+        if(orders.getDeliveryDate().equalsIgnoreCase("null")){
+            storeAddress.setText("Not Available");
+        }
+        else{
+            deliveryTime.setText(orders.getDeliveryDate());
+        }
+
+        if(orders.getTrackingId().equalsIgnoreCase("null")){
+            trackingId.setText("Not Available");
+        }
+        else{
+            trackingId.setText(orders.getTrackingId());
+        }
+
+        if(orders.getStage().equalsIgnoreCase("null")){
+            orderState.setText("Not Available");
+        }
+        else{
+            orderState.setText(orders.getStage());
+        }
+
+        Intent intent  = null;
+
+        if(orders.getType().equalsIgnoreCase("store")){
+            intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", orders.getPickupPhone(), null));
+            callCustomerText.setText("Call Pickup");
+        }
+        else{
+            intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", orders.getUserPhone(), null));
+        }
+
+
+        Intent finalIntent = intent;
         callCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", orders.getUserPhone(), null));
-                startActivity(intent);
+                startActivity(finalIntent);
             }
         });
 
@@ -292,6 +379,12 @@ public class DashboardViewOrder extends AppCompatActivity {
 
         }
         return cartModelArrayList;
+    }
+
+    public void populateStages(){
+        orderStates.add("Processing");
+        orderStates.add("Ready for pickup");
+        orderStates.add("Handed to Logistics");
     }
 
 

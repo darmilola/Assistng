@@ -178,7 +178,25 @@
         android:textSize="17dp"
         android:background="@drawable/edit_profile_edittext_background"/>
 
-    <TextView
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:maxLines="1"
+                android:gravity="center"
+                android:inputType="text"
+                android:id="@+id/verification_occupation"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:padding="2dp"
+                android:hint="Occupation"
+                android:textColorHint="@color/light_text_color"
+                android:fontFamily="@font/clannews"
+                android:textSize="17dp"
+                android:background="@drawable/edit_profile_edittext_background"/>
+
+            <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Upload Valid ID \n(National ID/Drivers license/ Int Passport/NYSC ID for current serving Corper)"

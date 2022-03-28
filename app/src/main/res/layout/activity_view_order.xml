@@ -158,7 +158,7 @@
         app:sv_doneStepLineColor="@color/green"
         app:sv_doneCircleRadius="12dp"
         app:sv_selectedCircleRadius="12dp"
-        app:sv_selectedStepNumberColor="@color/white"
+        app:sv_selectedStepNumberColor="@color/black"
         app:sv_stepViewStyle="@style/StepView"
         app:sv_doneStepMarkColor="@color/green"
         app:sv_stepNumberTextSize="12sp"

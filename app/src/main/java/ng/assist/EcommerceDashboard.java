@@ -296,7 +296,7 @@ public class EcommerceDashboard extends AppCompatActivity {
 
         adapter.addFragment(new EcommerceProduct(), "Products");
         adapter.addFragment(new EcommerceOrders(), "Orders");
-        adapter.addFragment(new EcommerceLocations(), "Delivery Locations");
+        adapter.addFragment(new EcommerceLocations(), "Available Locations");
         viewPager.setAdapter(adapter);
     }
 

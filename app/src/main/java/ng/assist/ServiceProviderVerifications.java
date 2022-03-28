@@ -54,13 +54,16 @@ public class ServiceProviderVerifications extends AppCompatActivity {
     LinearLayout idLayout;
     ImageView uploadIdImg;
     MaterialButton apply;
-    String mFirstname,mLastname,mAddress,mPhonenumber,mState,mLga;
+    String mFirstname,mLastname,mAddress,mPhonenumber,mState,mLga,mOccupation;
     String userId;
     ScrollView rootView;
     TextView statusText,uploadedImageName,state;
     ImageView navBack;
     AlertDialog.Builder builder;
     ListDialog listDialog;
+    TextView occupation;
+    ListDialog occupationDialog;
+    ArrayList<String> occupationList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,7 @@ public class ServiceProviderVerifications extends AppCompatActivity {
         state = findViewById(R.id.verification_state);
         lga = findViewById(R.id.verification_lga);
         uploadedImageName = findViewById(R.id.verification_uploaded_image_name);
+        occupation = findViewById(R.id.verification_occupation);
 
         if(status.equalsIgnoreCase("pending")){
             statusText.setText("Your Verification is Pending...");
@@ -124,8 +128,9 @@ public class ServiceProviderVerifications extends AppCompatActivity {
               mPhonenumber = phonenumber.getText().toString().trim();
               mState = state.getText().toString().trim();
               mLga = lga.getText().toString().trim();
+              mOccupation = occupation.getText().toString().trim();
               if(isValidForm()){
-                  VerificationModel verificationModel = new VerificationModel(ServiceProviderVerifications.this,mFirstname,mLastname,mAddress,mPhonenumber,uploadIdUrl,userId,mState,mLga);
+                  VerificationModel verificationModel = new VerificationModel(ServiceProviderVerifications.this,mFirstname,mLastname,mAddress,mPhonenumber,uploadIdUrl,userId,mState,mLga,mOccupation);
                   verificationModel.CreateVerification();
                   verificationModel.setCreateVerifyListener(new VerificationModel.CreateVerifyListener() {
                       @Override
@@ -148,6 +153,12 @@ public class ServiceProviderVerifications extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 listDialog.showListDialog();
+            }
+        });
+        occupation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                occupationDialog.showListDialog();
             }
         });
 
@@ -250,6 +261,11 @@ public class ServiceProviderVerifications extends AppCompatActivity {
             valid = false;
             return valid;
         }
+        if (TextUtils.isEmpty(mOccupation)) {
+            occupation.setError("Required");
+            valid = false;
+            return valid;
+        }
         if(TextUtils.isEmpty(uploadIdUrl)){
             Toast.makeText(this, "Upload Valid Id", Toast.LENGTH_LONG).show();
             valid = false;
@@ -304,6 +320,15 @@ public class ServiceProviderVerifications extends AppCompatActivity {
     }
 
     private void initDialog(){
+        occupationList.add("Farmer");
+        occupationList.add("Trader");
+        occupationList.add("Self Employed");
+        occupationList.add("Entrepreneur");
+        occupationList.add("Corporate Employee");
+        occupationList.add("NYSC Member");
+        occupationList.add("Banker");
+        occupationList.add("Others");
+
         ArrayList<String> cityList = new ArrayList<>();
         cityList.add("Lagos");
         cityList.add("Abuja");
@@ -321,6 +346,14 @@ public class ServiceProviderVerifications extends AppCompatActivity {
             @Override
             public void onItemClicked(String city) {
                 state.setText(city);
+            }
+        });
+
+        occupationDialog = new ListDialog(occupationList,ServiceProviderVerifications.this);
+        occupationDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
+            @Override
+            public void onItemClicked(String city) {
+                occupation.setText(city);
             }
         });
     }
