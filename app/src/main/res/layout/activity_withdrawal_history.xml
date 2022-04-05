@@ -39,7 +39,7 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
-                android:text="History"
+                android:text="Withdrawal History"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/clannews"/>

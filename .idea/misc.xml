@@ -28,6 +28,7 @@
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_estate_dashboard_listing_details.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_estate_listing_dashboard.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_flight_booking.xml" value="0.1" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_general_services_details.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_grocery.xml" value="0.22" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_grocery_cart.xml" value="0.2" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_grocery_landing.xml" value="0.20416666666666666" />
@@ -50,6 +51,7 @@
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_service_provider_details.xml" value="0.2" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_service_provider_verifications.xml" value="0.25" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_services_landing.xml" value="0.25" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_splash_screen.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_top_up.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_transportation.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_verification_dash_board.xml" value="0.20416666666666666" />
@@ -104,7 +106,7 @@
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/wallet_transactions_bills.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/wallet_transactions_marketplace.xml" value="0.33" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/wallet_transactions_withdraw.xml" value="0.25" />
-        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/withdrawal_history_item.xml" value="0.16510416666666666" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/withdrawal_history_item.xml" value="0.25" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/menu/main_menu.xml" value="0.17916666666666667" />
       </map>
     </option>

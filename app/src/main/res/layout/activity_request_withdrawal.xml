@@ -271,6 +271,6 @@
             android:textColor="@color/light_text_color"
             android:layout_marginLeft="3dp"
             android:textSize="13dp"
-            android:text="Your Account will be credited within 24 working hours excluding 10% platform charge"/>
+            android:text="Your Account will be credited within 24 working hours excluding 3.5% platform charge"/>
     </LinearLayout>
 </LinearLayout>

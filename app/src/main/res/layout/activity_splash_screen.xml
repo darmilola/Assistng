@@ -21,7 +21,7 @@
             <ImageView
                 android:layout_width="170dp"
                 android:layout_height="170dp"
-                android:src="@drawable/assistlogo" />
+                android:src="@drawable/logo_social_up_png" />
 
 
         </LinearLayout>

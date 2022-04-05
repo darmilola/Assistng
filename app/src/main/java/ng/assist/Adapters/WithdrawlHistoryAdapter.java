@@ -47,8 +47,13 @@ public itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType
 @Override
 public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
       WithdrawalModel withdrawalModel = withdrwalList.get(position);
-      holder.status.setText(withdrawalModel.getStatus());
-      holder.amount.setText(Integer.toString(withdrawalModel.getmAmount()));
+      if(withdrawalModel.getStatus().equalsIgnoreCase("notPaid")){
+          holder.status.setText("Not Paid");
+      }
+      else{
+          holder.status.setText(withdrawalModel.getStatus());
+      }
+      holder.amount.setText("NGN "+Integer.toString(withdrawalModel.getmAmount()));
 }
 
 

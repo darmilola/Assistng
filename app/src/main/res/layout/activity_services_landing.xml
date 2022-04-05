@@ -410,7 +410,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="60dp"
                 app:cardCornerRadius="7dp"
                 app:cardBackgroundColor="#E6DEFD"
                 app:cardElevation="0dp">
@@ -467,6 +466,88 @@
                             android:fontFamily="@font/clanmed"
                             android:gravity="left"
                             android:text="Repairs Services"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="70dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/clannews"
+                            android:gravity="left"
+                            android:lineSpacingExtra="5dp"
+                            android:text="we provide services\nto improve quality of life"
+                            android:textColor="#4C576B"
+                            android:textSize="13dp" />
+                    </LinearLayout>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                app:cardCornerRadius="7dp"
+                android:layout_marginBottom="60dp"
+                app:cardBackgroundColor="#D9F4FD"
+                app:cardElevation="0dp">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/general_services_layout">
+
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/glitters"
+                        android:scaleType="centerCrop"
+                        android:layout_marginRight="-20dp"
+                        android:tint="#FF1087AD"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center|top"/>
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/community_sustainability_environment_ecology_urban_icon"
+                        android:scaleType="centerInside"
+                        android:elevation="2dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="-20dp"
+                        android:layout_gravity="right|center"/>
+
+                    <ImageView
+                        android:layout_width="180dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/yellow_circle"
+                        android:scaleType="centerCrop"
+                        android:paddingLeft="0dp"
+                        android:paddingTop="20dp"
+                        android:tint="#FF1087AD"
+                        android:layout_marginRight="-60dp"
+                        android:layout_marginTop="35dp"
+                        android:rotation="5"
+                        android:layout_gravity="right|center"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|left"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="70dp"
+                            android:fontFamily="@font/clanmed"
+                            android:gravity="left"
+                            android:text="General Services"
                             android:textColor="@color/colorPrimary"
                             android:textSize="20dp" />
 

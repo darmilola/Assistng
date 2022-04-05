@@ -19,6 +19,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".GeneralService"
+            android:exported="false" />
+        <activity
+            android:name=".GeneralServicesDetails"
+            android:exported="false" />
+        <activity
             android:name=".ViewOrder"
             android:exported="false" />
         <activity

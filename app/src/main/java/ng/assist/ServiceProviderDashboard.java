@@ -170,6 +170,9 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                     else if(serviceType.getText().toString().equalsIgnoreCase("Auto Services")){
                         listDialog = new ListDialog(autoList,ServiceProviderDashboard.this);
                     }
+                    else if(serviceType.getText().toString().equalsIgnoreCase("General Services")){
+
+                    }
                     else{
                         listDialog = new ListDialog(homeServiceList,ServiceProviderDashboard.this);
                     }
@@ -342,6 +345,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         serviceTypeList.add("Educational Services");
         serviceTypeList.add("Repair Services");
         serviceTypeList.add("Auto Services");
+        serviceTypeList.add("General Services");
 
         rateList.add("Min 500");
         rateList.add("Min 1000");

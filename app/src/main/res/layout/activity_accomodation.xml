@@ -72,7 +72,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/employee"
+                android:src="@drawable/activity_hotel_ocean_sea_pool_sport_icon"
                 android:id="@+id/employee_image"
                 android:tint="@color/white"/>
             <TextView
@@ -103,7 +103,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:id="@+id/corp_member_image"
-                android:src="@drawable/iconfinder_badge"
+                android:src="@drawable/cottage_gatehouse_home_house_hut_icon"
                 android:tint="@color/colorPrimary"/>
             <TextView
                 android:layout_width="match_parent"

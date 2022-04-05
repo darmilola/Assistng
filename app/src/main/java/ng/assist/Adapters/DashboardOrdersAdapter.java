@@ -50,7 +50,7 @@ public class DashboardOrdersAdapter extends RecyclerView.Adapter<DashboardOrders
 
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
-              Orders orders = groceryList.get(position);
+        Orders orders = groceryList.get(position);
         Locale NigerianLocale = new Locale("en","ng");
         String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(orders.getTotalPrice()));
         String formattedPrice = unFormattedPrice.replaceAll("\\.00","");

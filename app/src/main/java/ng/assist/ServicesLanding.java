@@ -25,6 +25,7 @@ public class ServicesLanding extends AppCompatActivity {
     FrameLayout educationalServicesLayout;
     FrameLayout autoServicesLayout;
     FrameLayout repairServicesLayout;
+    FrameLayout generalServicesLayout;
     ImageView navBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class ServicesLanding extends AppCompatActivity {
         educationalServicesLayout = findViewById(R.id.educational_services_layout);
         autoServicesLayout = findViewById(R.id.auto_services_layout);
         repairServicesLayout = findViewById(R.id.repair_services_layout);
+        generalServicesLayout = findViewById(R.id.general_services_layout);
         navBack = findViewById(R.id.nav_back);
         navBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +69,13 @@ public class ServicesLanding extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ServicesLanding.this,EducationalServicesDetails.class));
+            }
+        });
+
+        generalServicesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ServicesLanding.this,GeneralService.class));
             }
         });
 
