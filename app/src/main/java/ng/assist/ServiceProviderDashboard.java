@@ -65,6 +65,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
     ArrayList<String> autoList = new ArrayList<>();
     ArrayList<String> personalServicesList = new ArrayList<>();
     ArrayList<String> homeServiceList = new ArrayList<>();
+    ArrayList<String> generalServiceList = new ArrayList<>();
     ListDialog cityListDialog;
     MaterialButton showBookings;
     @Override
@@ -171,7 +172,7 @@ public class ServiceProviderDashboard extends AppCompatActivity {
                         listDialog = new ListDialog(autoList,ServiceProviderDashboard.this);
                     }
                     else if(serviceType.getText().toString().equalsIgnoreCase("General Services")){
-
+                        listDialog = new ListDialog(generalServiceList,ServiceProviderDashboard.this);
                     }
                     else{
                         listDialog = new ListDialog(homeServiceList,ServiceProviderDashboard.this);
@@ -368,6 +369,8 @@ public class ServiceProviderDashboard extends AppCompatActivity {
         homeServiceList.add("Cooking-Gas Refill");
         homeServiceList.add("Electrical Repair");
         homeServiceList.add("Furniture Repair");
+
+        generalServiceList.add("General Services");
 
         repairList.add("AC repair");
         repairList.add("Electronics repair");

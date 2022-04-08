@@ -98,7 +98,7 @@ public class GeneralService extends AppCompatActivity {
                         serviceProviderRecyclerview.setVisibility(View.GONE);
                         loadingProgress.setVisibility(View.VISIBLE);
                         rootLayout.setVisibility(View.GONE);
-                        ServicesModel servicesModel = new ServicesModel("Home Services",city);
+                        ServicesModel servicesModel = new ServicesModel("General Services",city);
                         servicesModel.getServiceProvider();
                         servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                             @Override
@@ -133,7 +133,7 @@ public class GeneralService extends AppCompatActivity {
                         return;
                     }
                     recyclerProgress.setVisibility(View.VISIBLE);
-                    ServicesModel servicesModel = new ServicesModel("Home Services",mCity);
+                    ServicesModel servicesModel = new ServicesModel("General Services",mCity);
                     servicesModel.getServiceProviderNextPage(GeneralService.this.nextPageUrl);
                     servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                         @Override

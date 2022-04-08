@@ -32,6 +32,7 @@ import ng.assist.LoanApplySuccessListener;
 import ng.assist.QuickCreditApplication;
 import ng.assist.R;
 import ng.assist.UIs.Utils.ListDialog;
+import ng.assist.UIs.ViewModel.LoanHistoryModel;
 import ng.assist.UIs.ViewModel.LoanModel;
 
 /**
@@ -143,7 +144,21 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
                             loanModel.setLoanApplyListener(new LoanModel.LoanApplyListener() {
                                 @Override
                                 public void onSuccess() {
+
                                     loanApplySuccessListener.onSuccess();
+                                    LoanHistoryModel loanHistoryModel = new LoanHistoryModel(userId,loanAmount);
+                                    loanHistoryModel.createLoan();
+                                    loanHistoryModel.setCreateLoanListener(new LoanHistoryModel.createLoanListener() {
+                                        @Override
+                                        public void onSuccessful() {
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(String message) {
+
+                                        }
+                                    });
                                 }
 
                                 @Override

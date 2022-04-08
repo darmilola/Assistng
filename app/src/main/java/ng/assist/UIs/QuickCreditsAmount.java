@@ -2,6 +2,7 @@ package ng.assist.UIs;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import mono.connect.kit.ConnectKit;
 import mono.connect.kit.Mono;
 import mono.connect.kit.MonoConfiguration;
+import ng.assist.LoanHistory;
 import ng.assist.MainActivity;
 import ng.assist.R;
 import ng.assist.UIs.Utils.ListDialog;
@@ -34,7 +36,7 @@ public class QuickCreditsAmount extends Fragment {
     View view;
     TextView selectAmount;
     private ArrayList<String> amountList = new ArrayList<>();
-    MaterialButton authenticateWithMono;
+    MaterialButton authenticateWithMono,loanHistory;
     MonoAuthenticationListener authenticationListener;
     ConnectKit widget;
     boolean isAuthSuccess = false;
@@ -65,6 +67,7 @@ public class QuickCreditsAmount extends Fragment {
 
     private void initView() {
         initAmount();
+        loanHistory = view.findViewById(R.id.loan_history_button);
         authenticateWithMono = view.findViewById(R.id.loan_authenticate_button);
         selectAmount = view.findViewById(R.id.quick_credits_select_amount);
         selectAmount.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +82,12 @@ public class QuickCreditsAmount extends Fragment {
                     }
                 });
 
+            }
+        });
+        loanHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), LoanHistory.class));
             }
         });
 
