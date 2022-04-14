@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/accommodation_root_layout">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:weightSum="5">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/accomodation_listing_back"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/_504219_left_arrow_navigation_direction_previous_icon"
+                    android:tint="@color/colorPrimary"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:text="Accommodation Admin"
+                    android:maxLines="1"
+                    android:id="@+id/total_homes_available"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/clannews"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="right|center"/>
+        </LinearLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/transparent"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/pink"
+            app:tabMode="auto"
+            android:id="@+id/acc_tabs"
+            app:tabIndicatorHeight="7dp"
+            app:tabPaddingEnd="30dp"
+            app:tabPaddingStart="30dp"
+            android:layout_gravity="bottom"
+            app:tabIndicator="@drawable/grocery_tab_indicator"
+            app:tabIndicatorGravity="bottom"
+            app:tabIndicatorFullWidth="false"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabTextAppearance="@style/TabTextAppearance"
+            app:tabTextColor="#c8c8c8"/>
+
+        <ng.assist.NoSwipeViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/content_frame"
+            android:orientation="vertical"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

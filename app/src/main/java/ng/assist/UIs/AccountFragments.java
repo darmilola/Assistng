@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ng.assist.AccomodationAdmin;
 import ng.assist.ChatActivity;
 import ng.assist.EcommerceDashboard;
 import ng.assist.EstateListingDashboard;
@@ -49,7 +50,7 @@ public class AccountFragments extends Fragment {
 
 
     View view;
-    LinearLayout dashboardLayout,switchAccount,userVerification;
+    LinearLayout dashboardLayout,switchAccount,userVerification,accomodationAdmin;
     LinearLayout aboutUs,rateUs,logOut,provideAService;
     ArrayList<String> accountList = new ArrayList<>();
     CircleImageView circleImageView;
@@ -74,6 +75,7 @@ public class AccountFragments extends Fragment {
     }
 
     private void initView() {
+        accomodationAdmin = view.findViewById(R.id.account_accomodation_admin);
         isVerifiedBadge = view.findViewById(R.id.verification_badge);
         userVerification = view.findViewById(R.id.account_users_verification);
         usernameField = view.findViewById(R.id.account_name);
@@ -122,6 +124,13 @@ public class AccountFragments extends Fragment {
             @Override
             public void onClick(View v) {
               logOut();
+            }
+        });
+
+        accomodationAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), AccomodationAdmin.class));
             }
         });
 

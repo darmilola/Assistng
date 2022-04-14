@@ -10,7 +10,9 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -39,6 +41,7 @@ public class RequestWithdrawal extends AppCompatActivity {
     MaterialButton requestWithdrawal;
     String walletBalance,userId;
     LinearLayout backNav;
+    TextView charges,amount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,8 @@ public class RequestWithdrawal extends AppCompatActivity {
         populateBanks();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         backNav = findViewById(R.id.withdrawal_back_nav);
+        amount = findViewById(R.id.withdraw_real_amount);
+        charges = findViewById(R.id.withdraw_charges);
         walletBalance = preferences.getString("walletBalance","0");
         userId = preferences.getString("userEmail","");
         amountEdit = findViewById(R.id.withdraw_amount);
@@ -58,6 +63,28 @@ public class RequestWithdrawal extends AppCompatActivity {
         accountNumberEdit = findViewById(R.id.withdraw_account_number);
         bankNameText = findViewById(R.id.withdraw_bank_name);
         requestWithdrawal = findViewById(R.id.withdraw_request_withdraw_button);
+
+
+        amountEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                  int enteredAmount = Integer.parseInt(amountEdit.getText().toString());
+                  int realCharges = (int)((3.5/100) * enteredAmount);
+                  int realAmount = (int)(enteredAmount - realCharges);
+                  charges.setText(Double.toString(realCharges));
+                  amount.setText(Double.toString(realAmount));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         backNav.setOnClickListener(new View.OnClickListener() {
             @Override

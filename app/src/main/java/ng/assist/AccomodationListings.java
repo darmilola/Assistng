@@ -39,7 +39,7 @@ public class AccomodationListings extends AppCompatActivity {
     private LinearLayout imageScrollLayout;
     TextView totalAvailable;
     LinearLayout navback;
-   ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
