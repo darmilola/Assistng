@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ServiceProviderDashboard"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/special_activity_background">
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/estate_dashboard_progress"/>
+
+    <include layout="@layout/error_layout"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:id="@+id/estate_dashboard_nested_scroll"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:text="Mark Chaulics"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:id="@+id/house_agent_name"
+                    android:textColor="@color/colorPrimary"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:text="House Agent"
+                    android:gravity="center"
+                    android:id="@+id/house_agent_title"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/light_text_color"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12dp"
+                        android:fontFamily="@font/clanbold"
+                        android:text="Phone:"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/dark_text_color"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12dp"
+                        android:fontFamily="@font/clannews"
+                        android:text="Not Available"
+                        android:id="@+id/house_agent_phone_text"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:layout_marginLeft="5dp"
+                        android:ellipsize="end"
+                        android:textColor="#797878"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:tint="@color/dark_text_color"
+                        android:layout_marginLeft="20dp"
+                        android:padding="10dp"
+                        android:id="@+id/house_agent_phone_select"
+                        android:src="@drawable/ic_mode_edit_black_24dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="House Listing"
+                    android:gravity="center"
+                    android:fontFamily="@font/clanmed"
+                    android:textColor="@color/dark_text_color"
+                    android:textSize="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:gravity="center|right"
+                    android:id="@+id/house_agent_add_listing"
+                    android:layout_alignParentRight="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add Listing"
+                        android:gravity="center"
+                        android:fontFamily="@font/clannews"
+                        android:textColor="@color/light_text_color"
+                        android:textSize="15dp"/>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/iconfinder_chevron_left_4781844"
+                        android:rotation="180"
+                        android:tint="@color/light_text_color"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/no_listing_layout">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="No Listing Available"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:id="@+id/real_estate_dashboard_recyclerview"
+                tools:listitem="@layout/accomodation_list_item"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

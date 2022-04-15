@@ -3,12 +3,22 @@ package ng.assist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import ng.assist.Adapters.AccomodationListingsAdapter;
 import ng.assist.Adapters.DasdhboardProductAdapter;
 import ng.assist.Adapters.RealEstateDashboardListingAdapter;
+import ng.assist.UIs.AccomodationApproval;
+import ng.assist.UIs.AgentAllListings;
+import ng.assist.UIs.AgentBookings;
+import ng.assist.UIs.ApprovedHouse;
+import ng.assist.UIs.RejectedListing;
 import ng.assist.UIs.Utils.InputDialog;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.AgentModel;
@@ -29,23 +39,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EstateListingDashboard extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    RealEstateDashboardListingAdapter adapter;
-    LinearLayout agentAddListing;
-    TextView agentName, agentPhone;
-    ImageView agentPhoneSelect;
-    InputDialog inputDialog;
-    EstateDashboardModel estateDashboardModel;
-    NestedScrollView nestedScrollView;
-    ProgressBar progressBar;
-    LinearLayout noListingLayout;
-    LinearLayout errorOccuredLayout;
-    MaterialButton retry;
+    viewPagerAdapter adapter = new viewPagerAdapter(getSupportFragmentManager());
+    NoSwipeViewPager viewPager;
+    LinearLayout navback;
+    TabLayout tabLayout;
 
 
     @Override
@@ -55,235 +59,85 @@ public class EstateListingDashboard extends AppCompatActivity {
         initView();
     }
 
-    private void initView() {
-
-        errorOccuredLayout = findViewById(R.id.error_occurred_layout_root);
-        retry = findViewById(R.id.error_occurred_retry);
-        noListingLayout = findViewById(R.id.no_listing_layout);
-        progressBar = findViewById(R.id.estate_dashboard_progress);
-        nestedScrollView = findViewById(R.id.estate_dashboard_nested_scroll);
-        agentAddListing = findViewById(R.id.house_agent_add_listing);
-        agentName = findViewById(R.id.house_agent_name);
-        agentPhone = findViewById(R.id.house_agent_phone_text);
-        agentPhoneSelect = findViewById(R.id.house_agent_phone_select);
-        recyclerView = findViewById(R.id.real_estate_dashboard_recyclerview);
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EstateListingDashboard.this);
-        String firstname = preferences.getString("firstname", "");
-        String lastname = preferences.getString("lastname", "");
-        agentName.setText(firstname + " " + lastname);
-
-        loadPage();
-
-        retry.setOnClickListener(new View.OnClickListener() {
+    private void initView(){
+        tabLayout = findViewById(R.id.acc_tabs);
+        navback = findViewById(R.id.accomodation_listing_back);
+        viewPager = findViewById(R.id.content_frame);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setCurrentItem(0, false);
+        setupViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+        navback.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                loadPage();
+            public void onClick(View v)  {
+                finish();
             }
         });
+    }
 
-        agentAddListing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(EstateListingDashboard.this, RealEsateAgentAddListing.class), 100);
+
+    public class viewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public viewPagerAdapter(FragmentManager fm) {
+            super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        }
+
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+
+            switch (position) {
+
+                case 0:
+                    return new AgentAllListings();
+                case 1:
+                    return new ApprovedHouse();
+                case 2:
+                    return new RejectedListing();
+                case 3:
+                    return new AgentBookings();
             }
-        });
+            return null;
+        }
 
-        agentPhoneSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inputDialog = new InputDialog(EstateListingDashboard.this, "Phone");
-                inputDialog.showInputDialog();
-                inputDialog.setDialogActionClickListener(new InputDialog.OnDialogActionClickListener() {
-                    @Override
-                    public void saveClicked(String text) {
-                        EstateDashboardModel estateDashboardModel = new EstateDashboardModel("phonenumber", text, EstateListingDashboard.this);
-                        estateDashboardModel.updateProviderInfo();
-                        estateDashboardModel.setUpdateInfoListener(new EstateDashboardModel.UpdateInfoListener() {
-                            @Override
-                            public void onSuccess() {
-                                agentPhone.setText(text);
-                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(EstateListingDashboard.this);
-                                preferences.edit().putString("phone", text).apply();
-                            }
+        @Override
+        public int getCount() {
 
-                            @Override
-                            public void onError(String message) {
+            return 4;
+        }
 
-                            }
-                        });
-                    }
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
 
-                    @Override
-                    public void cancelClicked() {
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
 
-                    }
-                });
-            }
-        });
+    }
+
+
+    private void setupViewPager(ViewPager viewPager) {
+        adapter.addFragment(new AgentAllListings(), "All Listings");
+        adapter.addFragment(new ApprovedHouse(), "Approved");
+        adapter.addFragment(new RejectedListing(), "Rejected");
+        adapter.addFragment(new AgentBookings(), "Bookings");
+        viewPager.setAdapter(adapter);
     }
 
     @Override
     public void onResume() {
-
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-    }
-
-    public void loadPage(){
-
-        progressBar.setVisibility(View.VISIBLE);
-        errorOccuredLayout.setVisibility(View.GONE);
-
-        estateDashboardModel = new EstateDashboardModel(EstateListingDashboard.this);
-        estateDashboardModel.getAccomodations();
-        estateDashboardModel.setEstateDashboardListener(new EstateDashboardModel.EstateDashboardListener() {
-            @Override
-            public void onInfoReady(ArrayList<AccomodationListModel> accomodationListModelArrayList, AgentModel agentModel) {
-                progressBar.setVisibility(View.GONE);
-                errorOccuredLayout.setVisibility(View.GONE);
-                nestedScrollView.setVisibility(View.VISIBLE);
-                if (agentModel.getAgentPhone().equalsIgnoreCase("null")) {
-                    agentPhone.setText("Not Available");
-                } else {
-                    agentPhone.setText(agentModel.getAgentPhone());
-                }
-                if (accomodationListModelArrayList.size() == 0) {
-                    noListingLayout.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                } else {
-                    noListingLayout.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    adapter = new RealEstateDashboardListingAdapter(accomodationListModelArrayList, EstateListingDashboard.this);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(EstateListingDashboard.this, LinearLayoutManager.VERTICAL, false);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
-                    adapter.setItemClickListener(new RealEstateDashboardListingAdapter.ItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            AccomodationListModel accomodationListModel = accomodationListModelArrayList.get(position);
-                            Intent intent = new Intent(EstateListingDashboard.this,EstateDashboardListingDetails.class);
-                            intent.putExtra("accModel", accomodationListModel);
-                            startActivityForResult(intent,300);
-                        }
-                    });
-                }
-
-            }
-
-            @Override
-            public void onError(String message) {
-                progressBar.setVisibility(View.GONE);
-                errorOccuredLayout.setVisibility(View.VISIBLE);
-            }
-        });
-    }
-
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 100 && resultCode == 100) {
-            progressBar.setVisibility(View.VISIBLE);
-            nestedScrollView.setVisibility(View.GONE);
-            estateDashboardModel = new EstateDashboardModel(EstateListingDashboard.this);
-            estateDashboardModel.getAccomodations();
-            estateDashboardModel.setEstateDashboardListener(new EstateDashboardModel.EstateDashboardListener() {
-                @Override
-                public void onInfoReady(ArrayList<AccomodationListModel> accomodationListModelArrayList, AgentModel agentModel) {
-                    progressBar.setVisibility(View.GONE);
-                    nestedScrollView.setVisibility(View.VISIBLE);
-                    if (agentModel.getAgentPhone().equalsIgnoreCase("null")) {
-                        agentPhone.setText("Not Available");
-                    } else {
-                        agentPhone.setText(agentModel.getAgentPhone());
-                    }
-
-
-                    if (accomodationListModelArrayList.size() == 0) {
-                        noListingLayout.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
-                    } else {
-                        noListingLayout.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        adapter = new RealEstateDashboardListingAdapter(accomodationListModelArrayList, EstateListingDashboard.this);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(EstateListingDashboard.this, LinearLayoutManager.VERTICAL, false);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter);
-
-                        adapter.setItemClickListener(new RealEstateDashboardListingAdapter.ItemClickListener() {
-                            @Override
-                            public void onItemClick(int position) {
-                                AccomodationListModel accomodationListModel = accomodationListModelArrayList.get(position);
-                                Intent intent = new Intent(EstateListingDashboard.this,EstateDashboardListingDetails.class);
-                                intent.putExtra("accModel", accomodationListModel);
-                                startActivityForResult(intent,300);
-                            }
-                        });
-                    }
-
-                }
-
-                @Override
-                public void onError(String message) {
-                    Toast.makeText(EstateListingDashboard.this, message, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }
-
-
-        if (requestCode == 300 && resultCode == 300) {
-            progressBar.setVisibility(View.VISIBLE);
-            nestedScrollView.setVisibility(View.GONE);
-            estateDashboardModel = new EstateDashboardModel(EstateListingDashboard.this);
-            estateDashboardModel.getAccomodations();
-            estateDashboardModel.setEstateDashboardListener(new EstateDashboardModel.EstateDashboardListener() {
-                @Override
-                public void onInfoReady(ArrayList<AccomodationListModel> accomodationListModelArrayList, AgentModel agentModel) {
-                    progressBar.setVisibility(View.GONE);
-                    nestedScrollView.setVisibility(View.VISIBLE);
-                    if (agentModel.getAgentPhone().equalsIgnoreCase("null")) {
-                        agentPhone.setText("Not Available");
-                    } else {
-                        agentPhone.setText(agentModel.getAgentPhone());
-                    }
-
-
-                    if (accomodationListModelArrayList.size() == 0) {
-                        noListingLayout.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
-                    } else {
-                        noListingLayout.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        adapter = new RealEstateDashboardListingAdapter(accomodationListModelArrayList, EstateListingDashboard.this);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(EstateListingDashboard.this, LinearLayoutManager.VERTICAL, false);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter);
-
-                        adapter.setItemClickListener(new RealEstateDashboardListingAdapter.ItemClickListener() {
-                            @Override
-                            public void onItemClick(int position) {
-                                AccomodationListModel accomodationListModel = accomodationListModelArrayList.get(position);
-                                Intent intent = new Intent(EstateListingDashboard.this,EstateDashboardListingDetails.class);
-                                intent.putExtra("accModel", accomodationListModel);
-                                startActivityForResult(intent,300);
-                            }
-                        });
-                    }
-
-                }
-
-                @Override
-                public void onError(String message) {
-                    Toast.makeText(EstateListingDashboard.this, message, Toast.LENGTH_SHORT).show();
-                }
-            });
+            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
 
         }
     }

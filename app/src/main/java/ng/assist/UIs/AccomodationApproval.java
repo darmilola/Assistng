@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ng.assist.AccomodationListings;
+import ng.assist.Adapters.AccomodationApprovalAdapter;
 import ng.assist.Adapters.AccomodationListingsAdapter;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
@@ -29,7 +30,7 @@ public class AccomodationApproval extends Fragment {
 
 
     private RecyclerView recyclerView;
-    private AccomodationListingsAdapter adapter;
+    private AccomodationApprovalAdapter adapter;
     private int currentPage = PAGE_START;
     private boolean isLastPage = false;
     private String totalPage;
@@ -71,7 +72,7 @@ public class AccomodationApproval extends Fragment {
             public void onListReady(ArrayList<AccomodationListModel> listModelArrayList, String mNextPageUrl, String mTotalPage, int totalListingAvailable) {
                 nextPageUrl = mNextPageUrl;
                 totalPage = mTotalPage;
-                adapter = new AccomodationListingsAdapter(listModelArrayList,getContext());
+                adapter = new AccomodationApprovalAdapter(listModelArrayList,getContext());
                 recyclerView.setAdapter(adapter);
                 rootLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);

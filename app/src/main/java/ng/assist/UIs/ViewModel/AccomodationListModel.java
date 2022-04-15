@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import ng.assist.UIs.Utils.LoadingDialogUtils;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -48,11 +49,16 @@ public class AccomodationListModel implements Parcelable {
     private String getDetailsUrl = baseUrl+"house_listing_details/houseInfo";
     private String updateListing = baseUrl+"agent/listings/update";
     private String pendingApproval = baseUrl+"house_listings/approval/pending";
+    private String approveHouse = baseUrl+"agent/listings/approve";
+    private String rejectHouse = baseUrl+"agent/listings/reject";
+    private String rejectedHouse = baseUrl+"agent/listings/rejected";
+    private String approvedHouse = baseUrl+"agent/listings/approved";
     private String accomodationType,location,maxPrice,minPrice,isAvailable;
     int totalListingsAvailable;
     private ArrayList<AccomodationListModel> listModelArrayList = new ArrayList<>();
     private ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     private UpdateListener updateListener;
+    private LoadingDialogUtils loadingDialogUtils;
 
 
     public interface AccomodationListReadyListener{
@@ -83,9 +89,18 @@ public class AccomodationListModel implements Parcelable {
 
     }
 
+    public AccomodationListModel(String agentId){
+           this.agentId = agentId;
+    }
+
     public AccomodationListModel(String houseId, String isAvailable, Context context){
         this.houseId = houseId;
         this.isAvailable = isAvailable;
+    }
+
+    public AccomodationListModel(String houseId, Context context){
+        this.houseId = houseId;
+        loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
     public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type){
@@ -234,6 +249,7 @@ public class AccomodationListModel implements Parcelable {
     private Handler updateInfoHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NotNull Message msg) {
+            if(loadingDialogUtils != null) loadingDialogUtils.cancelLoadingDialog();
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
             try {
@@ -363,6 +379,70 @@ public class AccomodationListModel implements Parcelable {
         myThread.start();
     }
 
+    public void approveHouse() {
+        loadingDialogUtils.showLoadingDialog("Processing");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildApproveHouse(houseId));
+            Request request = new Request.Builder()
+                    .url(approveHouse)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = updateInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            updateInfoHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+    public void rejectHouse() {
+        loadingDialogUtils.showLoadingDialog("Processing");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildApproveHouse(houseId));
+            Request request = new Request.Builder()
+                    .url(rejectHouse)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = updateInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            updateInfoHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
 
     public void getAccomodationsPending() {
         Runnable runnable = () -> {
@@ -376,6 +456,68 @@ public class AccomodationListModel implements Parcelable {
             RequestBody requestBody = RequestBody.create(JSON,"");
             Request request = new Request.Builder()
                     .url(pendingApproval)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = accomodationHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            accomodationHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+    public void getAccomodationsApproved() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildRejectedorApprove(agentId));
+            Request request = new Request.Builder()
+                    .url(approvedHouse)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = accomodationHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            accomodationHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+    public void getAccomodationsRejected() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildRejectedorApprove(agentId));
+            Request request = new Request.Builder()
+                    .url(rejectedHouse)
                     .post(requestBody)
                     .build();
             try (Response response = client.newCall(request).execute()) {
@@ -569,6 +711,26 @@ public class AccomodationListModel implements Parcelable {
         try {
             jsonObject.put("houseId",houseId);
             jsonObject.put("isAvailable",isAvailable);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildApproveHouse(String houseId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("houseId",houseId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildRejectedorApprove(String agentId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userId",agentId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
