@@ -11,9 +11,8 @@
     <ProgressBar
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:id="@+id/estate_dashboard_progress"/>
+        android:id="@+id/house_agent_approval_progress"/>
 
-    <include layout="@layout/error_layout"/>
 
 
 
@@ -33,6 +32,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                android:id="@+id/real_estate_dashboard_recyclerview"
+                android:id="@+id/house_agent_approval_recyclerview"
                 tools:listitem="@layout/accomodation_list_item"/>
 </LinearLayout>

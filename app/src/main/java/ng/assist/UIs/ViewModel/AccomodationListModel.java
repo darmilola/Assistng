@@ -53,6 +53,7 @@ public class AccomodationListModel implements Parcelable {
     private String rejectHouse = baseUrl+"agent/listings/reject";
     private String rejectedHouse = baseUrl+"agent/listings/rejected";
     private String approvedHouse = baseUrl+"agent/listings/approved";
+    private String bookedHouse = baseUrl+"agent/listings/bookings";
     private String accomodationType,location,maxPrice,minPrice,isAvailable;
     int totalListingsAvailable;
     private ArrayList<AccomodationListModel> listModelArrayList = new ArrayList<>();
@@ -169,7 +170,7 @@ public class AccomodationListModel implements Parcelable {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                accomodationListReadyListener.onEmpty("Error Occurred");
+                accomodationListReadyListener.onEmpty(e.getLocalizedMessage());
             }
 
         }
@@ -487,6 +488,37 @@ public class AccomodationListModel implements Parcelable {
             RequestBody requestBody = RequestBody.create(JSON,buildRejectedorApprove(agentId));
             Request request = new Request.Builder()
                     .url(approvedHouse)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = accomodationHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            accomodationHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+    public void getAccomodationsBookings() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildRejectedorApprove(agentId));
+            Request request = new Request.Builder()
+                    .url(bookedHouse)
                     .post(requestBody)
                     .build();
             try (Response response = client.newCall(request).execute()) {

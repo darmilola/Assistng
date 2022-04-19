@@ -55,6 +55,9 @@ public class EstateDashboardModel {
     private String deleteAgentListing = baseUrl+"agent/listings/delete";
     private String uploadImageUrl = baseUrl+"agent/listings/image";
     private String creatingListingUrl = baseUrl+"house_listings";
+    private String rejectedHouse = baseUrl+"agent/listings/rejected";
+    private String approvedHouse = baseUrl+"agent/listings/approved";
+    private String bookedHouse = baseUrl+"agent/listings/bookings";
     private Context context;
     private String userId;
     private EstateDashboardListener estateDashboardListener;
@@ -83,6 +86,10 @@ public class EstateDashboardModel {
         this.context = context;
         this.agentHouseId = houseId;
         loadingDialogUtils = new LoadingDialogUtils(context);
+    }
+
+    public EstateDashboardModel(String userId){
+           this.agentId = userId;
     }
 
     public EstateDashboardModel(String encodedImage,String houseId, Context context, int y){
@@ -216,7 +223,7 @@ public class EstateDashboardModel {
                 }
             } catch (JSONException e) {
                  e.printStackTrace();
-                 estateDashboardListener.onError("Error Occurred");
+                 estateDashboardListener.onError(e.getLocalizedMessage());
             }
 
         }
@@ -253,6 +260,100 @@ public class EstateDashboardModel {
         Thread myThread = new Thread(runnable);
         myThread.start();
     }
+
+    public void getAccomodationsApproved() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildRejectedorApprove(agentId));
+            Request request = new Request.Builder()
+                    .url(approvedHouse)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = accomodationHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            accomodationHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+    public void getAccomodationsBookings() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildRejectedorApprove(agentId));
+            Request request = new Request.Builder()
+                    .url(bookedHouse)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = accomodationHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            accomodationHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+    public void getAccomodationsRejected() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildRejectedorApprove(agentId));
+            Request request = new Request.Builder()
+                    .url(rejectedHouse)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = accomodationHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            accomodationHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
 
 
     private String buildAgentListModel(String userId){
@@ -706,6 +807,16 @@ public class EstateDashboardModel {
         public int getId() {
             return id;
         }
+    }
+
+    private String buildRejectedorApprove(String agentId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userId",agentId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
     }
 
 
