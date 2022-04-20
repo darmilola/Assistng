@@ -24,10 +24,12 @@ import okhttp3.Response;
 public class CreatBill {
     private String baseUrl = new URL().getBaseUrl();
     private String createBillUrl = baseUrl+"bills";
+    private String bookHouseUrl = baseUrl+"house_listings/book";
     private String payerId,payeeId,type,name,billId;
     private int cost;
     private CreateBillListener createBillListener;
     private LoadingDialogUtils loadingDialogUtils = null;
+    String userId, price, agentId,houseId;
 
     public interface CreateBillListener{
         void onSuccess();
@@ -47,6 +49,14 @@ public class CreatBill {
         this.billId = billId;
         this.createBillUrl = baseUrl+"bills/service/create";
         loadingDialogUtils = new LoadingDialogUtils(context);
+    }
+
+    public CreatBill(String userId, String price, String agentId, String houseId,Context context){
+           this.userId = userId;
+           this.price = price;
+           this.agentId = agentId;
+           this.houseId = houseId;
+           loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
     public CreatBill(String payerId, String payeeId, int cost, String type, String name, String billId){
@@ -101,6 +111,39 @@ public class CreatBill {
     }
 
 
+    public void BookHouse() {
+        if(loadingDialogUtils != null)loadingDialogUtils.showLoadingDialog("booking...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildCreateBooking(userId,price,agentId,houseId));
+            Request request = new Request.Builder()
+                    .url(bookHouseUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = createBillHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            createBillHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
     private Handler createBillHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NotNull Message msg) {
@@ -135,6 +178,20 @@ public class CreatBill {
             jsonObject.put("mType",type);
             jsonObject.put("mName",name);
             jsonObject.put("billId",billId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+
+    private String buildCreateBooking(String userId, String price, String agentId, String houseId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userId",userId);
+            jsonObject.put("price",price);
+            jsonObject.put("agentId",agentId);
+            jsonObject.put("houseId",houseId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

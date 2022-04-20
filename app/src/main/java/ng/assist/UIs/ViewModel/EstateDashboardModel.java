@@ -58,6 +58,7 @@ public class EstateDashboardModel {
     private String rejectedHouse = baseUrl+"agent/listings/rejected";
     private String approvedHouse = baseUrl+"agent/listings/approved";
     private String bookedHouse = baseUrl+"agent/listings/bookings";
+    private String userBookings = baseUrl+"house_listings/bookings";
     private Context context;
     private String userId;
     private EstateDashboardListener estateDashboardListener;
@@ -184,6 +185,7 @@ public class EstateDashboardModel {
         public void handleMessage(@NotNull Message msg) {
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
+            Log.e("handleMessage: ",response);
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
@@ -228,6 +230,53 @@ public class EstateDashboardModel {
 
         }
     };
+
+
+    private Handler accomodationBookingHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            Log.e("handleMessage: ",response);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                    JSONArray data = jsonObject.getJSONArray("data");
+
+                    if(data.length() >= 1) {
+                        for (int i = 0; i < data.length(); i++) {
+                            String houseId = data.getJSONObject(i).getString("id");
+                            String houseTitle = data.getJSONObject(i).getString("houseTitle");
+                            String pricePerMonth = data.getJSONObject(i).getString("pricePerMonth");
+                            String totalRaters = data.getJSONObject(i).getString("totalRaters");
+                            String totalRatings = data.getJSONObject(i).getString("totalRatings");
+                            String bed = data.getJSONObject(i).getString("bed");
+                            String bath = data.getJSONObject(i).getString("bath");
+                            String displayImage = data.getJSONObject(i).getString("displayImg");
+                            String description = data.getJSONObject(i).getString("description");
+                            String agentId = data.getJSONObject(i).getString("agentId");
+                            String address = data.getJSONObject(i).getString("address");
+                            String bookingFee = data.getJSONObject(i).getString("bookingFee");
+                            String isAvailable = data.getJSONObject(i).getString("isAvailable");
+                            String type = data.getJSONObject(i).getString("type");
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type);
+                            accomodationListModelArrayList.add(accomodationListModel);
+                        }
+                    }
+                    estateDashboardListener.onInfoReady(accomodationListModelArrayList,new AgentModel("",""));
+                }
+                else if(status.equalsIgnoreCase("failure")){
+                    estateDashboardListener.onError("No Accommodation to Show");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                estateDashboardListener.onError(e.getLocalizedMessage());
+            }
+
+        }
+    };
+
 
 
     public void getAccomodations() {
@@ -292,6 +341,40 @@ public class EstateDashboardModel {
         myThread.start();
     }
 
+
+    public void getAccomodationsUserBookings() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildRejectedorApprove(agentId));
+            Request request = new Request.Builder()
+                    .url(userBookings)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = accomodationBookingHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            accomodationBookingHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+
     public void getAccomodationsBookings() {
         Runnable runnable = () -> {
             String mResponse = "";
@@ -313,11 +396,11 @@ public class EstateDashboardModel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Message msg = accomodationHandler.obtainMessage();
+            Message msg = accomodationBookingHandler.obtainMessage();
             Bundle bundle = new Bundle();
             bundle.putString("response", mResponse);
             msg.setData(bundle);
-            accomodationHandler.sendMessage(msg);
+            accomodationBookingHandler.sendMessage(msg);
         };
         Thread myThread = new Thread(runnable);
         myThread.start();

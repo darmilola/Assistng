@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ng.assist.AccomodationAdmin;
+import ng.assist.AccomodationBooking;
 import ng.assist.ChatActivity;
 import ng.assist.EcommerceDashboard;
 import ng.assist.EstateListingDashboard;
@@ -40,6 +41,7 @@ import ng.assist.ServiceProviderDashboard;
 import ng.assist.ServiceProviderVerifications;
 import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.AccountModel;
+import ng.assist.UserAccomodationBooking;
 import ng.assist.VerificationDashBoard;
 import ng.assist.WelcomeActivity;
 
@@ -50,7 +52,7 @@ public class AccountFragments extends Fragment {
 
 
     View view;
-    LinearLayout dashboardLayout,switchAccount,userVerification,accomodationAdmin;
+    LinearLayout dashboardLayout,switchAccount,userVerification,accomodationAdmin,accomodationBooking;
     LinearLayout aboutUs,rateUs,logOut,provideAService;
     ArrayList<String> accountList = new ArrayList<>();
     CircleImageView circleImageView;
@@ -86,6 +88,7 @@ public class AccountFragments extends Fragment {
         rateUs = view.findViewById(R.id.account_rate_us);
         switchAccount = view.findViewById(R.id.account_switch_account);
         provideAService = view.findViewById(R.id.account_provide_a_service);
+        accomodationBooking = view.findViewById(R.id.account_accomodation_booking);
         dashboardLayout.setVisibility(View.GONE);
 
         if(!isVerified()){
@@ -124,6 +127,13 @@ public class AccountFragments extends Fragment {
             @Override
             public void onClick(View v) {
               logOut();
+            }
+        });
+
+        accomodationBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), UserAccomodationBooking.class));
             }
         });
 

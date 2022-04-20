@@ -129,7 +129,6 @@ public class AgentAllListings extends Fragment {
     }
 
 
-
     public void loadPage(){
 
         progressBar.setVisibility(View.VISIBLE);

@@ -262,18 +262,21 @@ public class AccomodationBooking extends AppCompatActivity {
 
                             String fullName = agentModel.getAgentFirstname() + " - " + agentModel.getAgentLastName();
                             String billId = generateBillId();
-                            CreatBill creatBill = new CreatBill(userId, agentModel.getAgentId(), Integer.parseInt(accomodationListModel.getBookingFee()), "3", fullName, AccomodationBooking.this, billId);
-                            creatBill.CreateBill();
+                            CreatBill creatBill = new CreatBill(userId,accomodationListModel.getBookingFee(), accomodationListModel.getAgentId(), accomodationListModel.getHouseId(), AccomodationBooking.this);
+                            creatBill.BookHouse();
                             creatBill.setCreateBillListener(new CreatBill.CreateBillListener() {
                                 @Override
                                 public void onSuccess() {
-                                    Date date = new Date();
+
+                                    Toast.makeText(AccomodationBooking.this, "Booking Successful", Toast.LENGTH_SHORT).show();
+
+                                 /* Date date = new Date();
                                     Timestamp timestamp = new Timestamp(date.getTime());
                                     insertBooking(0, 3, "Inspection", timestamp.toString(), accomodationListModel.getBookingFee(), "");
                                     Toast.makeText(AccomodationBooking.this, "You have booked Inspection Successfully", Toast.LENGTH_SHORT).show();
                                     addPending();
                                     reduceWalletBalanceInSharedPref(AccomodationBooking.this,accomodationListModel.getBookingFee());
-                                    finish();
+                                    finish();*/
                                 }
 
                                 @Override
