@@ -19,6 +19,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AgentAccomodationDetails"
+            android:exported="false" />
+        <activity
+            android:name=".UserAccomodationDetails"
+            android:exported="false" />
+        <activity
             android:name=".UserAccomodationBooking"
             android:exported="false" />
         <activity

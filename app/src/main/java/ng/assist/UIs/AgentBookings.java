@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import java.util.ArrayList;
 
 import ng.assist.Adapters.AccomodationListingsAdapter;
+import ng.assist.Adapters.AgentAccomodationBookingAdapter;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.AgentModel;
@@ -27,7 +28,7 @@ import ng.assist.UIs.ViewModel.EstateDashboardModel;
 public class AgentBookings extends Fragment {
 
     private RecyclerView recyclerView;
-    private AccomodationListingsAdapter adapter;
+    private AgentAccomodationBookingAdapter adapter;
     private ProgressBar progressBar;
     LinearLayout noLayout;
     View view;
@@ -62,7 +63,7 @@ public class AgentBookings extends Fragment {
                 recyclerView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 noLayout.setVisibility(View.GONE);
-                adapter = new AccomodationListingsAdapter(accomodationListModelArrayList,getContext());
+                adapter = new AgentAccomodationBookingAdapter(accomodationListModelArrayList,getContext());
                 recyclerView.setAdapter(adapter);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
                 recyclerView.setLayoutManager(layoutManager);

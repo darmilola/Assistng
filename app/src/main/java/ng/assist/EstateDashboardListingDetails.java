@@ -104,6 +104,14 @@ public class EstateDashboardListingDetails extends AppCompatActivity {
             isAvailable.setChecked(true);
         }
 
+        if(accomodationListModel.getStatus().equalsIgnoreCase("Rejected")){
+            isAvailable.setVisibility(View.GONE);
+        }
+
+        if(accomodationListModel.getStatus().equalsIgnoreCase("Pending")){
+            isAvailable.setVisibility(View.GONE);
+        }
+
 
         bookingFee.setText(formattedPrice);
 

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import ng.assist.Adapters.AccomodationListingsAdapter;
 import ng.assist.Adapters.ProviderBookingAdapter;
+import ng.assist.Adapters.UserAccomodationBookingsAdapter;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.AgentModel;
 import ng.assist.UIs.ViewModel.EstateDashboardModel;
@@ -29,7 +30,7 @@ public class UserAccomodationBooking extends AppCompatActivity {
     ProgressBar serviceBookingProgress;
     TextView serviceBookingEmpty;
     EstateDashboardModel estateDashboardModel;
-    AccomodationListingsAdapter adapter;
+    UserAccomodationBookingsAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +52,11 @@ public class UserAccomodationBooking extends AppCompatActivity {
                 recyclerView.setVisibility(View.VISIBLE);
                 serviceBookingProgress.setVisibility(View.GONE);
                 serviceBookingEmpty.setVisibility(View.GONE);
-                adapter = new AccomodationListingsAdapter(accomodationListModelArrayList,UserAccomodationBooking.this);
+                adapter = new UserAccomodationBookingsAdapter(accomodationListModelArrayList,UserAccomodationBooking.this);
                 recyclerView.setAdapter(adapter);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(UserAccomodationBooking.this,RecyclerView.VERTICAL,false);
                 recyclerView.setLayoutManager(layoutManager);
             }
-
             @Override
             public void onError(String message) {
                 recyclerView.setVisibility(View.GONE);

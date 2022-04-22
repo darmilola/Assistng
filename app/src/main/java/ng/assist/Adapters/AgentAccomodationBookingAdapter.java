@@ -18,16 +18,17 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import ng.assist.AccomodationBooking;
+import ng.assist.AgentAccomodationDetails;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
-import ng.assist.UserAccomodationDetails;
 
-public class UserAccomodationBookingsAdapter extends RecyclerView.Adapter<UserAccomodationBookingsAdapter.AccomodationItemViewHolder> {
+public class AgentAccomodationBookingAdapter extends RecyclerView.Adapter<AgentAccomodationBookingAdapter.AccomodationItemViewHolder> {
 
     ArrayList<AccomodationListModel> accomodationList;
     Context context;
 
-    public UserAccomodationBookingsAdapter(ArrayList<AccomodationListModel> accomodationList, Context context){
+
+    public AgentAccomodationBookingAdapter(ArrayList<AccomodationListModel> accomodationList, Context context){
         this.accomodationList = accomodationList;
         this.context = context;
     }
@@ -88,7 +89,7 @@ public class UserAccomodationBookingsAdapter extends RecyclerView.Adapter<UserAc
                 @Override
                 public void onClick(View v) {
                     AccomodationListModel accomodationListModel = accomodationList.get(getAdapterPosition());
-                    Intent intent = new Intent(context, UserAccomodationDetails.class);
+                    Intent intent = new Intent(context, AgentAccomodationDetails.class);
                     intent.putExtra("accModel", accomodationListModel);
                     context.startActivity(intent);
                 }

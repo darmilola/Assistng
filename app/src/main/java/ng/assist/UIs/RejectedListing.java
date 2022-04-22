@@ -1,5 +1,6 @@
 package ng.assist.UIs;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -19,6 +20,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ng.assist.Adapters.AccomodationListingsAdapter;
+import ng.assist.Adapters.RealEstateDashboardListingAdapter;
+import ng.assist.EstateDashboardListingDetails;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.AgentModel;
@@ -27,7 +30,7 @@ import ng.assist.UIs.ViewModel.EstateDashboardModel;
 
 public class RejectedListing extends Fragment {
     private RecyclerView recyclerView;
-    private AccomodationListingsAdapter adapter;
+    private RealEstateDashboardListingAdapter adapter;
     private ProgressBar progressBar;
     LinearLayout noLayout;
     View view;
@@ -56,10 +59,19 @@ public class RejectedListing extends Fragment {
                 recyclerView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 noLayout.setVisibility(View.GONE);
-                adapter = new AccomodationListingsAdapter(accomodationListModelArrayList,getContext());
-                recyclerView.setAdapter(adapter);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+                adapter = new RealEstateDashboardListingAdapter(accomodationListModelArrayList, getContext());
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                 recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+                adapter.setItemClickListener(new RealEstateDashboardListingAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        AccomodationListModel accomodationListModel = accomodationListModelArrayList.get(position);
+                        Intent intent = new Intent(getContext(), EstateDashboardListingDetails.class);
+                        intent.putExtra("accModel", accomodationListModel);
+                        startActivityForResult(intent,300);
+                    }
+                });
             }
 
             @Override

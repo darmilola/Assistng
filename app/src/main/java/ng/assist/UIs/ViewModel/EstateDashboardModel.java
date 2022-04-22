@@ -59,8 +59,10 @@ public class EstateDashboardModel {
     private String approvedHouse = baseUrl+"agent/listings/approved";
     private String bookedHouse = baseUrl+"agent/listings/bookings";
     private String userBookings = baseUrl+"house_listings/bookings";
+    private String requestRefund = baseUrl+"house_listings/refund/request";
     private Context context;
     private String userId;
+    private int bookingId;
     private EstateDashboardListener estateDashboardListener;
     private AgentModel agentModel;
     private LoadingDialogUtils loadingDialogUtils;
@@ -69,6 +71,7 @@ public class EstateDashboardModel {
     private String isAvailable;
     private String agentHouseId;
     private String encodedImage;
+    private String userReason,userEvidence,agentReason,agentEvidence;
     private ImageUploadDialog imageUploadDialog;
     private ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     private UpdateInfoListener updateInfoListener;
@@ -103,6 +106,22 @@ public class EstateDashboardModel {
     public EstateDashboardModel(String houseId, String agentId){
          this.houseId = houseId;
          this.agentId = agentId;
+    }
+
+    public EstateDashboardModel(int bookingId,String userReason, String userEvidence, Context context, boolean isUser){
+        this.bookingId = bookingId;
+        this.context = context;
+        this.userReason = userReason;
+        this.userEvidence = userEvidence;
+        loadingDialogUtils = new LoadingDialogUtils(context);
+    }
+
+    public EstateDashboardModel(int bookingId,String agentReason, String agentEvidence, Context context){
+        this.bookingId = bookingId;
+        this.context = context;
+        this.agentReason = agentReason;
+        this.agentEvidence = agentEvidence;
+        loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
     public EstateDashboardModel(String jsonKey, String value, Context context){
@@ -214,7 +233,9 @@ public class EstateDashboardModel {
                             String bookingFee = data.getJSONObject(i).getString("bookingFee");
                             String isAvailable = data.getJSONObject(i).getString("isAvailable");
                             String type = data.getJSONObject(i).getString("type");
-                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type);
+                            String mStatus = data.getJSONObject(i).getString("status");
+                            String availabilityStatus = data.getJSONObject(i).getString("availabilityStatus");
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,mStatus,availabilityStatus);
                             accomodationListModelArrayList.add(accomodationListModel);
                         }
                     }
@@ -246,7 +267,14 @@ public class EstateDashboardModel {
 
                     if(data.length() >= 1) {
                         for (int i = 0; i < data.length(); i++) {
-                            String houseId = data.getJSONObject(i).getString("id");
+                            int bookingId = data.getJSONObject(i).getInt("bookingId");
+                            String userReason = data.getJSONObject(i).getString("userReason");
+                            String agentReason = data.getJSONObject(i).getString("agentReason");
+                            String userEvidence = data.getJSONObject(i).getString("userEvidence");
+                            String agentEvidence = data.getJSONObject(i).getString("agentEvidence");
+                            String isRefund = data.getJSONObject(i).getString("isRefund");
+                            String bookingDate = data.getJSONObject(i).getString("bookDate");
+                            String houseId = data.getJSONObject(i).getString("houseId");
                             String houseTitle = data.getJSONObject(i).getString("houseTitle");
                             String pricePerMonth = data.getJSONObject(i).getString("pricePerMonth");
                             String totalRaters = data.getJSONObject(i).getString("totalRaters");
@@ -260,7 +288,7 @@ public class EstateDashboardModel {
                             String bookingFee = data.getJSONObject(i).getString("bookingFee");
                             String isAvailable = data.getJSONObject(i).getString("isAvailable");
                             String type = data.getJSONObject(i).getString("type");
-                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type);
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId);
                             accomodationListModelArrayList.add(accomodationListModel);
                         }
                     }
@@ -305,6 +333,71 @@ public class EstateDashboardModel {
             bundle.putString("response", mResponse);
             msg.setData(bundle);
             accomodationHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+    public void requestRefund() {
+        loadingDialogUtils.showLoadingDialog("Processing...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildRequestRefund(bookingId,userReason,userEvidence));
+            Request request = new Request.Builder()
+                    .url(requestRefund)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = updateInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            updateInfoHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+    public void agentRequestRefund() {
+        loadingDialogUtils.showLoadingDialog("Processing...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildAgentRequestRefund(bookingId,agentReason,agentEvidence));
+            Request request = new Request.Builder()
+                    .url(requestRefund)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = updateInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            updateInfoHandler.sendMessage(msg);
         };
         Thread myThread = new Thread(runnable);
         myThread.start();
@@ -478,8 +571,10 @@ public class EstateDashboardModel {
     private Handler updateInfoHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NotNull Message msg) {
+            loadingDialogUtils.cancelLoadingDialog();
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
+            Log.e("handleMessage: ", response);
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
@@ -487,7 +582,7 @@ public class EstateDashboardModel {
                     updateInfoListener.onSuccess();
                 }
                 else if(status.equalsIgnoreCase("failure")){
-                       updateInfoListener.onError("Error Occured");
+                       updateInfoListener.onError("Error Occurred");
                 }
                 else{
 
@@ -506,7 +601,8 @@ public class EstateDashboardModel {
             loadingDialogUtils.cancelLoadingDialog();
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
-            try {
+
+           try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
                 if(status.equalsIgnoreCase("success")){
@@ -896,6 +992,31 @@ public class EstateDashboardModel {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("userId",agentId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildRequestRefund(int id, String userReason, String userEvidence){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("bookingId",id);
+            jsonObject.put("userReason",userReason);
+            jsonObject.put("userEvidence",userEvidence);
+            jsonObject.put("isRefund","true");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildAgentRequestRefund(int id, String agentReason, String agentEvidence){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("bookingId",id);
+            jsonObject.put("agentReason",agentReason);
+            jsonObject.put("agentEvidence",agentEvidence);
         } catch (JSONException e) {
             e.printStackTrace();
         }

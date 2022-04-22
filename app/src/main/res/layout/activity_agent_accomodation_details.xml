@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#F6F5F8"
+    android:gravity="center"
+    tools:context=".AccomodationBooking">
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/estate_dashboard_details_progress"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/estate_dashboard_details_nested_scroll">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/product_image_scrollview"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxLines="1"
+                    android:gravity="center|left"
+                    android:textSize="16dp"
+                    android:id="@+id/estate_dashboard_details_title"
+                    android:layout_marginLeft="20dp"
+                    android:ellipsize="end"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/clanmed"
+                    android:text="Harmony Studios"/>
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/pink"
+                    android:src="@drawable/location_pin_1_2x"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/clannews"
+                    android:gravity="center"
+                    android:text="World trade center Abuja Nigeria"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="20dp"
+                    android:maxLines="1"
+                    android:id="@+id/estate_dashboard_details_address"
+                    android:ellipsize="end"
+                    android:textColor="@color/dark_text_color"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NGN 20,000/month"
+                android:layout_marginLeft="16dp"
+                android:textSize="18dp"
+                android:id="@+id/estate_dashboard_details_price"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/clanmed"
+                android:textColor="@color/colorPrimary"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Booking fee"
+                    android:textSize="16dp"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="@font/clannews"
+                    android:textColor="@color/light_text_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="700"
+                    android:textSize="18dp"
+                    android:id="@+id/estate_dashboard_details_booking_fee"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="@font/clanmed"
+                    android:textColor="@color/colorPrimary"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:gravity="center|left"
+                android:textSize="17dp"
+                android:layout_marginLeft="20dp"
+                android:ellipsize="end"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/clannews"
+                android:text="Description"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="7"
+                android:gravity="center|left"
+                android:textSize="16dp"
+                android:layout_marginLeft="20dp"
+                android:ellipsize="end"
+                android:id="@+id/estate_dashboard_details_description"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="20dp"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/light_text_color"
+                android:fontFamily="@font/clannews"
+                android:text="@string/long_text"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="7"
+                android:gravity="center|left"
+                android:textSize="16dp"
+                android:layout_marginLeft="20dp"
+                android:ellipsize="end"
+                android:id="@+id/agent_acc_details_apply_refund"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="20dp"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/pink"
+                android:fontFamily="@font/clannews"
+                android:text="This user has applied for refund"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/agent_acc_apply_refund"
+                app:backgroundTint="@color/colorPrimary"
+                android:text="Send Message"
+                android:textAllCaps="false"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>
