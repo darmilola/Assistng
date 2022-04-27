@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ng.assist.UIs.AccomodationApproval;
+import ng.assist.UIs.AccomodationPayment;
+import ng.assist.UIs.AccomodationRefund;
 import ng.assist.UIs.AccountFragments;
 import ng.assist.UIs.DmFragment;
 import ng.assist.UIs.HomeFragment;
@@ -75,9 +77,12 @@ public class AccomodationAdmin extends AppCompatActivity {
             switch (position) {
 
                 case 0:
-
                     AccomodationApproval accomodationApproval = new AccomodationApproval();
                     return accomodationApproval;
+                case 1:
+                    return new AccomodationRefund();
+                case 2:
+                    return new AccomodationPayment();
             }
             return null;
         }
@@ -85,7 +90,7 @@ public class AccomodationAdmin extends AppCompatActivity {
         @Override
         public int getCount() {
 
-            return 1;
+            return 3;
         }
 
         public void addFragment(Fragment fragment, String title) {
@@ -103,8 +108,9 @@ public class AccomodationAdmin extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         adapter.addFragment(new AccomodationApproval(), "Approval");
+        adapter.addFragment(new AccomodationRefund(), "Refunds");
+        adapter.addFragment(new AccomodationPayment(), "Payments");
         viewPager.setAdapter(adapter);
-
     }
 
     @Override

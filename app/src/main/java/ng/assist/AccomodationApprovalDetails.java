@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -88,6 +89,7 @@ public class AccomodationApprovalDetails extends AppCompatActivity {
 
         agentId = accomodationListModel.getAgentId();
         houseId = accomodationListModel.getHouseId();
+
         houseTitle.setText(accomodationListModel.getHouseTitle());
 
 
@@ -210,6 +212,7 @@ public class AccomodationApprovalDetails extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
+                Log.e("onError: ", message);
                 loadingBar.setVisibility(View.GONE);
                 rootLayout.setVisibility(View.GONE);
                 errorRoot.setVisibility(View.VISIBLE);

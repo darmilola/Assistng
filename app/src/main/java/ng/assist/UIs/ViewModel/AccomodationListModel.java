@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -55,7 +56,10 @@ public class AccomodationListModel implements Parcelable {
     private String rejectedHouse = baseUrl+"agent/listings/rejected";
     private String approvedHouse = baseUrl+"agent/listings/approved";
     private String bookedHouse = baseUrl+"agent/listings/bookings";
-    private String accomodationType,location,maxPrice,minPrice,isAvailable;
+    private String showRefunds = baseUrl+"house_listings/admin/refund";
+    private String refundUser = baseUrl+"house_listings/bookings/refund";
+    private String releaseFund = baseUrl+"house_listings/bookings/fund/release";
+    private String accomodationType,location,maxPrice,minPrice,isAvailable,userId;
     int totalListingsAvailable;
     private ArrayList<AccomodationListModel> listModelArrayList = new ArrayList<>();
     private ArrayList<ProductImageModel> imagesList = new ArrayList<>();
@@ -236,7 +240,7 @@ public class AccomodationListModel implements Parcelable {
     }
 
 
-    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type, String isRefund, String userReason, String agentReason, String userEvidence, String agentEvidence, String bookingDate,int bookingId){
+    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type, String isRefund, String userReason, String agentReason, String userEvidence, String agentEvidence, String bookingDate,int bookingId,String userId){
         this.houseId = houseId;
         this.agentId = agentId;
         this.houseDisplayImage = houseDisplayImage;
@@ -258,6 +262,7 @@ public class AccomodationListModel implements Parcelable {
         this.agentEvidence = agentEvidence;
         this.bookingDate = bookingDate;
         this.bookingId = bookingId;
+        this.userId = userId;
     }
 
     public AccomodationListModel(String accomodationType, String location, String maxPrice, String minPrice){
@@ -265,6 +270,21 @@ public class AccomodationListModel implements Parcelable {
            this.location = location;
            this.maxPrice = maxPrice;
            this.minPrice = minPrice;
+    }
+
+    public AccomodationListModel(String userId, String amount, int bookingId, String houseId, Context context){
+        this.userId = userId;
+        this.pricesPerMonth = amount;
+        this.bookingId = bookingId;
+        this.houseId = houseId;
+        loadingDialogUtils = new LoadingDialogUtils(context);
+    }
+
+    public AccomodationListModel(String agentId, String amount, int bookingId, Context context){
+        this.agentId = agentId;
+        this.pricesPerMonth = amount;
+        this.bookingId = bookingId;
+        loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
 
@@ -324,6 +344,7 @@ public class AccomodationListModel implements Parcelable {
         public void handleMessage(@NotNull Message msg) {
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
+            Log.e("handleMessage: ",response);
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
@@ -358,6 +379,64 @@ public class AccomodationListModel implements Parcelable {
 
         }
     };
+
+    public void ApproveRefund(){
+        loadingDialogUtils.showLoadingDialog("Processing...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildAccomodationRefund(userId,pricesPerMonth,bookingId,houseId));
+            Request request = new Request.Builder()
+                    .url(refundUser)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = updateInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            updateInfoHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+    public void ReleaseFund(){
+        loadingDialogUtils.showLoadingDialog("Processing...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildAccomodationReleaseFund(agentId,pricesPerMonth,bookingId));
+            Request request = new Request.Builder()
+                    .url(refundUser)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = updateInfoHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            updateInfoHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
 
 
     public void updateHouseInfo(){
@@ -394,6 +473,7 @@ public class AccomodationListModel implements Parcelable {
             if(loadingDialogUtils != null) loadingDialogUtils.cancelLoadingDialog();
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
+            Log.e("handleMessage: ",response);
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
@@ -428,6 +508,38 @@ public class AccomodationListModel implements Parcelable {
             RequestBody requestBody = RequestBody.create(JSON,buildSearchCredentials(accomodationType,location,maxPrice,minPrice));
             Request request = new Request.Builder()
                     .url(getAccomodationUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = accomodationHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            accomodationHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+    public void getAccomodationsRefunds() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,"");
+            Request request = new Request.Builder()
+                    .url(showRefunds)
                     .post(requestBody)
                     .build();
             try (Response response = client.newCall(request).execute()) {
@@ -817,6 +929,11 @@ public class AccomodationListModel implements Parcelable {
         return status;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+
     private String buildSearchCredentials(String type, String location, String max_price, String min_price){
         JSONObject jsonObject = new JSONObject();
         try {
@@ -866,6 +983,31 @@ public class AccomodationListModel implements Parcelable {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("userId",agentId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildAccomodationRefund(String userId, String amount, int bookingId, String houseId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userId",userId);
+            jsonObject.put("amount",amount);
+            jsonObject.put("id",bookingId);
+            jsonObject.put("houseId",houseId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildAccomodationReleaseFund(String agentId, String amount, int bookingId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("agentId",agentId);
+            jsonObject.put("amount",amount);
+            jsonObject.put("id",bookingId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

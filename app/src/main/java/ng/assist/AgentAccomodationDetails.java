@@ -51,7 +51,6 @@ public class AgentAccomodationDetails extends AppCompatActivity {
     static int PICK_IMAGE = 1;
     RecyclerView imagesRecyclerview;
     ProductImageScrollAdapter adapter;
-    ArrayList<String> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
     TextView houseTitle,pricePerMonth,adddress,description,bookingFee;
     ProgressBar loadingBar;

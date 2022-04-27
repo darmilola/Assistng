@@ -60,6 +60,7 @@ public class EstateDashboardModel {
     private String bookedHouse = baseUrl+"agent/listings/bookings";
     private String userBookings = baseUrl+"house_listings/bookings";
     private String requestRefund = baseUrl+"house_listings/refund/request";
+    private String showRefunds = baseUrl+"house_listings/admin/refund";
     private Context context;
     private String userId;
     private int bookingId;
@@ -91,6 +92,8 @@ public class EstateDashboardModel {
         this.agentHouseId = houseId;
         loadingDialogUtils = new LoadingDialogUtils(context);
     }
+
+    public EstateDashboardModel(){}
 
     public EstateDashboardModel(String userId){
            this.agentId = userId;
@@ -284,11 +287,12 @@ public class EstateDashboardModel {
                             String displayImage = data.getJSONObject(i).getString("displayImg");
                             String description = data.getJSONObject(i).getString("description");
                             String agentId = data.getJSONObject(i).getString("agentId");
+                            String userId = data.getJSONObject(i).getString("userId");
                             String address = data.getJSONObject(i).getString("address");
                             String bookingFee = data.getJSONObject(i).getString("bookingFee");
                             String isAvailable = data.getJSONObject(i).getString("isAvailable");
                             String type = data.getJSONObject(i).getString("type");
-                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId);
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId, userId);
                             accomodationListModelArrayList.add(accomodationListModel);
                         }
                     }
@@ -429,6 +433,38 @@ public class EstateDashboardModel {
             bundle.putString("response", mResponse);
             msg.setData(bundle);
             accomodationHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+    public void getAccomodationsRefunds() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,"");
+            Request request = new Request.Builder()
+                    .url(showRefunds)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = accomodationBookingHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            accomodationBookingHandler.sendMessage(msg);
         };
         Thread myThread = new Thread(runnable);
         myThread.start();
