@@ -15,6 +15,26 @@
 
     </string-array>
 
+    <string name="booking_payment">Before you make the payment ensure that you have inspected the apartment and you like what you saw.
+However, you have till 1 week from the moment you made this payment to Request a refund if;
+
+The apartment is not exactly what was advertised online.
+
+If you are not satisfied with the accommodation.
+
+If the agent fails to honour their part of the agreement you both had,
+
+Note:
+The equivalent of 1 week\'s rent will be deducted from the amount you paid before returning the rest to you.
+    </string>
+
+    <string name="acc_warning">
+The security of your money is extremely important to us, therefore, we strongly advise that;
+
+You do not engage in any cash transactions with the agent outside the platform.
+
+You should not schedule an inspection at odd hours or at night.</string>
+
     <string-array name="quick_credit_loan_amount">
         <item>NGN10,000</item>
         <item>NGN20,000</item>

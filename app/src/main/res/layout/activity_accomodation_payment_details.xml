@@ -123,138 +123,21 @@
                 android:textColor="@color/light_text_color"
                 android:textSize="16dp" />
 
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/clannews"
-                android:gravity="center|left"
-                android:maxLines="1"
-                android:text="User Reason"
-                android:textColor="@color/colorPrimary"
-                android:textSize="17dp" />
 
-            <TextView
-                android:id="@+id/refund_user_reason"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/clannews"
-                android:gravity="center|left"
-                android:lineSpacingExtra="5dp"
-                android:maxLines="7"
-                android:textColor="@color/light_text_color"
-                android:textSize="16dp" />
 
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/clannews"
-                android:gravity="center|left"
-                android:maxLines="1"
-                android:text="User Evidence"
-                android:textColor="@color/colorPrimary"
-                android:textSize="17dp" />
 
-            <ImageView
-                android:id="@+id/user_evidence"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_margin="20dp" />
-
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/clannews"
-                android:gravity="center|left"
-                android:maxLines="1"
-                android:text="Agent Reason"
-                android:textColor="@color/colorPrimary"
-                android:textSize="17dp" />
-
-            <TextView
-                android:id="@+id/refund_agent_reason"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/clannews"
-                android:gravity="center|left"
-                android:lineSpacingExtra="5dp"
-                android:maxLines="7"
-                android:textColor="@color/light_text_color"
-                android:textSize="16dp" />
-
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/clannews"
-                android:gravity="center|left"
-                android:maxLines="1"
-                android:text="Agent Evidence"
-                android:textColor="@color/colorPrimary"
-                android:textSize="17dp" />
-
-            <ImageView
-                android:id="@+id/agent_evidence"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_margin="20dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/refund_approve_refund"
-                    android:layout_width="0dp"
+                    android:id="@+id/acc_approve_payment"
+                    android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="40dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="10dp"
-                    android:text="Approve Refund"
+                    android:text="Approve Payment"
                     android:textAllCaps="false"
                     app:backgroundTint="@color/green" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/refund_release_fund"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Release Fund"
-                    android:textAllCaps="false"
-                    app:backgroundTint="@color/pink" />
-
-            </LinearLayout>
 
 
         </LinearLayout>

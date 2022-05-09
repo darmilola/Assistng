@@ -1,66 +1,81 @@
 package ng.assist.UIs;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import ng.assist.AccomodationPaymentDetails;
+import ng.assist.AccomodationRefundsDetails;
+import ng.assist.Adapters.RealEstateDashboardListingAdapter;
 import ng.assist.R;
+import ng.assist.UIs.ViewModel.AccomodationListModel;
+import ng.assist.UIs.ViewModel.AgentModel;
+import ng.assist.UIs.ViewModel.EstateDashboardModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AccomodationPayment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class AccomodationPayment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AccomodationPayment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AccomodationPayment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AccomodationPayment newInstance(String param1, String param2) {
-        AccomodationPayment fragment = new AccomodationPayment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    View view;
+    ProgressBar progressBar;
+    RecyclerView recyclerView;
+    TextView noRefund;
+    EstateDashboardModel estateDashboardModel;
+    RealEstateDashboardListingAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_accomodation_payment, container, false);
+        view =  inflater.inflate(R.layout.fragment_accomodation_payment, container, false);
+        initView();
+        return view;
+    }
+
+    private void initView(){
+        progressBar = view.findViewById(R.id.refund_progress);
+        recyclerView = view.findViewById(R.id.refund_recycler);
+        noRefund = view.findViewById(R.id.no_refund_available);
+
+        estateDashboardModel = new EstateDashboardModel();
+        estateDashboardModel.getAccomodationsPayment();
+        estateDashboardModel.setEstateDashboardListener(new EstateDashboardModel.EstateDashboardListener() {
+            @Override
+            public void onInfoReady(ArrayList<AccomodationListModel> accomodationListModelArrayList, AgentModel agentModel) {
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                noRefund.setVisibility(View.GONE);
+                adapter = new RealEstateDashboardListingAdapter(accomodationListModelArrayList,getContext());
+                recyclerView.setAdapter(adapter);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+                recyclerView.setLayoutManager(layoutManager);
+
+                adapter.setItemClickListener(new RealEstateDashboardListingAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        AccomodationListModel accomodationListModel = accomodationListModelArrayList.get(position);
+                        Intent intent = new Intent(getContext(), AccomodationPaymentDetails.class);
+                        intent.putExtra("accModel", accomodationListModel);
+                        startActivity(intent);
+                    }
+                });
+            }
+            @Override
+            public void onError(String message) {
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                noRefund.setVisibility(View.VISIBLE);
+            }
+        });
     }
 }

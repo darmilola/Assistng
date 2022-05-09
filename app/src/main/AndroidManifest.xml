@@ -19,6 +19,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".BusinessProviderVerification"
+            android:exported="false" />
+        <activity
+            android:name=".AccomodationPaymentDetails"
+            android:exported="false" />
+        <activity
             android:name=".AccomodationRefundsDetails"
             android:exported="false" />
         <activity

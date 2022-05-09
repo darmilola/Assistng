@@ -28,11 +28,13 @@ public class VerificationModel {
     private LoadingDialogUtils loadingDialogUtils;
     private String baseUrl = new URL().getBaseUrl();
     private String verificationUrl = baseUrl+"verification";
+    private String businessVerificationUrl = baseUrl+"verification/business";
     private String uploadImageUrl = baseUrl+"users/upload/image";
     private Context context;
     private CreateVerifyListener createVerifyListener;
     private ImageUploadListener imageUploadListener;
     private String encodedImage;
+    String businessName,businessAddress,businessRegNumber,validId,cacCert,memoCac;
 
     public void setCreateVerifyListener(CreateVerifyListener createVerifyListener) {
         this.createVerifyListener = createVerifyListener;
@@ -64,6 +66,25 @@ public class VerificationModel {
                       this.occupation = occupation;
                       loadingDialogUtils = new LoadingDialogUtils(context);
     }
+
+
+    public VerificationModel(Context context, String firstname, String lastname, String address, String phonenumber, String userId, String businessName, String businessAddress, String businessRegNumber,String validId,String cacCert, String memoCac){
+        this.context = context;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address = address;
+        this.phonenumber = phonenumber;
+        this.userId = userId;
+        this.businessName = businessName;
+        this.businessAddress = businessAddress;
+        this.businessRegNumber = businessRegNumber;
+        this.validId = validId;
+        this.cacCert = cacCert;
+        this.memoCac = memoCac;
+        loadingDialogUtils = new LoadingDialogUtils(context);
+    }
+
+
 
    public VerificationModel(Context context, String encodedImage){
                      this.encodedImage = encodedImage;
@@ -104,12 +125,47 @@ public class VerificationModel {
         myThread.start();
     }
 
+
+
+    public void CreateBuisnessVerification() {
+        loadingDialogUtils.showLoadingDialog("Creating Verification...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildBusinessVerify(firstname,lastname,address,phonenumber,userId,businessName,businessAddress,businessRegNumber,validId,cacCert,memoCac));
+            Request request = new Request.Builder()
+                    .url(businessVerificationUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = createVerifyHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            createVerifyHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
     private Handler createVerifyHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NotNull Message msg) {
             if(loadingDialogUtils != null)loadingDialogUtils.cancelLoadingDialog();
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
+            Log.e("handleMessage: ",response);
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
@@ -142,6 +198,30 @@ public class VerificationModel {
             jsonObject.put("userId",userId);
             jsonObject.put("status","pending");
             jsonObject.put("occupation",occupation);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+
+
+    private String buildBusinessVerify(String firstname, String lastname, String address, String phonenumber, String userId, String businessName, String businessAddress, String businessRegNumber,String validId,String cacCert, String memoCac){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("firstname",firstname);
+            jsonObject.put("lastname",lastname);
+            jsonObject.put("address",address);
+            jsonObject.put("phone",phonenumber);
+            jsonObject.put("valid_id",validId);
+            jsonObject.put("business_name",businessName);
+            jsonObject.put("business_address",businessAddress);
+            jsonObject.put("userId",userId);
+            jsonObject.put("status","pending");
+            jsonObject.put("reg_number",businessRegNumber);
+            jsonObject.put("valid_id",validId);
+            jsonObject.put("cac_cert",cacCert);
+            jsonObject.put("memo_cac",memoCac);
         } catch (JSONException e) {
             e.printStackTrace();
         }

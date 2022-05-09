@@ -53,7 +53,7 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<Accomodati
         String formattedPrice2 = unFormattedPrice2.replaceAll("\\.00","");
 
         if(accomodationListModel.getType().equalsIgnoreCase("lodges")){
-            viewHolder.pricePerMonth.setText(formattedPrice2+"/month");
+            viewHolder.pricePerMonth.setText(formattedPrice2+"/year");
         }
         else{
             viewHolder.pricePerMonth.setText(formattedPrice2+"/day");

@@ -303,7 +303,7 @@ public class ServiceProviderVerifications extends AppCompatActivity {
 
     private void showSuccessDialog() {
         builder = new AlertDialog.Builder(this);
-        builder.setMessage("Your submission has been received, the review process may take up to 24 hours")
+        builder.setMessage("Your submission has been received, the review process may take up to 48 hours")
                 .setCancelable(false)
                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

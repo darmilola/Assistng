@@ -66,6 +66,8 @@ public class AccomodationBooking extends AppCompatActivity {
     String userId;
     LinearLayout errorRoot;
     MaterialButton errorRetry;
+    String accPay = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,7 @@ public class AccomodationBooking extends AppCompatActivity {
         imagesRecyclerview.setLayoutManager(imagesManager);
         pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
         imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
-
+        accPay = Integer.toString(Integer.parseInt(accomodationListModel.getBookingFee())+Integer.parseInt(accomodationListModel.getPricesPerMonth()));
 
         agentId = accomodationListModel.getAgentId();
         houseId = accomodationListModel.getHouseId();
@@ -194,7 +196,6 @@ public class AccomodationBooking extends AppCompatActivity {
         accomodationListModel1.setAccomodationDetailsListener(new AccomodationListModel.AccomodationDetailsListener() {
             @Override
             public void onDetailsReady(ArrayList<ProductImageModel> mImageList, AgentModel agentModel) {
-
                 loadingBar.setVisibility(View.GONE);
                 rootLayout.setVisibility(View.VISIBLE);
                 errorRoot.setVisibility(View.GONE);
@@ -207,13 +208,12 @@ public class AccomodationBooking extends AppCompatActivity {
                 imageScrollLayout.setVisibility(View.VISIBLE);
 
                 if (accomodationListModel.getType().equalsIgnoreCase("lodges")) {
-                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per month");
+                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " Per year");
                     bookNowLayout.setVisibility(View.VISIBLE);
                 } else {
-                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per day");
+                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " Per day");
                     bookNowLayout.setVisibility(View.GONE);
                 }
-
 
                 Glide.with(AccomodationBooking.this)
                         .load(agentModel.getAgentPicUrl())
@@ -253,16 +253,15 @@ public class AccomodationBooking extends AppCompatActivity {
 
     private void showBookingDialog() {
         builder = new AlertDialog.Builder(this);
-        builder.setMessage("You are about to pay booking fee for this listing")
+        builder.setMessage(getResources().getString(R.string.booking_payment))
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        if (isAuthorized(accomodationListModel.getBookingFee())) {
-
+                        if (isAuthorized(accPay)) {
                             String fullName = agentModel.getAgentFirstname() + " - " + agentModel.getAgentLastName();
                             String billId = generateBillId();
-                            CreatBill creatBill = new CreatBill(userId,accomodationListModel.getBookingFee(), accomodationListModel.getAgentId(), accomodationListModel.getHouseId(), AccomodationBooking.this);
+                            CreatBill creatBill = new CreatBill(userId,accPay, accomodationListModel.getAgentId(), accomodationListModel.getHouseId(), AccomodationBooking.this);
                             creatBill.BookHouse();
                             creatBill.setCreateBillListener(new CreatBill.CreateBillListener() {
                                 @Override

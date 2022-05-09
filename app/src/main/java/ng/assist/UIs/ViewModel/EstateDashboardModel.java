@@ -16,7 +16,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import io.github.lizhangqu.coreprogress.ProgressHelper;
@@ -61,6 +65,7 @@ public class EstateDashboardModel {
     private String userBookings = baseUrl+"house_listings/bookings";
     private String requestRefund = baseUrl+"house_listings/refund/request";
     private String showRefunds = baseUrl+"house_listings/admin/refund";
+    private String showPayments = baseUrl+"house_listings/bookings/notrefund";
     private Context context;
     private String userId;
     private int bookingId;
@@ -311,6 +316,93 @@ public class EstateDashboardModel {
 
 
 
+
+    private Handler accomodationPaymentHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            Log.e("handleMessage: ",response);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                    JSONArray data = jsonObject.getJSONArray("data");
+
+                    if(data.length() >= 1) {
+                        for (int i = 0; i < data.length(); i++) {
+                            int bookingId = data.getJSONObject(i).getInt("bookingId");
+                            String userReason = data.getJSONObject(i).getString("userReason");
+                            String agentReason = data.getJSONObject(i).getString("agentReason");
+                            String userEvidence = data.getJSONObject(i).getString("userEvidence");
+                            String agentEvidence = data.getJSONObject(i).getString("agentEvidence");
+                            String isRefund = data.getJSONObject(i).getString("isRefund");
+                            String bookingDate = data.getJSONObject(i).getString("bookDate");
+                            String houseId = data.getJSONObject(i).getString("houseId");
+                            String houseTitle = data.getJSONObject(i).getString("houseTitle");
+                            String pricePerMonth = data.getJSONObject(i).getString("pricePerMonth");
+                            String totalRaters = data.getJSONObject(i).getString("totalRaters");
+                            String totalRatings = data.getJSONObject(i).getString("totalRatings");
+                            String bed = data.getJSONObject(i).getString("bed");
+                            String bath = data.getJSONObject(i).getString("bath");
+                            String displayImage = data.getJSONObject(i).getString("displayImg");
+                            String description = data.getJSONObject(i).getString("description");
+                            String agentId = data.getJSONObject(i).getString("agentId");
+                            String userId = data.getJSONObject(i).getString("userId");
+                            String address = data.getJSONObject(i).getString("address");
+                            String bookingFee = data.getJSONObject(i).getString("bookingFee");
+                            String isAvailable = data.getJSONObject(i).getString("isAvailable");
+                            String type = data.getJSONObject(i).getString("type");
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId, userId);
+                        //    if(isValidPayment(bookingDate)){
+                                accomodationListModelArrayList.add(accomodationListModel);
+                          //  }
+
+                        }
+                    }
+                    estateDashboardListener.onInfoReady(accomodationListModelArrayList,new AgentModel("",""));
+                }
+                else if(status.equalsIgnoreCase("failure")){
+                    estateDashboardListener.onError("No Accommodation to Show");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                estateDashboardListener.onError(e.getLocalizedMessage());
+            }
+
+        }
+    };
+
+
+    public boolean isValidPayment(String date){
+        boolean isValid;
+        String bookDate = date;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(sdf.parse(bookDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.DATE, 1);  // number of days to add
+        String graceDate = sdf.format(c.getTime());
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date newDate = new Date();
+        String currentDate = formatter.format(newDate);
+
+        if(currentDate.compareTo(graceDate) > 0){
+           isValid = true;
+           return isValid;
+        }
+        else{
+            isValid = false;
+            return isValid;
+        }
+
+    }
+
+
     public void getAccomodations() {
         Runnable runnable = () -> {
             String mResponse = "";
@@ -465,6 +557,38 @@ public class EstateDashboardModel {
             bundle.putString("response", mResponse);
             msg.setData(bundle);
             accomodationBookingHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+    public void getAccomodationsPayment() {
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,"");
+            Request request = new Request.Builder()
+                    .url(showPayments)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = accomodationPaymentHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            accomodationPaymentHandler.sendMessage(msg);
         };
         Thread myThread = new Thread(runnable);
         myThread.start();

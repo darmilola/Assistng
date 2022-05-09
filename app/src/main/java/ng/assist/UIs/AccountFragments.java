@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ng.assist.AccomodationAdmin;
 import ng.assist.AccomodationBooking;
+import ng.assist.BusinessProviderVerification;
 import ng.assist.ChatActivity;
 import ng.assist.EcommerceDashboard;
 import ng.assist.EstateListingDashboard;
@@ -55,6 +56,7 @@ public class AccountFragments extends Fragment {
     LinearLayout dashboardLayout,switchAccount,userVerification,accomodationAdmin,accomodationBooking;
     LinearLayout aboutUs,rateUs,logOut,provideAService;
     ArrayList<String> accountList = new ArrayList<>();
+    ArrayList<String> accountTypeList = new ArrayList<>();
     CircleImageView circleImageView;
     TextView usernameField;
     String accountType;
@@ -147,7 +149,20 @@ public class AccountFragments extends Fragment {
         userVerification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),ServiceProviderVerifications.class));
+                ListDialog listDialog = new ListDialog(accountTypeList, getContext());
+                listDialog.showListDialog();
+                listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
+                    @Override
+                    public void onItemClicked(String item) {
+                        if(item.equalsIgnoreCase("Personal Account")){
+                            startActivity(new Intent(getContext(),ServiceProviderVerifications.class));
+                        }
+                        else{
+                            startActivity(new Intent(getContext(), BusinessProviderVerification.class));
+                        }
+                    }
+                });
+
             }
         });
 
@@ -225,6 +240,9 @@ public class AccountFragments extends Fragment {
         accountList = new ArrayList<>();
         accountList.add("House Agent");
         accountList.add("Eccommerce");
+
+        accountTypeList.add("Personal Account");
+        accountTypeList.add("Business Account");
 
         if(accountType.equalsIgnoreCase("Service Provider")){
 

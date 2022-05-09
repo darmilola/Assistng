@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -30,7 +28,8 @@ import ng.assist.UIs.ViewModel.AgentModel;
 import ng.assist.UIs.ViewModel.EstateDashboardModel;
 import ng.assist.UIs.ViewModel.ProductImageModel;
 
-public class AccomodationRefundsDetails extends AppCompatActivity {
+public class AccomodationPaymentDetails extends AppCompatActivity {
+
     RecyclerView imagesRecyclerview;
     ProductImageScrollAdapter adapter;
     ArrayList<String> imagesList = new ArrayList<>();
@@ -41,23 +40,17 @@ public class AccomodationRefundsDetails extends AppCompatActivity {
     NestedScrollView rootLayout;
     AccomodationListModel accomodationListModel;
     String houseId, agentId;
-    MaterialButton approve,reject;
+    MaterialButton approve;
     LinearLayout imageScrollLayout;
-    TextView agentReason,useReason;
-    ImageView userEvidence,agentEvidence;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accomodation_refunds_details);
+        setContentView(R.layout.activity_accomodation_payment_details);
         initView();
     }
 
+
     private void initView(){
-        agentEvidence = findViewById(R.id.agent_evidence);
-        userEvidence = findViewById(R.id.user_evidence);
-        agentReason = findViewById(R.id.refund_agent_reason);
-        useReason = findViewById(R.id.refund_user_reason);
         imageScrollLayout = findViewById(R.id.scroll_image_layout);
         loadingBar = findViewById(R.id.estate_dashboard_details_progress);
         rootLayout = findViewById(R.id.estate_dashboard_details_nested_scroll);
@@ -68,8 +61,8 @@ public class AccomodationRefundsDetails extends AppCompatActivity {
         description = findViewById(R.id.estate_dashboard_details_description);
         imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
         imagesIndicator = findViewById(R.id.product_image_indicator);
-        approve = findViewById(R.id.refund_approve_refund);
-        reject = findViewById(R.id.refund_release_fund);
+        approve = findViewById(R.id.acc_approve_payment);
+
 
         agentId = accomodationListModel.getAgentId();
         houseId = accomodationListModel.getHouseId();
@@ -79,29 +72,6 @@ public class AccomodationRefundsDetails extends AppCompatActivity {
         adddress.setText(accomodationListModel.getAddress());
         description.setText(accomodationListModel.getHouseDesc());
 
-        agentReason.setText(accomodationListModel.getAgentReason());
-        useReason.setText(accomodationListModel.getUserReason());
-
-        if(accomodationListModel.getAgentEvidence().equalsIgnoreCase("")){
-            agentEvidence.setVisibility(View.GONE);
-        }
-        else{
-            Glide.with(this)
-                    .load(accomodationListModel.getAgentEvidence())
-                    .placeholder(R.drawable.background_image)
-                    .error(R.drawable.background_image)
-                    .into(agentEvidence);
-        }
-        if(accomodationListModel.getUserEvidence().equalsIgnoreCase("")){
-            userEvidence.setVisibility(View.GONE);
-        }
-        else{
-            Glide.with(this)
-                    .load(accomodationListModel.getUserEvidence())
-                    .placeholder(R.drawable.background_image)
-                    .error(R.drawable.background_image)
-                    .into(userEvidence);
-        }
 
         Locale NigerianLocale = new Locale("en","ng");
         String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(accomodationListModel.getBookingFee()));
@@ -111,7 +81,7 @@ public class AccomodationRefundsDetails extends AppCompatActivity {
         String formattedPrice2 = unFormattedPrice2.replaceAll("\\.00","");
 
         if(accomodationListModel.getType().equalsIgnoreCase("lodges")){
-            pricePerMonth.setText(formattedPrice2+"/month");
+            pricePerMonth.setText(formattedPrice2+"/year");
         }
         else{
             pricePerMonth.setText(formattedPrice2+"/day");
@@ -119,7 +89,7 @@ public class AccomodationRefundsDetails extends AppCompatActivity {
 
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
-        LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationRefundsDetails.this, LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationPaymentDetails.this, LinearLayoutManager.HORIZONTAL,false);
         imagesRecyclerview.setLayoutManager(imagesManager);
 
         EstateDashboardModel estateDashboardModel = new EstateDashboardModel(houseId,agentId);
@@ -130,7 +100,7 @@ public class AccomodationRefundsDetails extends AppCompatActivity {
                 rootLayout.setVisibility(View.VISIBLE);
                 loadingBar.setVisibility(View.GONE);
                 imageScrollLayout.setVisibility(View.VISIBLE);
-                adapter = new ProductImageScrollAdapter(imageList,AccomodationRefundsDetails.this);
+                adapter = new ProductImageScrollAdapter(imageList,AccomodationPaymentDetails.this);
                 imagesRecyclerview.setAdapter(adapter);
                 pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
                 imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
@@ -141,59 +111,33 @@ public class AccomodationRefundsDetails extends AppCompatActivity {
                 rootLayout.setVisibility(View.GONE);
                 loadingBar.setVisibility(View.GONE);
                 imageScrollLayout.setVisibility(View.GONE);
-                Toast.makeText(AccomodationRefundsDetails.this, "Error Occurred", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccomodationPaymentDetails.this, "Error Occurred", Toast.LENGTH_SHORT).show();
             }
         });
 
         approve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 String userId = accomodationListModel.getUserId();
-                 String amount = accomodationListModel.getPricesPerMonth();
-                 String houseId = accomodationListModel.getHouseId();
-                 int bookingId = accomodationListModel.getBookingId();
-                 int weeklyDecrease = (Integer.parseInt(accomodationListModel.getPricesPerMonth())/52);
-                 int accPay = Integer.parseInt(amount) - weeklyDecrease;
-                 AccomodationListModel accomodationListModel = new AccomodationListModel(userId,Integer.toString(accPay),bookingId,houseId,AccomodationRefundsDetails.this);
-                 accomodationListModel.ApproveRefund();
-                 accomodationListModel.setUpdateListener(new AccomodationListModel.UpdateListener() {
-                     @Override
-                     public void onUpdateSuccess() {
-                         Toast.makeText(AccomodationRefundsDetails.this, "Refund was Successful", Toast.LENGTH_SHORT).show();
-                         finish();
-                     }
-
-                     @Override
-                     public void onError() {
-                         Toast.makeText(AccomodationRefundsDetails.this, "Error Occurred", Toast.LENGTH_SHORT).show();
-                     }
-                 });
-            }
-        });
-
-        reject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
                 String agentId = accomodationListModel.getAgentId();
                 String amount = accomodationListModel.getPricesPerMonth();
                 int bookingId = accomodationListModel.getBookingId();
-                String accPay = Integer.toString(Integer.parseInt(accomodationListModel.getBookingFee())+Integer.parseInt(accomodationListModel.getPricesPerMonth()));
-                AccomodationListModel accomodationListModel = new AccomodationListModel(agentId,accPay,bookingId,AccomodationRefundsDetails.this);
+                AccomodationListModel accomodationListModel = new AccomodationListModel(agentId,amount,bookingId,AccomodationPaymentDetails.this);
                 accomodationListModel.ReleaseFund();
                 accomodationListModel.setUpdateListener(new AccomodationListModel.UpdateListener() {
                     @Override
                     public void onUpdateSuccess() {
-                        Toast.makeText(AccomodationRefundsDetails.this, "Refund was Rejected Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AccomodationPaymentDetails.this, "Accommodation was paid Successfully", Toast.LENGTH_SHORT).show();
                         finish();
                     }
 
                     @Override
                     public void onError() {
-                        Toast.makeText(AccomodationRefundsDetails.this, "Error Occurred", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AccomodationPaymentDetails.this, "Error Occurred", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
+
     }
 }

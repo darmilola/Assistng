@@ -417,7 +417,7 @@ public class AccomodationListModel implements Parcelable {
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             RequestBody requestBody = RequestBody.create(JSON,buildAccomodationReleaseFund(agentId,pricesPerMonth,bookingId));
             Request request = new Request.Builder()
-                    .url(refundUser)
+                    .url(releaseFund)
                     .post(requestBody)
                     .build();
             try (Response response = client.newCall(request).execute()) {
@@ -492,8 +492,6 @@ public class AccomodationListModel implements Parcelable {
             }
         }
     };
-
-
 
 
     public void getAccomodations() {
