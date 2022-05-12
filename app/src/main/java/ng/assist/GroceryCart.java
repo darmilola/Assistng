@@ -178,7 +178,7 @@ public class GroceryCart extends AppCompatActivity {
                                 addPending();
                                 Date date = new Date();
                                 Timestamp timestamp = new Timestamp(date.getTime());
-                                insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,orderId);
+                                insertBooking(0,2,"Shopping",timestamp.toString(),mTotalPriceValue,orderId);
 
                             }
 
@@ -229,7 +229,7 @@ public class GroceryCart extends AppCompatActivity {
                                 addPending();
                                 Date date = new Date();
                                 Timestamp timestamp = new Timestamp(date.getTime());
-                                insertBooking(0,2,"Marketplace",timestamp.toString(),mTotalPriceValue,orderId);
+                                insertBooking(0,2,"Shopping",timestamp.toString(),mTotalPriceValue,orderId);
 
                             }
 

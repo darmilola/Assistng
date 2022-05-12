@@ -22,7 +22,9 @@ import com.shuhart.stepview.StepView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import ng.assist.Adapters.DashboardOrdersAdapter;
 import ng.assist.Adapters.PlacedOrderAdapter;
@@ -45,7 +47,7 @@ public class ViewOrder extends AppCompatActivity {
     NestedScrollView rootLayout;
     ArrayList<String> homeStep = new ArrayList<>();
     ArrayList<String> storeStep = new ArrayList<>();
-    TextView storeOrHomeDelivery,storeOrHomeAddress,pickupPersonOrDeliveryTimeTitle,pickupPersonOrDeliveryTimeValue,trackingId,totalPrice;
+    TextView shopOrDeliveryAddressTitle, storeOrHomeDelivery,storeOrHomeAddress,pickupPersonOrDeliveryTimeTitle,pickupPersonOrDeliveryTimeValue,trackingId,totalPrice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class ViewOrder extends AppCompatActivity {
         rootLayout = findViewById(R.id.view_order_root_layout);
         loader = findViewById(R.id.view_order_loader);
         gigTrackingLayout = findViewById(R.id.gig_tracking_layout);
+        shopOrDeliveryAddressTitle = findViewById(R.id.shop_or_delivery_address_title);
         storeOrHomeAddress = findViewById(R.id.store_or_home_address);
         storeOrHomeDelivery = findViewById(R.id.store_pickup_or_home_delivery);
         pickupPersonOrDeliveryTimeTitle = findViewById(R.id.pickup_person_or_delivery_time_title);
@@ -93,7 +96,10 @@ public class ViewOrder extends AppCompatActivity {
                 else{
                     stepView.setSteps(storeStep);
                 }
-                totalPrice.setText(orders.getTotalPrice());
+                Locale NigerianLocale = new Locale("en","ng");
+                String unFormattedQtyPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(orders.getTotalPrice()));
+                String formattedQtyPrice = unFormattedQtyPrice.replaceAll("\\.00","");
+                totalPrice.setText(formattedQtyPrice);
                 orderList = parseOrderJson(orders.getOrderJson());
 
                 viewOrderAdapter = new ViewOrderAdapter(orderList,ViewOrder.this);
@@ -136,6 +142,7 @@ public class ViewOrder extends AppCompatActivity {
 
         gigTrackingLayout.setVisibility(View.VISIBLE);
         storeOrHomeDelivery.setText("Home Delivery");
+        shopOrDeliveryAddressTitle.setText("Home Address");
         storeOrHomeAddress.setText(orders.getUserAddress());
         pickupPersonOrDeliveryTimeTitle.setText("Delivery Time");
 
@@ -157,6 +164,9 @@ public class ViewOrder extends AppCompatActivity {
 
     public void displayStorePickup(Orders orders){
         storeOrHomeDelivery.setText("Store Pickup");
+        shopOrDeliveryAddressTitle.setText("Store Address");
+        pickupPersonOrDeliveryTimeTitle.setText("Pickup Person");
+        pickupPersonOrDeliveryTimeValue.setText(orders.getPickupName());
         gigTrackingLayout.setVisibility(View.GONE);
         if(orders.getStoreAddress().equalsIgnoreCase("null")){
             storeOrHomeAddress.setText("Processing...");

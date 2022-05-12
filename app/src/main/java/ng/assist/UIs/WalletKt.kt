@@ -3,15 +3,8 @@ package ng.assist.UIs
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
-
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
@@ -19,29 +12,26 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.CollapsingToolbarLayout
-
-import java.text.DecimalFormat
-
+import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import ng.assist.*
 import ng.assist.Adapters.WalletAdapter
-import ng.assist.Bills
-import ng.assist.R
-import ng.assist.RequestWithdrawal
-import ng.assist.SendMoney
-import ng.assist.TopUp
 import ng.assist.UIs.ViewModel.TransactionDatabase
 import ng.assist.UIs.ViewModel.Transactions
 import ng.assist.UIs.ViewModel.WalletTransactionsModel
-import kotlin.collections.ArrayList
+import java.text.DecimalFormat
 
 /**
  * A simple [Fragment] subclass.
  */
 class WalletKt : Fragment() {
+
 
     internal lateinit var walletRecyclerview: RecyclerView
     internal var walletHistoryList = ArrayList<WalletTransactionsModel>()
@@ -71,6 +61,9 @@ class WalletKt : Fragment() {
 
     private fun initView() {
 
+        val preferences = PreferenceManager.getDefaultSharedPreferences(
+            requireContext()
+        )
         pendingImage = view.findViewById(R.id.pending_badge)
         walletBalanceText = view.findViewById(R.id.wallet_balance_text)
         walletRecyclerview = view.findViewById(R.id.wallet_transcations_recyclerview)
@@ -90,7 +83,23 @@ class WalletKt : Fragment() {
         initTransactions();
         topUp.setOnClickListener { startActivityForResult(Intent(context, TopUp::class.java), TOP_UP_REQ) }
 
-        walletTransfer.setOnClickListener { startActivityForResult(Intent(context, SendMoney::class.java), SEND_MONEY_REQ) }
+        walletTransfer.setOnClickListener {
+
+            val isVerified = preferences.getString("isVerified", "false")
+
+            if (isVerified.equals("true", ignoreCase = true)) {
+                startActivityForResult(
+                    Intent(context, SendMoney::class.java),
+                    SEND_MONEY_REQ
+                )
+            } else {
+                Toast.makeText(
+                    context,
+                    "You Need to be verified to make withdrawals",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
 
         bills.setOnClickListener { startActivity(Intent(context, Bills::class.java)) }
         withdrawals.setOnClickListener { startActivity(Intent(context, RequestWithdrawal::class.java)) }

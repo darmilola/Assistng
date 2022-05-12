@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -29,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.WalletAdapter;
 import ng.assist.Bills;
+import ng.assist.MainActivity;
 import ng.assist.R;
 import ng.assist.RequestWithdrawal;
 import ng.assist.SendMoney;
@@ -97,7 +99,18 @@ public class Wallet extends Fragment {
         walletTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getContext(), SendMoney.class),SEND_MONEY_REQ);
+
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                String isVerified =  preferences.getString("isVerified","false");
+
+                if(isVerified.equalsIgnoreCase("true")){
+                    startActivityForResult(new Intent(getContext(), SendMoney.class),SEND_MONEY_REQ);
+                }
+                else{
+                    Toast.makeText(getContext(), "You Need to be verified to make withdrawals", Toast.LENGTH_LONG).show();
+                }
+
+
             }
         });
 

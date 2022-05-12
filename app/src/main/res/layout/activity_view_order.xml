@@ -103,15 +103,34 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp">
 
-        <TextView
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:text="500 S santa fe Dr Denver CO 80223 300023"
-            android:textSize="14dp"
-            android:id="@+id/store_or_home_address"
-            android:fontFamily="@font/airreg"
-            android:textColor="@color/dark_text_color"
-            android:lineSpacingExtra="5dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shop Address"
+                android:id="@+id/shop_or_delivery_address_title"
+                android:fontFamily="@font/airreg"
+                android:textSize="13dp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="500 S santa fe Dr Denver CO 80223 300023"
+                android:textSize="14dp"
+                android:id="@+id/store_or_home_address"
+                android:fontFamily="@font/airreg"
+                android:textColor="@color/dark_text_color"
+                android:lineSpacingExtra="5dp"/>
+
+
+        </LinearLayout>
+
+
 
          <LinearLayout
              android:layout_width="wrap_content"

@@ -178,7 +178,7 @@
             android:textColor="@color/colorPrimary"
             android:layout_marginLeft="3dp"
             android:textSize="15dp"
-            android:text="Account Name"/>
+            android:text="Account Name(Must Match your verified name or business name)"/>
     </LinearLayout>
 
     <EditText

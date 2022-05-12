@@ -38,6 +38,7 @@ import ng.assist.EcommerceDashboard;
 import ng.assist.EstateListingDashboard;
 import ng.assist.MainActivity;
 import ng.assist.R;
+import ng.assist.SendMoney;
 import ng.assist.ServiceProviderDashboard;
 import ng.assist.ServiceProviderVerifications;
 import ng.assist.UIs.Utils.ListDialog;
@@ -92,6 +93,13 @@ public class AccountFragments extends Fragment {
         provideAService = view.findViewById(R.id.account_provide_a_service);
         accomodationBooking = view.findViewById(R.id.account_accomodation_booking);
         dashboardLayout.setVisibility(View.GONE);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String isVerified =  preferences.getString("isVerified","false");
+
+        if(isVerified.equalsIgnoreCase("true")){
+           userVerification.setVisibility(View.GONE);
+        }
 
         if(!isVerified()){
             isVerifiedBadge.setVisibility(View.VISIBLE);

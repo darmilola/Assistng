@@ -266,16 +266,13 @@ public class AccomodationBooking extends AppCompatActivity {
                             creatBill.setCreateBillListener(new CreatBill.CreateBillListener() {
                                 @Override
                                 public void onSuccess() {
-
                                     Toast.makeText(AccomodationBooking.this, "Booking Successful", Toast.LENGTH_SHORT).show();
-
-                                 /* Date date = new Date();
+                                    Date date = new Date();
                                     Timestamp timestamp = new Timestamp(date.getTime());
-                                    insertBooking(0, 3, "Inspection", timestamp.toString(), accomodationListModel.getBookingFee(), "");
-                                    Toast.makeText(AccomodationBooking.this, "You have booked Inspection Successfully", Toast.LENGTH_SHORT).show();
-                                    addPending();
-                                    reduceWalletBalanceInSharedPref(AccomodationBooking.this,accomodationListModel.getBookingFee());
-                                    finish();*/
+                                    insertBooking(0, 3, "Paid", timestamp.toString(), accPay, "");
+                                    //addPending();
+                                    reduceWalletBalanceInSharedPref(AccomodationBooking.this,accPay);
+                                    //finish();*/
                                 }
 
                                 @Override

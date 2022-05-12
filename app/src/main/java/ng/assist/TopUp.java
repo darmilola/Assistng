@@ -112,6 +112,7 @@ public class TopUp extends AppCompatActivity {
                 .setPublicKey(publicKey)
                 .setEncryptionKey(encryptionKey)
                 .setTxRef(transferRef)
+                .withTheme(R.style.MyCustomTheme)
                 .acceptUssdPayments(true)
                 .acceptBarterPayments(true)
                 .allowSaveCardFeature(true)

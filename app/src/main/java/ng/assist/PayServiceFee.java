@@ -96,7 +96,7 @@ public class PayServiceFee extends AppCompatActivity {
                             createBookings(billId,userId,servicesModel.getHandymanId(),Integer.toString(cost));
                             Date date = new Date();
                             Timestamp timestamp = new Timestamp(date.getTime());
-                            insertBooking(0,4,"Service",timestamp.toString(),Integer.toString(cost),"");
+                            insertBooking(0,4,"Paid",timestamp.toString(),Integer.toString(cost),"");
                         }
 
                         @Override

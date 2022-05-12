@@ -142,7 +142,7 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
                                         reduceWalletBalanceInSharedPref(context,tFare);
                                         Date date = new Date();
                                         Timestamp timestamp = new Timestamp(date.getTime());
-                                        insertTransportBooking(0, 1, "Transport", timestamp.toString(), tFare, "");
+                                        insertTransportBooking(0, 1, "Paid", timestamp.toString(), tFare, "");
                                         showAlert();
 
                                     }

@@ -70,6 +70,7 @@ public class QuickCreditsAmount extends Fragment {
         loanHistory = view.findViewById(R.id.loan_history_button);
         authenticateWithMono = view.findViewById(R.id.loan_authenticate_button);
         selectAmount = view.findViewById(R.id.quick_credits_select_amount);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         selectAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,18 +101,16 @@ public class QuickCreditsAmount extends Fragment {
                     selectAmount.setError("Required");
                 }
 
-               else if(authenticateWithMono.getText().toString().equalsIgnoreCase("Next") && !selectAmount.getText().toString().trim().equalsIgnoreCase("")){
+               else if(authenticateWithMono.getText().toString().equalsIgnoreCase("Next")){
                    // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                    // preferences.edit().putString("loanAmount",selectAmount.getText().toString().trim()).apply();
                     authenticationListener.onAuthSuccessful(selectAmount.getText().toString().trim());
                 }
 
                 else{
-
                     MonoConfiguration config = new MonoConfiguration.Builder(getContext(),
                             "test_pk_EAY6dsTsaS0u3T1WQDz3", // your publicKey
                             (account) -> {
-                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                                 preferences.edit().putString("accountCode",account.getCode()).apply();
                                 authenticateWithMono.setText("Next");
                             }) // onSuccess function
@@ -119,7 +118,6 @@ public class QuickCreditsAmount extends Fragment {
                             .addOnEvent((event) -> {
                                 if(event.getEventName().equalsIgnoreCase("SUCCESS")){
                                     isAuthSuccess = true;
-
                                 }
                             }) // onEvent function
                             .addOnClose(() -> {
