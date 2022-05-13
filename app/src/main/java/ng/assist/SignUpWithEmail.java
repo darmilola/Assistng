@@ -10,14 +10,19 @@ import ng.assist.UIs.ViewModel.SignupModel;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -33,6 +38,7 @@ public class SignUpWithEmail extends AppCompatActivity {
     MaterialButton signupWithEmail;
     ImageView selectProfileImageButton;
     CircleImageView circleImageView;
+    TextView alreadyHaveAccount;
     LoadingDialogUtils loadingDialogUtils;
     TextInputEditText firstname,lastname,emailAddress,password;
     TextInputLayout firstnameLayout,lastnameLayout,emailLayout,passwordLayout;
@@ -50,7 +56,7 @@ public class SignUpWithEmail extends AppCompatActivity {
         selectProfileImageButton = findViewById(R.id.select_profile_image_button);
         circleImageView = findViewById(R.id.signup_profile_image);
         loadingDialogUtils = new LoadingDialogUtils(SignUpWithEmail.this);
-
+        alreadyHaveAccount = findViewById(R.id.sign_up_have_account);
         firstnameLayout = findViewById(R.id.sign_up_firstname_layout);
         lastnameLayout = findViewById(R.id.sign_up_lastname_layout);
         emailLayout = findViewById(R.id.sign_up_email_layout);
@@ -60,6 +66,17 @@ public class SignUpWithEmail extends AppCompatActivity {
         lastname = findViewById(R.id.sign_up_lastname);
         emailAddress = findViewById(R.id.sign_up_email);
         password = findViewById(R.id.sign_up_password);
+
+        Spannable alreadyHaveAccountSpan = new SpannableString("Already have account? Log In");
+        alreadyHaveAccountSpan.setSpan(new ForegroundColorSpan(Color.parseColor("#0A1C2B")), 22, 28, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        alreadyHaveAccount.setText(alreadyHaveAccountSpan);
+
+        alreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         selectProfileImageButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -253,8 +253,7 @@ public class GroceryStoreListing extends AppCompatActivity {
                 .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         deleteCart();
-                        GroceryStoreListing.super.onBackPressed();
-                        dialog.dismiss();
+                        finish();
                     }
                 })
 

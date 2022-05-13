@@ -84,14 +84,20 @@ class WalletKt : Fragment() {
         topUp.setOnClickListener { startActivityForResult(Intent(context, TopUp::class.java), TOP_UP_REQ) }
 
         walletTransfer.setOnClickListener {
+            startActivityForResult(
+                    Intent(context, SendMoney::class.java),
+                    SEND_MONEY_REQ
+                )
+
+        }
+
+        bills.setOnClickListener { startActivity(Intent(context, Bills::class.java)) }
+        withdrawals.setOnClickListener {
 
             val isVerified = preferences.getString("isVerified", "false")
 
             if (isVerified.equals("true", ignoreCase = true)) {
-                startActivityForResult(
-                    Intent(context, SendMoney::class.java),
-                    SEND_MONEY_REQ
-                )
+                startActivity(Intent(context, RequestWithdrawal::class.java))
             } else {
                 Toast.makeText(
                     context,
@@ -99,10 +105,9 @@ class WalletKt : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
             }
-        }
 
-        bills.setOnClickListener { startActivity(Intent(context, Bills::class.java)) }
-        withdrawals.setOnClickListener { startActivity(Intent(context, RequestWithdrawal::class.java)) }
+
+        }
 
 
         if(isPendingAvailable()){

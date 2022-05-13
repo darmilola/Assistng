@@ -9,16 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_gravity="center"
         android:gravity="center"
         android:weightSum="5">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="300dp"
             android:layout_marginTop="70dp"
             android:layout_marginBottom="70dp"
             android:layout_marginLeft="20dp"
-            android:layout_gravity="center"
             android:layout_marginRight="20dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="10dp">
@@ -35,9 +35,11 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:fontFamily="@font/clanbold"
                     android:gravity="center"
-                    android:text="Reset Password"/>
+                    android:text="Forgot Password"/>
+
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/forgot_password_email_layout"
                     style="@style/NewRegisterTextField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -45,45 +47,17 @@
                     app:boxStrokeColor="@color/colorAccent"
                     app:errorEnabled="true"
                     android:layout_marginTop="20dp"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/colorPrimary"
                     app:errorTextAppearance="@style/ErrorText">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/reset_password_password"
+                        android:id="@+id/forgot_password_email"
                         android:layout_width="match_parent"
                         android:layout_height="65dp"
-                        android:hint="New Password"
+                        android:hint="Email Address"
                         android:maxLength="160"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
-                        android:textColorHint="@color/lighter_text_color"
-                        android:textSize="17dp"
-                        android:textColor="@color/colorPrimary" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/NewRegisterTextField"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    app:boxStrokeColor="@color/colorAccent"
-                    app:errorEnabled="true"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/colorPrimary"
-                    app:errorTextAppearance="@style/ErrorText">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/reset_password_password_retype"
-                        android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:hint="Retype new Password"
-                        android:maxLength="160"
-                        android:inputType="textPassword"
+                        android:inputType="text"
                         android:maxLines="1"
                         android:textSize="17dp"
-                        android:textColorHint="@color/lighter_text_color"
                         android:textColor="@color/colorPrimary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,11 +65,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
-                    android:text="Reset Password"
+                    android:text="Get reset link"
                     android:backgroundTint="@color/colorPrimary"
-                    android:id="@+id/reset_password_reset_button"
+                    android:id="@+id/forgot_password_reset_link"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
                     android:textSize="15dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
