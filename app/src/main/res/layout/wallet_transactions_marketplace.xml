@@ -78,6 +78,8 @@
                     android:text="View Order"
                     android:textSize="12dp"
                     android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@drawable/transparent_radius"
                     android:id="@+id/wallet_view_order"/>
 
             </LinearLayout>

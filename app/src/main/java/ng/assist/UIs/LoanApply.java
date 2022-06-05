@@ -40,12 +40,13 @@ import ng.assist.UIs.ViewModel.LoanModel;
  */
 public class LoanApply extends Fragment implements QuickCreditApplication.AmountReadyListener {
 
-    TextView amount,paybackPeriod,monthlyDue,totalRepayment,serviceFee;
-    RelativeLayout paybackDropdown;
+    TextView amount,paybackPeriod,monthlyDue,totalRepayment,serviceFeeText;
+    RelativeLayout paybackDropdown,amountDropDown;
     MaterialButton apply;
     View view;
     LoanApplySuccessListener loanApplySuccessListener;
     private ArrayList<String> repaymentList = new ArrayList<>();
+    private ArrayList<String> amountList = new ArrayList<>();
     LoanModel loanModel;
     String accountCode,userId;
     CheckBox termsAndConditions;
@@ -53,10 +54,12 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
     ListDialog listDialog;
 
     @Override
-    public void onAmountReady(String Amount) {
+    public void onAmountReady(String Amount, String accountCode) {
          loanAmount = Amount;
          amount.setText(loanAmount);
+         this.accountCode = accountCode;
          populateRepaymentList();
+         populateAmountList();
     }
 
 
@@ -91,16 +94,15 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
         activityCompat.setAmountReadyListener(this);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         termsAndConditions = view.findViewById(R.id.loan_apply_terms_and_condition);
-        amount = view.findViewById(R.id.quick_credit_loan_amount);
+        amount = view.findViewById(R.id.quick_credit_amount);
         paybackPeriod = view.findViewById(R.id.quick_credit_loan_payback_period);
         monthlyDue = view.findViewById(R.id.quick_credit_monthly_due);
         totalRepayment = view.findViewById(R.id.quick_credit_total_repayment);
         paybackDropdown = view.findViewById(R.id.loan_apply_payback_dropdown);
         apply = view.findViewById(R.id.quick_credit_apply_button);
-        serviceFee = view.findViewById(R.id.quick_credit_service_fee);
-        accountCode = preferences.getString("accountCode","");
         userId = preferences.getString("userEmail","");
-
+        serviceFeeText = view.findViewById(R.id.loan_service_fee_text);
+        amountDropDown = view.findViewById(R.id.loan_amount_dropdown);
 
         paybackDropdown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,14 +117,28 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
                          monthlyDue.setText(mMonthlyDue);
                          String mTotalRepayment = calcTotalRepayment(month,mMonthlyDue);
                          totalRepayment.setText(mTotalRepayment);
-                         serviceFee.setText(calcServiceFee(Integer.parseInt(getPaybackMonth(paybackPeriod.getText().toString()))));
+                         serviceFeeText.setText("The Service fee of "+calcServiceFee(Integer.parseInt(getPaybackMonth(paybackPeriod.getText().toString())))+" will be deducted before crediting your wallet");
 
                     }
                 });
             }
         });
 
-        serviceFee.setText(calcServiceFee(Integer.parseInt(getPaybackMonth(paybackPeriod.getText().toString()))));
+
+        amountDropDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listDialog = new ListDialog(amountList,getContext());
+                listDialog.showListDialog();
+                listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
+                    @Override
+                    public void onItemClicked(String mAmount) {
+                        amount.setText(mAmount);
+                        paybackPeriod.setText("Select Month");
+                    }
+                });
+            }
+        });
 
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -288,6 +304,14 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
             repaymentList.add("5 Months");
         }
 
+    }
+
+    private void populateAmountList(){
+        amountList.add("10000");
+        amountList.add("20000");
+        amountList.add("30000");
+        amountList.add("40000");
+        amountList.add("50000");
     }
 
 

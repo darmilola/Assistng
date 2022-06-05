@@ -59,6 +59,8 @@
         android:text="Next"
         android:paddingLeft="10dp"
         android:textSize="17dp"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/transparent_radius"
         android:id="@+id/send_money_recipient_next"
         android:fontFamily="@font/clannews"
         android:textAllCaps="false"

@@ -39,7 +39,16 @@ public class RefundHistoryAdapter extends RecyclerView.Adapter<RefundHistoryAdap
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
 
         RefundModel refundModel = refundList.get(position);
-        holder.status.setText(refundModel.getStatus());
+        String status = refundModel.getStatus();
+        if(status.equalsIgnoreCase("pending")){
+            holder.status.setText("Pending");
+        }
+        if(status.equalsIgnoreCase("rejected")){
+            holder.status.setText("Rejected");
+        }
+        if(status.equalsIgnoreCase("approved")){
+            holder.status.setText("Approved");
+        }
         holder.amount.setText("NGN "+refundModel.getAmount());
 
     }

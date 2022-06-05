@@ -1,6 +1,9 @@
 package ng.assist.UIs;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -60,7 +63,7 @@ public class AccountFragments extends Fragment {
     ArrayList<String> accountTypeList = new ArrayList<>();
     CircleImageView circleImageView;
     TextView usernameField;
-    String accountType;
+    String accountType,verificationType,accountRole;
     SharedPreferences preferences;
     ImageView isVerifiedBadge;
 
@@ -94,26 +97,15 @@ public class AccountFragments extends Fragment {
         accomodationBooking = view.findViewById(R.id.account_accomodation_booking);
         dashboardLayout.setVisibility(View.GONE);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String isVerified =  preferences.getString("isVerified","false");
 
-        if(isVerified.equalsIgnoreCase("true")){
-           userVerification.setVisibility(View.GONE);
-        }
-
-        if(!isVerified()){
-            isVerifiedBadge.setVisibility(View.VISIBLE);
-        }
-        else{
-            isVerifiedBadge.setVisibility(View.GONE);
-        }
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String userImage =  preferences.getString("imageUrl","");
         String firstname =  preferences.getString("firstname","");
         String lastname =  preferences.getString("lastname","");
-        String role =  preferences.getString("role","");
         accountType =  preferences.getString("accountType","");
+        accountRole = preferences.getString("role","none");
+        verificationType = preferences.getString("verificationType","none");
 
         usernameField.setText(firstname+" "+lastname);
         Glide.with(this)
@@ -124,14 +116,6 @@ public class AccountFragments extends Fragment {
 
         initAccount();
 
-        if(role.equalsIgnoreCase("admin")){
-           dashboardLayout.setVisibility(View.VISIBLE);
-           switchAccount.setVisibility(View.VISIBLE);
-        }
-        else{
-            dashboardLayout.setVisibility(View.GONE);
-            switchAccount.setVisibility(View.GONE);
-        }
 
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,10 +147,10 @@ public class AccountFragments extends Fragment {
                     @Override
                     public void onItemClicked(String item) {
                         if(item.equalsIgnoreCase("Personal Account")){
-                            startActivity(new Intent(getContext(),ServiceProviderVerifications.class));
+                             showPersonalVerificationAlert();
                         }
                         else{
-                            startActivity(new Intent(getContext(), BusinessProviderVerification.class));
+                             showBusinessVerificationAlert();
                         }
                     }
                 });
@@ -192,7 +176,7 @@ public class AccountFragments extends Fragment {
         dashboardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(accountType.equalsIgnoreCase("Eccommerce"))startActivity(new Intent(getContext(),EcommerceDashboard.class));
+                if(accountType.equalsIgnoreCase("Merchant"))startActivity(new Intent(getContext(),EcommerceDashboard.class));
                 if(accountType.equalsIgnoreCase("House Agent"))startActivity(new Intent(getContext(), EstateListingDashboard.class));
 
             }
@@ -247,26 +231,29 @@ public class AccountFragments extends Fragment {
     private void initAccount(){
         accountList = new ArrayList<>();
         accountList.add("House Agent");
-        accountList.add("Eccommerce");
+        accountList.add("Merchant");
 
         accountTypeList.add("Personal Account");
         accountTypeList.add("Business Account");
 
-        if(accountType.equalsIgnoreCase("Service Provider")){
-
-        }
-        else if(accountType.equalsIgnoreCase("House Agent")){
-
-            dashboardLayout.setVisibility(View.VISIBLE);
-        }
-        else if(accountType.equalsIgnoreCase("Eccommerce")){
-
-            dashboardLayout.setVisibility(View.VISIBLE);
-
-
-        }
-        else if(accountType.equalsIgnoreCase("Normal User")){
+        if(!isVerified()){
             dashboardLayout.setVisibility(View.GONE);
+            switchAccount.setVisibility(View.GONE);
+            userVerification.setVisibility(View.VISIBLE);
+            provideAService.setVisibility(View.GONE);
+            accomodationBooking.setVisibility(View.GONE);
+            accomodationAdmin.setVisibility(View.GONE);
+            isVerifiedBadge.setVisibility(View.VISIBLE);
+        }
+
+        if(accountRole.equalsIgnoreCase("admin")){
+            authAdminUser();
+        }
+        if(verificationType.equalsIgnoreCase("personal")){
+            authPersonalUser();
+        }
+        if(verificationType.equalsIgnoreCase("business")){
+            authBusinessUser();
         }
 
     }
@@ -311,6 +298,71 @@ public class AccountFragments extends Fragment {
 
 
         }
+    }
+
+    private void authAdminUser(){
+        dashboardLayout.setVisibility(View.GONE);
+        switchAccount.setVisibility(View.GONE);
+        userVerification.setVisibility(View.GONE);
+        provideAService.setVisibility(View.GONE);
+        accomodationBooking.setVisibility(View.GONE);
+        accomodationAdmin.setVisibility(View.VISIBLE);
+    }
+
+    private void authBusinessUser(){
+        userVerification.setVisibility(View.GONE);
+        provideAService.setVisibility(View.GONE);
+        accomodationAdmin.setVisibility(View.GONE);
+        accomodationAdmin.setVisibility(View.GONE);
+        dashboardLayout.setVisibility(View.VISIBLE);
+        switchAccount.setVisibility(View.VISIBLE);
+    }
+
+    private void authPersonalUser(){
+        userVerification.setVisibility(View.GONE);
+        switchAccount.setVisibility(View.GONE);
+        dashboardLayout.setVisibility(View.GONE);
+        accomodationAdmin.setVisibility(View.GONE);
+        accomodationAdmin.setVisibility(View.GONE);
+        dashboardLayout.setVisibility(View.GONE);
+    }
+
+
+    private void showPersonalVerificationAlert(){
+        new AlertDialog.Builder(getContext())
+                .setTitle("Personal Verification")
+                .setMessage("Personal Verification gives you access to provide a service feature of the App")
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        startActivity(new Intent(getContext(),ServiceProviderVerifications.class));
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
+    }
+
+
+    private void showBusinessVerificationAlert(){
+        new AlertDialog.Builder(getContext())
+                .setTitle("Business Verification")
+                .setMessage("Business Verification gives you access to the Merchant feature and the Accommodation feature of the App")
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        startActivity(new Intent(getContext(),BusinessProviderVerification.class));
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
 
 

@@ -39,7 +39,7 @@ public class QuickCreditApplication extends AppCompatActivity implements QuickCr
     }
 
     public interface AmountReadyListener{
-        void onAmountReady(String Amount);
+        void onAmountReady(String Amount, String accountCode);
     }
 
     public void setAmountReadyListener(AmountReadyListener amountReadyListener) {
@@ -52,8 +52,8 @@ public class QuickCreditApplication extends AppCompatActivity implements QuickCr
     }
 
     @Override
-    public void onAuthSuccessful(String Amount) {
-         amountReadyListener.onAmountReady(Amount);
+    public void onAuthSuccessful(String Amount, String accountCode) {
+         amountReadyListener.onAmountReady(Amount,accountCode);
          viewPager.setCurrentItem(1,true);
     }
 

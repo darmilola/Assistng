@@ -83,7 +83,7 @@ public class EducationalServicesDetails extends AppCompatActivity {
         });
 
 
-        ServicesModel servicesModel = new ServicesModel("Auto Services","Lagos");
+        ServicesModel servicesModel = new ServicesModel("Educational Services","Lagos");
         servicesModel.getServiceProvider();
         servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
             @Override
@@ -122,7 +122,7 @@ public class EducationalServicesDetails extends AppCompatActivity {
                         serviceProviderRecyclerview.setVisibility(View.GONE);
                         loadingProgress.setVisibility(View.VISIBLE);
                         rootLayout.setVisibility(View.GONE);
-                        ServicesModel servicesModel = new ServicesModel("Home Services",city);
+                        ServicesModel servicesModel = new ServicesModel("Educational Services",city);
                         servicesModel.getServiceProvider();
                         servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                             @Override
@@ -157,7 +157,7 @@ public class EducationalServicesDetails extends AppCompatActivity {
                         return;
                     }
                     recyclerProgress.setVisibility(View.VISIBLE);
-                    ServicesModel servicesModel = new ServicesModel("Home Services",mCity);
+                    ServicesModel servicesModel = new ServicesModel("Educational Services",mCity);
                     servicesModel.getServiceProviderNextPage(EducationalServicesDetails.this.nextPageUrl);
                     servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                         @Override
@@ -207,8 +207,6 @@ public class EducationalServicesDetails extends AppCompatActivity {
     private void populateCategory(){
         categoryList.add("Home Lesson");
         categoryList.add("STEM Tutor");
-        categoryList.add("Results Checking Pin");
-        categoryList.add("Registration Pin");
         categoryList.add("Training Centre");
     }
 

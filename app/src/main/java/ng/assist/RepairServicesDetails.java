@@ -77,13 +77,13 @@ public class RepairServicesDetails extends AppCompatActivity {
                 Intent intent = new Intent(RepairServicesDetails.this,CategorySearch.class);
                 intent.putExtra("title",item);
                 intent.putExtra("city",mCity);
-                intent.putExtra("category","Educational Services");
+                intent.putExtra("category","Repair Services");
                 startActivity(intent);
             }
         });
 
 
-        ServicesModel servicesModel = new ServicesModel("Auto Services","Lagos");
+        ServicesModel servicesModel = new ServicesModel("Repair Services","Lagos");
         servicesModel.getServiceProvider();
         servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
             @Override
@@ -122,7 +122,7 @@ public class RepairServicesDetails extends AppCompatActivity {
                         serviceProviderRecyclerview.setVisibility(View.GONE);
                         loadingProgress.setVisibility(View.VISIBLE);
                         rootLayout.setVisibility(View.GONE);
-                        ServicesModel servicesModel = new ServicesModel("Home Services",city);
+                        ServicesModel servicesModel = new ServicesModel("Repair Services",city);
                         servicesModel.getServiceProvider();
                         servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                             @Override
@@ -157,7 +157,7 @@ public class RepairServicesDetails extends AppCompatActivity {
                         return;
                     }
                     recyclerProgress.setVisibility(View.VISIBLE);
-                    ServicesModel servicesModel = new ServicesModel("Home Services",mCity);
+                    ServicesModel servicesModel = new ServicesModel("Repair Services",mCity);
                     servicesModel.getServiceProviderNextPage(RepairServicesDetails.this.nextPageUrl);
                     servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                         @Override

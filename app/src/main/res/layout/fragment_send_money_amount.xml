@@ -70,6 +70,8 @@
         android:text="Send"
         android:paddingLeft="10dp"
         android:textSize="15dp"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/transparent_radius"
         android:id="@+id/send_money_send_button"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/clannews"

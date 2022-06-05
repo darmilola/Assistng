@@ -77,13 +77,13 @@ public class PersonalServicesDetails extends AppCompatActivity {
                 Intent intent = new Intent(PersonalServicesDetails.this,CategorySearch.class);
                 intent.putExtra("title",item);
                 intent.putExtra("city",mCity);
-                intent.putExtra("category","Educational Services");
+                intent.putExtra("category","Personal Services");
                 startActivity(intent);
             }
         });
 
 
-        ServicesModel servicesModel = new ServicesModel("Auto Services","Lagos");
+        ServicesModel servicesModel = new ServicesModel("Personal Services","Lagos");
         servicesModel.getServiceProvider();
         servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
             @Override
@@ -122,7 +122,7 @@ public class PersonalServicesDetails extends AppCompatActivity {
                         serviceProviderRecyclerview.setVisibility(View.GONE);
                         loadingProgress.setVisibility(View.VISIBLE);
                         rootLayout.setVisibility(View.GONE);
-                        ServicesModel servicesModel = new ServicesModel("Home Services",city);
+                        ServicesModel servicesModel = new ServicesModel("Personal Services",city);
                         servicesModel.getServiceProvider();
                         servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                             @Override
@@ -157,7 +157,7 @@ public class PersonalServicesDetails extends AppCompatActivity {
                         return;
                     }
                     recyclerProgress.setVisibility(View.VISIBLE);
-                    ServicesModel servicesModel = new ServicesModel("Home Services",mCity);
+                    ServicesModel servicesModel = new ServicesModel("Personal Services",mCity);
                     servicesModel.getServiceProviderNextPage(PersonalServicesDetails.this.nextPageUrl);
                     servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                         @Override

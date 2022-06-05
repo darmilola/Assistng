@@ -42,15 +42,25 @@ public class SplashScreen extends AppCompatActivity {
         public void onFinish() {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SplashScreen.this);
             String userEmail = preferences.getString("userEmail","");
+            boolean isFirstTimeUser = preferences.getBoolean("first_time",true);
+
+          /*  if(isFirstTimeUser){
+                startActivity(new Intent(SplashScreen.this,OnBoardingActivity.class));
+                finish();
+            }*/
+
             if(userEmail.equalsIgnoreCase("")){
                 intent = new Intent(SplashScreen.this,WelcomeActivity.class);
+                startActivity(intent);
+                finish();
             }
             else{
                 intent = new Intent(SplashScreen.this,MainActivity.class);
                 intent.putExtra("email",userEmail);
+                startActivity(intent);
+                finish();
             }
-            startActivity(intent);
-            finish();
+
 
 
         }

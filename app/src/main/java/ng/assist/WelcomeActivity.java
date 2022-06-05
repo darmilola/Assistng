@@ -7,8 +7,10 @@ import ng.assist.UIs.Utils.NetworkUtils;
 import ng.assist.UIs.ViewModel.SignupModel;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -45,6 +47,8 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void initView(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this);
+        preferences.edit().putBoolean("first_time",false).apply();
         privacyTerms = findViewById(R.id.assist_privacy_terms);
         googleSignInLayout = findViewById(R.id.signin_with_google_layout);
         emailSigninLayout = findViewById(R.id.signin_with_email_layout);

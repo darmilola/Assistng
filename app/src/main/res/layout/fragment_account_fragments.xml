@@ -373,7 +373,7 @@
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"
                         android:textColor="@color/colorPrimary"
-                        android:text="Accomodation Admin"
+                        android:text="House Admin"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:fontFamily="@font/clanbook"/>
@@ -430,7 +430,7 @@
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"
                         android:textColor="@color/colorPrimary"
-                        android:text="Accomodation Booking"
+                        android:text="House Booking"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:fontFamily="@font/clanbook"/>
@@ -711,7 +711,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:layout_marginBottom="70dp"
-                android:text="\u00A9 Assist 2020"
+                android:text="\u00A9 Assist 2022"
                 android:textColor="#4F565A"
                 android:textSize="15dp" />
         </LinearLayout>

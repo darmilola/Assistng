@@ -39,6 +39,7 @@ public class QuickCreditsAmount extends Fragment {
     MaterialButton authenticateWithMono,loanHistory;
     MonoAuthenticationListener authenticationListener;
     ConnectKit widget;
+    String accountCode = "";
     boolean isAuthSuccess = false;
     public QuickCreditsAmount() {
         // Required empty public constructor
@@ -52,7 +53,7 @@ public class QuickCreditsAmount extends Fragment {
 
 
     public interface MonoAuthenticationListener{
-          void onAuthSuccessful(String amount);
+          void onAuthSuccessful(String amount, String accountCode);
     }
 
     @Override
@@ -104,14 +105,14 @@ public class QuickCreditsAmount extends Fragment {
                else if(authenticateWithMono.getText().toString().equalsIgnoreCase("Next")){
                    // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                    // preferences.edit().putString("loanAmount",selectAmount.getText().toString().trim()).apply();
-                    authenticationListener.onAuthSuccessful(selectAmount.getText().toString().trim());
+                    authenticationListener.onAuthSuccessful(selectAmount.getText().toString().trim(),accountCode);
                 }
 
                 else{
                     MonoConfiguration config = new MonoConfiguration.Builder(getContext(),
                             "test_pk_EAY6dsTsaS0u3T1WQDz3", // your publicKey
                             (account) -> {
-                                preferences.edit().putString("accountCode",account.getCode()).apply();
+                                accountCode = account.getCode();
                                 authenticateWithMono.setText("Next");
                             }) // onSuccess function
                             .addReference(reference)

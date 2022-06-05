@@ -32,6 +32,7 @@ public class MainActivityModel {
     private String accountType;
     private String isVerified;
     private String role;
+    private String verificationType;
     private String verificationStatus;
     private Context context;
     private MainactivityContentListener mainactivityContentListener;
@@ -64,6 +65,18 @@ public class MainActivityModel {
         this.isVerified = isVerified;
         this.role = role;
         this.verificationStatus = verificationStatus;
+    }
+
+    public MainActivityModel(String userFirstname, String userWalletBalance,String userLastname,String userImageUrl,String accountType,String isVerified, String role,String verificationStatus, String verificationType){
+        this.userFirstname = userFirstname;
+        this.userWalletBalance = userWalletBalance;
+        this.userLastname = userLastname;
+        this.userImageUrl = userImageUrl;
+        this.accountType = accountType;
+        this.isVerified = isVerified;
+        this.role = role;
+        this.verificationStatus = verificationStatus;
+        this.verificationType = verificationType;
     }
 
     public void setMainactivityContentListener(MainactivityContentListener mainactivityContentListener) {
@@ -120,8 +133,9 @@ public class MainActivityModel {
                    String accountType = data.getJSONObject(0).getString("accountType");
                    String isVerified = data.getJSONObject(0).getString("isVerified");
                    String role = data.getJSONObject(0).getString("role");
+                   String verificationType = data.getJSONObject(0).getString("verificationType");
                    String verificationStatus = data.getJSONObject(0).getString("verificationStatus");
-                   MainActivityModel mainActivityModel = new MainActivityModel(firstname,walletBalance,lastname,imageUrl,accountType,isVerified,role,verificationStatus);
+                   MainActivityModel mainActivityModel = new MainActivityModel(firstname,walletBalance,lastname,imageUrl,accountType,isVerified,role,verificationStatus,verificationType);
                    mainactivityContentListener.onContentReady(mainActivityModel);
                 }
                 else if(status.equalsIgnoreCase("failure")){
@@ -176,4 +190,7 @@ public class MainActivityModel {
         return verificationStatus;
     }
 
+    public String getVerificationType() {
+        return verificationType;
+    }
 }

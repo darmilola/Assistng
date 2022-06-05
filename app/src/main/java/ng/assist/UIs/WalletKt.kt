@@ -154,7 +154,7 @@ class WalletKt : Fragment() {
 
         super.onResume()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requireActivity().window.navigationBarColor = ContextCompat.getColor(requireContext(), R.color.special_activity_background)
+            requireActivity().window.navigationBarColor = ContextCompat.getColor(requireContext(), R.color.white)
             requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.special_activity_background)
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
             requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR

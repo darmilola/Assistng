@@ -127,7 +127,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/search_edit_background"
-                        android:hint="Foods,Drinks,Toiletries..."
+                        android:hint="Groceries,Electronics..."
                         android:textColor="@color/colorPrimary"
                         android:textSize="15dp"
                         android:maxLines="1"

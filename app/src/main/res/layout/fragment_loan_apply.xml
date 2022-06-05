@@ -45,22 +45,44 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/clannews"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="30dp"
-        android:textSize="18dp"
-        android:fontFamily="@font/clannews"
-        android:gravity="center|left"
-        android:paddingLeft="10dp"
-        android:maxLines="1"
-        android:id="@+id/quick_credit_loan_amount"
-        android:ellipsize="end"
-        android:textColor="@color/grey"
-        android:background="@drawable/greyed_dotted_rect"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="30dp"
+                android:weightSum="4"
+                android:id="@+id/loan_amount_dropdown"
+                android:background="@drawable/edittext_background">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="Select Amount"
+                    android:textSize="18dp"
+                    android:id="@+id/quick_credit_amount"
+                    android:fontFamily="@font/clannews"
+                    android:gravity="center|left"
+                    android:paddingLeft="10dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/grey"/>
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/iconfinder_chevron_left_4781844"
+                    android:tint="@color/light_text_color"
+                    android:rotation="-90"/>
+
+            </RelativeLayout>
 
 
 
@@ -142,35 +164,6 @@
         android:background="@drawable/greyed_dotted_rect"/>
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Service Fee"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15dp"
-                android:layout_marginLeft="20dp"
-                android:gravity="center|left"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/clannews"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:textSize="18dp"
-                android:fontFamily="@font/clannews"
-                android:gravity="center|left"
-                android:paddingLeft="10dp"
-                android:maxLines="1"
-                android:id="@+id/quick_credit_service_fee"
-                android:ellipsize="end"
-                android:textColor="@color/grey"
-                android:background="@drawable/greyed_dotted_rect"/>
-
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -181,7 +174,6 @@
         android:gravity="center|left"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"
         android:fontFamily="@font/clannews"/>
     <TextView
         android:layout_width="match_parent"
@@ -202,9 +194,9 @@
            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="The Service fee will be deducted before crediting your wallet"
                 android:textColor="@color/light_text_color"
                 android:textSize="14dp"
+                android:id="@+id/loan_service_fee_text"
                 android:layout_marginLeft="20dp"
                 android:gravity="center|left"
                 android:layout_marginRight="20dp"

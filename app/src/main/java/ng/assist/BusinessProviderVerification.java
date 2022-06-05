@@ -95,6 +95,7 @@ public class BusinessProviderVerification extends AppCompatActivity {
         apply = findViewById(R.id.verification_apply);
         rootView = findViewById(R.id.verification_form_root);
         navBack = findViewById(R.id.nav_back);
+        userId = preferences.getString("userEmail","none");
 
 
         if(status.equalsIgnoreCase("pending")){

@@ -68,7 +68,7 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
           else{
               holder.name.setText(billsModel.getName());
           }
-          holder.cost.setText(Integer.toString(billsModel.getCost()));
+          holder.cost.setText("₦"+Integer.toString(billsModel.getCost()));
 
 
 

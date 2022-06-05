@@ -38,7 +38,7 @@ public class TransportDialog {
         bookNow = transportDialog.findViewById(R.id.transport_dialog_booknow);
 
         route.setText(from+" - "+to);
-        fare.setText(tFare);
+        fare.setText("₦"+tFare);
 
         bookNow.setOnClickListener(new View.OnClickListener() {
             @Override

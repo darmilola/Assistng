@@ -11,13 +11,16 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/assist_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/assist_icon"
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".OnBoardingActivity"
+            android:exported="false" />
         <activity
             android:name=".VerificationEmail"
             android:exported="false" />
@@ -96,18 +99,20 @@
         <activity android:name=".ChatFullImage" />
         <activity android:name=".PlacesSelection" />
         <activity android:name=".ProfileImageCrop" />
-        <activity android:name=".ResetPassword"
+        <activity
+            android:name=".ResetPassword"
             android:exported="true">
             <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW"
-                    android:screenOrientation="portrait"/>
+                <action
+                    android:name="android.intent.action.VIEW"
+                    android:screenOrientation="portrait" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "https://fast-atoll-68106.herokuapp.com/public/api/reset” -->
                 <data
                     android:host="www.assist.ng"
-                    android:scheme="https"/>
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity android:name=".ForgotPassword" />

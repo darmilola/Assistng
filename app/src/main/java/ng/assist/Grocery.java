@@ -51,6 +51,7 @@ public class Grocery extends AppCompatActivity {
     ArrayList<String> locationList = new ArrayList<>();
     ListDialog listDialog;
     ImageView navBack;
+    String currentCity = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class Grocery extends AppCompatActivity {
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         String savedCity = getLocation();
+        currentCity = savedCity;
         String locationText = "Your current location is "+savedCity;
         changeLocationText.setText(locationText);
 
@@ -90,6 +92,7 @@ public class Grocery extends AppCompatActivity {
                     public void onItemClicked(String city) {
                         saveLocation(city);
                         changeLocationText.setText("Your current location is "+city);
+                        currentCity = city;
                         int pos = viewPager.getCurrentItem();
                         Fragment activeFragment = adapter.getRegisteredFragment(pos);
                         if(pos == 0){
@@ -128,7 +131,7 @@ public class Grocery extends AppCompatActivity {
                     if(!searchEdittext.getText().toString().trim().equalsIgnoreCase("")){
                         Intent intent = new Intent(Grocery.this, GrocerySearch.class);
                         intent.putExtra("query",searchEdittext.getText().toString().trim());
-                        intent.putExtra("city",changeLocationText.getText().toString());
+                        intent.putExtra("city",currentCity);
                         startActivity(intent);
                     }
                     return true;

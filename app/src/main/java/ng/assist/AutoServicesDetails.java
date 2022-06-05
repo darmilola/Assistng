@@ -122,7 +122,7 @@ public class AutoServicesDetails extends AppCompatActivity {
                         serviceProviderRecyclerview.setVisibility(View.GONE);
                         loadingProgress.setVisibility(View.VISIBLE);
                         rootLayout.setVisibility(View.GONE);
-                        ServicesModel servicesModel = new ServicesModel("Home Services",city);
+                        ServicesModel servicesModel = new ServicesModel("Auto Services",city);
                         servicesModel.getServiceProvider();
                         servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                             @Override
@@ -157,7 +157,7 @@ public class AutoServicesDetails extends AppCompatActivity {
                         return;
                     }
                     recyclerProgress.setVisibility(View.VISIBLE);
-                    ServicesModel servicesModel = new ServicesModel("Home Services",mCity);
+                    ServicesModel servicesModel = new ServicesModel("Auto Services",mCity);
                     servicesModel.getServiceProviderNextPage(AutoServicesDetails.this.nextPageUrl);
                     servicesModel.setServiceProviderListener(new ServicesModel.ServiceProviderListener() {
                         @Override

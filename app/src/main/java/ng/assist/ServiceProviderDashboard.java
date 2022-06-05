@@ -356,8 +356,6 @@ public class ServiceProviderDashboard extends AppCompatActivity {
 
         edList.add("Home Lesson ");
         edList.add("STEM Tutor");
-        edList.add("Results Checking Pin");
-        edList.add("Registration pin");
         edList.add("Training Centre");
 
         personalServicesList.add("Hair Salon");
