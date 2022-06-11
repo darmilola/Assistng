@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class CabHailingActivity extends AppCompatActivity {
     FrameLayout cabHailingRoot;
     ProgressBar progressBar;
     String from,to;
+    ImageView navBack;
     CircleIndicator2 imagesIndicator;
 
 
@@ -51,6 +53,7 @@ public class CabHailingActivity extends AppCompatActivity {
     }
 
     private void initView(){
+        navBack = findViewById(R.id.nav_back);
         changeLocationText = findViewById(R.id.change_location);
         noRideAvailable = findViewById(R.id.no_ride_available);
         cabHailingRoot = findViewById(R.id.cab_hailing_root);
@@ -69,7 +72,14 @@ public class CabHailingActivity extends AppCompatActivity {
                 finish();
             }
         });
-       // ZoomCenterCardLayoutManager zoomCenterCardLayoutManager = new ZoomCenterCardLayoutManager(CabHailingActivity.this,LinearLayout.HORIZONTAL,false);
+
+        navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(manager);
 
@@ -105,7 +115,7 @@ public class CabHailingActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
           }
     }
 }

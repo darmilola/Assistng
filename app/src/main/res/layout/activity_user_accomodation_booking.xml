@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/special_activity_background"
     tools:context=".UserAccomodationBooking">
     <LinearLayout
         android:layout_width="match_parent"

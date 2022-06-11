@@ -63,11 +63,16 @@ public class RealEstateDashboardListingAdapter extends RecyclerView.Adapter<Real
         String formattedPrice2 = unFormattedPrice2.replaceAll("\\.00","");
 
         if(accomodationListModel.getType().equalsIgnoreCase("lodges")){
-            holder.pricePerMonth.setText(formattedPrice2+"/month");
+            holder.pricePerMonth.setText(formattedPrice2);
+            holder.perTag.setText("/year");
         }
         else{
-            holder.pricePerMonth.setText(formattedPrice2+"/day");
+            holder.pricePerMonth.setText(formattedPrice2);
+            holder.perTag.setText("/day");
         }
+
+        holder.baths.setText(accomodationListModel.getBaths());
+        holder.beds.setText(accomodationListModel.getBeds());
 
 
         Glide.with(context)
@@ -83,13 +88,16 @@ public class RealEstateDashboardListingAdapter extends RecyclerView.Adapter<Real
     }
 
     public class itemViewHolder extends RecyclerView.ViewHolder {
-        TextView houseTitle,pricePerMonth;
+        TextView houseTitle,pricePerMonth,perTag,beds,baths;
         ImageView displayImage;
         public itemViewHolder(View ItemView){
             super(ItemView);
             houseTitle = ItemView.findViewById(R.id.accomodation_title);
             pricePerMonth = ItemView.findViewById(R.id.accomodation_price_per_month);
             displayImage = ItemView.findViewById(R.id.accomodation_display_image);
+            perTag = ItemView.findViewById(R.id.accommodation_listing_per_tag_text);
+            beds = ItemView.findViewById(R.id.accomodation_listing_beds);
+            baths = ItemView.findViewById(R.id.accomodation_listing_baths);
 
             ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override

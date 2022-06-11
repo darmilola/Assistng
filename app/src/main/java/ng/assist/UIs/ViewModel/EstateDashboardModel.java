@@ -146,13 +146,14 @@ public class EstateDashboardModel {
         this.value = value;
     }
 
-    public EstateDashboardModel(Context context, String houseId, String houseTitle, String pricesPerMonth, String location,String bookingFee, String address, String houseDisplayImage, String houseDesc, String type, String agentId){
+    public EstateDashboardModel(Context context, String houseId, String houseTitle, String pricesPerMonth, String location,String bookingFee, String address, String houseDisplayImage, String houseDesc, String type, String agentId,int beds,int bath){
            this.houseId = houseId;
            this.houseTitle = houseTitle;
            this.pricesPerMonth = pricesPerMonth;
            this.location = location;
            this.bookingFee = bookingFee;
            this.beds = beds;
+           this.baths = bath;
            this.address = address;
            this.houseDisplayImage = houseDisplayImage;
            this.type = type;
@@ -984,6 +985,7 @@ public class EstateDashboardModel {
                         bundle.putString("response", mResponse);
                         msg.setData(bundle);
                         imageUploadHandler.sendMessage(msg);
+                        imageUploadDialog.cancelDialog();
                     }
                 }
             });
@@ -1114,6 +1116,8 @@ public class EstateDashboardModel {
             jsonObject.put("bookingFee",bookingFee);
             jsonObject.put("agentId",agentId);
             jsonObject.put("address",address);
+            jsonObject.put("bed",bed);
+            jsonObject.put("bath",bath);
             jsonObject.put("displayImg",displayImg);
             jsonObject.put("description",description);
             jsonObject.put("type",type);

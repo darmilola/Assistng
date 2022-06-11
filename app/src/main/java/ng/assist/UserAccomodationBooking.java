@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ public class UserAccomodationBooking extends AppCompatActivity {
     TextView serviceBookingEmpty;
     EstateDashboardModel estateDashboardModel;
     UserAccomodationBookingsAdapter adapter;
+    LinearLayout back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,7 @@ public class UserAccomodationBooking extends AppCompatActivity {
         serviceBookingProgress = findViewById(R.id.service_booking_progress);
         serviceBookingEmpty = findViewById(R.id.service_booking_empty_text);
         recyclerView = findViewById(R.id.service_booking_recyclerview);
+        back = findViewById(R.id.accomodation_listing_back);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String userId = preferences.getString("userEmail","");
         estateDashboardModel = new EstateDashboardModel(userId);
@@ -65,6 +68,13 @@ public class UserAccomodationBooking extends AppCompatActivity {
                 Log.e("onEmpty: ",message);
             }
         });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -72,8 +82,8 @@ public class UserAccomodationBooking extends AppCompatActivity {
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.special_activity_background));
-            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+            getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.special_activity_background));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         }
     }

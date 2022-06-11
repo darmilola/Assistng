@@ -52,7 +52,7 @@ public class AccomodationBooking extends AppCompatActivity {
     ProductImageScrollAdapter adapter;
     ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    TextView houseTitle, pricePerMonth, adddress, agentName, description, bookingFee;
+    TextView houseTitle, pricePerMonth, adddress, agentName, description, bookingFee,bed,bath,perTag;
     ImageView agentPicture;
     ProgressBar loadingBar;
     NestedScrollView rootLayout;
@@ -81,6 +81,9 @@ public class AccomodationBooking extends AppCompatActivity {
         errorRetry = findViewById(R.id.error_occurred_retry);
         call = findViewById(R.id.acc_details_call);
         chat = findViewById(R.id.acc_details_chat);
+        bed = findViewById(R.id.accomodation_listing_beds);
+        bath = findViewById(R.id.accomodation_listing_baths);
+        perTag = findViewById(R.id.accommodation_listing_per_tag_text);
         bookInspection = findViewById(R.id.acc_details_book_inspection);
         imageScrollLayout = findViewById(R.id.scroll_image_layout);
         accomodationListModel = getIntent().getParcelableExtra("accModel");
@@ -96,11 +99,9 @@ public class AccomodationBooking extends AppCompatActivity {
         imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
         imagesIndicator = findViewById(R.id.product_image_indicator);
         agentPicture = findViewById(R.id.acc_details_agent_pic);
-        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationBooking.this, LinearLayoutManager.HORIZONTAL, false);
         imagesRecyclerview.setLayoutManager(imagesManager);
-        pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
-        imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
+
         accPay = Integer.toString(Integer.parseInt(accomodationListModel.getBookingFee())+Integer.parseInt(accomodationListModel.getPricesPerMonth()));
 
         agentId = accomodationListModel.getAgentId();
@@ -114,6 +115,9 @@ public class AccomodationBooking extends AppCompatActivity {
         adddress.setText(accomodationListModel.getAddress());
         description.setText(accomodationListModel.getHouseDesc());
         bookingFee.setText("₦" + accomodationListModel.getBookingFee());
+
+        bed.setText(accomodationListModel.getBeds());
+        bath.setText(accomodationListModel.getBaths());
         userId = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this).getString("userEmail", "null");
 
         loadPage();
@@ -206,12 +210,17 @@ public class AccomodationBooking extends AppCompatActivity {
                 imagesRecyclerview.setAdapter(adapter);
                 imagesRecyclerview.setVisibility(View.VISIBLE);
                 imageScrollLayout.setVisibility(View.VISIBLE);
+                PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+                pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
+                imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
 
                 if (accomodationListModel.getType().equalsIgnoreCase("lodges")) {
-                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " Per year");
+                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth());
+                    perTag.setText("/year");
                     bookNowLayout.setVisibility(View.VISIBLE);
                 } else {
-                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " Per day");
+                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth());
+                    perTag.setText("/day");
                     bookNowLayout.setVisibility(View.GONE);
                 }
 

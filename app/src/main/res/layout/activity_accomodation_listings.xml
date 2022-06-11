@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:gravity="center"
+    android:background="@color/special_activity_background"
     android:orientation="vertical">
 
     <ProgressBar

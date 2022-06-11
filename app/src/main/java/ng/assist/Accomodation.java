@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class Accomodation extends AppCompatActivity {
 
-    MaterialButton checkHomes;
+    MaterialButton checkHomes,showBookings;
     LinearLayout corpmemberLayout,employeeLayout,othersLayout,preferredLocationLayout;
     ImageView corpmemberImage,employeeImage,othersImage;
     TextView corpmemberTextView, employeeTextview, othersTextview,preferredLocationText;
@@ -29,7 +29,7 @@ public class Accomodation extends AppCompatActivity {
     RangeSeekBar priceRangebar;
     TextView priceRangeText;
     ImageView navBack;
-    String selectedCity,type = "Hotels",min_price = "0",max_price = "1000000";
+    String selectedCity,type = "Hotels",min_price = "0",max_price = "10000000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class Accomodation extends AppCompatActivity {
     private void initView(){
         priceRangebar = findViewById(R.id.price_range_progress);
         navBack = findViewById(R.id.nav_back);
+        showBookings = findViewById(R.id.show_bookings);
         navBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +124,14 @@ public class Accomodation extends AppCompatActivity {
                 }
             }
         });
+
+        showBookings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Accomodation.this, UserAccomodationBooking.class));
+            }
+        });
+
 
         corpmemberLayout.setOnClickListener(new View.OnClickListener() {
             @Override

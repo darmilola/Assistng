@@ -44,10 +44,11 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
     ArrayList<String> accommodationTypeList = new ArrayList<>();
     ArrayList<String> cityList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    EditText title,pricePerMonth,address,bookingFee,description;
+    EditText title,pricePerMonth,address,bookingFee,description,beds,baths;
     TextView type,city;
     String mTitle = "",mPricePerMonth = "",mAddress = "",mCity = "",mBookingFee = "",mDescription = "",mType = "";
     String houseId = "";
+    String mBed = "", mBath = "";
     String displayImage = "";
     LinearLayout cancel,saveListing;
     LinearLayout scrollImageLayout;
@@ -67,6 +68,8 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
     private void initView(){
         populateList();
         navBack = findViewById(R.id.nav_back);
+        beds = findViewById(R.id.real_estate_add_listing_bath);
+        baths = findViewById(R.id.real_estate_add_listing_bed);
         uploadImageButton = findViewById(R.id.real_estate_add_image);
         scrollImageLayout = findViewById(R.id.scroll_image_layout);
         cancel = findViewById(R.id.real_estate_add_listing_cancel);
@@ -108,9 +111,11 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
                 mType = type.getText().toString().trim();
                 mBookingFee = bookingFee.getText().toString().trim();
                 mDescription = description.getText().toString().trim();
+                mBath = baths.getText().toString().trim();
+                mBed = beds.getText().toString().trim();
 
                 if(isValidInput()){
-                    EstateDashboardModel estateDashboardModel = new EstateDashboardModel(RealEsateAgentAddListing.this,houseId,mTitle,mPricePerMonth,mCity,mBookingFee,mAddress,displayImage,mDescription,mType,userEmail);
+                    EstateDashboardModel estateDashboardModel = new EstateDashboardModel(RealEsateAgentAddListing.this,houseId,mTitle,mPricePerMonth,mCity,mBookingFee,mAddress,displayImage,mDescription,mType,userEmail,Integer.parseInt(mBed),Integer.parseInt(mBath));
                     estateDashboardModel.createAgentListing();
                     estateDashboardModel.setCreateListingListener(new EstateDashboardModel.CreateListingListener() {
                         @Override
@@ -211,6 +216,16 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
         if(TextUtils.isEmpty(mPricePerMonth)){
             isValid = false;
             pricePerMonth.setError("Required");
+            return isValid;
+        }
+        if(TextUtils.isEmpty(mBed)){
+            isValid = false;
+            beds.setError("Required");
+            return isValid;
+        }
+        if(TextUtils.isEmpty(mBath)){
+            isValid = false;
+            baths.setError("Required");
             return isValid;
         }
         if(TextUtils.isEmpty(mAddress)){

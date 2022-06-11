@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
+    android:layout_height="430dp"
     android:layout_gravity="center"
     android:translationZ="2dp"
     android:id="@+id/ride_display_layout"
-    android:layout_marginBottom="45dp"
-    android:background="@color/special_activity_background"
+    android:background="@color/transparent"
     tools:context=".CabHailingActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="430dp"
         android:orientation="vertical"
         android:focusableInTouchMode="true">
 
@@ -23,7 +22,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/ride_display_recyclerview"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/bus_transport_itemview_layout"/>
+            tools:listitem="@layout/new_transport_itemview"/>
 
         <me.relex.circleindicator.CircleIndicator2
             android:id="@+id/product_image_indicator"

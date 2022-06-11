@@ -57,7 +57,7 @@ public class AccountFragments extends Fragment {
 
 
     View view;
-    LinearLayout dashboardLayout,switchAccount,userVerification,accomodationAdmin,accomodationBooking;
+    LinearLayout dashboardLayout,switchAccount,userVerification,accomodationAdmin;
     LinearLayout aboutUs,rateUs,logOut,provideAService;
     ArrayList<String> accountList = new ArrayList<>();
     ArrayList<String> accountTypeList = new ArrayList<>();
@@ -94,7 +94,6 @@ public class AccountFragments extends Fragment {
         rateUs = view.findViewById(R.id.account_rate_us);
         switchAccount = view.findViewById(R.id.account_switch_account);
         provideAService = view.findViewById(R.id.account_provide_a_service);
-        accomodationBooking = view.findViewById(R.id.account_accomodation_booking);
         dashboardLayout.setVisibility(View.GONE);
 
 
@@ -124,12 +123,6 @@ public class AccountFragments extends Fragment {
             }
         });
 
-        accomodationBooking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), UserAccomodationBooking.class));
-            }
-        });
 
         accomodationAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +171,6 @@ public class AccountFragments extends Fragment {
             public void onClick(View v) {
                 if(accountType.equalsIgnoreCase("Merchant"))startActivity(new Intent(getContext(),EcommerceDashboard.class));
                 if(accountType.equalsIgnoreCase("House Agent"))startActivity(new Intent(getContext(), EstateListingDashboard.class));
-
             }
         });
 
@@ -241,20 +233,19 @@ public class AccountFragments extends Fragment {
             switchAccount.setVisibility(View.GONE);
             userVerification.setVisibility(View.VISIBLE);
             provideAService.setVisibility(View.GONE);
-            accomodationBooking.setVisibility(View.GONE);
             accomodationAdmin.setVisibility(View.GONE);
             isVerifiedBadge.setVisibility(View.VISIBLE);
         }
 
-        if(accountRole.equalsIgnoreCase("admin")){
+    //    if(accountRole.equalsIgnoreCase("admin")){
             authAdminUser();
-        }
-        if(verificationType.equalsIgnoreCase("personal")){
+      //  }
+      //  if(verificationType.equalsIgnoreCase("personal")){
             authPersonalUser();
-        }
-        if(verificationType.equalsIgnoreCase("business")){
+       // }
+     //   if(verificationType.equalsIgnoreCase("business")){
             authBusinessUser();
-        }
+       // }
 
     }
 
@@ -295,8 +286,6 @@ public class AccountFragments extends Fragment {
         }
         else{
             return false;
-
-
         }
     }
 
@@ -305,7 +294,6 @@ public class AccountFragments extends Fragment {
         switchAccount.setVisibility(View.GONE);
         userVerification.setVisibility(View.GONE);
         provideAService.setVisibility(View.GONE);
-        accomodationBooking.setVisibility(View.GONE);
         accomodationAdmin.setVisibility(View.VISIBLE);
     }
 
@@ -364,7 +352,6 @@ public class AccountFragments extends Fragment {
                 })
                 .show();
     }
-
 
 }
 

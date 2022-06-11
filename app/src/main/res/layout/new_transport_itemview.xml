@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@color/transparent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:cardCornerRadius="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        app:strokeColor="#90c8c8c8"
+        app:strokeWidth="0.5dp"
+        android:elevation="1dp"
+        app:cardBackgroundColor="@color/White">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:weightSum="4.5">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:id="@+id/ride_item_type_img"
+                android:src="@drawable/car_g1c8f1b297_640"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:textSize="18dp"
+                android:translationZ="2dp"
+                android:gravity="center"
+                android:id="@+id/bus_item_company"
+                android:fontFamily="@font/clannews"
+                android:text="American Airlines Flight MLI-18"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.5">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginLeft="10dp"
+                    android:tint="@color/grey"
+                    android:src="@drawable/dotted_line"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="5"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey"
+                    android:textSize="14dp"
+                    android:maxLines="2"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:id="@+id/bus_item_from"
+                    android:layout_weight="2"
+                    android:translationZ="2dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/clannews"
+                    android:text="American Airways"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:id="@+id/bus_item_price"
+                    android:layout_weight="1"
+                    android:translationZ="2dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/clannews"
+                    android:text="NGN 5000"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey"
+                    android:textSize="14dp"
+                    android:maxLines="2"
+                    android:id="@+id/bus_item_to"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:layout_weight="2"
+                    android:translationZ="2dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/clannews"
+                    android:text="American Airways"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="4"
+                android:layout_marginTop="30dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey"
+                        android:textSize="14dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/clannews"
+                        android:text="Date"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/clanmed"
+                        android:text="June 16"
+                        android:id="@+id/bus_departure_date"
+                        android:maxLines="2"
+                        android:ellipsize="end"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey"
+                        android:textSize="14dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/clannews"
+                        android:text="Seats"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/clanmed"
+                        android:text="25"
+                        android:id="@+id/bus_item_seats"
+                        android:maxLines="2"
+                        android:ellipsize="end"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey"
+                        android:textSize="14dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/clannews"
+                        android:text="Time"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:id="@+id/bus_departure_time"
+                        android:fontFamily="@font/clanmed"
+                        android:text="5pm"
+                        android:maxLines="2"
+                        android:ellipsize="end"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey"
+                        android:textSize="14dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/clannews"
+                        android:text="Loading"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:id="@+id/bus_item_meeting_point"
+                        android:fontFamily="@font/clanmed"
+                        android:text="Meeting"
+                        android:maxLines="2"
+                        android:ellipsize="end"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_weight="0.5">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginLeft="10dp"
+                    android:tint="@color/grey"
+                    android:src="@drawable/dotted_line"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:weightSum="2"
+                android:layout_marginTop="20dp">
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/clanmed"
+                    android:text="Book Now"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/bus_item_book"
+                    android:textAllCaps="false"
+                    android:background="@drawable/transparent_radius"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18dp"
+                    app:cornerRadius="7dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/clanmed"
+                    android:text="Call"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/bus_item_call"
+                    android:textAllCaps="false"
+                    android:background="@drawable/transparent_radius"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18dp"
+                    app:cornerRadius="7dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

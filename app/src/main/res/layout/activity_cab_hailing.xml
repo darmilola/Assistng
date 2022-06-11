@@ -7,6 +7,8 @@
     android:background="@color/special_activity_background"
     tools:context=".CabHailingActivity">
 
+
+
     <ProgressBar
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -29,93 +31,60 @@
         android:id="@+id/cab_hailing_root"
         android:visibility="gone">
 
-        <LinearLayout
+      >
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="16dp"
+                android:id="@+id/nav_back"
+                android:translationZ="4dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/_504219_left_arrow_navigation_direction_previous_icon"
+                android:tint="@color/white"/>
+
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="180dp">
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="70dp"
+            android:textSize="25dp"
+            android:translationZ="2dp"
+            android:gravity="center"
+            android:id="@+id/current_location_name"
+            android:fontFamily="@font/clanbold"
+            android:text="Lagos - Campala"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="320dp"
                 android:orientation="horizontal"
                 android:weightSum="4"
                 android:id="@+id/change_location"
-                android:layout_marginTop="30dp"
+                android:background="@color/colorPrimary"
                 android:gravity="center|left">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+               <ImageView
+                   android:layout_width="200dp"
+                   android:layout_height="match_parent"
+                   android:src="@drawable/pattern"
+                   android:layout_gravity="top|left"
+                   android:tint="@color/white"/>
+
+                <ImageView
+                    android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.4"
-                    android:layout_marginTop="5dp"
-                    android:gravity="top|right">
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="30dp"
-                        android:id="@+id/drawer_toggle"
-                        android:layout_marginTop="4dp"
-                        android:src="@drawable/iconfinder_map_location_pin_map_marker_glyph"
-                        android:tint="@color/pink"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3.5"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/clannews"
-                        android:textColor="@color/colorPrimary"
-                        android:layout_marginTop="10dp"
-                        android:maxLines="1"
-                        android:text="Kano - Abuja"
-                        android:id="@+id/current_location_name"
-                        android:ellipsize="end"
-                        android:textSize="18dp"/>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:id="@+id/refresh_location_layout">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Change destination"
-                            android:fontFamily="@font/clannews"
-                            android:textColor="@color/light_text_color"
-                            android:textSize="14dp"/>
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="15dp"
-                            android:layout_marginTop="3dp"
-                            android:tint="@color/light_text_color"
-                            android:src="@drawable/iconfinder_chevron_left_4781844"
-                            android:rotation="180"/>
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="25dp"
-                            android:tint="@color/colorPrimary"
-                            android:rotation="180"/>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center|top">
-                </LinearLayout>
-            </LinearLayout>
+                    android:src="@drawable/pattern"
+                    android:rotation="180"
+                    android:layout_gravity="top|right"
+                    android:tint="@color/white"/>
 
         </LinearLayout>
 
-        <include layout="@layout/ride_display_view" android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_gravity="center"/>
+
+        <include layout="@layout/ride_display_view" android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_marginTop="150dp"/>
     </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

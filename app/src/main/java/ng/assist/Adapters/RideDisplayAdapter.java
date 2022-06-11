@@ -49,7 +49,7 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
     @NonNull
     @Override
     public RideDisplayAdapter.itemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.bus_transport_itemview_layout, parent, false);
+        View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_transport_itemview, parent, false);
         return new RideDisplayAdapter.itemViewHolder(view2);
     }
 
@@ -64,12 +64,12 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
        holder.point.setText(model.getMeetingpoint());
        holder.company.setText(model.getCompany());
         if(model.getType().equalsIgnoreCase("car")){
-             holder.type.setText("Car");
+             holder.typeImg.setImageResource(R.drawable.car_g1c8f1b297_640);
         }
         else if(model.getType().equalsIgnoreCase("bus")){
-            holder.type.setText("Bus");
+            holder.typeImg.setImageResource(R.drawable.bus_g96872f4aa_1280);
         }
-        holder.seats.setText(model.getSeats()+" Seats");
+        holder.seats.setText(Integer.toString(model.getSeats()));
     }
 
 
@@ -80,10 +80,12 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
 
     public class itemViewHolder extends RecyclerView.ViewHolder{
         MaterialButton book,call;
-        TextView from,to,point,seats,company,type,departureTime,departureDate,price;
+        ImageView typeImg;
+        TextView from,to,point,seats,company,departureTime,departureDate,price;
 
         public itemViewHolder(View ItemView){
             super(ItemView);
+            typeImg = ItemView.findViewById(R.id.ride_item_type_img);
             book = ItemView.findViewById(R.id.bus_item_book);
             call = ItemView.findViewById(R.id.bus_item_call);
             from = ItemView.findViewById(R.id.bus_item_from);
@@ -92,7 +94,6 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
             point = ItemView.findViewById(R.id.bus_item_meeting_point);
             seats = ItemView.findViewById(R.id.bus_item_seats);
             company = ItemView.findViewById(R.id.bus_item_company);
-            type = ItemView.findViewById(R.id.bus_item_type);
             departureDate = ItemView.findViewById(R.id.bus_departure_date);
             departureTime = ItemView.findViewById(R.id.bus_departure_time);
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

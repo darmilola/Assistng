@@ -61,7 +61,7 @@ public class UserAccomodationDetails extends AppCompatActivity {
     ProductImageScrollAdapter adapter;
     ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    TextView houseTitle, pricePerMonth, adddress, agentName, description,refundText,refundProcessingText;
+    TextView houseTitle, pricePerMonth, adddress, agentName, description,refundText,refundProcessingText,beds,bath,perTag;
     ImageView agentPicture;
     ProgressBar loadingBar;
     NestedScrollView rootLayout;
@@ -90,6 +90,9 @@ public class UserAccomodationDetails extends AppCompatActivity {
         errorRetry = findViewById(R.id.error_occurred_retry);
         call = findViewById(R.id.acc_details_call);
         chat = findViewById(R.id.acc_details_chat);
+        beds = findViewById(R.id.accomodation_listing_beds);
+        bath = findViewById(R.id.accomodation_listing_baths);
+        perTag = findViewById(R.id.accommodation_listing_per_tag_text);
         imageScrollLayout = findViewById(R.id.scroll_image_layout);
         accomodationListModel = getIntent().getParcelableExtra("accModel");
         loadingBar = findViewById(R.id.acc_details_progress);
@@ -102,11 +105,8 @@ public class UserAccomodationDetails extends AppCompatActivity {
         imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
         imagesIndicator = findViewById(R.id.product_image_indicator);
         agentPicture = findViewById(R.id.acc_details_agent_pic);
-        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         LinearLayoutManager imagesManager = new LinearLayoutManager(UserAccomodationDetails.this, LinearLayoutManager.HORIZONTAL, false);
         imagesRecyclerview.setLayoutManager(imagesManager);
-        pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
-        imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
         agentId = accomodationListModel.getAgentId();
         houseId = accomodationListModel.getHouseId();
         houseTitle.setText(accomodationListModel.getHouseTitle());
@@ -207,13 +207,19 @@ public class UserAccomodationDetails extends AppCompatActivity {
                 imagesRecyclerview.setAdapter(adapter);
                 imagesRecyclerview.setVisibility(View.VISIBLE);
                 imageScrollLayout.setVisibility(View.VISIBLE);
+                PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+                pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
+                imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
 
+                beds.setText(accomodationListModel.getBeds());
+                bath.setText(accomodationListModel.getBaths());
                 if (accomodationListModel.getType().equalsIgnoreCase("lodges")) {
-                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per month");
+                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth());
+                    perTag.setText("/year");
                 } else {
-                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per day");
+                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth());
+                    perTag.setText("/day");
                 }
-
 
                 Glide.with(UserAccomodationDetails.this)
                         .load(agentModel.getAgentPicUrl())
