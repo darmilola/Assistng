@@ -81,11 +81,10 @@ public class AccomodationApprovalDetails extends AppCompatActivity {
         imagesRecyclerview = findViewById(R.id.product_image_recyclerview);
         imagesIndicator = findViewById(R.id.product_image_indicator);
         agentPicture = findViewById(R.id.acc_details_agent_pic);
-        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+
         LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationApprovalDetails.this, LinearLayoutManager.HORIZONTAL, false);
         imagesRecyclerview.setLayoutManager(imagesManager);
-        pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
-        imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
+
 
         agentId = accomodationListModel.getAgentId();
         houseId = accomodationListModel.getHouseId();
@@ -195,9 +194,12 @@ public class AccomodationApprovalDetails extends AppCompatActivity {
                 imagesRecyclerview.setVisibility(View.VISIBLE);
                 imageScrollLayout.setVisibility(View.VISIBLE);
                 approveLayout.setVisibility(View.VISIBLE);
+                PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+                pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
+                imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
 
                 if (accomodationListModel.getType().equalsIgnoreCase("lodges")) {
-                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per month");
+                    pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per year");
                 } else {
                     pricePerMonth.setText("₦" + accomodationListModel.getPricesPerMonth() + " per day");
                 }

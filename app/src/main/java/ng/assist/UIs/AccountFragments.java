@@ -238,7 +238,7 @@ public class AccountFragments extends Fragment {
         }
 
     //    if(accountRole.equalsIgnoreCase("admin")){
-            authAdminUser();
+           // authAdminUser();
       //  }
       //  if(verificationType.equalsIgnoreCase("personal")){
             authPersonalUser();
