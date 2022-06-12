@@ -60,13 +60,13 @@ public class AccomodationBooking extends AppCompatActivity {
     AccomodationListModel accomodationListModel;
     String houseId, agentId;
     LinearLayout imageScrollLayout, call, chat;
-    MaterialButton bookInspection;
+    MaterialButton bookInspection,bookHouse;
     AgentModel agentModel;
     AlertDialog.Builder builder;
     String userId;
     LinearLayout errorRoot;
     MaterialButton errorRetry;
-    String accPay = "";
+    String accPay = "",insPay = "";
 
 
     @Override
@@ -85,6 +85,7 @@ public class AccomodationBooking extends AppCompatActivity {
         bath = findViewById(R.id.accomodation_listing_baths);
         perTag = findViewById(R.id.accommodation_listing_per_tag_text);
         bookInspection = findViewById(R.id.acc_details_book_inspection);
+        bookHouse = findViewById(R.id.acc_details_book_now);
         imageScrollLayout = findViewById(R.id.scroll_image_layout);
         accomodationListModel = getIntent().getParcelableExtra("accModel");
         loadingBar = findViewById(R.id.acc_details_progress);
@@ -102,7 +103,8 @@ public class AccomodationBooking extends AppCompatActivity {
         LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationBooking.this, LinearLayoutManager.HORIZONTAL, false);
         imagesRecyclerview.setLayoutManager(imagesManager);
 
-        accPay = Integer.toString(Integer.parseInt(accomodationListModel.getBookingFee())+Integer.parseInt(accomodationListModel.getPricesPerMonth()));
+        accPay = accomodationListModel.getPricesPerMonth();
+        insPay = accomodationListModel.getBookingFee();
 
         agentId = accomodationListModel.getAgentId();
         houseId = accomodationListModel.getHouseId();
@@ -165,7 +167,14 @@ public class AccomodationBooking extends AppCompatActivity {
         bookInspection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               showBookingDialog();
+               showInspectionDialog();
+            }
+        });
+
+        bookHouse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBookingDialog();
             }
         });
     }
@@ -281,7 +290,57 @@ public class AccomodationBooking extends AppCompatActivity {
                                     insertBooking(0, 3, "Paid", timestamp.toString(), accPay, "");
                                     //addPending();
                                     reduceWalletBalanceInSharedPref(AccomodationBooking.this,accPay);
-                                    //finish();*/
+                                    finish();
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Toast.makeText(AccomodationBooking.this, "Error Occurred please try again", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(AccomodationBooking.this, "Insufficient Balance", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Confirm Booking");
+        alert.show();
+    }
+
+
+
+    private void showInspectionDialog() {
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("You are about to pay for inspection")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (isAuthorized(insPay)) {
+                            String fullName = agentModel.getAgentFirstname() + " - " + agentModel.getAgentLastName();
+                            String billId = generateBillId();
+                            int cost = Integer.parseInt(insPay);
+                            CreatBill creatBill = new CreatBill(billId,userId,agentModel.getAgentId(),cost, "6",fullName, AccomodationBooking.this,1);
+                            creatBill.CreateBill();
+                            creatBill.setCreateBillListener(new CreatBill.CreateBillListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(AccomodationBooking.this, "Paid Inspection Successful", Toast.LENGTH_SHORT).show();
+                                    Date date = new Date();
+                                    Timestamp timestamp = new Timestamp(date.getTime());
+                                    insertBooking(0, 3, "Inspection Fee", timestamp.toString(), insPay, "");
+                                    addPending();
+                                    reduceWalletBalanceInSharedPref(AccomodationBooking.this,insPay);
+                                    finish();
                                 }
 
                                 @Override
