@@ -67,7 +67,7 @@
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_services_landing.xml" value="0.25" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_sign_up_with_email.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_splash_screen.xml" value="0.17916666666666667" />
-        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_top_up.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_top_up.xml" value="0.33" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_transportation.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_user_accomodation_booking.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/activity_user_accomodation_details.xml" value="0.22" />
@@ -89,7 +89,7 @@
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/fragment_accomodation_payment.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/fragment_accomodation_refund.xml" value="0.1331521739130435" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/fragment_account_fragments.xml" value="0.25" />
-        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/fragment_agent_all_listings.xml" value="0.1" />
+        <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/fragment_agent_all_listings.xml" value="0.22" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/fragment_agent_bookings.xml" value="0.16621376811594202" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/fragment_all_bookings.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/user/StudioProjects/Assist.ng/app/src/main/res/layout/fragment_approved_house.xml" value="0.17391304347826086" />

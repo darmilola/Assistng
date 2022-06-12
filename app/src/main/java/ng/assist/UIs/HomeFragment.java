@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment {
         updateWalletBalanceFromSharedPref(getContext());
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.special_activity_background));
+            getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.white));
             getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(),R.color.colorPrimary));
             // getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
             getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);

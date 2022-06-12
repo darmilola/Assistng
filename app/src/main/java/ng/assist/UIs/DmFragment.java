@@ -99,8 +99,8 @@ public class DmFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.special_activity_background));
-            getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(),R.color.special_activity_background));
+            getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.white));
+            getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(),R.color.white));
             getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }

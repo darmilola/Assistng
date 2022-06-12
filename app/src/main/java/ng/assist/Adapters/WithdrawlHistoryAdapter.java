@@ -50,6 +50,9 @@ public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
       if(withdrawalModel.getStatus().equalsIgnoreCase("notPaid")){
           holder.status.setText("Not Paid");
       }
+      else if(withdrawalModel.getStatus().equalsIgnoreCase("paid")){
+          holder.status.setText("Successful");
+      }
       else{
           holder.status.setText(withdrawalModel.getStatus());
       }

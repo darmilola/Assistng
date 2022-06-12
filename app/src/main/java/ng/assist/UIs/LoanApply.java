@@ -133,12 +133,23 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
                 listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
                     @Override
                     public void onItemClicked(String mAmount) {
-                        amount.setText(mAmount);
-                        paybackPeriod.setText("Select Month");
+                        if(loanAmount == mAmount){
+
+                        }
+                        else {
+                            loanAmount = mAmount;
+                            populateRepaymentList();
+                            amount.setText(mAmount);
+                            paybackPeriod.setText("Select Month");
+                            monthlyDue.setText("");
+                            totalRepayment.setText("");
+                            serviceFeeText.setText("");
+                        }
                     }
                 });
             }
         });
+
 
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,6 +288,7 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
     }
 
     private void populateRepaymentList(){
+        repaymentList = new ArrayList<>();
         if(loanAmount.equalsIgnoreCase("10000")){
                 repaymentList.add("1 month");
             }

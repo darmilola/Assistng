@@ -277,6 +277,8 @@
             android:layout_marginTop="10dp"
             android:text="View Orders"
             android:textSize="14dp"
+            android:background="@drawable/transparent_radius"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/service_provider_dashboard_view_bookings"
             android:textAllCaps="false"/>
     </LinearLayout>

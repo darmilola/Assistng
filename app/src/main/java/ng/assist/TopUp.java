@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.braintreepayments.cardform.view.CardForm;
 import com.flutterwave.raveandroid.RavePayActivity;
 import com.flutterwave.raveandroid.RaveUiManager;
 import com.flutterwave.raveandroid.rave_java_commons.RaveConstants;
@@ -55,9 +56,8 @@ public class TopUp extends AppCompatActivity {
     String userId = "";
     LinearLayout backNav;
     String firstname, lastname;
-    String publicKey = "FLWPUBK_TEST-61b223e8283eee1c9d387f5f9eba8316-X";
-    String encryptionKey = "FLWSECK_TESTa32b07c45304";
     String transferRef = generateTransferRef();
+    CardForm cardForm;
 
 
     @Override
@@ -69,6 +69,16 @@ public class TopUp extends AppCompatActivity {
     }
 
     private void initView() {
+        initializePaystack();
+        cardForm = findViewById(R.id.card_form);
+
+        cardForm.cardRequired(true)
+                .expirationRequired(true)
+                .cvvRequired(true)
+                .postalCodeRequired(false)
+                .mobileNumberRequired(false)
+                .actionLabel("Top Up")
+                .setup(TopUp.this);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(TopUp.this);
         userId = preferences.getString("userEmail", "");
@@ -82,7 +92,9 @@ public class TopUp extends AppCompatActivity {
         topUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chargeCard();
+
+                performCharge();
+
             }
         });
 
@@ -96,32 +108,50 @@ public class TopUp extends AppCompatActivity {
     }
 
 
-    private void chargeCard(){
-        card = new Card(mCardNumber, mExpiryMonth, mExpiryYear, mCvv);
-        if(TextUtils.isEmpty(topUpAmount.getText().toString().trim())){
-            topUpAmount.setError("Required");
-            return;
-        }
-        topUpAmountValue = Integer.parseInt(topUpAmount.getText().toString().trim());
 
-        new RaveUiManager(TopUp.this).setAmount(topUpAmountValue)
-                .setCurrency("NGN")
-                .setEmail(userId)
-                .setfName(firstname)
-                .setlName(lastname)
-                .setPublicKey(publicKey)
-                .setEncryptionKey(encryptionKey)
-                .setTxRef(transferRef)
-                .withTheme(R.style.MyCustomTheme)
-                .acceptUssdPayments(true)
-                .acceptBarterPayments(true)
-                .allowSaveCardFeature(true)
-                .acceptAccountPayments(true)
-                .acceptCardPayments(true)
-                .shouldDisplayFee(true)
-                .initialize();
+    private void initializePaystack() {
+        PaystackSdk.initialize(TopUp.this);
+        PaystackSdk.setPublicKey("pk_test_bf395e89a315198929ddca163fafecf64899d524");
     }
 
+
+    private void performCharge() {
+
+
+        if(cardForm.isValid() && !TextUtils.isEmpty(topUpAmount.getText().toString())){
+            int amount = Integer.parseInt(topUpAmount.getText().toString());
+            String cardNumber = cardForm.getCardNumber();
+            int cardExpiryMonth = Integer.parseInt(cardForm.getExpirationMonth());
+            int cardExpiryYear = Integer.parseInt(cardForm.getExpirationYear());
+            String cardCvv = cardForm.getCvv();
+            amount *= 100;
+            Card card = new Card(cardNumber, cardExpiryMonth, cardExpiryYear, cardCvv);
+            Charge charge = new Charge();
+            charge.setAmount(amount);
+            charge.setEmail(userId);
+            charge.setCard(card);
+            PaystackSdk.chargeCard(this, charge, new Paystack.TransactionCallback() {
+                @Override
+                public void onSuccess(Transaction transaction) {
+                    validatePayment(Integer.parseInt(topUpAmount.getText().toString()));
+                }
+                @Override
+                public void beforeValidate(Transaction transaction) {
+
+                }
+                @Override
+                public void onError(Throwable error, Transaction transaction) {
+                    Toast.makeText(TopUp.this, "Error Occurred", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+        else{
+            Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
 
 
     @Override
@@ -175,57 +205,39 @@ public class TopUp extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /*
-         *  We advise you to do a further verification of transaction's details on your server to be
-         *  sure everything checks out before providing service or goods.
-         */
-        if (requestCode == RaveConstants.RAVE_REQUEST_CODE && data != null) {
-            String message = data.getStringExtra("response");
-            if (resultCode == RavePayActivity.RESULT_SUCCESS) {
 
-                TopUpModel topUpModel = new TopUpModel(userId,(int)topUpAmountValue,TopUp.this);
-                topUpModel.topUpBalance();
-                topUpModel.setTopUpListener(new TopUpModel.TopUpListener() {
-                    @Override
-                    public void onTopUpSucessful(String balance) {
-                        Date date = new Date();
-                        Timestamp timestamp = new Timestamp(date.getTime());
-                        insertBooking(0,5,"Top Up",timestamp.toString(),Integer.toString((int)topUpAmountValue),"");
-                        Toast.makeText(TopUp.this, "TopUp Successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent();
-                        intent.putExtra("balance",balance);
-                        setResult(0,intent);
-                        increaseWalletBalanceInSharedPref(TopUp.this,Integer.toString(topUpAmountValue));
-                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(String message) {
-                        Toast.makeText(TopUp.this, message, Toast.LENGTH_SHORT).show();
-                        loadingDialogUtils.cancelLoadingDialog();
-                        finish();
-                    }
-                });
-
-
-            }
-            else if (resultCode == RavePayActivity.RESULT_ERROR) {
-                Toast.makeText(this, "ERROR " + message, Toast.LENGTH_SHORT).show();
-            }
-            else if (resultCode == RavePayActivity.RESULT_CANCELLED) {
-                Toast.makeText(this, "CANCELLED " + message, Toast.LENGTH_SHORT).show();
-            }
-        }
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
 
     private void increaseWalletBalanceInSharedPref(Context context, String amount){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String walletBalance = preferences.getString("walletBalance","0");
         preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) + Integer.parseInt(amount))).apply();
+    }
+
+    private void validatePayment(int topUpAmount){
+        TopUpModel topUpModel = new TopUpModel(userId,topUpAmount,TopUp.this);
+        topUpModel.topUpBalance();
+        topUpModel.setTopUpListener(new TopUpModel.TopUpListener() {
+            @Override
+            public void onTopUpSucessful(String balance) {
+                Date date = new Date();
+                Timestamp timestamp = new Timestamp(date.getTime());
+                insertBooking(0,5,"Top Up",timestamp.toString(),Integer.toString((topUpAmount)),"");
+                Toast.makeText(TopUp.this, "TopUp Successful", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.putExtra("balance",balance);
+                setResult(0,intent);
+                increaseWalletBalanceInSharedPref(TopUp.this,Integer.toString(topUpAmount));
+                finish();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(TopUp.this, message, Toast.LENGTH_SHORT).show();
+                loadingDialogUtils.cancelLoadingDialog();
+                finish();
+            }
+        });
+
+
     }
 }

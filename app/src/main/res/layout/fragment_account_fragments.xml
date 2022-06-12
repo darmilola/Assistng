@@ -195,7 +195,7 @@
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"
                         android:textColor="@color/colorPrimary"
-                        android:text="Dashboard"
+                        android:text="My Dashboard"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:fontFamily="@font/clanbook"/>

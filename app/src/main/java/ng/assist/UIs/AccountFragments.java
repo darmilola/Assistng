@@ -222,8 +222,8 @@ public class AccountFragments extends Fragment {
 
     private void initAccount(){
         accountList = new ArrayList<>();
-        accountList.add("House Agent");
-        accountList.add("Merchant");
+        accountList.add("Home Listing");
+        accountList.add("Physical Products");
 
         accountTypeList.add("Personal Account");
         accountTypeList.add("Business Account");
@@ -237,15 +237,15 @@ public class AccountFragments extends Fragment {
             isVerifiedBadge.setVisibility(View.VISIBLE);
         }
 
-    //    if(accountRole.equalsIgnoreCase("admin")){
-           // authAdminUser();
-      //  }
-      //  if(verificationType.equalsIgnoreCase("personal")){
+        if(accountRole.equalsIgnoreCase("admin")){
+            authAdminUser();
+        }
+        if(verificationType.equalsIgnoreCase("personal")){
             authPersonalUser();
-       // }
-     //   if(verificationType.equalsIgnoreCase("business")){
+        }
+        if(verificationType.equalsIgnoreCase("business")){
             authBusinessUser();
-       // }
+        }
 
     }
 
@@ -254,7 +254,7 @@ public class AccountFragments extends Fragment {
     public void onResume() {
         super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.special_activity_background));
+            getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(), R.color.white));
             getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(),R.color.special_activity_background));
             getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
@@ -299,7 +299,7 @@ public class AccountFragments extends Fragment {
 
     private void authBusinessUser(){
         userVerification.setVisibility(View.GONE);
-        provideAService.setVisibility(View.GONE);
+        provideAService.setVisibility(View.VISIBLE);
         accomodationAdmin.setVisibility(View.GONE);
         accomodationAdmin.setVisibility(View.GONE);
         dashboardLayout.setVisibility(View.VISIBLE);
@@ -338,7 +338,7 @@ public class AccountFragments extends Fragment {
     private void showBusinessVerificationAlert(){
         new AlertDialog.Builder(getContext())
                 .setTitle("Business Verification")
-                .setMessage("Business Verification gives you access to the Merchant feature and the Accommodation feature of the App")
+                .setMessage("Business Verification gives you access to all business feature of the App")
                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 

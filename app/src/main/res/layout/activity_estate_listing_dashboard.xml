@@ -49,7 +49,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center"
                     android:textColor="@color/colorPrimary"
-                    android:text="House Agent"
+                    android:text="Home Listing"
                     android:maxLines="1"
                     android:id="@+id/total_homes_available"
                     android:ellipsize="end"

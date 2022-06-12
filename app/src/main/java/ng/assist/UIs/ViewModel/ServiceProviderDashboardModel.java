@@ -36,6 +36,7 @@ public class ServiceProviderDashboardModel {
     private LoadingDialogUtils loadingDialogUtils;
     private String baseUrl = new URL().getBaseUrl();
     private String showHandymanUrl = baseUrl+"handyman/show";
+    private String deleteHandymanUrl = baseUrl+"handyman_portfolio/delete";
     private String userId,serviceType,phonenumber,jobTitle,ratePerHour,isAvailable;
     private int totalRaters,totalRatings;
     private Context context;
