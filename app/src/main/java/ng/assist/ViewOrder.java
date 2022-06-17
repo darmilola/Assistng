@@ -70,7 +70,6 @@ public class ViewOrder extends AppCompatActivity {
         back = findViewById(R.id.view_order_back_nav);
         stepView = findViewById(R.id.step_view);
         orderId = getIntent().getStringExtra("orderId");
-        Toast.makeText(ViewOrder.this, orderId, Toast.LENGTH_SHORT).show();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

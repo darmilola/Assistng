@@ -66,8 +66,11 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
         if(model.getType().equalsIgnoreCase("car")){
              holder.typeImg.setImageResource(R.drawable.car_g1c8f1b297_640);
         }
-        else if(model.getType().equalsIgnoreCase("bus")){
+        else if(model.getType().equalsIgnoreCase("luxurious bus")){
             holder.typeImg.setImageResource(R.drawable.bus_g96872f4aa_1280);
+        }
+        else if(model.getType().equalsIgnoreCase("bus")){
+            holder.typeImg.setImageResource(R.drawable.bus_g6e36bc487_1280);
         }
         holder.seats.setText(Integer.toString(model.getSeats()));
     }
