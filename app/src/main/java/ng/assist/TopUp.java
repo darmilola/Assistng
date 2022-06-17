@@ -17,6 +17,7 @@ import ng.assist.UIs.ViewModel.Transactions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -58,6 +59,7 @@ public class TopUp extends AppCompatActivity {
     String firstname, lastname;
     String transferRef = generateTransferRef();
     CardForm cardForm;
+    MaterialButton morePaymentMethods;
 
 
     @Override
@@ -84,7 +86,7 @@ public class TopUp extends AppCompatActivity {
         userId = preferences.getString("userEmail", "");
         firstname = preferences.getString("firstname","");
         lastname = preferences.getString("lastname","");
-
+        morePaymentMethods = findViewById(R.id.more_payment_methods);
         backNav = findViewById(R.id.top_up_back_nav);
         loadingDialogUtils = new LoadingDialogUtils(TopUp.this);
         topUpAmount = findViewById(R.id.top_up_amount_text);
@@ -95,6 +97,13 @@ public class TopUp extends AppCompatActivity {
 
                 performCharge();
 
+            }
+        });
+
+        morePaymentMethods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMoreMethods();
             }
         });
 
@@ -144,6 +153,38 @@ public class TopUp extends AppCompatActivity {
                     Toast.makeText(TopUp.this, "Error Occurred", Toast.LENGTH_SHORT).show();
                 }
             });
+
+        }
+        else{
+            Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+
+    private void getMoreMethods() {
+
+        if(!TextUtils.isEmpty(topUpAmount.getText().toString())){
+            int amount = Integer.parseInt(topUpAmount.getText().toString());
+
+            TopUpModel topUpModel = new TopUpModel(userId,amount,TopUp.this);
+            topUpModel.GetMoreTopUpMethods();
+            topUpModel.setTopUpListener(new TopUpModel.TopUpListener() {
+                @Override
+                public void onTopUpSucessful(String url) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+                @Override
+                public void onFailure(String message) {
+                    Toast.makeText(TopUp.this, message, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
+
+
 
         }
         else{
@@ -233,7 +274,6 @@ public class TopUp extends AppCompatActivity {
             @Override
             public void onFailure(String message) {
                 Toast.makeText(TopUp.this, message, Toast.LENGTH_SHORT).show();
-                loadingDialogUtils.cancelLoadingDialog();
                 finish();
             }
         });
