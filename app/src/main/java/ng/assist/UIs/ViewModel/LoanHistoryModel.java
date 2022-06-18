@@ -29,7 +29,7 @@ public class LoanHistoryModel {
     private String date;
     private Context context;
     private String baseUrl = new URL().getBaseUrl();
-    private String showLoanUrl = baseUrl+"loan/history/show";
+    private String showLoanUrl = baseUrl+"users/loan/applications/get";
     private String createLoanUrl = baseUrl+"loan/history/create";
     private LoanHistoryReadyListener loanHistoryReadyListener;
     private ArrayList<LoanHistoryModel> loanHistoryModelArrayList = new ArrayList<>();
@@ -134,7 +134,7 @@ public class LoanHistoryModel {
                     for (int i = 0; i < data.length(); i++) {
                         String amount = data.getJSONObject(i).getString("amount");
                         String loanStatus = data.getJSONObject(i).getString("status");
-                        String date = data.getJSONObject(i).getString("date");
+                        String date = data.getJSONObject(i).getString("timestamp");
                         LoanHistoryModel loanHistoryModel = new LoanHistoryModel(amount,loanStatus,date);
                         loanHistoryModelArrayList.add(loanHistoryModel);
                     }

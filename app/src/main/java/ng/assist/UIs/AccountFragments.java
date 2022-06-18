@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -62,7 +63,7 @@ public class AccountFragments extends Fragment {
     ArrayList<String> accountList = new ArrayList<>();
     ArrayList<String> accountTypeList = new ArrayList<>();
     CircleImageView circleImageView;
-    TextView usernameField;
+    TextView usernameField,faq,whyAssist,contactUs;
     String accountType,verificationType,accountRole;
     SharedPreferences preferences;
     ImageView isVerifiedBadge;
@@ -83,6 +84,9 @@ public class AccountFragments extends Fragment {
     }
 
     private void initView() {
+        faq = view.findViewById(R.id.faqs);
+        whyAssist = view.findViewById(R.id.why_assist);
+        contactUs = view.findViewById(R.id.contact_us);
         accomodationAdmin = view.findViewById(R.id.account_accomodation_admin);
         isVerifiedBadge = view.findViewById(R.id.verification_badge);
         userVerification = view.findViewById(R.id.account_users_verification);
@@ -96,6 +100,35 @@ public class AccountFragments extends Fragment {
         provideAService = view.findViewById(R.id.account_provide_a_service);
         dashboardLayout.setVisibility(View.GONE);
 
+
+        faq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://assist.ng/faqs.html"));
+                startActivity(i);
+            }
+        });
+
+        whyAssist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://assist.ng"));
+                startActivity(i);
+
+            }
+        });
+
+        contactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://assist.ng/faqs.html"));
+                startActivity(i);
+            }
+        });
 
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -220,23 +253,23 @@ public class AccountFragments extends Fragment {
         accountTypeList.add("Personal Account");
         accountTypeList.add("Business Account");
 
-        if(isVerified()){
-            dashboardLayout.setVisibility(View.VISIBLE);
-            switchAccount.setVisibility(View.VISIBLE);
+        if(!isVerified()){
+            dashboardLayout.setVisibility(View.GONE);
+            switchAccount.setVisibility(View.GONE);
             userVerification.setVisibility(View.VISIBLE);
-            provideAService.setVisibility(View.VISIBLE);
-            accomodationAdmin.setVisibility(View.VISIBLE);
+            provideAService.setVisibility(View.GONE);
+            accomodationAdmin.setVisibility(View.GONE);
             isVerifiedBadge.setVisibility(View.VISIBLE);
         }
 
         if(accountRole.equalsIgnoreCase("admin")){
-           // authAdminUser();
+            authAdminUser();
         }
         if(verificationType.equalsIgnoreCase("personal")){
-           // authPersonalUser();
+            authPersonalUser();
         }
         if(verificationType.equalsIgnoreCase("business")){
-           // authBusinessUser();
+            authBusinessUser();
         }
 
     }

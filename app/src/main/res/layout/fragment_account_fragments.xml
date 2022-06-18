@@ -298,7 +298,7 @@
                         android:layout_width="23dp"
                         android:layout_height="19dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/dashboard_icon"
+                        android:src="@drawable/_931179_faq_help_question_support_information_icon"
                         android:tint="#454647"/>
                 </LinearLayout>
 
@@ -352,10 +352,10 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="23dp"
-                        android:layout_height="19dp"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/dashboard_icon"
+                        android:src="@drawable/_463468_home_media_network_social_icon"
                         android:tint="#454647"/>
                 </LinearLayout>
 
@@ -591,7 +591,8 @@
                     android:fontFamily="@font/clannews"
                     android:gravity="center|left"
                     android:maxLines="1"
-                    android:text="Privacy Policy"
+                    android:text="FAQs"
+                    android:id="@+id/faqs"
                     android:textColor="#4F565A"
                     android:textSize="12dp" />
 
@@ -612,7 +613,8 @@
                     android:fontFamily="@font/clannews"
                     android:gravity="center|left"
                     android:maxLines="1"
-                    android:text="Terms"
+                    android:id="@+id/why_assist"
+                    android:text="Why Use Assist.ng"
                     android:textColor="#4F565A"
                     android:textSize="12dp" />
 
@@ -629,10 +631,11 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
                     android:ellipsize="end"
+                    android:id="@+id/contact_us"
                     android:fontFamily="@font/clannews"
                     android:gravity="center|left"
                     android:maxLines="1"
-                    android:text="Help Desk"
+                    android:text="Contact Us"
                     android:textColor="#4F565A"
                     android:textSize="12dp" />
 

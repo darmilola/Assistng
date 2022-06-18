@@ -39,9 +39,19 @@ public class LoanHistoryAdapter extends RecyclerView.Adapter<LoanHistoryAdapter.
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
         LoanHistoryModel loanHistoryModel = loanHistoryModelArrayList.get(position);
-        holder.status.setText(loanHistoryModel.getStatus());
         holder.amount.setText("NGN "+loanHistoryModel.getAmount());
         holder.date.setText(loanHistoryModel.getDate());
+
+        if(loanHistoryModel.getStatus().equalsIgnoreCase("pendingApproval")){
+            holder.status.setText("Pending Approval");
+        }
+        else if(loanHistoryModel.getStatus().equalsIgnoreCase("rejected")){
+            holder.status.setText("Rejected");
+        }
+        else if(loanHistoryModel.getStatus().equalsIgnoreCase("approved")){
+            holder.status.setText("Approved");
+        }
+
     }
 
 

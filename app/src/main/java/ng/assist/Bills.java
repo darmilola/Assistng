@@ -97,7 +97,7 @@ public class Bills extends AppCompatActivity {
                 recyclerView.setVisibility(View.VISIBLE);
                 adapter = new BillsAdapter(billsModelArrayList,Bills.this);
                 recyclerView.setAdapter(adapter);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(Bills.this,LinearLayoutManager.VERTICAL,true);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(Bills.this,LinearLayoutManager.VERTICAL,false);
                 recyclerView.setLayoutManager(layoutManager);
             }
 
