@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,7 +19,12 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import me.relex.circleindicator.CircleIndicator2;
@@ -34,7 +40,7 @@ public class AccomodationPaymentDetails extends AppCompatActivity {
     ProductImageScrollAdapter adapter;
     ArrayList<String> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    TextView houseTitle,pricePerMonth,adddress,description;
+    TextView houseTitle, pricePerMonth, adddress, description;
     ImageView agentPicture;
     ProgressBar loadingBar;
     NestedScrollView rootLayout;
@@ -42,6 +48,8 @@ public class AccomodationPaymentDetails extends AppCompatActivity {
     String houseId, agentId;
     MaterialButton approve;
     LinearLayout imageScrollLayout;
+    TextView remainingDaysToPay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +58,8 @@ public class AccomodationPaymentDetails extends AppCompatActivity {
     }
 
 
-    private void initView(){
+    private void initView() {
+        remainingDaysToPay = findViewById(R.id.remaining_days);
         imageScrollLayout = findViewById(R.id.scroll_image_layout);
         loadingBar = findViewById(R.id.estate_dashboard_details_progress);
         rootLayout = findViewById(R.id.estate_dashboard_details_nested_scroll);
@@ -73,26 +82,25 @@ public class AccomodationPaymentDetails extends AppCompatActivity {
         description.setText(accomodationListModel.getHouseDesc());
 
 
-        Locale NigerianLocale = new Locale("en","ng");
+        Locale NigerianLocale = new Locale("en", "ng");
         String unFormattedPrice = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(accomodationListModel.getBookingFee()));
-        String formattedPrice = unFormattedPrice.replaceAll("\\.00","");
+        String formattedPrice = unFormattedPrice.replaceAll("\\.00", "");
 
         String unFormattedPrice2 = NumberFormat.getCurrencyInstance(NigerianLocale).format(Integer.parseInt(accomodationListModel.getPricesPerMonth()));
-        String formattedPrice2 = unFormattedPrice2.replaceAll("\\.00","");
+        String formattedPrice2 = unFormattedPrice2.replaceAll("\\.00", "");
 
-        if(accomodationListModel.getType().equalsIgnoreCase("lodges")){
-            pricePerMonth.setText(formattedPrice2+"/year");
-        }
-        else{
-            pricePerMonth.setText(formattedPrice2+"/day");
+        if (accomodationListModel.getType().equalsIgnoreCase("lodges")) {
+            pricePerMonth.setText(formattedPrice2 + "/year");
+        } else {
+            pricePerMonth.setText(formattedPrice2 + "/day");
         }
 
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
-        LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationPaymentDetails.this, LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager imagesManager = new LinearLayoutManager(AccomodationPaymentDetails.this, LinearLayoutManager.HORIZONTAL, false);
         imagesRecyclerview.setLayoutManager(imagesManager);
 
-        EstateDashboardModel estateDashboardModel = new EstateDashboardModel(houseId,agentId);
+        EstateDashboardModel estateDashboardModel = new EstateDashboardModel(houseId, agentId);
         estateDashboardModel.getAccomodationDetails();
         estateDashboardModel.setAccomodationDetailsListener(new EstateDashboardModel.AccomodationDetailsListener() {
             @Override
@@ -100,12 +108,13 @@ public class AccomodationPaymentDetails extends AppCompatActivity {
                 rootLayout.setVisibility(View.VISIBLE);
                 loadingBar.setVisibility(View.GONE);
                 imageScrollLayout.setVisibility(View.VISIBLE);
-                adapter = new ProductImageScrollAdapter(imageList,AccomodationPaymentDetails.this);
+                adapter = new ProductImageScrollAdapter(imageList, AccomodationPaymentDetails.this);
                 imagesRecyclerview.setAdapter(adapter);
                 pagerSnapHelper.attachToRecyclerView(imagesRecyclerview);
                 imagesIndicator.attachToRecyclerView(imagesRecyclerview, pagerSnapHelper);
                 adapter.registerAdapterDataObserver(imagesIndicator.getAdapterDataObserver());
             }
+
             @Override
             public void onError(String message) {
                 rootLayout.setVisibility(View.GONE);
@@ -122,7 +131,7 @@ public class AccomodationPaymentDetails extends AppCompatActivity {
                 String agentId = accomodationListModel.getAgentId();
                 String amount = accomodationListModel.getPricesPerMonth();
                 int bookingId = accomodationListModel.getBookingId();
-                AccomodationListModel accomodationListModel = new AccomodationListModel(agentId,amount,bookingId,AccomodationPaymentDetails.this);
+                AccomodationListModel accomodationListModel = new AccomodationListModel(agentId, amount, bookingId, AccomodationPaymentDetails.this);
                 accomodationListModel.ReleaseFund();
                 accomodationListModel.setUpdateListener(new AccomodationListModel.UpdateListener() {
                     @Override
@@ -139,5 +148,66 @@ public class AccomodationPaymentDetails extends AppCompatActivity {
             }
         });
 
+        String remainingDays = CalcRemainingDate(accomodationListModel.getBookingDate());
+
+        if (Integer.parseInt(remainingDays) > 14) {
+            remainingDaysToPay.setText("Ready To Pay");
+        } else {
+            int diff = 14 - Integer.parseInt(remainingDays);
+            remainingDaysToPay.setText(Integer.toString(diff) + " Days Remaining for Refund");
+        }
+
     }
+
+    public String CalcRemainingDate(String date) {
+        String bookDate = date;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(sdf.parse(bookDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Date todaysDate = new Date();
+        Date houseBookDate = c.getTime();
+
+
+        String today = sdf.format(todaysDate);
+        String bookDateStr = sdf.format(houseBookDate);
+
+        String rem = findDifference(houseBookDate, todaysDate);
+
+        return rem;
+    }
+
+    String
+    findDifference(Date start_date,
+                   Date end_date) {
+        long difference_In_Days = 0;
+        // SimpleDateFormat converts the
+        // string format to date object
+        SimpleDateFormat sdf
+                = new SimpleDateFormat(
+                "dd-MM-yyyy HH:mm:ss");
+
+
+
+
+            // Calucalte time difference
+            // in milliseconds
+            long difference_In_Time
+                    = end_date.getTime() - start_date.getTime();
+
+
+             difference_In_Days
+                    = (difference_In_Time
+                    / (1000 * 60 * 60 * 24))
+                    % 365;
+
+
+        return Long.toString(difference_In_Days);
+    }
+
+
 }

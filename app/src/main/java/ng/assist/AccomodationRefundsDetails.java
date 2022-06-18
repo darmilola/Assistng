@@ -111,7 +111,7 @@ public class AccomodationRefundsDetails extends AppCompatActivity {
         String formattedPrice2 = unFormattedPrice2.replaceAll("\\.00","");
 
         if(accomodationListModel.getType().equalsIgnoreCase("lodges")){
-            pricePerMonth.setText(formattedPrice2+"/month");
+            pricePerMonth.setText(formattedPrice2+"/year");
         }
         else{
             pricePerMonth.setText(formattedPrice2+"/day");

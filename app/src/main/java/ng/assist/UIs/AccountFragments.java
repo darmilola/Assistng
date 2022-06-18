@@ -169,8 +169,9 @@ public class AccountFragments extends Fragment {
         dashboardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(accountType.equalsIgnoreCase("Merchant"))startActivity(new Intent(getContext(),EcommerceDashboard.class));
-                if(accountType.equalsIgnoreCase("House Agent"))startActivity(new Intent(getContext(), EstateListingDashboard.class));
+                accountType =  preferences.getString("accountType","");
+                if(accountType.equalsIgnoreCase("Physical Products"))startActivity(new Intent(getContext(),EcommerceDashboard.class));
+                if(accountType.equalsIgnoreCase("Home Listing"))startActivity(new Intent(getContext(), EstateListingDashboard.class));
             }
         });
 
@@ -197,17 +198,8 @@ public class AccountFragments extends Fragment {
                                 accountType = item;
                                 Toast.makeText(getContext(), "Account Switched to "+item, Toast.LENGTH_SHORT).show();
                                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                                preferences.edit().remove("accountType").apply();
                                 preferences.edit().putString("accountType",item).apply();
-                                if(item.equalsIgnoreCase("Normal User")){
-
-                                    dashboardLayout.setVisibility(View.GONE);
-                                }
-                                else{
-
-                                    dashboardLayout.setVisibility(View.VISIBLE);
-
-
-                                }
                             }
                             @Override
                             public void onError(String message) {
@@ -228,23 +220,23 @@ public class AccountFragments extends Fragment {
         accountTypeList.add("Personal Account");
         accountTypeList.add("Business Account");
 
-        if(!isVerified()){
-            dashboardLayout.setVisibility(View.GONE);
-            switchAccount.setVisibility(View.GONE);
+        if(isVerified()){
+            dashboardLayout.setVisibility(View.VISIBLE);
+            switchAccount.setVisibility(View.VISIBLE);
             userVerification.setVisibility(View.VISIBLE);
-            provideAService.setVisibility(View.GONE);
-            accomodationAdmin.setVisibility(View.GONE);
+            provideAService.setVisibility(View.VISIBLE);
+            accomodationAdmin.setVisibility(View.VISIBLE);
             isVerifiedBadge.setVisibility(View.VISIBLE);
         }
 
         if(accountRole.equalsIgnoreCase("admin")){
-            authAdminUser();
+           // authAdminUser();
         }
         if(verificationType.equalsIgnoreCase("personal")){
-            authPersonalUser();
+           // authPersonalUser();
         }
         if(verificationType.equalsIgnoreCase("business")){
-            authBusinessUser();
+           // authBusinessUser();
         }
 
     }

@@ -16,14 +16,39 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="16dp"
-                android:id="@+id/nav_back"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/_504219_left_arrow_navigation_direction_previous_icon"
-                android:tint="@color/colorPrimary"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/nav_back"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/_504219_left_arrow_navigation_direction_previous_icon"
+                    android:tint="@color/colorPrimary"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="170dp"
+                    android:layout_height="50dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="Show Bookings"
+                    android:textSize="15dp"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/show_bookings"
+                    android:background="@drawable/transparent_radius"
+                    android:textColor="@color/colorPrimary"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/clannews"
+                    app:cornerRadius="5dp"/>
+
+            </RelativeLayout>
+
       <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -288,21 +313,7 @@
         android:fontFamily="@font/clannews"
         app:cornerRadius="5dp"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:text="Show Bookings"
-                android:textSize="18dp"
-                android:id="@+id/show_bookings"
-                android:background="@drawable/transparent_radius"
-                android:textColor="@color/colorPrimary"
-                android:textAllCaps="false"
-                android:fontFamily="@font/clannews"
-                app:cornerRadius="5dp"/>
+
 
         </LinearLayout>
     </ScrollView>

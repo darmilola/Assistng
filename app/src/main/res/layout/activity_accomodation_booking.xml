@@ -71,8 +71,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/clannews"
-                    android:gravity="center"
-                    android:text="World trade center Abuja Nigeria"
+                    android:gravity="center|left"
+                    android:text="World trade center Abuja"
                     android:layout_marginLeft="7dp"
                     android:layout_marginRight="20dp"
                     android:maxLines="1"
@@ -82,11 +82,17 @@
                     android:textSize="14dp" />
             </LinearLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:gravity="right"
+                android:layout_alignParentLeft="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
@@ -134,6 +140,51 @@
                     android:text="Baths"
                     android:fontFamily="@font/clannews"/>
             </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true">
+
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:id="@+id/acc_details_call"
+                        android:backgroundTint="@color/pink"
+                        android:background="@drawable/transport_mode_unselected_background">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:tint="@color/white"
+                            android:src="@drawable/ic_local_phone_black_24dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:id="@+id/acc_details_chat"
+                        android:backgroundTint="@color/proposed_color"
+                        android:background="@drawable/transport_mode_unselected_background">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:tint="@color/white"
+                            android:src="@drawable/iconfinder_chat"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -233,48 +284,23 @@
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
-                    android:layout_alignParentRight="true">
-
-                    <LinearLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:id="@+id/acc_details_call"
-                        android:backgroundTint="@color/pink"
-                        android:background="@drawable/transport_mode_unselected_background">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:tint="@color/white"
-                            android:src="@drawable/ic_local_phone_black_24dp"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:id="@+id/acc_details_chat"
-                        android:backgroundTint="@color/proposed_color"
-                        android:background="@drawable/transport_mode_unselected_background">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:tint="@color/white"
-                            android:src="@drawable/iconfinder_chat"/>
-                    </LinearLayout>
+                    android:text="Book Inspection"
+                    android:textSize="10dp"
+                    android:id="@+id/acc_details_book_inspection"
+                    app:cornerRadius="5dp"
+                    android:background="@drawable/transparent_radius"
+                    android:textColor="@color/colorPrimary"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/clannews"
+                    android:layout_gravity="center"/>
 
 
-                </LinearLayout>
+
 
 
 
@@ -356,6 +382,7 @@
             android:layout_height="70dp"
             android:gravity="center|top"
             android:paddingTop="5dp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -373,20 +400,6 @@
                 android:fontFamily="@font/clannews"
                 android:text="NGN 2000"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="220dp"
-                android:layout_height="50dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:text="Pay Inspection Fee"
-                android:textSize="15dp"
-                android:id="@+id/acc_details_book_inspection"
-                app:cornerRadius="5dp"
-                android:background="@drawable/transparent_radius"
-                android:textColor="@color/colorPrimary"
-                android:textAllCaps="false"
-                android:fontFamily="@font/clannews"
-                android:layout_gravity="center"/>
 
         </RelativeLayout>
 

@@ -321,11 +321,11 @@ public class AccomodationBooking extends AppCompatActivity {
 
     private void showInspectionDialog() {
         builder = new AlertDialog.Builder(this);
-        builder.setMessage("You are about to pay for inspection")
+        builder.setMessage("This Agent requires an inspection fee of ₦"+insPay+" before they will take you to this apartment.\n Do you accept to pay this fee once you meet the Agent?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (isAuthorized(insPay)) {
+                       /* if (isAuthorized(insPay)) {
                             String fullName = agentModel.getAgentFirstname() + " - " + agentModel.getAgentLastName();
                             String billId = generateBillId();
                             int cost = Integer.parseInt(insPay);
@@ -350,7 +350,8 @@ public class AccomodationBooking extends AppCompatActivity {
                             });
                         } else {
                             Toast.makeText(AccomodationBooking.this, "Insufficient Balance", Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
+                        dialog.cancel();
 
                     }
                 })
@@ -358,6 +359,7 @@ public class AccomodationBooking extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         //  Action for 'NO' Button
                         dialog.cancel();
+                        finish();
                     }
                 });
         //Creating dialog box

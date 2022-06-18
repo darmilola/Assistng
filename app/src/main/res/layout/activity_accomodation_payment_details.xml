@@ -124,6 +124,14 @@
                 android:textSize="16dp" />
 
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:text="Remaining Days"
+                android:id="@+id/remaining_days"/>
 
 
 
@@ -132,7 +140,8 @@
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Approve Payment"
                     android:textAllCaps="false"
