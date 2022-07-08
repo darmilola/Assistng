@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements DmFragment.Unread
                 preferences.edit().putString("verificationStatus",mainActivityModel.getVerificationStatus()).apply();
                 preferences.edit().putString("role",mainActivityModel.getRole()).apply();
                 preferences.edit().putString("verificationType",mainActivityModel.getVerificationType()).apply();
+                preferences.edit().putString("canApply",mainActivityModel.getCanApplyForLoan()).apply();
                 setupViewPager(viewPager);
             }
             @Override

@@ -20,15 +20,13 @@ import java.util.ArrayList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.GroceryDisplayAdapter;
-import ng.assist.HomeServicesDetails;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.GroceryModel;
-import ng.assist.UIs.ViewModel.ServicesModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HealthAndBeauty extends Fragment {
+public class GrainsAndStaples extends Fragment {
 
 
     RecyclerView recyclerView;
@@ -40,7 +38,7 @@ public class HealthAndBeauty extends Fragment {
     private String nextPageUrl;
     TextView noProductAvailable;
 
-    public HealthAndBeauty() {
+    public GrainsAndStaples() {
         // Required empty public constructor
     }
 
@@ -49,7 +47,7 @@ public class HealthAndBeauty extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_health_and_beauty, container, false);
+        view = inflater.inflate(R.layout.fragment_electronics, container, false);
         initView();
         return  view;
     }
@@ -64,8 +62,7 @@ public class HealthAndBeauty extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         String city = getLocation();
-
-        GroceryModel groceryModel = new GroceryModel("Health And Beauty",city);
+        GroceryModel groceryModel = new GroceryModel("Grains and Staples",city);
         groceryModel.getGroceryProducts();
         groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
             @Override
@@ -94,8 +91,8 @@ public class HealthAndBeauty extends Fragment {
                     }
 
                     recyclerProgress.setVisibility(View.VISIBLE);
-                    GroceryModel groceryModel = new GroceryModel("Health And Beauty",city);
-                    groceryModel.getGroceryProductsNextPage(HealthAndBeauty.this.nextPageUrl);
+                    GroceryModel groceryModel = new GroceryModel("Grains and Staples",city);
+                    groceryModel.getGroceryProductsNextPage(GrainsAndStaples.this.nextPageUrl);
                     groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
                         @Override
                         public void onProductReady(ArrayList<GroceryModel> groceryModels, String mNextPageUrl) {
@@ -123,7 +120,7 @@ public class HealthAndBeauty extends Fragment {
         recyclerView.setVisibility(View.GONE);
         noProductAvailable.setVisibility(View.GONE);
 
-        GroceryModel groceryModel = new GroceryModel("Health And Beauty",city);
+        GroceryModel groceryModel = new GroceryModel("Grains and Staples",city);
         groceryModel.getGroceryProducts();
         groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
             @Override

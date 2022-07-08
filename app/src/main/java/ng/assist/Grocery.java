@@ -9,12 +9,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import ng.assist.UIs.Babies;
 import ng.assist.UIs.Computing;
-import ng.assist.UIs.Electronics;
-import ng.assist.UIs.Fashion;
+import ng.assist.UIs.GrainsAndStaples;
+import ng.assist.UIs.Clothing;
 import ng.assist.UIs.GroceryFastFoods;
-import ng.assist.UIs.HealthAndBeauty;
+import ng.assist.UIs.KitchenAppliances;
 import ng.assist.UIs.HomeAndOffice;
-import ng.assist.UIs.HomeFragment;
 import ng.assist.UIs.PhoneAndSupplies;
 import ng.assist.UIs.Utils.ListDialog;
 
@@ -27,7 +26,6 @@ import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -99,7 +97,7 @@ public class Grocery extends AppCompatActivity {
                             ((GroceryFastFoods)activeFragment).refreshFragment(city);
                         }
                         if(pos == 1){
-                            ((Electronics)activeFragment).refreshFragment(city);
+                            ((GrainsAndStaples)activeFragment).refreshFragment(city);
                         }
                         if(pos == 2){
                             ((Computing)activeFragment).refreshFragment(city);
@@ -108,10 +106,10 @@ public class Grocery extends AppCompatActivity {
                             ((Babies)activeFragment).refreshFragment(city);
                         }
                         if(pos == 4){
-                            ((Fashion)activeFragment).refreshFragment(city);
+                            ((Clothing)activeFragment).refreshFragment(city);
                         }
                         if(pos == 5){
-                            ((HealthAndBeauty)activeFragment).refreshFragment(city);
+                            ((KitchenAppliances)activeFragment).refreshFragment(city);
                         }
                         if(pos == 6){
                             ((HomeAndOffice)activeFragment).refreshFragment(city);
@@ -163,15 +161,15 @@ public class Grocery extends AppCompatActivity {
                 case 0:
                     return new GroceryFastFoods();
                 case 1:
-                    return new Electronics();
+                    return new GrainsAndStaples();
                 case 2:
                     return new Computing();
                 case 3:
                     return new Babies();
                 case 4:
-                    return new Fashion();
+                    return new Clothing();
                 case 5:
-                    return new HealthAndBeauty();
+                    return new KitchenAppliances();
                 case 6:
                     return new HomeAndOffice();
                 case 7:
@@ -219,15 +217,14 @@ public class Grocery extends AppCompatActivity {
 
     }
     private void setupViewPager(ViewPager viewPager) {
-
         adapter.addFragment(new GroceryFastFoods(), "Groceries");
-        adapter.addFragment(new Electronics(), "Electronics");
+        adapter.addFragment(new GrainsAndStaples(), "Grains and Staples");
         adapter.addFragment(new Computing(), "Computing");
-        adapter.addFragment(new Babies(), "Babies");
-        adapter.addFragment(new Fashion(), "Fashion");
-        adapter.addFragment(new HealthAndBeauty(), "Health And Beauty");
-        adapter.addFragment(new HomeAndOffice(), "Home And Office");
-        adapter.addFragment(new PhoneAndSupplies(), "Phone And  Supplies");
+        adapter.addFragment(new Babies(), "Kids and Babies");
+        adapter.addFragment(new Clothing(), "Clothing");
+        adapter.addFragment(new KitchenAppliances(), "Kitchen Appliances");
+        adapter.addFragment(new HomeAndOffice(), "Home Appliances");
+        adapter.addFragment(new PhoneAndSupplies(), "Phones and Accessories");
         viewPager.setAdapter(adapter);
     }
 

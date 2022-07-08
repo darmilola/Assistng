@@ -28,6 +28,9 @@ import com.tiper.MaterialSpinner;
 
 import java.util.ArrayList;
 
+import mono.connect.kit.ConnectKit;
+import mono.connect.kit.Mono;
+import mono.connect.kit.MonoConfiguration;
 import ng.assist.LoanApplySuccessListener;
 import ng.assist.QuickCreditApplication;
 import ng.assist.R;
@@ -48,16 +51,18 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
     private ArrayList<String> repaymentList = new ArrayList<>();
     private ArrayList<String> amountList = new ArrayList<>();
     LoanModel loanModel;
-    String accountCode,userId;
+    String accountCode = "",userId;
     CheckBox termsAndConditions;
     String loanAmount;
     ListDialog listDialog;
+    MaterialButton authenticate;
+    ConnectKit widget;
+    boolean isAuthSuccess = false;
 
     @Override
-    public void onAmountReady(String Amount, String accountCode) {
+    public void onAmountReady(String Amount) {
          loanAmount = Amount;
          amount.setText(loanAmount);
-         this.accountCode = accountCode;
          populateRepaymentList();
          populateAmountList();
     }
@@ -95,6 +100,7 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         termsAndConditions = view.findViewById(R.id.loan_apply_terms_and_condition);
         amount = view.findViewById(R.id.quick_credit_amount);
+        authenticate = view.findViewById(R.id.quick_credit_auth);
         paybackPeriod = view.findViewById(R.id.quick_credit_loan_payback_period);
         monthlyDue = view.findViewById(R.id.quick_credit_monthly_due);
         totalRepayment = view.findViewById(R.id.quick_credit_total_repayment);
@@ -103,6 +109,41 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
         userId = preferences.getString("userEmail","");
         serviceFeeText = view.findViewById(R.id.loan_service_fee_text);
         amountDropDown = view.findViewById(R.id.loan_amount_dropdown);
+        String reference = generateProductId();
+
+
+        authenticate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (paybackPeriod.getText().toString().trim().equalsIgnoreCase("Select Month")) {
+                    Toast.makeText(getContext(), "Please Select Payback Month", Toast.LENGTH_SHORT).show();
+                } else if (!termsAndConditions.isChecked()) {
+                    Toast.makeText(getContext(), "Please Accept Loan Terms and Conditions", Toast.LENGTH_SHORT).show();
+                } else if (!accountCode.equalsIgnoreCase("")) {
+                    Toast.makeText(getContext(), "You are Already Authenticated please Apply", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    MonoConfiguration config = new MonoConfiguration.Builder(getContext(),
+                            "test_pk_EAY6dsTsaS0u3T1WQDz3", // your publicKey
+                            (account) -> {
+                                accountCode = account.getCode();
+                            }) // onSuccess function
+                            .addReference(reference)
+                            .addOnEvent((event) -> {
+                                if (event.getEventName().equalsIgnoreCase("SUCCESS")) {
+                                    isAuthSuccess = true;
+                                }
+                            }) // onEvent function
+                            .addOnClose(() -> {
+                                System.out.println("Widget closed.");
+                            }) // onClose function
+                            .build();
+                    widget = Mono.create(config);
+                    widget.show();
+                }
+            }
+        });
 
         paybackDropdown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,11 +195,15 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!termsAndConditions.isChecked()) {
-                    Toast.makeText(getContext(), "Please Accept Loan Terms and Conditions", Toast.LENGTH_SHORT).show();
+
+                if(accountCode.equalsIgnoreCase("")){
+                    Toast.makeText(getContext(), "Please Authenticate before Applying", Toast.LENGTH_SHORT).show();
                 }
                 else if(paybackPeriod.getText().toString().trim().equalsIgnoreCase("Select Month")){
                     Toast.makeText(getContext(), "Please Select Payback Month", Toast.LENGTH_SHORT).show();
+                }
+                else  if (!termsAndConditions.isChecked()) {
+                    Toast.makeText(getContext(), "Please Accept Loan Terms and Conditions", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     loanModel = new LoanModel(getContext());
@@ -206,6 +251,34 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
         });
 
     }
+
+    // function to generate a random string of length n
+    static String generateProductId()
+    {
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(50);
+
+        for (int i = 0; i < 50; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
+    }
+
 
     private String calcTotalRepayment(String paybackMonth,String monthlyDue){
         if(paybackMonth.equalsIgnoreCase("1 month")){

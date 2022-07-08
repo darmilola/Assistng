@@ -253,7 +253,7 @@ public class AccountFragments extends Fragment {
         accountTypeList.add("Personal Account");
         accountTypeList.add("Business Account");
 
-        if(!isVerified()){
+       if(!isVerified()){
             dashboardLayout.setVisibility(View.GONE);
             switchAccount.setVisibility(View.GONE);
             userVerification.setVisibility(View.VISIBLE);

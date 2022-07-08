@@ -7,18 +7,8 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import me.relex.circleindicator.CircleIndicator2;
 import ng.assist.Adapters.AddProductImageAdapter;
-import ng.assist.Adapters.ProductImageScrollAdapter;
-import ng.assist.UIs.Babies;
-import ng.assist.UIs.Computing;
-import ng.assist.UIs.Electronics;
-import ng.assist.UIs.Fashion;
-import ng.assist.UIs.GroceryFastFoods;
-import ng.assist.UIs.HealthAndBeauty;
-import ng.assist.UIs.HomeAndOffice;
-import ng.assist.UIs.PhoneAndSupplies;
 import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.EcommerceDashboardModel;
-import ng.assist.UIs.ViewModel.EstateDashboardModel;
 import ng.assist.UIs.ViewModel.ProductImageModel;
 
 import android.content.Intent;
@@ -39,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -217,13 +206,13 @@ public class DashboardAddProduct extends AppCompatActivity {
 
     private void populateCategory(){
         categoryList.add("Groceries");
-        categoryList.add("Electronics");
+        categoryList.add("Grains and Staples");
         categoryList.add("Computing");
-        categoryList.add("Babies");
-        categoryList.add("Fashion");
-        categoryList.add("Health And Beauty");
-        categoryList.add("Home And Office");
-        categoryList.add("Phone And  Supplies");
+        categoryList.add("Kids and Babies");
+        categoryList.add("Clothing");
+        categoryList.add("Kitchen Appliances");
+        categoryList.add("Home Appliances");
+        categoryList.add("Phones and Accessories");
     }
 
 

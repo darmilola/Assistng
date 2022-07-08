@@ -20,15 +20,13 @@ import java.util.ArrayList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ng.assist.Adapters.GroceryDisplayAdapter;
-import ng.assist.HomeServicesDetails;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.GroceryModel;
-import ng.assist.UIs.ViewModel.ServicesModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Fashion extends Fragment {
+public class Clothing extends Fragment {
 
 
     RecyclerView recyclerView;
@@ -40,7 +38,7 @@ public class Fashion extends Fragment {
     private String nextPageUrl;
     TextView noProductAvailable;
 
-    public Fashion() {
+    public Clothing() {
         // Required empty public constructor
     }
 
@@ -64,7 +62,7 @@ public class Fashion extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         String city = getLocation();
-        GroceryModel groceryModel = new GroceryModel("Fashion",city);
+        GroceryModel groceryModel = new GroceryModel("Clothing",city);
         groceryModel.getGroceryProducts();
         groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
             @Override
@@ -93,8 +91,8 @@ public class Fashion extends Fragment {
                     }
 
                     recyclerProgress.setVisibility(View.VISIBLE);
-                    GroceryModel groceryModel = new GroceryModel("Fashion",city);
-                    groceryModel.getGroceryProductsNextPage(Fashion.this.nextPageUrl);
+                    GroceryModel groceryModel = new GroceryModel("Clothing",city);
+                    groceryModel.getGroceryProductsNextPage(Clothing.this.nextPageUrl);
                     groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
                         @Override
                         public void onProductReady(ArrayList<GroceryModel> groceryModels, String mNextPageUrl) {
@@ -122,7 +120,7 @@ public class Fashion extends Fragment {
         recyclerView.setVisibility(View.GONE);
         noProductAvailable.setVisibility(View.GONE);
 
-        GroceryModel groceryModel = new GroceryModel("Fashion",city);
+        GroceryModel groceryModel = new GroceryModel("Clothing",city);
         groceryModel.getGroceryProducts();
         groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
             @Override

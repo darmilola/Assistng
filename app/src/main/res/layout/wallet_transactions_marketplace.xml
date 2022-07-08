@@ -74,7 +74,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="110dp"
-                    android:layout_height="45dp"
+                    android:layout_height="35dp"
                     android:text="View Order"
                     android:textSize="12dp"
                     android:textAllCaps="false"

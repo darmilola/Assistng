@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment {
     TextView userFirstname,userWalletBalance;
     String mFirstname,mWalletBalance;
     LinearLayout topUp;
+    String canApply;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -63,6 +64,7 @@ public class HomeFragment extends Fragment {
     private void initView(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String status = preferences.getString("verificationStatus","notVerified");
+        canApply = preferences.getString("canApply","false");
         topUp = view.findViewById(R.id.home_topup_layout);
         transportationLayout = view.findViewById(R.id.home_transportation_layout);
         groceryLayout = view.findViewById(R.id.home_grocery_layout);
@@ -92,6 +94,9 @@ public class HomeFragment extends Fragment {
 
                 if(status.equalsIgnoreCase("pending") || status.equalsIgnoreCase("notVerified")){
                     Toast.makeText(getContext(), "Please Get Verified To Apply", Toast.LENGTH_SHORT).show();
+                }
+                else if(canApply.equalsIgnoreCase("false")){
+                    Toast.makeText(getContext(), "You are currently ineligible To Apply", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     startActivity(new Intent(getContext(), QuickCreditApplication.class));

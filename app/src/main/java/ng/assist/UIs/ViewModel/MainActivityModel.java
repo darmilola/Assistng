@@ -34,6 +34,7 @@ public class MainActivityModel {
     private String role;
     private String verificationType;
     private String verificationStatus;
+    private String canApplyForLoan;
     private Context context;
     private MainactivityContentListener mainactivityContentListener;
     private String baseUrl = new URL().getBaseUrl();
@@ -77,6 +78,19 @@ public class MainActivityModel {
         this.role = role;
         this.verificationStatus = verificationStatus;
         this.verificationType = verificationType;
+    }
+
+    public MainActivityModel(String userFirstname, String userWalletBalance,String userLastname,String userImageUrl,String accountType,String isVerified, String role,String verificationStatus, String verificationType, String canApplyForLoan){
+        this.userFirstname = userFirstname;
+        this.userWalletBalance = userWalletBalance;
+        this.userLastname = userLastname;
+        this.userImageUrl = userImageUrl;
+        this.accountType = accountType;
+        this.isVerified = isVerified;
+        this.role = role;
+        this.verificationStatus = verificationStatus;
+        this.verificationType = verificationType;
+        this.canApplyForLoan = canApplyForLoan;
     }
 
     public void setMainactivityContentListener(MainactivityContentListener mainactivityContentListener) {
@@ -135,7 +149,8 @@ public class MainActivityModel {
                    String role = data.getJSONObject(0).getString("role");
                    String verificationType = data.getJSONObject(0).getString("verificationType");
                    String verificationStatus = data.getJSONObject(0).getString("verificationStatus");
-                   MainActivityModel mainActivityModel = new MainActivityModel(firstname,walletBalance,lastname,imageUrl,accountType,isVerified,role,verificationStatus,verificationType);
+                   String canApplyForLoan = data.getJSONObject(0).getString("canApplyForLoan");
+                   MainActivityModel mainActivityModel = new MainActivityModel(firstname,walletBalance,lastname,imageUrl,accountType,isVerified,role,verificationStatus,verificationType,canApplyForLoan);
                    mainactivityContentListener.onContentReady(mainActivityModel);
                 }
                 else if(status.equalsIgnoreCase("failure")){
@@ -192,5 +207,9 @@ public class MainActivityModel {
 
     public String getVerificationType() {
         return verificationType;
+    }
+
+    public String getCanApplyForLoan() {
+        return canApplyForLoan;
     }
 }

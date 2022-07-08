@@ -150,10 +150,10 @@ public class AccomodationPaymentDetails extends AppCompatActivity {
 
         String remainingDays = CalcRemainingDate(accomodationListModel.getBookingDate());
 
-        if (Integer.parseInt(remainingDays) > 14) {
+        if (Integer.parseInt(remainingDays) > 7) {
             remainingDaysToPay.setText("Ready To Pay");
         } else {
-            int diff = 14 - Integer.parseInt(remainingDays);
+            int diff = 7 - Integer.parseInt(remainingDays);
             remainingDaysToPay.setText(Integer.toString(diff) + " Days Remaining for Refund");
         }
 

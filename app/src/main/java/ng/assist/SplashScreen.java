@@ -44,12 +44,12 @@ public class SplashScreen extends AppCompatActivity {
             String userEmail = preferences.getString("userEmail","");
             boolean isFirstTimeUser = preferences.getBoolean("first_time",true);
 
-          /*  if(isFirstTimeUser){
+            if(isFirstTimeUser){
                 startActivity(new Intent(SplashScreen.this,OnBoardingActivity.class));
                 finish();
-            }*/
+            }
 
-            if(userEmail.equalsIgnoreCase("")){
+           else if(userEmail.equalsIgnoreCase("")){
                 intent = new Intent(SplashScreen.this,WelcomeActivity.class);
                 startActivity(intent);
                 finish();

@@ -38,9 +38,6 @@ public class QuickCreditsAmount extends Fragment {
     private ArrayList<String> amountList = new ArrayList<>();
     MaterialButton authenticateWithMono,loanHistory;
     MonoAuthenticationListener authenticationListener;
-    ConnectKit widget;
-    String accountCode = "";
-    boolean isAuthSuccess = false;
     public QuickCreditsAmount() {
         // Required empty public constructor
     }
@@ -53,7 +50,7 @@ public class QuickCreditsAmount extends Fragment {
 
 
     public interface MonoAuthenticationListener{
-          void onAuthSuccessful(String amount, String accountCode);
+          void onAuthSuccessful(String amount);
     }
 
     @Override
@@ -98,37 +95,11 @@ public class QuickCreditsAmount extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(selectAmount.getText().toString().trim().equalsIgnoreCase("")){
+                if (selectAmount.getText().toString().trim().equalsIgnoreCase("")) {
                     selectAmount.setError("Required");
+                } else {
+                    authenticationListener.onAuthSuccessful(selectAmount.getText().toString().trim());
                 }
-
-               else if(authenticateWithMono.getText().toString().equalsIgnoreCase("Next")){
-                   // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                   // preferences.edit().putString("loanAmount",selectAmount.getText().toString().trim()).apply();
-                    authenticationListener.onAuthSuccessful(selectAmount.getText().toString().trim(),accountCode);
-                }
-
-                else{
-                    MonoConfiguration config = new MonoConfiguration.Builder(getContext(),
-                            "test_pk_EAY6dsTsaS0u3T1WQDz3", // your publicKey
-                            (account) -> {
-                                accountCode = account.getCode();
-                                authenticateWithMono.setText("Next");
-                            }) // onSuccess function
-                            .addReference(reference)
-                            .addOnEvent((event) -> {
-                                if(event.getEventName().equalsIgnoreCase("SUCCESS")){
-                                    isAuthSuccess = true;
-                                }
-                            }) // onEvent function
-                            .addOnClose(() -> {
-                                System.out.println("Widget closed.");
-                            }) // onClose function
-                            .build();
-                    widget = Mono.create(config);
-                    widget.show();
-                }
-
             }
         });
 

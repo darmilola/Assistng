@@ -64,7 +64,7 @@ public class PhoneAndSupplies extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         String city = getLocation();
-        GroceryModel groceryModel = new GroceryModel("Phone And Supplies",city);
+        GroceryModel groceryModel = new GroceryModel("Phones and Accessories",city);
         groceryModel.getGroceryProducts();
         groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
             @Override
@@ -93,7 +93,7 @@ public class PhoneAndSupplies extends Fragment {
                     }
 
                     recyclerProgress.setVisibility(View.VISIBLE);
-                    GroceryModel groceryModel = new GroceryModel("Phone And Supplies",city);
+                    GroceryModel groceryModel = new GroceryModel("Phones and Accessories",city);
                     groceryModel.getGroceryProductsNextPage(PhoneAndSupplies.this.nextPageUrl);
                     groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
                         @Override
@@ -122,7 +122,7 @@ public class PhoneAndSupplies extends Fragment {
         recyclerView.setVisibility(View.GONE);
         noProductAvailable.setVisibility(View.GONE);
 
-        GroceryModel groceryModel = new GroceryModel("Phone And Supplies",city);
+        GroceryModel groceryModel = new GroceryModel("Phones and Accessories",city);
         groceryModel.getGroceryProducts();
         groceryModel.setProductReadyListener(new GroceryModel.ProductReadyListener() {
             @Override
