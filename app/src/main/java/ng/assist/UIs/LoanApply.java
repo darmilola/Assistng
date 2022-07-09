@@ -197,7 +197,7 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
             public void onClick(View view) {
 
                 if(accountCode.equalsIgnoreCase("")){
-                    Toast.makeText(getContext(), "Please Authenticate before Applying", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Validate Account is required", Toast.LENGTH_SHORT).show();
                 }
                 else if(paybackPeriod.getText().toString().trim().equalsIgnoreCase("Select Month")){
                     Toast.makeText(getContext(), "Please Select Payback Month", Toast.LENGTH_SHORT).show();
@@ -282,23 +282,23 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
 
     private String calcTotalRepayment(String paybackMonth,String monthlyDue){
         if(paybackMonth.equalsIgnoreCase("1 month")){
-            int total = Integer.parseInt(monthlyDue) * 1;
+            int total = (int)Math.ceil(Integer.parseInt(monthlyDue) * 1);
             return Integer.toString(total);
         }
         else if(paybackMonth.equalsIgnoreCase("2 months")){
-            int total = Integer.parseInt(monthlyDue) * 2;
+            int total = (int)Math.ceil(Integer.parseInt(monthlyDue) * 2);
             return Integer.toString(total);
         }
         else if(paybackMonth.equalsIgnoreCase("3 months")){
-            int total = Integer.parseInt(monthlyDue) * 3;
+            int total = (int)Math.ceil(Integer.parseInt(monthlyDue) * 3);
             return Integer.toString(total);
         }
         else if(paybackMonth.equalsIgnoreCase("4 months")){
-            int total = Integer.parseInt(monthlyDue) * 4;
+            int total = (int)Math.ceil(Integer.parseInt(monthlyDue) * 4);
             return Integer.toString(total);
         }
         else if(paybackMonth.equalsIgnoreCase("5 months")){
-            int total = Integer.parseInt(monthlyDue) * 5;
+            int total = (int)Math.ceil(Integer.parseInt(monthlyDue) * 5);
             return Integer.toString(total);
         }
         else{
@@ -313,19 +313,19 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
             return Integer.toString(due);
         }
         else if(paybackMonth.equalsIgnoreCase("2 months")){
-            int due = ((int)(Integer.parseInt(loanAmount)/2));
+            int due = (int)Math.ceil(Integer.parseInt(loanAmount)/2);
             return Integer.toString(due);
         }
         else if(paybackMonth.equalsIgnoreCase("3 months")){
-            int due = ((int)(Integer.parseInt(loanAmount)/3));
+            int due = (int)Math.ceil(Integer.parseInt(loanAmount)/3);
             return Integer.toString(due);
         }
         else if(paybackMonth.equalsIgnoreCase("4 months")){
-            int due = ((int)(Integer.parseInt(loanAmount)/4));
+            int due = (int)Math.ceil(Integer.parseInt(loanAmount)/4);
             return Integer.toString(due);
         }
         else if(paybackMonth.equalsIgnoreCase("5 months")){
-            int due = ((int)(Integer.parseInt(loanAmount)/5));
+            int due = (int)Math.ceil(Integer.parseInt(loanAmount)/5);
             return Integer.toString(due);
         }
         else{

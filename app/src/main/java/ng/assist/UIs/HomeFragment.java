@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import ng.assist.Accomodation;
 import ng.assist.BuildLocation;
@@ -76,10 +78,8 @@ public class HomeFragment extends Fragment {
         mFirstname = getArguments().getString("firstname");
         mWalletBalance = getArguments().getString("walletBalance");
         userFirstname.setText("Hi "+mFirstname+"!");
-        double amount = Double.parseDouble(mWalletBalance);
-        DecimalFormat formatter = new DecimalFormat("#,###.00");
-        String formatted = formatter.format(amount);
-        userWalletBalance.setText(formatted);
+        Double amount = Double.parseDouble(mWalletBalance);
+        userWalletBalance.setText(NumberFormat.getNumberInstance(Locale.US).format(amount));
 
         topUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +96,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "Please Get Verified To Apply", Toast.LENGTH_SHORT).show();
                 }
                 else if(canApply.equalsIgnoreCase("false")){
-                    Toast.makeText(getContext(), "You are currently ineligible To Apply", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Your application is currently being processed", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     startActivity(new Intent(getContext(), QuickCreditApplication.class));
@@ -161,10 +161,8 @@ public class HomeFragment extends Fragment {
     private void updateWalletBalanceFromSharedPref(Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String walletBalance = preferences.getString("walletBalance","0");
-        double amount = Double.parseDouble(walletBalance);
-        DecimalFormat formatter = new DecimalFormat("#,###.00");
-        String formatted = formatter.format(amount);
-        userWalletBalance.setText(formatted);
+        Double amount = Double.parseDouble(walletBalance);
+        userWalletBalance.setText(NumberFormat.getNumberInstance(Locale.US).format(amount));
 
     }
 

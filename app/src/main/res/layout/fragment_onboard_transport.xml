@@ -15,7 +15,7 @@
         android:textSize="17dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textColor="@color/light_text_color"
+        android:textColor="@color/splash_color"
         android:lineSpacingExtra="10dp"
         android:fontFamily="@font/clannews"
         android:text="Easily book a bus, Taxi, or Luxurious bus for yourself or a group of people from any location of your choice."/>

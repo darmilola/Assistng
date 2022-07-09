@@ -15,7 +15,7 @@
         android:textSize="17dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textColor="@color/light_text_color"
+        android:textColor="@color/splash_color"
         android:lineSpacingExtra="10dp"
         android:fontFamily="@font/clannews"
         android:text="Get access to our 24/7 convenient stores for reliable products backed by secured payment."/>

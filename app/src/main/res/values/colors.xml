@@ -7,6 +7,7 @@
     <color name="White">#ffffff</color>
     <color name="grey">#60000000</color>
     <color name="transparent">#00000000</color>
+    <color name="splash_color">#A797D6</color>
     <color name="black">#000000</color>
     <color name="new_dark_text_color">#0C0C0C</color>
     <color name="hintcolor">#c8c8c8</color>
