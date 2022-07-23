@@ -188,7 +188,7 @@ public class TopUp extends AppCompatActivity {
 
         }
         else{
-            Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Input Amount", Toast.LENGTH_SHORT).show();
         }
 
 

@@ -43,7 +43,7 @@ import ng.assist.UIs.ViewModel.LoanModel;
  */
 public class LoanApply extends Fragment implements QuickCreditApplication.AmountReadyListener {
 
-    TextView amount,paybackPeriod,monthlyDue,totalRepayment,serviceFeeText;
+    TextView amount,paybackPeriod,monthlyDue,totalRepayment,serviceFeeText,loanTerms;
     RelativeLayout paybackDropdown,amountDropDown;
     MaterialButton apply;
     View view;
@@ -104,12 +104,23 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
         paybackPeriod = view.findViewById(R.id.quick_credit_loan_payback_period);
         monthlyDue = view.findViewById(R.id.quick_credit_monthly_due);
         totalRepayment = view.findViewById(R.id.quick_credit_total_repayment);
+        loanTerms = view.findViewById(R.id.accept_loan_terms_and_condition);
         paybackDropdown = view.findViewById(R.id.loan_apply_payback_dropdown);
         apply = view.findViewById(R.id.quick_credit_apply_button);
         userId = preferences.getString("userEmail","");
         serviceFeeText = view.findViewById(R.id.loan_service_fee_text);
         amountDropDown = view.findViewById(R.id.loan_amount_dropdown);
         String reference = generateProductId();
+
+
+        loanTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://assist.ng/credit.php"));
+                startActivity(i);
+            }
+        });
 
 
         authenticate.setOnClickListener(new View.OnClickListener() {
@@ -157,9 +168,8 @@ public class LoanApply extends Fragment implements QuickCreditApplication.Amount
                          paybackPeriod.setText(month);
                          monthlyDue.setText(mMonthlyDue);
                          String mTotalRepayment = calcTotalRepayment(month,mMonthlyDue);
-                         totalRepayment.setText(mTotalRepayment);
+                         totalRepayment.setText(amount.getText().toString());
                          serviceFeeText.setText("The Service fee of "+calcServiceFee(Integer.parseInt(getPaybackMonth(paybackPeriod.getText().toString())))+" will be deducted before crediting your wallet");
-
                     }
                 });
             }

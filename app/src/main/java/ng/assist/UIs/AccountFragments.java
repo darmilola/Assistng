@@ -1,7 +1,6 @@
 package ng.assist.UIs;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,20 +34,14 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ng.assist.AccomodationAdmin;
-import ng.assist.AccomodationBooking;
 import ng.assist.BusinessProviderVerification;
-import ng.assist.ChatActivity;
 import ng.assist.EcommerceDashboard;
 import ng.assist.EstateListingDashboard;
-import ng.assist.MainActivity;
 import ng.assist.R;
-import ng.assist.SendMoney;
 import ng.assist.ServiceProviderDashboard;
 import ng.assist.ServiceProviderVerifications;
 import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.AccountModel;
-import ng.assist.UserAccomodationBooking;
-import ng.assist.VerificationDashBoard;
 import ng.assist.WelcomeActivity;
 
 /**
@@ -63,7 +56,7 @@ public class AccountFragments extends Fragment {
     ArrayList<String> accountList = new ArrayList<>();
     ArrayList<String> accountTypeList = new ArrayList<>();
     CircleImageView circleImageView;
-    TextView usernameField,faq,whyAssist,contactUs;
+    TextView usernameField, termsAndCondition, privacyPolicy, quickCreditTandC;
     String accountType,verificationType,accountRole;
     SharedPreferences preferences;
     ImageView isVerifiedBadge;
@@ -84,9 +77,9 @@ public class AccountFragments extends Fragment {
     }
 
     private void initView() {
-        faq = view.findViewById(R.id.faqs);
-        whyAssist = view.findViewById(R.id.why_assist);
-        contactUs = view.findViewById(R.id.contact_us);
+        termsAndCondition = view.findViewById(R.id.termsAndCondition);
+        privacyPolicy = view.findViewById(R.id.privacyPolicy);
+        quickCreditTandC = view.findViewById(R.id.quickCreditTandC);
         accomodationAdmin = view.findViewById(R.id.account_accomodation_admin);
         isVerifiedBadge = view.findViewById(R.id.verification_badge);
         userVerification = view.findViewById(R.id.account_users_verification);
@@ -101,31 +94,31 @@ public class AccountFragments extends Fragment {
         dashboardLayout.setVisibility(View.GONE);
 
 
-        faq.setOnClickListener(new View.OnClickListener() {
+        termsAndCondition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://assist.ng/faqs.html"));
+                i.setData(Uri.parse("https://assist.ng/terms.php"));
                 startActivity(i);
             }
         });
 
-        whyAssist.setOnClickListener(new View.OnClickListener() {
+        privacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://assist.ng"));
+                i.setData(Uri.parse("https://assist.ng/privacypolicy.php"));
                 startActivity(i);
 
             }
         });
 
-        contactUs.setOnClickListener(new View.OnClickListener() {
+        quickCreditTandC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://assist.ng/faqs.html"));
+                i.setData(Uri.parse("https://assist.ng/credit.php"));
                 startActivity(i);
             }
         });

@@ -402,6 +402,7 @@ public class AccomodationListModel implements Parcelable {
             Bundle bundle = new Bundle();
             bundle.putString("response", mResponse);
             msg.setData(bundle);
+            Log.e( "ApproveRefund: ",mResponse);
             updateInfoHandler.sendMessage(msg);
         };
         Thread myThread = new Thread(runnable);
@@ -432,6 +433,7 @@ public class AccomodationListModel implements Parcelable {
             bundle.putString("response", mResponse);
             msg.setData(bundle);
             updateInfoHandler.sendMessage(msg);
+            Log.e( "releaseRefund: ",mResponse);
         };
         Thread myThread = new Thread(runnable);
         myThread.start();

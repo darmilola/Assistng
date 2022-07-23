@@ -195,7 +195,7 @@
                         android:layout_marginRight="10dp"
                         android:gravity="center|left"
                         android:textColor="@color/colorPrimary"
-                        android:text="My Dashboard"
+                        android:text="Account Dashboard"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:fontFamily="@font/clanbook"/>
@@ -591,8 +591,8 @@
                     android:fontFamily="@font/clannews"
                     android:gravity="center|left"
                     android:maxLines="1"
-                    android:text="FAQs"
-                    android:id="@+id/faqs"
+                    android:text="Terms &amp; Condition"
+                    android:id="@+id/termsAndCondition"
                     android:textColor="#4F565A"
                     android:textSize="12dp" />
 
@@ -613,8 +613,8 @@
                     android:fontFamily="@font/clannews"
                     android:gravity="center|left"
                     android:maxLines="1"
-                    android:id="@+id/why_assist"
-                    android:text="Why Use Assist.ng"
+                    android:id="@+id/privacyPolicy"
+                    android:text="Privacy Policy"
                     android:textColor="#4F565A"
                     android:textSize="12dp" />
 
@@ -631,11 +631,11 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
                     android:ellipsize="end"
-                    android:id="@+id/contact_us"
+                    android:id="@+id/quickCreditTandC"
                     android:fontFamily="@font/clannews"
                     android:gravity="center|left"
                     android:maxLines="1"
-                    android:text="Contact Us"
+                    android:text="Quick Credit T &amp; C"
                     android:textColor="#4F565A"
                     android:textSize="12dp" />
 

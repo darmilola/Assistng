@@ -1,430 +1,438 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#f4f4f4"
-    android:orientation="vertical"
-    tools:context=".UIs.HomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="560dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_homewavesi" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        app:tint="@color/White"
-        android:layout_marginTop="100dp"
-        android:layout_gravity="right"
-        android:src="@drawable/pattern"/>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:tint="@color/White"
-        android:layout_gravity="left"
-        android:rotation="180"
-        android:src="@drawable/pattern"/>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="40dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <FrameLayout
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="#f4f4f4"
                 android:orientation="vertical"
-                android:layout_alignParentLeft="true">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="23dp"
-                    android:textColor="@color/White"
-                    android:text="Hi Damilola"
-                    android:id="@+id/home_user_firstname"
-                    android:gravity="center"
-                    android:maxLength="15"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="15dp"
-                    android:fontFamily="@font/clannews"/>
-            </LinearLayout>
+                tools:context=".UIs.HomeFragment">
 
-            <LinearLayout
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="560dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_homewavesi" />
+
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentRight="true"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/assist_icon"/>
-
-            </LinearLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="20dp">
-
-            <LinearLayout
+                android:layout_height="150dp"
+                app:tint="@color/White"
+                android:layout_marginTop="100dp"
+                android:layout_gravity="right"
+                android:src="@drawable/pattern"/>
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_alignParentLeft="true">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/White"
-                    android:text="Wallet Balance"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/clannews"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="#04A363"
-                        android:fontFamily="@font/clanmed"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="NGN"
-                        android:textColor="@color/White"
-                        android:textSize="13dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center"
-                        android:text="240.00"
-                        android:id="@+id/home_user_wallet_balance"
-                        android:layout_marginLeft="7dp"
-                        android:fontFamily="@font/clanbold"
-                        android:textColor="@color/White"
-                        android:textSize="20dp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:id="@+id/home_topup_layout"
-                android:background="@drawable/topupbackground"
-                android:layout_alignParentRight="true"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Top Up"
-                    android:fontFamily="@font/clanmed"
-                    android:textColor="@color/colorPrimary"/>
-
-                  <ImageView
-                      android:layout_width="15dp"
-                      android:layout_height="15dp"
-                      android:src="@drawable/iconfinder_plus_add_new_create_attach_maximize_2931155"
-                      android:tint="@color/colorPrimary"
-                      android:layout_marginLeft="10dp"/>
-
-
-            </LinearLayout>
-        </RelativeLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textColor="@color/White"
-            android:text="What Assistance will you Need Today?"
-            android:gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/clannews"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:weightSum="2">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
                 android:layout_height="150dp"
-                android:layout_weight="1"
-                app:cardCornerRadius="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:orientation="vertical"
-                   android:gravity="center">
-
-                   <LinearLayout
-                       android:layout_width="70dp"
-                       android:layout_height="70dp"
-                       android:background="@drawable/home_transportation_background"
-                       android:gravity="center"
-                       android:id="@+id/home_transportation_layout">
-
-                       <ImageView
-                           android:layout_width="40dp"
-                           android:layout_height="40dp"
-                           android:src="@drawable/iconfinder_bus_172577"
-                           android:tint="#0E8168" />
-                   </LinearLayout>
-                   <TextView
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:textSize="12dp"
-                       android:gravity="center"
-                       android:textColor="@color/colorPrimary"
-                       android:text="Transportation"
-                       android:layout_marginLeft="5dp"
-                       android:layout_marginTop="12dp"
-                       android:fontFamily="@font/clanmed"/>
-
-               </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_weight="1"
-                app:cardCornerRadius="15dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                    <LinearLayout
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:id="@+id/home_grocery_layout"
-                        android:background="@drawable/home_transportation_background"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/groceryicon"
-                            android:tint="#342A6B" />
-                    </LinearLayout>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:gravity="center"
-                        android:textColor="@color/colorPrimary"
-                        android:text="Market"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="@font/clanmed"/>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:weightSum="2">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_weight="1"
-                app:cardCornerRadius="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:id="@+id/home_accomodation_layout">
-
-                    <LinearLayout
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:background="@drawable/home_accomodation_background"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/iconfinder__building_company_city_house_officel_apartment_architecture_4213476"
-                            android:tint="#FA2D65" />
-                    </LinearLayout>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:gravity="center"
-                        android:textColor="@color/colorPrimary"
-                        android:text="Accomodation"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="@font/clanmed"/>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_weight="1"
-                app:cardCornerRadius="15dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                    <LinearLayout
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:id="@+id/home_services_layout"
-                        android:background="@drawable/home_skills_background"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/servicesicon"
-                            android:tint="#D3AA1B" />
-                    </LinearLayout>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:gravity="center"
-                        android:textColor="@color/colorPrimary"
-                        android:text="Services"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="@font/clanmed"/>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-
-        </LinearLayout>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            app:cardCornerRadius="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/colorPrimary"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp">
-
+                android:tint="@color/White"
+                android:layout_gravity="left"
+                android:rotation="180"
+                android:src="@drawable/pattern"/>
+            </FrameLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="18dp"
-                    android:fontFamily="@font/clannews"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="10dp"
-                    android:text="Apply for Quick Credit"/>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="40dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_alignParentLeft="true">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="23dp"
+                            android:textColor="@color/White"
+                            android:text="Hi Damilola"
+                            android:id="@+id/home_user_firstname"
+                            android:gravity="center"
+                            android:maxLength="15"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginTop="15dp"
+                            android:fontFamily="@font/clannews"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/assist_icon"/>
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="20dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_alignParentLeft="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/White"
+                            android:text="Wallet Balance"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/clannews"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="#04A363"
+                                android:fontFamily="@font/clanmed"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="NGN"
+                                android:textColor="@color/White"
+                                android:textSize="13dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center"
+                                android:text="240.00"
+                                android:id="@+id/home_user_wallet_balance"
+                                android:layout_marginLeft="7dp"
+                                android:fontFamily="@font/clanbold"
+                                android:textColor="@color/White"
+                                android:textSize="20dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:id="@+id/home_topup_layout"
+                        android:background="@drawable/topupbackground"
+                        android:layout_alignParentRight="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Top Up"
+                            android:fontFamily="@font/clanmed"
+                            android:textColor="@color/colorPrimary"/>
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/iconfinder_plus_add_new_create_attach_maximize_2931155"
+                            android:tint="@color/colorPrimary"
+                            android:layout_marginLeft="10dp"/>
+
+
+                    </LinearLayout>
+                </RelativeLayout>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="14dp"
-                    android:fontFamily="@font/clannews"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="15dp"
-                    android:lineSpacingExtra="2dp"
-                    android:layout_marginRight="10dp"
-                    android:text="Request for Credit to complete your orders and transactions"/>
+                    android:textSize="20dp"
+                    android:textColor="@color/White"
+                    android:text="What Assistance will you Need Today?"
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/clannews"/>
 
                 <LinearLayout
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="15dp"
-                    android:backgroundTint="@color/white"
-                    android:id="@+id/quick_credit_create_application_layout"
-                    android:background="@drawable/apply_for_loans_background">
-                  <ImageView
-                      android:layout_width="30dp"
-                      android:layout_height="30dp"
-                      android:layout_gravity="center|left"
-                      android:layout_marginLeft="20dp"
-                      android:src="@drawable/iconfinder_add_cross_new_plus_create"
-                      android:tint="@color/colorPrimary"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:weightSum="2">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="16dp"
-                        android:fontFamily="@font/clannews"
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="15dp"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:background="@drawable/home_transportation_background"
+                                android:gravity="center"
+                                android:id="@+id/home_transportation_layout">
+
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:src="@drawable/iconfinder_bus_172577"
+                                    android:tint="#0E8168" />
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="12dp"
+                                android:gravity="center"
+                                android:textColor="@color/colorPrimary"
+                                android:text="Transportation"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/clanmed"/>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="15dp"
                         android:layout_marginRight="10dp"
-                        android:layout_gravity="center"
-                        android:text="Create Application"/>
+                        android:layout_marginLeft="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:id="@+id/home_grocery_layout"
+                                android:background="@drawable/home_transportation_background"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:src="@drawable/groceryicon"
+                                    android:tint="#342A6B" />
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="12dp"
+                                android:gravity="center"
+                                android:textColor="@color/colorPrimary"
+                                android:text="Market"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/clanmed"/>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="2">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:id="@+id/home_accomodation_layout">
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:background="@drawable/home_accomodation_background"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:src="@drawable/iconfinder__building_company_city_house_officel_apartment_architecture_4213476"
+                                    android:tint="#FA2D65" />
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="12dp"
+                                android:gravity="center"
+                                android:textColor="@color/colorPrimary"
+                                android:text="Accomodation"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/clanmed"/>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="15dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:id="@+id/home_services_layout"
+                                android:background="@drawable/home_skills_background"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="35dp"
+                                    android:layout_height="40dp"
+                                    android:src="@drawable/servicesicon"
+                                    android:tint="#D3AA1B" />
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="12dp"
+                                android:gravity="center"
+                                android:textColor="@color/colorPrimary"
+                                android:text="Services"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/clanmed"/>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    app:cardCornerRadius="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/colorPrimary"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="18dp"
+                            android:fontFamily="@font/clannews"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="10dp"
+                            android:text="Apply for Quick Credit"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="14dp"
+                            android:fontFamily="@font/clannews"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="15dp"
+                            android:lineSpacingExtra="2dp"
+                            android:layout_marginRight="10dp"
+                            android:text="Request for Credit to complete your orders and transactions"/>
+
+                        <LinearLayout
+                            android:layout_width="250dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="15dp"
+                            android:backgroundTint="@color/white"
+                            android:id="@+id/quick_credit_create_application_layout"
+                            android:background="@drawable/apply_for_loans_background">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center|left"
+                                android:layout_marginLeft="20dp"
+                                android:src="@drawable/iconfinder_add_cross_new_plus_create"
+                                android:tint="@color/colorPrimary"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="16dp"
+                                android:fontFamily="@font/clannews"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_gravity="center"
+                                android:text="Create Application"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
             </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-    </ScrollView>
-
 </FrameLayout>
+</ScrollView>
+

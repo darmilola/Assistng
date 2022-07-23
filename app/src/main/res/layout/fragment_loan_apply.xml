@@ -203,16 +203,32 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/clannews"/>
 
-       <CheckBox
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="left"
-           android:layout_marginLeft="20dp"
-           android:textColor="@color/light_text_color"
-           android:fontFamily="@font/clannews"
-           android:textSize="12dp"
-           android:id="@+id/loan_apply_terms_and_condition"
-           android:text="Accept Loan Terms and Conditions"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/light_text_color"
+                    android:fontFamily="@font/clannews"
+                    android:textSize="12dp"
+                    android:id="@+id/loan_apply_terms_and_condition"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:id="@+id/accept_loan_terms_and_condition"
+                    android:text="Accept Loan Terms and Conditions"/>
+
+
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="250dp"

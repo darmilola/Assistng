@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 import ng.assist.UIs.AccountFragments;
 import ng.assist.UIs.DmFragment;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements DmFragment.Unread
     LinearLayout bottomBarLayout,errorOccuredRoot;
     String userWalletBalance,userFirstname;
     MaterialButton retry;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements DmFragment.Unread
         viewPager = findViewById(R.id.content_frame);
         errorOccuredRoot = findViewById(R.id.error_occurred_layout_root);
         retry = findViewById(R.id.error_occurred_retry);
+        swipeContainer = findViewById(R.id.swipeContainer);
         viewPager.setOffscreenPageLimit(3);
         viewPager.setCurrentItem(0, false);
         bottomNavigationView.setSelectedItemId(R.id.home);
@@ -77,6 +80,20 @@ public class MainActivity extends AppCompatActivity implements DmFragment.Unread
                 refreshPage();
             }
         });
+
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshPage();
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
 
 
@@ -226,6 +243,51 @@ public class MainActivity extends AppCompatActivity implements DmFragment.Unread
         }
 
     }
+
+
+    public void swipeRefreshPage(){
+        errorOccuredRoot.setVisibility(View.GONE);
+        String userEmail = getIntent().getStringExtra("email");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        preferences.edit().putString("userEmail",userEmail).apply();
+        MainActivityModel mainActivityModel = new MainActivityModel(userEmail,MainActivity.this);
+        mainActivityModel.getUserInfo();
+        mainActivityModel.setMainactivityContentListener(new MainActivityModel.MainactivityContentListener() {
+            @Override
+            public void onContentReady(MainActivityModel mainActivityModel) {
+                swipeContainer.setRefreshing(false);
+                viewPager.setVisibility(View.VISIBLE);
+                bottomBarLayout.setVisibility(View.VISIBLE);
+                mainActivityContentProgressbar.setVisibility(View.GONE);
+                MainActivity.this.userFirstname = mainActivityModel.getUserFirstname();
+                MainActivity.this.userWalletBalance = mainActivityModel.getUserWalletBalance();
+                preferences.edit().putString("walletBalance",userWalletBalance).apply();
+                preferences.edit().putString("firstname",mainActivityModel.getUserFirstname()).apply();
+                preferences.edit().putString("lastname",mainActivityModel.getUserLastname()).apply();
+                preferences.edit().putString("imageUrl",mainActivityModel.getUserImageUrl()).apply();
+                preferences.edit().putString("accountType",mainActivityModel.getAccountType()).apply();
+                preferences.edit().putString("isVerified",mainActivityModel.getIsVerified()).apply();
+                preferences.edit().putString("verificationStatus",mainActivityModel.getVerificationStatus()).apply();
+                preferences.edit().putString("role",mainActivityModel.getRole()).apply();
+                preferences.edit().putString("verificationType",mainActivityModel.getVerificationType()).apply();
+                preferences.edit().putString("canApply",mainActivityModel.getCanApplyForLoan()).apply();
+                setupViewPager(viewPager);
+            }
+            @Override
+            public void onError(String message) {
+                swipeContainer.setRefreshing(false);
+                mainActivityContentProgressbar.setVisibility(View.GONE);
+                errorOccuredRoot.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        if(!isVerified()){
+            addVerificationBadge();
+        }
+
+    }
+
 
     private void addWalletBadge(){
         BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.wallet);
