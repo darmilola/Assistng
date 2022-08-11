@@ -349,8 +349,7 @@ public class AccountFragments extends Fragment {
     private void authBusinessUser(){
         userVerification.setVisibility(View.GONE);
         provideAService.setVisibility(View.VISIBLE);
-        //accomodationAdmin.setVisibility(View.GONE);
-        //accomodationAdmin.setVisibility(View.GONE);
+        accomodationAdmin.setVisibility(View.GONE);
         dashboardLayout.setVisibility(View.VISIBLE);
         switchAccount.setVisibility(View.VISIBLE);
     }
@@ -358,9 +357,7 @@ public class AccountFragments extends Fragment {
     private void authPersonalUser(){
         userVerification.setVisibility(View.GONE);
         switchAccount.setVisibility(View.GONE);
-        dashboardLayout.setVisibility(View.GONE);
-        //accomodationAdmin.setVisibility(View.GONE);
-        //accomodationAdmin.setVisibility(View.GONE);
+        accomodationAdmin.setVisibility(View.GONE);
         dashboardLayout.setVisibility(View.GONE);
     }
 
