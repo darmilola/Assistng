@@ -61,7 +61,7 @@ public class UserAccomodationDetails extends AppCompatActivity {
     ProductImageScrollAdapter adapter;
     ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    TextView houseTitle, pricePerMonth, adddress, agentName, description,refundText,refundProcessingText,beds,bath,perTag;
+    TextView houseTitle, pricePerMonth, adddress, agentName, description,refundProcessingText,beds,bath,perTag;
     ImageView agentPicture;
     ProgressBar loadingBar;
     NestedScrollView rootLayout;
@@ -82,7 +82,6 @@ public class UserAccomodationDetails extends AppCompatActivity {
     }
 
     private void initView() {
-        refundText  = findViewById(R.id.user_accommodation_refund_text);
         refundProcessingText = findViewById(R.id.user_accommodation_refund_text_2);
         applyRefund = findViewById(R.id.user_accommodation_details_apply_refunds);
         accomodationRefundDialog = new AccomodationRefundDialog(UserAccomodationDetails.this);
@@ -186,7 +185,6 @@ public class UserAccomodationDetails extends AppCompatActivity {
         if(accomodationListModel.getIsRefund().equalsIgnoreCase("true")){
                refundProcessingText.setVisibility(View.VISIBLE);
                applyRefund.setVisibility(View.GONE);
-               refundText.setVisibility(View.GONE);
         }
         loadingBar.setVisibility(View.VISIBLE);
         rootLayout.setVisibility(View.GONE);
@@ -196,7 +194,6 @@ public class UserAccomodationDetails extends AppCompatActivity {
         accomodationListModel1.setAccomodationDetailsListener(new AccomodationListModel.AccomodationDetailsListener() {
             @Override
             public void onDetailsReady(ArrayList<ProductImageModel> mImageList, AgentModel agentModel) {
-
                 loadingBar.setVisibility(View.GONE);
                 rootLayout.setVisibility(View.VISIBLE);
                 errorRoot.setVisibility(View.GONE);

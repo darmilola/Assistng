@@ -81,4 +81,5 @@ dependencies {
     implementation 'com.braintreepayments:card-form:5.4.0'
     implementation 'com.github.akshaaatt:Onboarding:1.0.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.vivekkaushik.datepicker:datePickerTimeline:0.0.4'
 }

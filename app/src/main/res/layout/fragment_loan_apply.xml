@@ -224,8 +224,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:layout_gravity="center"
+                    android:textColor="@color/blue"
                     android:id="@+id/accept_loan_terms_and_condition"
-                    android:text="Accept Loan Terms and Conditions"/>
+                    android:text="Accept Terms and Conditions"/>
 
 
             </LinearLayout>

@@ -312,21 +312,6 @@
                 android:id="@+id/user_accommodation_details_apply_refunds"
                 android:textAllCaps="false"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/clannews"
-                android:gravity="center|left"
-                android:text="You have 1 week to apply for refund if not satisfied with the Accomodation."
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:maxLines="2"
-                android:id="@+id/user_accommodation_refund_text"
-                android:layout_gravity="left"
-                android:ellipsize="end"
-                android:textColor="@color/dark_text_color"
-                android:textSize="14dp" />
 
             <TextView
                 android:layout_width="wrap_content"

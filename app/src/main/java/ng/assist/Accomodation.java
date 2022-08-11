@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -29,7 +30,7 @@ public class Accomodation extends AppCompatActivity {
     RangeSeekBar priceRangebar;
     TextView priceRangeText;
     ImageView navBack;
-    String selectedCity,type = "Hotels",min_price = "0",max_price = "10000000";
+    String selectedCity,type = "",min_price = "0",max_price = "10000000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,6 +225,11 @@ public class Accomodation extends AppCompatActivity {
         boolean valid = true;
         if (TextUtils.isEmpty(preferredLocationText.getText().toString().trim())) {
             preferredLocationText.setError("Required");
+            valid = false;
+            return valid;
+        }
+        else if(type.equalsIgnoreCase("")){
+            Toast.makeText(this, "Please Select Accommodation Type", Toast.LENGTH_SHORT).show();
             valid = false;
             return valid;
         }

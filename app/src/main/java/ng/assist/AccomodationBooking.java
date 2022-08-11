@@ -325,6 +325,15 @@ public class AccomodationBooking extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
+                        Intent intent = new Intent(AccomodationBooking.this, ChatActivity.class);
+                        intent.putExtra("receiverId", agentModel.getAgentId());
+                        intent.putExtra("receiverFirstname", agentModel.getAgentFirstname());
+                        intent.putExtra("receiverLastname", agentModel.getAgentLastName());
+                        intent.putExtra("receiverImageUrl", agentModel.getAgentPicUrl());
+                        intent.putExtra("fromBooking",true);
+                        startActivity(intent);
+
                        /* if (isAuthorized(insPay)) {
                             String fullName = agentModel.getAgentFirstname() + " - " + agentModel.getAgentLastName();
                             String billId = generateBillId();

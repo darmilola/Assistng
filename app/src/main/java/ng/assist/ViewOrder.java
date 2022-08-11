@@ -47,7 +47,7 @@ public class ViewOrder extends AppCompatActivity {
     NestedScrollView rootLayout;
     ArrayList<String> homeStep = new ArrayList<>();
     ArrayList<String> storeStep = new ArrayList<>();
-    TextView shopOrDeliveryAddressTitle, storeOrHomeDelivery,storeOrHomeAddress,pickupPersonOrDeliveryTimeTitle,pickupPersonOrDeliveryTimeValue,trackingId,totalPrice;
+    TextView orderIdText, shopOrDeliveryAddressTitle, storeOrHomeDelivery,storeOrHomeAddress,pickupPersonOrDeliveryTimeTitle,pickupPersonOrDeliveryTimeValue,trackingId,totalPrice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +68,10 @@ public class ViewOrder extends AppCompatActivity {
         trackingId = findViewById(R.id.tracking_id);
         totalPrice = findViewById(R.id.total_costs);
         back = findViewById(R.id.view_order_back_nav);
+        orderIdText = findViewById(R.id.view_order_order_id);
         stepView = findViewById(R.id.step_view);
         orderId = getIntent().getStringExtra("orderId");
+        orderIdText.setText(orderId);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -12,6 +12,7 @@ public class Orders implements Parcelable {
     private String userLastname;
     private String userEmail;
     private String price;
+    private String date;
     private String userPhone;
     private String userAddress;
     private String landmark;
@@ -21,7 +22,7 @@ public class Orders implements Parcelable {
 
 
 
-    public Orders(String orderId, String totalPrice,String status,String orderJson,String userFirstname, String userLastname,String userEmail, String userPhone, String userAddress, String landmark, String state, String lga,String pickupName,String pickupPhone, String pickupDate, String type,String deliveryDate,String trackingId,String storeAddress, String stage){
+    public Orders(String orderId, String totalPrice,String status,String orderJson,String userFirstname, String userLastname,String userEmail, String userPhone, String userAddress, String landmark, String state, String lga,String pickupName,String pickupPhone, String pickupDate, String type,String deliveryDate,String trackingId,String storeAddress, String stage, String date){
         this.totalPrice = totalPrice;
         this.status = status;
         this.orderJson = orderJson;
@@ -42,6 +43,7 @@ public class Orders implements Parcelable {
         this.trackingId = trackingId;
         this.storeAddress = storeAddress;
         this.stage = stage;
+        this.date = date;
     }
 
 
@@ -197,5 +199,9 @@ public class Orders implements Parcelable {
         dest.writeString(storeAddress);
         dest.writeString(pickupDate);
         dest.writeString(stage);
+    }
+
+    public String getDate() {
+        return date;
     }
 }

@@ -102,6 +102,7 @@
                 android:inputType="text"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:hint="OJ Apartment-0003"
                 android:maxLength="17"
                 android:id="@+id/real_estate_add_listing_title"
                 android:background="@drawable/edit_profile_edittext_background"/>
@@ -128,6 +129,7 @@
                 android:inputType="number"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:hint="Number of Bedrooms"
                 android:maxLength="200"
                 android:id="@+id/real_estate_add_listing_bed"
                 android:background="@drawable/edit_profile_edittext_background"/>
@@ -153,6 +155,7 @@
                 android:inputType="number"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:hint="Number of Bathrooms"
                 android:maxLength="200"
                 android:id="@+id/real_estate_add_listing_bath"
                 android:background="@drawable/edit_profile_edittext_background"/>
@@ -172,7 +175,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="per year for Lodge, per day for Hotels"
+                android:text="per year for Lodge, per night for Hotels"
                 android:layout_marginLeft="16dp"
                 android:textSize="14dp"
                 android:layout_marginTop="5dp"
@@ -214,6 +217,7 @@
                 android:maxLines="1"
                 android:maxLength="200"
                 android:inputType="text"
+                android:hint="Plot 235 Assist avenue"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:id="@+id/real_estate_add_listing_addess"
@@ -222,7 +226,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="*City"
+                android:text="*State"
                 android:layout_marginLeft="16dp"
                 android:textSize="18dp"
                 android:paddingLeft="5dp"
@@ -237,6 +241,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
+                android:hint="Select State"
                 android:layout_marginRight="16dp"
                 android:maxLines="1"
                 android:maxLength="200"
@@ -266,6 +271,7 @@
                 android:layout_marginRight="16dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="5dp"
+                android:hint="Select Apartment Type"
                 android:gravity="center|left"
                 android:id="@+id/real_estate_add_listing_type"
                 android:background="@drawable/edit_profile_edittext_background"/>
@@ -290,6 +296,7 @@
                 android:maxLines="1"
                 android:maxLength="200"
                 android:inputType="number"
+                android:hint="how much do you charge for an inspection?"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:id="@+id/real_estate_add_listing_booking_fee"
@@ -316,6 +323,11 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:overScrollMode="always"
+                android:hint="Two bedrooms and a living room in the heart of Lagos \n\n 5 minutes drive to the city centre 10 minutes drive to the major food market\n\nIf there are any structural repairs\n\n\n
+A few structural repairs are to be completed as soon as payment is made.
+\n\n\n
+If no structural repair
+No structural repairs, ready for you to move in."
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical"
                 android:id="@+id/real_estate_add_listing_desc"

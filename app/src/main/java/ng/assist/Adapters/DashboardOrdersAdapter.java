@@ -10,8 +10,13 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -57,6 +62,23 @@ public class DashboardOrdersAdapter extends RecyclerView.Adapter<DashboardOrders
               holder.totalPrice.setText(formattedPrice);
               holder.customerName.setText(orders.getUserFirstname()+" "+orders.getUserLastname());
               holder.status.setText(orders.getStatus());
+
+        Calendar cal = Calendar.getInstance();
+        Date result = null;
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.ENGLISH);
+        try {
+            result =  df.parse(orders.getDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //cal.setTimeInMillis(Long.parseLong(result.toString()));
+        String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        cal.setTime(result);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        String monthString = monthNames[month];
+        holder.date.setText(monthString+" "+Integer.toString(day));
+        holder.orderId.setText(orders.getOrderId());
     }
 
     public void removeItem(int position){
@@ -72,7 +94,7 @@ public class DashboardOrdersAdapter extends RecyclerView.Adapter<DashboardOrders
 
     public class itemViewHolder extends RecyclerView.ViewHolder {
 
-        TextView totalPrice,customerName,status;
+        TextView totalPrice,customerName,status,date,orderId;
         MaterialButton viewOrder;
 
         public itemViewHolder(View ItemView){
@@ -81,7 +103,8 @@ public class DashboardOrdersAdapter extends RecyclerView.Adapter<DashboardOrders
             customerName = ItemView.findViewById(R.id.dashboard_order_customer_name);
             status = ItemView.findViewById(R.id.dashboard_order_delivery_status);
             viewOrder = ItemView.findViewById(R.id.dashboard_order_view_order);
-
+            orderId = ItemView.findViewById(R.id.dashboard_order_id);
+            date = ItemView.findViewById(R.id.dashboard_order_date);
             viewOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

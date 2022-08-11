@@ -164,7 +164,7 @@
                         android:textSize="14dp"
                         android:gravity="center"
                         android:fontFamily="@font/clannews"
-                        android:text="Seats"/>
+                        android:text="Seats Left"/>
 
                     <TextView
                         android:layout_width="match_parent"

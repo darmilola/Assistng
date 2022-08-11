@@ -558,7 +558,8 @@ public class EcommerceDashboardModel {
                         String storeAddress = jsonArray.getJSONObject(i).getString("storeAddress");
                         String pickupDate = jsonArray.getJSONObject(i).getString("pickupDate");
                         String stage = jsonArray.getJSONObject(i).getString("stage");
-                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson, userFirstname, userLastname, userEmail,contactPhone,deliveryAddress,landmark,state,lga,pickupName, pickupPhone,pickupDate,type,deliveryDate,trackingId,storeAddress,stage);
+                        String date = jsonArray.getJSONObject(i).getString("timestamp");
+                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson, userFirstname, userLastname, userEmail,contactPhone,deliveryAddress,landmark,state,lga,pickupName, pickupPhone,pickupDate,type,deliveryDate,trackingId,storeAddress,stage,date);
                         ordersArrayList.add(order);
                     }
                     orderReadyListener.onOrderReady(ordersArrayList);
@@ -605,7 +606,8 @@ public class EcommerceDashboardModel {
                         String storeAddress = jsonArray.getJSONObject(i).getString("storeAddress");
                         String pickupDate = jsonArray.getJSONObject(i).getString("pickupDate");
                         String stage = jsonArray.getJSONObject(i).getString("stage");
-                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson,"","", "",contactPhone,deliveryAddress,landmark,state,lga,pickupName, pickupPhone,pickupDate,type,deliveryDate,trackingId,storeAddress,stage);
+                        String date = jsonArray.getJSONObject(i).getString("timestamp");
+                        Orders order = new Orders(orderId, totalPrice, orderStatus, orderJson,"","", "",contactPhone,deliveryAddress,landmark,state,lga,pickupName, pickupPhone,pickupDate,type,deliveryDate,trackingId,storeAddress,stage,date);
                         ordersArrayList.add(order);
                     }
                     orderReadyListener.onOrderReady(ordersArrayList);

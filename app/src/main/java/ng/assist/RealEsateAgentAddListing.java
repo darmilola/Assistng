@@ -1,5 +1,6 @@
 package ng.assist;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.EstateDashboardModel;
 import ng.assist.UIs.ViewModel.ServiceProviderDashboardModel;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -57,6 +59,7 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
     ArrayList<EstateDashboardModel.HouseImage> houseImageArrayList = new ArrayList<>();
     String userEmail;
     ImageView navBack;
+    AlertDialog.Builder builder;
     EstateDashboardImageAdapter estateDashboardImageAdapter = new EstateDashboardImageAdapter(houseImageArrayList,RealEsateAgentAddListing.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,22 +118,9 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
                 mBed = beds.getText().toString().trim();
 
                 if(isValidInput()){
-                    EstateDashboardModel estateDashboardModel = new EstateDashboardModel(RealEsateAgentAddListing.this,houseId,mTitle,mPricePerMonth,mCity,mBookingFee,mAddress,displayImage,mDescription,mType,userEmail,Integer.parseInt(mBed),Integer.parseInt(mBath));
-                    estateDashboardModel.createAgentListing();
-                    estateDashboardModel.setCreateListingListener(new EstateDashboardModel.CreateListingListener() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(RealEsateAgentAddListing.this, "Listing added successfully", Toast.LENGTH_SHORT).show();
-                            setResult(100);
-                            finish();
-                        }
 
-                        @Override
-                        public void onError() {
-                            Toast.makeText(RealEsateAgentAddListing.this, "Error Occurred please try again", Toast.LENGTH_SHORT).show();
+                    showAgentAgreement();
 
-                        }
-                    });
                 }
 
 
@@ -337,5 +327,63 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
 
         }
     }
+
+
+    private void showAgentAgreement() {
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("1. I attest that I am in full control of this apartment.\n" +
+                        "\n" +
+                        "2. That I am the owner/authorised representative of the owner.\n" +
+                        "\n" +
+                        "3. That I have the full support of the owner to list this apartment on Assist.NG\n" +
+                        "\n" +
+                        "4. I agree to duly notify potential renters through the description box of any outstanding structural repairs on this apartment.\n" +
+                        "\n" +
+                        "5. I attest that the photos/images in this listing are the true representation of the apartment.\n" +
+                        "\n" +
+                        "6. I authorize Assist.NG to lock the payment made as rent for this apartment for seven (7) days.\n" +
+                        "\n" +
+                        "7. I authorize Assist.NG to process a refund to any renter who meets the refund policy within Seven (7) days of renting this apartment.\n" +
+                        "\n" +
+                        "8. I agree that in the case that a renter requests a refund, I will only be paid for the period of days before the refund is initiated. \n" +
+                        "\n" +
+                        "9. I agree to conduct proper due diligence of the renter before renting out this apartment and that I will not hold Assist.NG accountable for any issues arising from renting this apartment to the renter.")
+                .setCancelable(false)
+                .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        EstateDashboardModel estateDashboardModel = new EstateDashboardModel(RealEsateAgentAddListing.this,houseId,mTitle,mPricePerMonth,mCity,mBookingFee,mAddress,displayImage,mDescription,mType,userEmail,Integer.parseInt(mBed),Integer.parseInt(mBath));
+                        estateDashboardModel.createAgentListing();
+                        estateDashboardModel.setCreateListingListener(new EstateDashboardModel.CreateListingListener() {
+                            @Override
+                            public void onSuccess() {
+                                Toast.makeText(RealEsateAgentAddListing.this, "Listing added successfully", Toast.LENGTH_SHORT).show();
+                                setResult(100);
+                                finish();
+                            }
+
+                            @Override
+                            public void onError() {
+                                Toast.makeText(RealEsateAgentAddListing.this, "Error Occurred please try again", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+                    }
+                })
+                .setNegativeButton("Reject", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Agent Agreement");
+        alert.show();
+    }
+
 
 }

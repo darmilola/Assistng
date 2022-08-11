@@ -15,7 +15,7 @@
         android:textSize="17dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textColor="@color/splash_color"
+        android:textColor="@color/blue"
         android:lineSpacingExtra="10dp"
         android:fontFamily="@font/clannews"
         android:text="Get access to affordable and cosy Hotels and apartments nationwide."/>

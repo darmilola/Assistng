@@ -38,7 +38,7 @@ public class CabHailingActivity extends AppCompatActivity {
     String userCity;
     FrameLayout cabHailingRoot;
     ProgressBar progressBar;
-    String from,to;
+    String from,to,travelDate;
     ImageView navBack;
     CircleIndicator2 imagesIndicator;
 
@@ -63,6 +63,7 @@ public class CabHailingActivity extends AppCompatActivity {
         currentLocationTextView = findViewById(R.id.current_location_name);
         from = getIntent().getStringExtra("from");
         to = getIntent().getStringExtra("to");
+        travelDate = getIntent().getStringExtra("travelDate");
         imagesIndicator = findViewById(R.id.product_image_indicator);
         currentLocationTextView.setText(from+" - "+to);
         recyclerView = findViewById(R.id.ride_display_recyclerview);
@@ -83,7 +84,7 @@ public class CabHailingActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(manager);
 
-        CabHailingModel cabHailingModel = new CabHailingModel(from,to);
+        CabHailingModel cabHailingModel = new CabHailingModel(from,to,travelDate);
         cabHailingModel.SearchTransports();
         cabHailingModel.setCabHailingListener(new CabHailingModel.CabHailingListener() {
             @Override

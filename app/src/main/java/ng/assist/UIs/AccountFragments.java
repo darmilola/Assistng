@@ -1,10 +1,15 @@
 package ng.assist.UIs;
 
 
+import static android.app.Activity.RESULT_OK;
+
+import android.accounts.Account;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +19,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.preference.PreferenceManager;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +37,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,11 +45,14 @@ import ng.assist.AccomodationAdmin;
 import ng.assist.BusinessProviderVerification;
 import ng.assist.EcommerceDashboard;
 import ng.assist.EstateListingDashboard;
+import ng.assist.ProfileImageCrop;
 import ng.assist.R;
 import ng.assist.ServiceProviderDashboard;
 import ng.assist.ServiceProviderVerifications;
+import ng.assist.SignUpWithEmail;
 import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.AccountModel;
+import ng.assist.UIs.ViewModel.SignupModel;
 import ng.assist.WelcomeActivity;
 
 /**
@@ -49,17 +60,21 @@ import ng.assist.WelcomeActivity;
  */
 public class AccountFragments extends Fragment {
 
-
+    static int PICK_IMAGE = 1;
+    static int CROP_IMAGE = 2;
     View view;
     LinearLayout dashboardLayout,switchAccount,userVerification,accomodationAdmin;
     LinearLayout aboutUs,rateUs,logOut,provideAService;
     ArrayList<String> accountList = new ArrayList<>();
     ArrayList<String> accountTypeList = new ArrayList<>();
     CircleImageView circleImageView;
-    TextView usernameField, termsAndCondition, privacyPolicy, quickCreditTandC;
+    TextView usernameField, termsAndCondition, privacyPolicy, quickCreditTandC,currentDashboard;
     String accountType,verificationType,accountRole;
     SharedPreferences preferences;
     ImageView isVerifiedBadge;
+    LinearLayout editProfilePicture;
+    String userEmail;
+    String mProfileImage;
 
 
     public AccountFragments() {
@@ -89,9 +104,12 @@ public class AccountFragments extends Fragment {
         dashboardLayout = view.findViewById(R.id.account_users_dashboard);
         aboutUs = view.findViewById(R.id.account_about_us);
         rateUs = view.findViewById(R.id.account_rate_us);
+        currentDashboard = view.findViewById(R.id.current_dashboard);
+        editProfilePicture = view.findViewById(R.id.edit_profile_picture);
         switchAccount = view.findViewById(R.id.account_switch_account);
         provideAService = view.findViewById(R.id.account_provide_a_service);
         dashboardLayout.setVisibility(View.GONE);
+
 
 
         termsAndCondition.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +118,16 @@ public class AccountFragments extends Fragment {
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse("https://assist.ng/terms.php"));
                 startActivity(i);
+            }
+        });
+
+        editProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), PICK_IMAGE);
             }
         });
 
@@ -130,7 +158,10 @@ public class AccountFragments extends Fragment {
         String lastname =  preferences.getString("lastname","");
         accountType =  preferences.getString("accountType","");
         accountRole = preferences.getString("role","none");
+        userEmail = preferences.getString("userEmail", "");
         verificationType = preferences.getString("verificationType","none");
+
+        currentDashboard.setText(accountType);
 
         usernameField.setText(firstname+" "+lastname);
         Glide.with(this)
@@ -195,9 +226,8 @@ public class AccountFragments extends Fragment {
         dashboardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                accountType =  preferences.getString("accountType","");
-                if(accountType.equalsIgnoreCase("Physical Products"))startActivity(new Intent(getContext(),EcommerceDashboard.class));
-                if(accountType.equalsIgnoreCase("Home Listing"))startActivity(new Intent(getContext(), EstateListingDashboard.class));
+                if(accountType.equalsIgnoreCase("Product Dashboard"))startActivity(new Intent(getContext(),EcommerceDashboard.class));
+                if(accountType.equalsIgnoreCase("House List Dashboard"))startActivity(new Intent(getContext(), EstateListingDashboard.class));
             }
         });
 
@@ -222,6 +252,7 @@ public class AccountFragments extends Fragment {
                             @Override
                             public void onAccountSwitched() {
                                 accountType = item;
+                                currentDashboard.setText(item);
                                 Toast.makeText(getContext(), "Account Switched to "+item, Toast.LENGTH_SHORT).show();
                                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                                 preferences.edit().remove("accountType").apply();
@@ -240,8 +271,8 @@ public class AccountFragments extends Fragment {
 
     private void initAccount(){
         accountList = new ArrayList<>();
-        accountList.add("Home Listing");
-        accountList.add("Physical Products");
+        accountList.add("House List Dashboard");
+        accountList.add("Product Dashboard");
 
         accountTypeList.add("Personal Account");
         accountTypeList.add("Business Account");
@@ -369,6 +400,64 @@ public class AccountFragments extends Fragment {
                     }
                 })
                 .show();
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && null != data) {
+            String selectedImageString = data.getData().toString();
+            Intent cropIntent = new Intent(getContext(), ProfileImageCrop.class);
+            cropIntent.putExtra("image",selectedImageString);
+            startActivityForResult(cropIntent,CROP_IMAGE);
+        }
+
+        if (requestCode == CROP_IMAGE && resultCode == 2) {
+            byte[] byteArray = data.getByteArrayExtra("croppedImage");
+            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            mProfileImage = getEncodedImage(bmp);
+           // circleImageView.setImageBitmap(bmp);
+
+            SignupModel signupModel = new SignupModel(mProfileImage,userEmail,getContext());
+            signupModel.UpdateProfileImage();
+            signupModel.setSignupListener(new SignupModel.SignupListener() {
+                @Override
+                public void isSuccessful(String message) {
+                    circleImageView.setImageBitmap(bmp);
+                }
+
+                @Override
+                public void isFailed(String message) {
+                    Toast.makeText(getContext(), "Error Occurred Please try again", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+    }
+
+
+    public static String getEncodedImage(Bitmap bitmap){
+        final int MAX_IMAGE_SIZE = 500 * 1024; // max final file size in kilobytes
+        byte[] bmpPicByteArray;
+
+        //Bitmap scBitmap  = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
+        int compressQuality = 100; // quality decreasing by 5 every loop.
+        int streamLength;
+        do{
+            ByteArrayOutputStream bmpStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream);
+            bmpPicByteArray = bmpStream.toByteArray();
+            streamLength = bmpPicByteArray.length;
+            compressQuality -= 5;
+            Log.d("compressBitmap", "Size: " + streamLength/1024+" kb");
+        }while (streamLength >= MAX_IMAGE_SIZE);
+
+        String encodedImage = Base64.encodeToString(bmpPicByteArray, Base64.DEFAULT);
+        return encodedImage;
+
     }
 
 }

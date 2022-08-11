@@ -34,6 +34,7 @@ public class SignupModel {
     private String mailCheckUrl = baseUrl+"users/check/email";
     private String uploadImageUrl = baseUrl+"users/upload/image";
     private String registerUrl = baseUrl+"users";
+    private String updateUrl = baseUrl+"users/update";
     private String uploadedImageUrl = "";
 
      private Handler mailCheckHandler = new Handler(Looper.getMainLooper()) {
@@ -146,6 +147,31 @@ public class SignupModel {
         }
     };
 
+    private Handler imageUpdateHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            Bundle bundle = msg.getData();
+            String response = bundle.getString("response");
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                if(status.equalsIgnoreCase("success")){
+                    //mail does not exist continue with registration
+                    uploadedImageUrl = jsonObject.getString("data");
+                    updateProfileImage();
+                }
+                else{
+                    signupListener.isFailed("Error Uploading image please try again");
+                    loadingDialogUtils.cancelLoadingDialog();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                signupListener.isFailed("Error Occured please try again");
+            }
+
+        }
+    };
+
 
     public interface SignupListener {
         void isSuccessful(String message);
@@ -167,6 +193,13 @@ public class SignupModel {
         this.emailAddress = emailAddress;
         this.password = password;
         this.encodedImage = encodedImage;
+        loadingDialogUtils = new LoadingDialogUtils(context);
+        this.context = context;
+    }
+
+    public SignupModel(String encodedImage,String emailAddress, Context context){
+        this.encodedImage = encodedImage;
+        this.emailAddress  = emailAddress;
         loadingDialogUtils = new LoadingDialogUtils(context);
         this.context = context;
     }
@@ -287,6 +320,40 @@ public class SignupModel {
         myThread.start();
     }
 
+
+
+    private void updateProfileImage(){
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(50, TimeUnit.SECONDS)
+                    .writeTimeout(50, TimeUnit.SECONDS)
+                    .readTimeout(50, TimeUnit.SECONDS)
+                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildUpdateImageJson(uploadedImageUrl,emailAddress));
+            Request request = new Request.Builder()
+                    .url(updateUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = registerUserHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            System.out.println(mResponse);
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            registerUserHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
     private void signupWithGmail(){
 
         Runnable runnable = () -> {
@@ -315,6 +382,34 @@ public class SignupModel {
         myThread.start();
     }
 
+    public void UpdateProfileImage(){
+        loadingDialogUtils.showLoadingDialog("Uploading...");
+        Runnable runnable = () -> {
+            String mResponse = "";
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON,buildImageUploadJson(encodedImage));
+            Request request = new Request.Builder()
+                    .url(uploadImageUrl)
+                    .post(requestBody)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if(response != null){
+                    mResponse =  response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Message msg = imageUpdateHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("response", mResponse);
+            msg.setData(bundle);
+            System.out.println(mResponse);
+            imageUpdateHandler.sendMessage(msg);
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
 
     private void UploadProfileImage(){
         Runnable runnable = () -> {
@@ -365,6 +460,17 @@ public class SignupModel {
             jsonObject.put("profileImage",profileImageUrl);
             jsonObject.put("signInType","email");
             jsonObject.put("accountType","normal");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    private String buildUpdateImageJson(String profileImageUrl, String userId){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("profileImage",profileImageUrl);
+            jsonObject.put("email",userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

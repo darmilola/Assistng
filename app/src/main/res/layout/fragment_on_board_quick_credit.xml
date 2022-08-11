@@ -15,7 +15,7 @@
         android:textSize="17dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textColor="@color/splash_color"
+        android:textColor="@color/blue"
         android:lineSpacingExtra="10dp"
         android:fontFamily="@font/clannews"
         android:text="Anyone can get low on cash. That's why there is a flexible credit here for you to complete your transaction anytime you need it."/>

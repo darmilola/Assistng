@@ -68,6 +68,7 @@ public class ChatActivity  extends AppCompatActivity  implements MessageInput.In
     private String imageString;
     private TextView receiverDisplayName;
     ImageView receiverImageView,backNav;
+    boolean fromBooking;
     TextView chatStatus;
 
     @Override
@@ -95,6 +96,7 @@ public class ChatActivity  extends AppCompatActivity  implements MessageInput.In
         receiverLastname = intent.getStringExtra("receiverLastname");
         receiverImageUrl = intent.getStringExtra("receiverImageUrl");
         senderId = preferences.getString("userEmail", "");
+        fromBooking = intent.getBooleanExtra("fromBooking", false);
         receiverDisplayName = findViewById(R.id.chat_receiver_name);
         receiverImageView = findViewById(R.id.chat_receiver_imageview);
         receiverDisplayName.setText(receiverFirstname + " " + receiverLastname);
@@ -117,6 +119,16 @@ public class ChatActivity  extends AppCompatActivity  implements MessageInput.In
         performHttpRequest();
         removeUnread();
 
+
+        if (fromBooking) {
+
+            onSubmit("Hello, thank you for showing interest in our apartment.\n" +
+                    "Kindly reply to message with the \n" +
+                    "Title of the lodge\n" +
+                    "Day and Time for the inspection. \n" +
+                    "I will contact you as soon as possible");
+
+        }
     }
 
     private void performHttpRequest() {

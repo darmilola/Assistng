@@ -44,11 +44,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.android.material.button.MaterialButton;
+import com.vivekkaushik.datepicker.DatePickerTimeline;
+import com.vivekkaushik.datepicker.OnDateSelectedListener;
 
 
 import java.io.IOException;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,13 +61,15 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
 
     MaterialButton next;
     LinearLayout flightBooking;
-    LinearLayout chooseLocationFrom,chooseLocationTo;
-    TextView chooseLocationFromText, chooseLocationToText;
+    LinearLayout chooseLocationFrom,chooseLocationTo,departureDate;
+    TextView chooseLocationFromText, chooseLocationToText,dateText;
     ListDialog listDialog;
     LinearLayout rootLayout;
     ProgressBar progressBar;
+    String travelDate = "";
     ArrayList<String> locationList = new ArrayList<>();
     ImageView navBack;
+    DatePickerTimeline datePickerTimeline;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,11 +82,14 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
     private void initView(){
 
         populateLocation();
+        datePickerTimeline = findViewById(R.id.datePickerTimeline);
         navBack = findViewById(R.id.nav_back);
         progressBar = findViewById(R.id.build_location_progress);
         progressBar.setVisibility(View.GONE);
         rootLayout = findViewById(R.id.build_location_root);
         rootLayout.setVisibility(View.VISIBLE);
+        dateText = findViewById(R.id.choose_location_date_text);
+        departureDate = findViewById(R.id.choose_location_date);
         chooseLocationFromText = findViewById(R.id.choose_location_from_text);
         chooseLocationToText = findViewById(R.id.choose_location_to_text);
         chooseLocationFrom = findViewById(R.id.choose_location_from);
@@ -90,6 +99,13 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        departureDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerTimeline.setVisibility(View.VISIBLE);
             }
         });
 
@@ -123,6 +139,32 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
         });
 
 
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        datePickerTimeline.setInitialDate(year, month, day);
+
+        datePickerTimeline.setOnDateSelectedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(int year, int month, int day, int dayOfWeek) {
+               String monthString = new DateFormatSymbols().getMonths()[month];
+               String dayString = String.valueOf(day);
+               travelDate = monthString+", "+dayString;
+               dateText.setText(travelDate);
+
+
+            }
+
+            @Override
+            public void onDisabledDateSelected(int year, int month, int day, int dayOfWeek, boolean isDisabled) {
+                // Do Something
+            }
+        });
+
+
         //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         //buildGoogleApiClient();
         //buildLocationSettingsRequest();
@@ -134,11 +176,15 @@ public class BuildLocation extends AppCompatActivity implements GoogleApiClient.
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((!chooseLocationFromText.getText().toString().equalsIgnoreCase("")) && (!chooseLocationToText.getText().toString().equalsIgnoreCase("")) ){
+                if((!chooseLocationFromText.getText().toString().equalsIgnoreCase("")) && (!chooseLocationToText.getText().toString().equalsIgnoreCase(""))&& (!travelDate.equalsIgnoreCase("")) ){
                     Intent intent =  new Intent(BuildLocation.this,CabHailingActivity.class);
                     intent.putExtra("from",chooseLocationFromText.getText().toString());
                     intent.putExtra("to",chooseLocationToText.getText().toString());
+                    intent.putExtra("travelDate",travelDate);
                     startActivity(intent);
+                }
+                else{
+                    Toast.makeText(BuildLocation.this, "Invalid Input", Toast.LENGTH_SHORT).show();
                 }
 
             }

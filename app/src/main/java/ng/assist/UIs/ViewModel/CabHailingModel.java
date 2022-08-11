@@ -37,7 +37,7 @@ public class CabHailingModel {
     private LocationReadyListener locationReadyListener;
     private TransportBookingListener transportBookingListener;
     private ArrayList<LocationModel> assistLocationList = new ArrayList<>();
-    private String from,to;
+    private String from,to,travelDate;
     private int transportId,seats;
     private String type,phone,fare,userId,contactPhone,route,meetingpoint,company,fromArea,toArea,departureTime,departureDate;
     private int cost;
@@ -110,9 +110,10 @@ public class CabHailingModel {
         this.driversCity = city;
     }
 
-    public CabHailingModel(String from, String to){
+    public CabHailingModel(String from, String to, String travelDate){
           this.from = from;
           this.to = to;
+          this.travelDate = travelDate;
     }
 
     public CabHailingModel(){
@@ -234,7 +235,7 @@ public class CabHailingModel {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildBusesLocation(this.from,this.to));
+            RequestBody requestBody = RequestBody.create(JSON,buildBusesLocation(this.from,this.to,this.travelDate));
             Request request = new Request.Builder()
                     .url(getBusesUrl)
                     .post(requestBody)
@@ -353,11 +354,12 @@ public class CabHailingModel {
         return jsonObject.toString();
     }
 
-    private String buildBusesLocation(String from, String to){
+    private String buildBusesLocation(String from, String to, String travelDate){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("from",from);
             jsonObject.put("to",to);
+            jsonObject.put("travelDate",travelDate);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -209,9 +209,14 @@ public class EditProduct extends AppCompatActivity {
     }
 
     private void populateCategory(){
-        categoryList.add("Fast-Foods");
-        categoryList.add("Electronics");
-        categoryList.add("Others");
+        categoryList.add("Groceries");
+        categoryList.add("Grains and Staples");
+        categoryList.add("Computing");
+        categoryList.add("Kids and Babies");
+        categoryList.add("Clothing");
+        categoryList.add("Kitchen Appliances");
+        categoryList.add("Home Appliances");
+        categoryList.add("Phones and Accessories");
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

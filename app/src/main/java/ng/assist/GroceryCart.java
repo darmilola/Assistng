@@ -296,9 +296,9 @@ public class GroceryCart extends AppCompatActivity {
                 + "abcdefghijklmnopqrstuvxyz";
 
         // create StringBuffer size of AlphaNumericString
-        StringBuilder sb = new StringBuilder(50);
+        StringBuilder sb = new StringBuilder(7);
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 7; i++) {
 
             // generate a random number between
             // 0 to AlphaNumericString variable length
