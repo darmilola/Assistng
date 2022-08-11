@@ -112,9 +112,9 @@ public class AccomodationBooking extends AppCompatActivity {
         houseTitle.setText(accomodationListModel.getHouseTitle());
 
 
+      //  Log.e("initView: ", accomodationListModel.getHouseCity());
 
-
-        adddress.setText(accomodationListModel.getAddress());
+        adddress.setText(accomodationListModel.getAddress()+", "+accomodationListModel.getHouseCity());
         description.setText(accomodationListModel.getHouseDesc());
         bookingFee.setText("₦" + accomodationListModel.getBookingFee());
 
@@ -273,7 +273,7 @@ public class AccomodationBooking extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
         builder.setMessage(getResources().getString(R.string.booking_payment))
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Agree", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                         if (isAuthorized(accPay)) {
@@ -304,7 +304,7 @@ public class AccomodationBooking extends AppCompatActivity {
 
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton("disAgree", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //  Action for 'NO' Button
                         dialog.cancel();

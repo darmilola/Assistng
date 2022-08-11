@@ -220,7 +220,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/clannews"
                 android:gravity="center|left"
-                android:hint="Select City"
+                android:hint="Select State"
                 android:id="@+id/preferred_location_text"
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="#8D8C8C"

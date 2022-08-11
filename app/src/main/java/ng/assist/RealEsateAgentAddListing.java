@@ -8,10 +8,8 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import me.relex.circleindicator.CircleIndicator2;
 import ng.assist.Adapters.EstateDashboardImageAdapter;
-import ng.assist.Adapters.ProductImageScrollAdapter;
 import ng.assist.UIs.Utils.ListDialog;
 import ng.assist.UIs.ViewModel.EstateDashboardModel;
-import ng.assist.UIs.ViewModel.ServiceProviderDashboardModel;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -46,9 +43,9 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
     ArrayList<String> accommodationTypeList = new ArrayList<>();
     ArrayList<String> cityList = new ArrayList<>();
     CircleIndicator2 imagesIndicator;
-    EditText title,pricePerMonth,address,bookingFee,description,beds,baths;
-    TextView type,city;
-    String mTitle = "",mPricePerMonth = "",mAddress = "",mCity = "",mBookingFee = "",mDescription = "",mType = "";
+    EditText title,pricePerMonth,address,bookingFee,description,beds,baths,houseCity;
+    TextView type, state;
+    String mHouseCity = "", mTitle = "",mPricePerMonth = "",mAddress = "",mCity = "",mBookingFee = "",mDescription = "",mType = "";
     String houseId = "";
     String mBed = "", mBath = "";
     String displayImage = "";
@@ -80,7 +77,8 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
         title = findViewById(R.id.real_estate_add_listing_title);
         pricePerMonth = findViewById(R.id.real_estate_add_listing_price);
         address = findViewById(R.id.real_estate_add_listing_addess);
-        city = findViewById(R.id.real_estate_add_listing_city);
+        state = findViewById(R.id.real_estate_add_listing_state);
+        houseCity = findViewById(R.id.real_estate_add_listing_city);
         bookingFee = findViewById(R.id.real_estate_add_listing_booking_fee);
         description = findViewById(R.id.real_estate_add_listing_desc);
         type = findViewById(R.id.real_estate_add_listing_type);
@@ -110,12 +108,13 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
                 mTitle = title.getText().toString().trim();
                 mPricePerMonth = pricePerMonth.getText().toString().trim();
                 mAddress = address.getText().toString().trim();
-                mCity = city.getText().toString().trim();
+                mCity = state.getText().toString().trim();
                 mType = type.getText().toString().trim();
                 mBookingFee = bookingFee.getText().toString().trim();
                 mDescription = description.getText().toString().trim();
                 mBath = baths.getText().toString().trim();
                 mBed = beds.getText().toString().trim();
+                mHouseCity = houseCity.getText().toString();
 
                 if(isValidInput()){
 
@@ -140,7 +139,7 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
             }
         });
 
-        city.setOnClickListener(new View.OnClickListener() {
+        state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listDialog = new ListDialog(cityList,RealEsateAgentAddListing.this);
@@ -148,7 +147,7 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
                 listDialog.setItemClickedListener(new ListDialog.OnCityClickedListener() {
                     @Override
                     public void onItemClicked(String item) {
-                         city.setText(item);
+                         state.setText(item);
                     }
                 });
             }
@@ -198,6 +197,12 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
     private boolean isValidInput(){
         boolean isValid = true;
 
+        if(TextUtils.isEmpty(mHouseCity)){
+            isValid = false;
+            houseCity.setError("Required");
+            return isValid;
+        }
+
         if(TextUtils.isEmpty(mTitle)){
             isValid = false;
             title.setError("Required");
@@ -225,7 +230,7 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
         }
         if(TextUtils.isEmpty(mCity)){
             isValid = false;
-            city.setError("Required");
+            state.setError("Required");
             return isValid;
         }
         if(TextUtils.isEmpty(mBookingFee)){
@@ -352,7 +357,7 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
                 .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        EstateDashboardModel estateDashboardModel = new EstateDashboardModel(RealEsateAgentAddListing.this,houseId,mTitle,mPricePerMonth,mCity,mBookingFee,mAddress,displayImage,mDescription,mType,userEmail,Integer.parseInt(mBed),Integer.parseInt(mBath));
+                        EstateDashboardModel estateDashboardModel = new EstateDashboardModel(RealEsateAgentAddListing.this,houseId,mTitle,mPricePerMonth,mCity,mBookingFee,mAddress,displayImage,mDescription,mType,userEmail,Integer.parseInt(mBed),Integer.parseInt(mBath),mHouseCity);
                         estateDashboardModel.createAgentListing();
                         estateDashboardModel.setCreateListingListener(new EstateDashboardModel.CreateListingListener() {
                             @Override

@@ -50,6 +50,7 @@ public class EstateDashboardModel {
     private String bookingFee;
     private String address;
     private String type;
+    private String houseCity;
     private String agentId;
     private String baseUrl = new URL().getBaseUrl();
     private String getListingUrl = baseUrl+"agent/listings";
@@ -146,7 +147,7 @@ public class EstateDashboardModel {
         this.value = value;
     }
 
-    public EstateDashboardModel(Context context, String houseId, String houseTitle, String pricesPerMonth, String location,String bookingFee, String address, String houseDisplayImage, String houseDesc, String type, String agentId,int beds,int bath){
+    public EstateDashboardModel(Context context, String houseId, String houseTitle, String pricesPerMonth, String location,String bookingFee, String address, String houseDisplayImage, String houseDesc, String type, String agentId,int beds,int bath, String houseCity){
            this.houseId = houseId;
            this.houseTitle = houseTitle;
            this.pricesPerMonth = pricesPerMonth;
@@ -160,6 +161,7 @@ public class EstateDashboardModel {
            this.houseDesc = houseDesc;
            this.isAvailable = isAvailable;
            this.agentId = agentId;
+           this.houseCity = houseCity;
            loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
@@ -243,8 +245,9 @@ public class EstateDashboardModel {
                             String isAvailable = data.getJSONObject(i).getString("isAvailable");
                             String type = data.getJSONObject(i).getString("type");
                             String mStatus = data.getJSONObject(i).getString("status");
+                            String houseCity = data.getJSONObject(i).getString("houseCity");
                             String availabilityStatus = data.getJSONObject(i).getString("availabilityStatus");
-                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,mStatus,availabilityStatus);
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,mStatus,availabilityStatus,houseCity);
                             accomodationListModelArrayList.add(accomodationListModel);
                         }
                     }
@@ -298,7 +301,8 @@ public class EstateDashboardModel {
                             String bookingFee = data.getJSONObject(i).getString("bookingFee");
                             String isAvailable = data.getJSONObject(i).getString("isAvailable");
                             String type = data.getJSONObject(i).getString("type");
-                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId, userId);
+                            String houseCity = data.getJSONObject(i).getString("houseCity");
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId, userId, houseCity);
                             accomodationListModelArrayList.add(accomodationListModel);
                         }
                     }
@@ -354,7 +358,8 @@ public class EstateDashboardModel {
                             String bookingFee = data.getJSONObject(i).getString("bookingFee");
                             String isAvailable = data.getJSONObject(i).getString("isAvailable");
                             String type = data.getJSONObject(i).getString("type");
-                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId, userId);
+                            String houseCity = data.getJSONObject(i).getString("houseCity");
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId, userId, houseCity);
                         //    if(isValidPayment(bookingDate)){
                                 accomodationListModelArrayList.add(accomodationListModel);
                           //  }
@@ -874,7 +879,7 @@ public class EstateDashboardModel {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildCreateHouse(houseId,houseTitle,pricesPerMonth,location,bookingFee,agentId,beds,baths,address,houseDisplayImage,houseDesc,type,isAvailable));
+            RequestBody requestBody = RequestBody.create(JSON,buildCreateHouse(houseId,houseTitle,pricesPerMonth,location,bookingFee,agentId,beds,baths,address,houseDisplayImage,houseDesc,type,isAvailable,houseCity));
             Request request = new Request.Builder()
                     .url(creatingListingUrl)
                     .post(requestBody)
@@ -1106,7 +1111,7 @@ public class EstateDashboardModel {
         return jsonObject.toString();
     }
 
-    private String buildCreateHouse(String houseId, String houseTitle, String pricePerMonth, String location, String bookingFee, String agentId, int bed, int bath, String address, String displayImg, String description, String type, String isAvailable){
+    private String buildCreateHouse(String houseId, String houseTitle, String pricePerMonth, String location, String bookingFee, String agentId, int bed, int bath, String address, String displayImg, String description, String type, String isAvailable, String houseCity){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id",houseId);
@@ -1121,6 +1126,7 @@ public class EstateDashboardModel {
             jsonObject.put("displayImg",displayImg);
             jsonObject.put("description",description);
             jsonObject.put("type",type);
+            jsonObject.put("houseCity",houseCity);
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -44,6 +44,7 @@ public class AccomodationListModel implements Parcelable {
     private AgentModel agentModel;
     private String nextPageUrl;
     private String totalPage;
+    String houseCity;
     private AccomodationListReadyListener accomodationListReadyListener;
     private AccomodationDetailsListener accomodationDetailsListener;
     private String baseUrl = new URL().getBaseUrl();
@@ -68,23 +69,6 @@ public class AccomodationListModel implements Parcelable {
     String isRefund,userReason,agentReason,userEvidence,agentEvidence, bookingDate;
     int bookingId;
 
-
-    public interface AccomodationListReadyListener{
-        void onListReady(ArrayList<AccomodationListModel> listModelArrayList,String nextPageUrl,String totalPage,int totalListingAvailable);
-        void onEmpty(String message);
-    }
-
-    public interface AccomodationDetailsListener{
-        void onDetailsReady(ArrayList<ProductImageModel> imageList, AgentModel agentModel);
-        void onError(String message);
-    }
-
-    public interface UpdateListener{
-        void onUpdateSuccess();
-        void onError();
-    }
-
-
     protected AccomodationListModel(Parcel in) {
         houseId = in.readString();
         houseTitle = in.readString();
@@ -103,6 +87,7 @@ public class AccomodationListModel implements Parcelable {
         availabilityStatus = in.readString();
         nextPageUrl = in.readString();
         totalPage = in.readString();
+        houseCity = in.readString();
         baseUrl = in.readString();
         getAccomodationUrl = in.readString();
         getDetailsUrl = in.readString();
@@ -113,11 +98,15 @@ public class AccomodationListModel implements Parcelable {
         rejectedHouse = in.readString();
         approvedHouse = in.readString();
         bookedHouse = in.readString();
+        showRefunds = in.readString();
+        refundUser = in.readString();
+        releaseFund = in.readString();
         accomodationType = in.readString();
         location = in.readString();
         maxPrice = in.readString();
         minPrice = in.readString();
         isAvailable = in.readString();
+        userId = in.readString();
         totalListingsAvailable = in.readInt();
         listModelArrayList = in.createTypedArrayList(AccomodationListModel.CREATOR);
         imagesList = in.createTypedArrayList(ProductImageModel.CREATOR);
@@ -128,6 +117,23 @@ public class AccomodationListModel implements Parcelable {
         agentEvidence = in.readString();
         bookingDate = in.readString();
         bookingId = in.readInt();
+    }
+
+    public static final Creator<AccomodationListModel> CREATOR = new Creator<AccomodationListModel>() {
+        @Override
+        public AccomodationListModel createFromParcel(Parcel in) {
+            return new AccomodationListModel(in);
+        }
+
+        @Override
+        public AccomodationListModel[] newArray(int size) {
+            return new AccomodationListModel[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
@@ -149,6 +155,7 @@ public class AccomodationListModel implements Parcelable {
         dest.writeString(availabilityStatus);
         dest.writeString(nextPageUrl);
         dest.writeString(totalPage);
+        dest.writeString(houseCity);
         dest.writeString(baseUrl);
         dest.writeString(getAccomodationUrl);
         dest.writeString(getDetailsUrl);
@@ -159,11 +166,15 @@ public class AccomodationListModel implements Parcelable {
         dest.writeString(rejectedHouse);
         dest.writeString(approvedHouse);
         dest.writeString(bookedHouse);
+        dest.writeString(showRefunds);
+        dest.writeString(refundUser);
+        dest.writeString(releaseFund);
         dest.writeString(accomodationType);
         dest.writeString(location);
         dest.writeString(maxPrice);
         dest.writeString(minPrice);
         dest.writeString(isAvailable);
+        dest.writeString(userId);
         dest.writeInt(totalListingsAvailable);
         dest.writeTypedList(listModelArrayList);
         dest.writeTypedList(imagesList);
@@ -176,22 +187,22 @@ public class AccomodationListModel implements Parcelable {
         dest.writeInt(bookingId);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+
+    public interface AccomodationListReadyListener{
+        void onListReady(ArrayList<AccomodationListModel> listModelArrayList,String nextPageUrl,String totalPage,int totalListingAvailable);
+        void onEmpty(String message);
     }
 
-    public static final Creator<AccomodationListModel> CREATOR = new Creator<AccomodationListModel>() {
-        @Override
-        public AccomodationListModel createFromParcel(Parcel in) {
-            return new AccomodationListModel(in);
-        }
+    public interface AccomodationDetailsListener{
+        void onDetailsReady(ArrayList<ProductImageModel> imageList, AgentModel agentModel);
+        void onError(String message);
+    }
 
-        @Override
-        public AccomodationListModel[] newArray(int size) {
-            return new AccomodationListModel[size];
-        }
-    };
+    public interface UpdateListener{
+        void onUpdateSuccess();
+        void onError();
+    }
+
 
     public void setUpdateListener(UpdateListener updateListener) {
         this.updateListener = updateListener;
@@ -220,7 +231,7 @@ public class AccomodationListModel implements Parcelable {
         loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
-    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type, String status, String availabilityStatus){
+    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type, String status, String availabilityStatus, String houseCity){
         this.houseId = houseId;
         this.agentId = agentId;
         this.houseDisplayImage = houseDisplayImage;
@@ -235,12 +246,13 @@ public class AccomodationListModel implements Parcelable {
         this.bookingFee = bookingFee;
         this.isAvailable = isAvailable;
         this.type = type;
+        this.houseCity = houseCity;
         this.status = status;
         this.availabilityStatus = availabilityStatus;
     }
 
 
-    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type, String isRefund, String userReason, String agentReason, String userEvidence, String agentEvidence, String bookingDate,int bookingId,String userId){
+    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type, String isRefund, String userReason, String agentReason, String userEvidence, String agentEvidence, String bookingDate,int bookingId,String userId, String houseCity){
         this.houseId = houseId;
         this.agentId = agentId;
         this.houseDisplayImage = houseDisplayImage;
@@ -263,6 +275,7 @@ public class AccomodationListModel implements Parcelable {
         this.bookingDate = bookingDate;
         this.bookingId = bookingId;
         this.userId = userId;
+        this.houseCity = houseCity;
     }
 
     public AccomodationListModel(String accomodationType, String location, String maxPrice, String minPrice){
@@ -318,8 +331,9 @@ public class AccomodationListModel implements Parcelable {
                         String isAvailable = data.getJSONObject(i).getString("isAvailable");
                         String type = data.getJSONObject(i).getString("type");
                         String mStatus = data.getJSONObject(i).getString("status");
+                        String houseCity = data.getJSONObject(i).getString("houseCity");
                         String availabilityStatus = data.getJSONObject(i).getString("availabilityStatus");
-                        AccomodationListModel accomodationListModel = new AccomodationListModel(houseId,agentId,displayImage,houseTitle,bed,bath,totalRaters,totalRatings,description,pricePerMonth,address,bookingFee,isAvailable,type,mStatus,availabilityStatus);
+                        AccomodationListModel accomodationListModel = new AccomodationListModel(houseId,agentId,displayImage,houseTitle,bed,bath,totalRaters,totalRatings,description,pricePerMonth,address,bookingFee,isAvailable,type,mStatus,availabilityStatus,houseCity);
                         listModelArrayList.add(accomodationListModel);
                     }
                     accomodationListReadyListener.onListReady(listModelArrayList,nextPageUrl,totalPage,totalListingsAvailable);
@@ -862,6 +876,10 @@ public class AccomodationListModel implements Parcelable {
 
     public String getBookingFee() {
         return bookingFee;
+    }
+
+    public String getHouseCity() {
+        return this.houseCity;
     }
 
     public String getPricesPerMonth() {

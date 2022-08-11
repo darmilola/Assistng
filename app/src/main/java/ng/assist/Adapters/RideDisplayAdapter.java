@@ -133,7 +133,8 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
                         public void bookClicked(String phonenumber) {
                             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
                             String userId = preferences.getString("userEmail", "");
-                            CabHailingModel cabHailingModel = new CabHailingModel(transportId, userId, phonenumber, "1", route, Integer.parseInt(tFare), context, fromArea,toArea, time, date, meetingPoint);
+                            String bookingId = generateBillId();
+                            CabHailingModel cabHailingModel = new CabHailingModel(transportId, userId, phonenumber, "1", route, Integer.parseInt(tFare), context, fromArea,toArea, time, date, meetingPoint,bookingId);
 
                             if (Integer.parseInt(walletBalance) < Integer.parseInt(tFare)) {
                                 Toast.makeText(context, "Insufficient Balance", Toast.LENGTH_SHORT).show();
@@ -180,6 +181,36 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
                     })
                     .show();
         }
+
+
+        // function to generate a random string of length n
+         String generateBillId()
+        {
+            // chose a Character random from this String
+            String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    + "0123456789"
+                    + "abcdefghijklmnopqrstuvxyz";
+
+            // create StringBuffer size of AlphaNumericString
+            StringBuilder sb = new StringBuilder(7);
+
+            for (int i = 0; i < 7; i++) {
+
+                // generate a random number between
+                // 0 to AlphaNumericString variable length
+                int index
+                        = (int)(AlphaNumericString.length()
+                        * Math.random());
+
+                // add Character one by one in end of sb
+                sb.append(AlphaNumericString
+                        .charAt(index));
+            }
+
+            return sb.toString();
+        }
+
+
 
 
         private void insertTransportBooking(int id,int type, String title, String timestamp, String amount, String orderId){

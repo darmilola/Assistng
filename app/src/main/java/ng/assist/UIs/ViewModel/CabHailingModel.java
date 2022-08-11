@@ -39,7 +39,7 @@ public class CabHailingModel {
     private ArrayList<LocationModel> assistLocationList = new ArrayList<>();
     private String from,to,travelDate;
     private int transportId,seats;
-    private String type,phone,fare,userId,contactPhone,route,meetingpoint,company,fromArea,toArea,departureTime,departureDate;
+    private String bookingId, type,phone,fare,userId,contactPhone,route,meetingpoint,company,fromArea,toArea,departureTime,departureDate;
     private int cost;
     private LoadingDialogUtils loadingDialogUtils;
     private Context context;
@@ -90,7 +90,7 @@ public class CabHailingModel {
            this.toArea = toArea;
     }
 
-    public CabHailingModel(int transportId, String userId, String contactPhone,String type,String route, int cost,  Context context,String fromArea, String toArea, String departureTime,String departureDate, String meetingpoint){
+    public CabHailingModel(int transportId, String userId, String contactPhone,String type,String route, int cost,  Context context,String fromArea, String toArea, String departureTime,String departureDate, String meetingpoint, String bookingId){
            this.transportId = transportId;
            this.userId = userId;
            this.contactPhone = contactPhone;
@@ -103,6 +103,7 @@ public class CabHailingModel {
            this.fromArea = fromArea;
            this.toArea = toArea;
            this.meetingpoint = meetingpoint;
+           this.bookingId = bookingId;
            loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
@@ -291,7 +292,7 @@ public class CabHailingModel {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildBookTransport(transportId,userId,contactPhone,cost,type,route,this.fromArea,this.toArea,this.departureDate,this.departureTime,this.meetingpoint));
+            RequestBody requestBody = RequestBody.create(JSON,buildBookTransport(transportId,userId,contactPhone,cost,type,route,this.fromArea,this.toArea,this.departureDate,this.departureTime,this.meetingpoint,this.bookingId));
             Request request = new Request.Builder()
                     .url(bookTransport)
                     .post(requestBody)
@@ -334,7 +335,7 @@ public class CabHailingModel {
         return jsonObject.toString();
     }
 
-    private String buildBookTransport(int transportId, String userId, String contactPhone, int cost, String type, String route, String from, String to, String date, String time, String meetingPoint){
+    private String buildBookTransport(int transportId, String userId, String contactPhone, int cost, String type, String route, String from, String to, String date, String time, String meetingPoint, String bookingId){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("transportId",transportId);
@@ -347,6 +348,7 @@ public class CabHailingModel {
             jsonObject.put("to",to);
             jsonObject.put("date",date);
             jsonObject.put("time",time);
+            jsonObject.put("bookingId",bookingId);
             jsonObject.put("meetingpoint",meetingPoint);
         } catch (JSONException e) {
             e.printStackTrace();

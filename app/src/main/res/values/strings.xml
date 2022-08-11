@@ -15,14 +15,14 @@
 
     </string-array>
 
-    <string name="booking_payment">Before you make the payment ensure that you have inspected the apartment and you like what you saw.
-However, you have till 1 week from the moment you made this payment to Request a refund if;
+    <string name="booking_payment">Before you make the payment ensure that you have inspected the apartment and you like what you saw.\n\n
+However, you have till 1 week from the moment you made this payment to Request a refund if;\n\n
 
-The apartment is not exactly what was advertised online.
+1. The apartment is not exactly what was advertised online.\n\n
 
-If you are not satisfied with the accommodation.
+2. If you are not satisfied with the accommodation. \n\n
 
-If the agent fails to honour their part of the agreement you both had,
+3. If the agent fails to honour their part of the agreement you both had,\n\n
 
 Note:
 The equivalent of 1 week\'s rent will be deducted from the amount you paid before returning the rest to you.

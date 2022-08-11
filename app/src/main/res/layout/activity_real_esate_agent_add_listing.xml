@@ -226,6 +226,36 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="*City"
+                android:layout_marginLeft="16dp"
+                android:textSize="18dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/clanmed"
+                android:textColor="@color/colorPrimary"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:hint="Enter City"
+                android:layout_marginRight="16dp"
+                android:maxLines="1"
+                android:maxLength="200"
+                android:gravity="center|left"
+                android:inputType="text"
+                android:paddingLeft="15dp"
+                android:paddingRight="5dp"
+                android:id="@+id/real_estate_add_listing_city"
+                android:background="@drawable/edit_profile_edittext_background"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="*State"
                 android:layout_marginLeft="16dp"
                 android:textSize="18dp"
@@ -249,7 +279,7 @@
                 android:inputType="text"
                 android:paddingLeft="15dp"
                 android:paddingRight="5dp"
-                android:id="@+id/real_estate_add_listing_city"
+                android:id="@+id/real_estate_add_listing_state"
                 android:background="@drawable/edit_profile_edittext_background"/>
 
             <TextView
