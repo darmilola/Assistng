@@ -37,7 +37,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:text="Show Bookings"
+                    android:text="My Bookings"
                     android:textSize="15dp"
                     android:layout_alignParentRight="true"
                     android:id="@+id/show_bookings"
@@ -247,6 +247,17 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@color/colorPrimary"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:hint="Input City"
+                android:paddingLeft="10dp"
+                android:id="@+id/input_city"
+                android:background="@drawable/edit_profile_edittext_background"/>
 
 
     <RelativeLayout

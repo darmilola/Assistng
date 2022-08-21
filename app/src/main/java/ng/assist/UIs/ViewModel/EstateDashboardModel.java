@@ -85,6 +85,7 @@ public class EstateDashboardModel {
     private AccomodationDetailsListener accomodationDetailsListener;
     private HouseUploadListener houseUploadListener;
     private CreateListingListener createListingListener;
+    private String isRepairs, isRunningWater;
 
 
     public EstateDashboardModel(Context context){
@@ -147,7 +148,7 @@ public class EstateDashboardModel {
         this.value = value;
     }
 
-    public EstateDashboardModel(Context context, String houseId, String houseTitle, String pricesPerMonth, String location,String bookingFee, String address, String houseDisplayImage, String houseDesc, String type, String agentId,int beds,int bath, String houseCity){
+    public EstateDashboardModel(Context context, String houseId, String houseTitle, String pricesPerMonth, String location,String bookingFee, String address, String houseDisplayImage, String houseDesc, String type, String agentId,int beds,int bath, String houseCity,String isRepairs, String isRunningWater){
            this.houseId = houseId;
            this.houseTitle = houseTitle;
            this.pricesPerMonth = pricesPerMonth;
@@ -162,6 +163,8 @@ public class EstateDashboardModel {
            this.isAvailable = isAvailable;
            this.agentId = agentId;
            this.houseCity = houseCity;
+           this.isRepairs = isRepairs;
+           this.isRunningWater = isRunningWater;
            loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
@@ -247,7 +250,9 @@ public class EstateDashboardModel {
                             String mStatus = data.getJSONObject(i).getString("status");
                             String houseCity = data.getJSONObject(i).getString("houseCity");
                             String availabilityStatus = data.getJSONObject(i).getString("availabilityStatus");
-                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,mStatus,availabilityStatus,houseCity);
+                            String isRunningWater = data.getJSONObject(i).getString("isRunningWater");
+                            String isNeedsRepairs = data.getJSONObject(i).getString("isRepairs");
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,mStatus,availabilityStatus,houseCity,isRunningWater,isNeedsRepairs);
                             accomodationListModelArrayList.add(accomodationListModel);
                         }
                     }
@@ -302,7 +307,9 @@ public class EstateDashboardModel {
                             String isAvailable = data.getJSONObject(i).getString("isAvailable");
                             String type = data.getJSONObject(i).getString("type");
                             String houseCity = data.getJSONObject(i).getString("houseCity");
-                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId, userId, houseCity);
+                            String isRunningWater = data.getJSONObject(i).getString("isRunningWater");
+                            String isNeedsRepairs = data.getJSONObject(i).getString("isRepairs");
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId, userId, houseCity,isRunningWater,isNeedsRepairs);
                             accomodationListModelArrayList.add(accomodationListModel);
                         }
                     }
@@ -359,7 +366,9 @@ public class EstateDashboardModel {
                             String isAvailable = data.getJSONObject(i).getString("isAvailable");
                             String type = data.getJSONObject(i).getString("type");
                             String houseCity = data.getJSONObject(i).getString("houseCity");
-                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId, userId, houseCity);
+                            String isRunningWater = data.getJSONObject(i).getString("isRunningWater");
+                            String isNeedsRepairs = data.getJSONObject(i).getString("isRepairs");
+                            AccomodationListModel accomodationListModel = new AccomodationListModel(houseId, agentId, displayImage, houseTitle, bed, bath, totalRaters, totalRatings, description, pricePerMonth, address, bookingFee,isAvailable,type,isRefund,userReason,agentReason,userEvidence,agentEvidence,bookingDate,bookingId, userId, houseCity,isRunningWater,isNeedsRepairs);
                         //    if(isValidPayment(bookingDate)){
                                 accomodationListModelArrayList.add(accomodationListModel);
                           //  }
@@ -879,7 +888,7 @@ public class EstateDashboardModel {
             String mResponse = "";
             OkHttpClient client = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildCreateHouse(houseId,houseTitle,pricesPerMonth,location,bookingFee,agentId,beds,baths,address,houseDisplayImage,houseDesc,type,isAvailable,houseCity));
+            RequestBody requestBody = RequestBody.create(JSON,buildCreateHouse(houseId,houseTitle,pricesPerMonth,location,bookingFee,agentId,beds,baths,address,houseDisplayImage,houseDesc,type,isAvailable,houseCity,isRepairs,isRunningWater));
             Request request = new Request.Builder()
                     .url(creatingListingUrl)
                     .post(requestBody)
@@ -1111,7 +1120,7 @@ public class EstateDashboardModel {
         return jsonObject.toString();
     }
 
-    private String buildCreateHouse(String houseId, String houseTitle, String pricePerMonth, String location, String bookingFee, String agentId, int bed, int bath, String address, String displayImg, String description, String type, String isAvailable, String houseCity){
+    private String buildCreateHouse(String houseId, String houseTitle, String pricePerMonth, String location, String bookingFee, String agentId, int bed, int bath, String address, String displayImg, String description, String type, String isAvailable, String houseCity, String isRepairs, String isRunningWater){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id",houseId);
@@ -1126,6 +1135,8 @@ public class EstateDashboardModel {
             jsonObject.put("displayImg",displayImg);
             jsonObject.put("description",description);
             jsonObject.put("type",type);
+            jsonObject.put("isRepairs",isRepairs);
+            jsonObject.put("isRunningWater",isRunningWater);
             jsonObject.put("houseCity",houseCity);
 
         } catch (JSONException e) {

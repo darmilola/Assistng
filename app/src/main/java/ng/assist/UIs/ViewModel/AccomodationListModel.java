@@ -66,7 +66,8 @@ public class AccomodationListModel implements Parcelable {
     private ArrayList<ProductImageModel> imagesList = new ArrayList<>();
     private UpdateListener updateListener;
     private LoadingDialogUtils loadingDialogUtils;
-    String isRefund,userReason,agentReason,userEvidence,agentEvidence, bookingDate;
+    private String isRunningWater, isNeedRepairs;
+    String isRefund,userReason,agentReason,userEvidence,agentEvidence, bookingDate,city;
     int bookingId;
 
     protected AccomodationListModel(Parcel in) {
@@ -185,6 +186,7 @@ public class AccomodationListModel implements Parcelable {
         dest.writeString(agentEvidence);
         dest.writeString(bookingDate);
         dest.writeInt(bookingId);
+
     }
 
 
@@ -231,7 +233,7 @@ public class AccomodationListModel implements Parcelable {
         loadingDialogUtils = new LoadingDialogUtils(context);
     }
 
-    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type, String status, String availabilityStatus, String houseCity){
+    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type, String status, String availabilityStatus, String houseCity,String isRunningWater, String isNeedRepairs){
         this.houseId = houseId;
         this.agentId = agentId;
         this.houseDisplayImage = houseDisplayImage;
@@ -249,10 +251,12 @@ public class AccomodationListModel implements Parcelable {
         this.houseCity = houseCity;
         this.status = status;
         this.availabilityStatus = availabilityStatus;
+        this.isNeedRepairs = isNeedRepairs;
+        this.isRunningWater = isRunningWater;
     }
 
 
-    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type, String isRefund, String userReason, String agentReason, String userEvidence, String agentEvidence, String bookingDate,int bookingId,String userId, String houseCity){
+    public AccomodationListModel(String houseId,String agentId, String houseDisplayImage, String houseTitle, String beds, String baths, String totalRaters, String totalRatings, String description, String pricePerMonth,String address, String bookingFee,String isAvailable, String type, String isRefund, String userReason, String agentReason, String userEvidence, String agentEvidence, String bookingDate,int bookingId,String userId, String houseCity, String isRunningWater, String isNeedRepairs){
         this.houseId = houseId;
         this.agentId = agentId;
         this.houseDisplayImage = houseDisplayImage;
@@ -276,13 +280,16 @@ public class AccomodationListModel implements Parcelable {
         this.bookingId = bookingId;
         this.userId = userId;
         this.houseCity = houseCity;
+        this.isRunningWater = isRunningWater;
+        this.isNeedRepairs = isNeedRepairs;
     }
 
-    public AccomodationListModel(String accomodationType, String location, String maxPrice, String minPrice){
+    public AccomodationListModel(String accomodationType, String location, String maxPrice, String minPrice, String city){
            this.accomodationType = accomodationType;
            this.location = location;
            this.maxPrice = maxPrice;
            this.minPrice = minPrice;
+           this.city = city;
     }
 
     public AccomodationListModel(String userId, String amount, int bookingId, String houseId, Context context){
@@ -306,6 +313,7 @@ public class AccomodationListModel implements Parcelable {
         public void handleMessage(@NotNull Message msg) {
             Bundle bundle = msg.getData();
             String response = bundle.getString("response");
+            Log.e("handleMessage: ",response);
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
@@ -333,7 +341,9 @@ public class AccomodationListModel implements Parcelable {
                         String mStatus = data.getJSONObject(i).getString("status");
                         String houseCity = data.getJSONObject(i).getString("houseCity");
                         String availabilityStatus = data.getJSONObject(i).getString("availabilityStatus");
-                        AccomodationListModel accomodationListModel = new AccomodationListModel(houseId,agentId,displayImage,houseTitle,bed,bath,totalRaters,totalRatings,description,pricePerMonth,address,bookingFee,isAvailable,type,mStatus,availabilityStatus,houseCity);
+                        String isRunningWater = data.getJSONObject(i).getString("isRunningWater");
+                        String isNeedsRepairs = data.getJSONObject(i).getString("isRepairs");
+                        AccomodationListModel accomodationListModel = new AccomodationListModel(houseId,agentId,displayImage,houseTitle,bed,bath,totalRaters,totalRatings,description,pricePerMonth,address,bookingFee,isAvailable,type,mStatus,availabilityStatus,houseCity,isRunningWater,isNeedsRepairs);
                         listModelArrayList.add(accomodationListModel);
                     }
                     accomodationListReadyListener.onListReady(listModelArrayList,nextPageUrl,totalPage,totalListingsAvailable);
@@ -519,7 +529,7 @@ public class AccomodationListModel implements Parcelable {
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildSearchCredentials(accomodationType,location,maxPrice,minPrice));
+            RequestBody requestBody = RequestBody.create(JSON,buildSearchCredentials(accomodationType,location,maxPrice,minPrice,city));
             Request request = new Request.Builder()
                     .url(getAccomodationUrl)
                     .post(requestBody)
@@ -806,7 +816,7 @@ public class AccomodationListModel implements Parcelable {
                     .readTimeout(50, TimeUnit.SECONDS)
                     .build();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody requestBody = RequestBody.create(JSON,buildSearchCredentials(accomodationType,location,maxPrice,minPrice));
+            RequestBody requestBody = RequestBody.create(JSON,buildSearchCredentials(accomodationType,location,maxPrice,minPrice,city));
             Request request = new Request.Builder()
                     .url(url)
                     .post(requestBody)
@@ -898,6 +908,13 @@ public class AccomodationListModel implements Parcelable {
         return isAvailable;
     }
 
+    public String getIsRunningWater(){
+        return isRunningWater;
+    }
+
+    public String getIsRepair(){
+        return isNeedRepairs;
+    }
 
     public String getType() {
         return type;
@@ -939,6 +956,7 @@ public class AccomodationListModel implements Parcelable {
         return bookingId;
     }
 
+
     public String getAvailabilityStatus() {
         return availabilityStatus;
     }
@@ -952,13 +970,14 @@ public class AccomodationListModel implements Parcelable {
     }
 
 
-    private String buildSearchCredentials(String type, String location, String max_price, String min_price){
+    private String buildSearchCredentials(String type, String location, String max_price, String min_price, String city){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("type",type);
             jsonObject.put("location",location);
             jsonObject.put("max_price",max_price);
             jsonObject.put("min_price",min_price);
+            jsonObject.put("city",city);
         } catch (JSONException e) {
             e.printStackTrace();
         }

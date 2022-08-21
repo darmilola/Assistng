@@ -347,7 +347,7 @@
                 android:ellipsize="end"
                 android:layout_marginTop="30dp"
                 android:layout_alignParentLeft="true"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/pink"
                 android:fontFamily="@font/clannews"
                 android:text="⚠Warning"/>
 

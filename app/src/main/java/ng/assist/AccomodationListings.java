@@ -33,7 +33,7 @@ public class AccomodationListings extends AppCompatActivity {
     private String totalPage;
     private boolean isLoading = false;
     private String nextPageUrl;
-    private String selectedCity,houseType,maxPrice,minPrice;
+    private String selectedCity,houseType,maxPrice,minPrice,city;
     private ProgressBar progressBar,recyclerProgressbar;
     private LinearLayout rootLayout;
     private LinearLayout imageScrollLayout;
@@ -63,9 +63,9 @@ public class AccomodationListings extends AppCompatActivity {
         houseType = intent.getStringExtra("type");
         maxPrice = intent.getStringExtra("max_price");
         minPrice = intent.getStringExtra("min_price");
+        city = intent.getStringExtra("cityLocation");
 
-
-        AccomodationListModel accomodationListModel = new AccomodationListModel(houseType,selectedCity,maxPrice,minPrice);
+        AccomodationListModel accomodationListModel = new AccomodationListModel(houseType,selectedCity,maxPrice,minPrice,city);
         accomodationListModel.getAccomodations();
         accomodationListModel.setAccomodationListReadyListener(new AccomodationListModel.AccomodationListReadyListener() {
             @Override
@@ -95,7 +95,7 @@ public class AccomodationListings extends AppCompatActivity {
                         return;
                     }
                     recyclerProgressbar.setVisibility(View.VISIBLE);
-                    AccomodationListModel accomodationListModel = new AccomodationListModel(houseType,selectedCity,maxPrice,minPrice);
+                    AccomodationListModel accomodationListModel = new AccomodationListModel(houseType,selectedCity,maxPrice,minPrice,city);
                     accomodationListModel.getAccomodationsNextPage(AccomodationListings.this.nextPageUrl);
                     accomodationListModel.setAccomodationListReadyListener(new AccomodationListModel.AccomodationListReadyListener() {
                         @Override

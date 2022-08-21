@@ -333,6 +333,25 @@
                 android:background="@drawable/edit_profile_edittext_background"/>
 
 
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:id="@+id/is_running_water"
+                android:text="Check if there is running water"
+                android:layout_marginRight="16dp"/>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:id="@+id/is_repairs"
+                android:text="Check if repairs needs to be done"
+                android:layout_marginRight="16dp"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

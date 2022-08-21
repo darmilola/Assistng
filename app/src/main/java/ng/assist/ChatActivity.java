@@ -123,7 +123,7 @@ public class ChatActivity  extends AppCompatActivity  implements MessageInput.In
         if (fromBooking) {
 
             onSubmit("Hello, thank you for showing interest in our apartment.\n" +
-                    "Kindly reply to message with the \n" +
+                    "Kindly reply to this message with the \n" +
                     "Title of the lodge\n" +
                     "Day and Time for the inspection. \n" +
                     "I will contact you as soon as possible");

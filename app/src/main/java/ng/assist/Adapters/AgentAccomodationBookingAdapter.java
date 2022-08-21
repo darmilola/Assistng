@@ -61,6 +61,19 @@ public class AgentAccomodationBookingAdapter extends RecyclerView.Adapter<AgentA
             viewHolder.perTag.setText("/day");
         }
 
+        if(accomodationListModel.getIsRunningWater().equalsIgnoreCase("true")){
+            viewHolder.runningWater.setVisibility(View.VISIBLE);
+        }
+
+
+
+        if(accomodationListModel.getIsRepair().equalsIgnoreCase("true")){
+            viewHolder.needsRepair.setVisibility(View.VISIBLE);
+        }
+
+
+
+
         viewHolder.baths.setText(accomodationListModel.getBaths());
         viewHolder.beds.setText(accomodationListModel.getBeds());
         Glide.with(context)
@@ -82,7 +95,7 @@ public class AgentAccomodationBookingAdapter extends RecyclerView.Adapter<AgentA
 
     public class AccomodationItemViewHolder extends RecyclerView.ViewHolder{
         TextView houseTitle,pricePerMonth,perTag,beds,baths;
-        ImageView displayImage;
+        ImageView displayImage,runningWater,needsRepair;;
         public AccomodationItemViewHolder(View ItemView){
             super(ItemView);
             houseTitle = ItemView.findViewById(R.id.accomodation_title);
@@ -91,6 +104,8 @@ public class AgentAccomodationBookingAdapter extends RecyclerView.Adapter<AgentA
             perTag = ItemView.findViewById(R.id.accommodation_listing_per_tag_text);
             beds = ItemView.findViewById(R.id.accomodation_listing_beds);
             baths = ItemView.findViewById(R.id.accomodation_listing_baths);
+            runningWater = ItemView.findViewById(R.id.running_water);
+            needsRepair = ItemView.findViewById(R.id.needs_repair);
 
             ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -74,6 +74,19 @@ public class RealEstateDashboardListingAdapter extends RecyclerView.Adapter<Real
         holder.baths.setText(accomodationListModel.getBaths());
         holder.beds.setText(accomodationListModel.getBeds());
 
+        if(accomodationListModel.getIsRunningWater().equalsIgnoreCase("true")){
+            holder.runningWater.setVisibility(View.VISIBLE);
+        }
+
+
+
+        if(accomodationListModel.getIsRepair().equalsIgnoreCase("true")){
+            holder.needsRepair.setVisibility(View.VISIBLE);
+        }
+
+
+
+
 
         Glide.with(context)
                 .load(accomodationListModel.getHouseDisplayImage())
@@ -89,7 +102,7 @@ public class RealEstateDashboardListingAdapter extends RecyclerView.Adapter<Real
 
     public class itemViewHolder extends RecyclerView.ViewHolder {
         TextView houseTitle,pricePerMonth,perTag,beds,baths;
-        ImageView displayImage;
+        ImageView displayImage,runningWater,needsRepair;
         public itemViewHolder(View ItemView){
             super(ItemView);
             houseTitle = ItemView.findViewById(R.id.accomodation_title);
@@ -98,6 +111,8 @@ public class RealEstateDashboardListingAdapter extends RecyclerView.Adapter<Real
             perTag = ItemView.findViewById(R.id.accommodation_listing_per_tag_text);
             beds = ItemView.findViewById(R.id.accomodation_listing_beds);
             baths = ItemView.findViewById(R.id.accomodation_listing_baths);
+            runningWater = ItemView.findViewById(R.id.running_water);
+            needsRepair = ItemView.findViewById(R.id.needs_repair);
 
             ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override

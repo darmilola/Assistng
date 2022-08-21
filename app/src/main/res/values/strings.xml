@@ -15,25 +15,33 @@
 
     </string-array>
 
-    <string name="booking_payment">Before you make the payment ensure that you have inspected the apartment and you like what you saw.\n\n
-However, you have till 1 week from the moment you made this payment to Request a refund if;\n\n
+    <string name="booking_payment">1. Before you make the payment, ensure that you have already inspected the apartment and that you like what you saw.\n\n
 
-1. The apartment is not exactly what was advertised online.\n\n
+2. Ensure to carry out your due diligence on the apartment.\n\n
 
-2. If you are not satisfied with the accommodation. \n\n
+3. Make sure to ask questions regarding the Light bills, water bills and any other services provided in the apartment and that you are okay with all the bills/charges.\n\n
 
-3. If the agent fails to honour their part of the agreement you both had,\n\n
+4. Make sure to reach an agreement with the apartment owner or their authorised representative to complete every structural repair if there is any, before Seven(7) days from the moment you made this payment.\n\n
 
-Note:
-The equivalent of 1 week\'s rent will be deducted from the amount you paid before returning the rest to you.
+4a. In a situation where the apartment owner or their authorised representative fails to honour their part of the agreement you both had\n\n
+
+4b. You can request a refund within seven(7) days from the day this rent is paid.\n\n
+
+Note: The equivalent of Seven(7) days of rent will be deducted from the amount you paid before refunding the rest to you.\n\n
+
+        To Apply for a Refund\n
+Open the App, From the home screen Click on Accommodation > Show Bookings > Select the apartment > Apply for Refund.\n\n
     </string>
 
     <string name="acc_warning">
-The security of your money is extremely important to us, therefore, we strongly advise that;
+        Your safety and security of your money are extremely important to us,  therefore, we strongly recommend that; \n\n
 
-You do not engage in any cash transactions with the agent outside the platform.
+1. You do not engage in any cash transactions with the agent outside this platform.\n\n
 
-You should not schedule an inspection at odd hours or at night.</string>
+2. You should not schedule an inspection at odd hours or at night.\n\n
+
+3. Ensure to deal directly with the agent above or their authorized representative, do not engage with any unknowing third party.\n\n
+    </string>
 
     <string-array name="quick_credit_loan_amount">
         <item>NGN10,000</item>

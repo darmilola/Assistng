@@ -295,6 +295,7 @@ public class AccountFragments extends Fragment {
         if(verificationType.equalsIgnoreCase("business")){
             authBusinessUser();
         }
+        
 
     }
 

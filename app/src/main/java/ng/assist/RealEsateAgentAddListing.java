@@ -23,6 +23,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,7 +57,9 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
     ArrayList<EstateDashboardModel.HouseImage> houseImageArrayList = new ArrayList<>();
     String userEmail;
     ImageView navBack;
+    CheckBox isRunningWater, isRepairs;
     AlertDialog.Builder builder;
+    private String isRepairsValue, isRunningWaterValue;
     EstateDashboardImageAdapter estateDashboardImageAdapter = new EstateDashboardImageAdapter(houseImageArrayList,RealEsateAgentAddListing.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,8 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
 
     private void initView(){
         populateList();
+        isRunningWater = findViewById(R.id.is_running_water);
+        isRepairs = findViewById(R.id.is_repairs);
         navBack = findViewById(R.id.nav_back);
         beds = findViewById(R.id.real_estate_add_listing_bath);
         baths = findViewById(R.id.real_estate_add_listing_bed);
@@ -115,6 +120,21 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
                 mBath = baths.getText().toString().trim();
                 mBed = beds.getText().toString().trim();
                 mHouseCity = houseCity.getText().toString();
+
+
+                if(isRepairs.isChecked()){
+                    isRepairsValue = "true";
+                }else{
+                    isRepairsValue = "false";
+                }
+
+                if(isRunningWater.isChecked()){
+                    isRunningWaterValue = "true";
+                }
+                else{
+                    isRunningWaterValue = "false";
+                }
+
 
                 if(isValidInput()){
 
@@ -357,7 +377,7 @@ public class RealEsateAgentAddListing extends AppCompatActivity {
                 .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        EstateDashboardModel estateDashboardModel = new EstateDashboardModel(RealEsateAgentAddListing.this,houseId,mTitle,mPricePerMonth,mCity,mBookingFee,mAddress,displayImage,mDescription,mType,userEmail,Integer.parseInt(mBed),Integer.parseInt(mBath),mHouseCity);
+                        EstateDashboardModel estateDashboardModel = new EstateDashboardModel(RealEsateAgentAddListing.this,houseId,mTitle,mPricePerMonth,mCity,mBookingFee,mAddress,displayImage,mDescription,mType,userEmail,Integer.parseInt(mBed),Integer.parseInt(mBath),mHouseCity,isRepairsValue,isRunningWaterValue);
                         estateDashboardModel.createAgentListing();
                         estateDashboardModel.setCreateListingListener(new EstateDashboardModel.CreateListingListener() {
                             @Override

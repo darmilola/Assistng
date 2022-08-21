@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ public class Accomodation extends AppCompatActivity {
     RangeSeekBar priceRangebar;
     TextView priceRangeText;
     ImageView navBack;
+    EditText cityInput;
+    String cityString;
     String selectedCity,type = "",min_price = "0",max_price = "10000000";
 
     @Override
@@ -69,6 +72,7 @@ public class Accomodation extends AppCompatActivity {
         priceRangebar = findViewById(R.id.price_range_progress);
         navBack = findViewById(R.id.nav_back);
         showBookings = findViewById(R.id.show_bookings);
+        cityInput = findViewById(R.id.input_city);
         navBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,12 +119,14 @@ public class Accomodation extends AppCompatActivity {
         checkHomes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cityString = cityInput.getText().toString().trim();
                 if(isValidForm()){
                     Intent intent = new Intent(Accomodation.this,AccomodationListings.class);
                     intent.putExtra("city",selectedCity);
                     intent.putExtra("type",type);
                     intent.putExtra("max_price",max_price);
                     intent.putExtra("min_price",min_price);
+                    intent.putExtra("cityLocation",cityString);
                     startActivity(intent);
                 }
             }
@@ -232,6 +238,11 @@ public class Accomodation extends AppCompatActivity {
             Toast.makeText(this, "Please Select Accommodation Type", Toast.LENGTH_SHORT).show();
             valid = false;
             return valid;
+        }
+        else if(cityString.equalsIgnoreCase("")){
+             cityInput.setError("Required");
+             valid = false;
+             return  valid;
         }
         return valid;
     }

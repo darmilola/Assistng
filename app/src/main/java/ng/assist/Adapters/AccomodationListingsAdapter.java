@@ -3,6 +3,7 @@ package ng.assist.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,20 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<Accomodati
             viewHolder.perTag.setText("/day");
         }
 
+
+        if(accomodationListModel.getIsRunningWater().equalsIgnoreCase("true")){
+            viewHolder.runningWater.setVisibility(View.VISIBLE);
+        }
+
+
+
+        if(accomodationListModel.getIsRepair().equalsIgnoreCase("true")){
+            viewHolder.needsRepair.setVisibility(View.VISIBLE);
+        }
+
+
+
+
         viewHolder.baths.setText(accomodationListModel.getBaths());
         viewHolder.beds.setText(accomodationListModel.getBeds());
 
@@ -83,7 +98,7 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<Accomodati
 
     public class AccomodationItemViewHolder extends RecyclerView.ViewHolder{
         TextView houseTitle,pricePerMonth,perTag,beds,baths;
-        ImageView displayImage;
+        ImageView displayImage,runningWater,needsRepair;
         public AccomodationItemViewHolder(View ItemView){
             super(ItemView);
             houseTitle = ItemView.findViewById(R.id.accomodation_title);
@@ -92,6 +107,8 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<Accomodati
             perTag = ItemView.findViewById(R.id.accommodation_listing_per_tag_text);
             beds = ItemView.findViewById(R.id.accomodation_listing_beds);
             baths = ItemView.findViewById(R.id.accomodation_listing_baths);
+            runningWater = ItemView.findViewById(R.id.running_water);
+            needsRepair = ItemView.findViewById(R.id.needs_repair);
 
             ItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,4 +121,6 @@ public class AccomodationListingsAdapter extends RecyclerView.Adapter<Accomodati
             });
         }
     }
+
 }
+

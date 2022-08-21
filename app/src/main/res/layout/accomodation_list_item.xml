@@ -7,7 +7,7 @@
     android:layout_marginRight="10dp"
     android:layout_marginTop="5dp"
     android:background="@color/transparent"
-    android:layout_height="290dp">
+    android:layout_height="300dp">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="220dp"
@@ -103,8 +103,8 @@
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
             android:gravity="right"
-            android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -117,16 +117,12 @@
                 android:id="@+id/accomodation_listing_beds"
                 android:text="2"
                 android:fontFamily="@font/clanbold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/grey"
-                android:textSize="15dp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginLeft="5dp"
-                android:text="Beds,"
-                android:fontFamily="@font/clannews"/>
+                android:src="@drawable/bed_bedroom_furniture_icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -135,20 +131,35 @@
                 android:textSize="15dp"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:id="@+id/accomodation_listing_baths"
                 android:text="5"
                 android:fontFamily="@font/clanbold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/grey"
-                android:textSize="15dp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginLeft="5dp"
-                android:text="Baths"
-                android:fontFamily="@font/clannews"/>
+                android:src="@drawable/bath_bathroom_bathtub_water_icon"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="30dp"
+                android:textColor="@color/grey"
+                android:id="@+id/running_water"
+                android:visibility="gone"
+                android:src="@drawable/cleaning_hand_hygiene_wash_water_icon"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="30dp"
+                android:textColor="@color/grey"
+                android:id="@+id/needs_repair"
+                android:visibility="gone"
+                android:src="@drawable/hammer_building_construction_repair_icon"/>
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
