@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ng.assist.UIs.Utils.ListDialog;
-import ng.assist.UIs.ViewModel.TransactionDao;
-import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 import ng.assist.UIs.ViewModel.WithdrawalModel;
 
@@ -132,7 +130,7 @@ public class RequestWithdrawal extends AppCompatActivity {
                             Toast.makeText(RequestWithdrawal.this, "Your withdraw is been processed", Toast.LENGTH_SHORT).show();
                             Date date = new Date();
                             Timestamp timestamp = new Timestamp(date.getTime());
-                            insertBooking(0,8,"Withdrawal",timestamp.toString(),amount,"");
+                            insertBooking("8",amount,"","Withdrawal");
                             finish();
                         }
 
@@ -227,11 +225,10 @@ public class RequestWithdrawal extends AppCompatActivity {
         preferences.edit().putString("walletBalance",Integer.toString(Integer.parseInt(walletBalance) - Integer.parseInt(amount))).apply();
     }
 
-    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
-        TransactionDatabase db = Room.databaseBuilder(RequestWithdrawal.this,
-                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
-        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
-        TransactionDao transactionDao = db.transactionDao();
-        transactionDao.insert(transactions);
+    private void insertBooking(String type,String amount, String orderId, String title) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RequestWithdrawal.this);
+        String userId = preferences.getString("userEmail","");
+        Transactions transactions = new Transactions(userId, type, title, amount, orderId);
+        transactions.createTransactions();
     }
 }

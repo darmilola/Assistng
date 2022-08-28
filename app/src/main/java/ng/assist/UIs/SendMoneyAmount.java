@@ -24,10 +24,9 @@ import java.util.Date;
 
 import androidx.room.Room;
 import de.hdodenhof.circleimageview.CircleImageView;
+import ng.assist.AccomodationBooking;
 import ng.assist.R;
 import ng.assist.UIs.ViewModel.SendMoneyModel;
-import ng.assist.UIs.ViewModel.TransactionDao;
-import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
 /**
@@ -97,7 +96,7 @@ public class SendMoneyAmount extends Fragment {
                             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                             preferences.edit().putString("sendMoneyAmount",amountToSend.getText().toString()).apply();
                             sendMoneyListener.onSendSuccess();
-                            insertBooking(0,6,"Send Money",timestamp.toString(),amountToSend.getText().toString(),"");
+                            insertBooking("6",amountToSend.getText().toString(),"","Send Money");
                             reduceWalletBalanceInSharedPref(getContext(),amountToSend.getText().toString());
                         }
                         @Override
@@ -129,12 +128,11 @@ public class SendMoneyAmount extends Fragment {
             userEmail.setText(email);
     }
 
-    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
-        TransactionDatabase db = Room.databaseBuilder(getContext(),
-                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
-        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
-        TransactionDao transactionDao = db.transactionDao();
-        transactionDao.insert(transactions);
+    private void insertBooking(String type,String amount, String orderId, String title) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String userId = preferences.getString("userEmail","");
+        Transactions transactions = new Transactions(userId, type, title, amount, orderId);
+        transactions.createTransactions();
     }
 
     private void reduceWalletBalanceInSharedPref(Context context, String amount){

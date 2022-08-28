@@ -12,8 +12,6 @@ import ng.assist.UIs.Utils.CheckoutDialog;
 import ng.assist.UIs.ViewModel.CabHailingModel;
 import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.GroceryModel;
-import ng.assist.UIs.ViewModel.TransactionDao;
-import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
 import android.content.Context;
@@ -178,7 +176,7 @@ public class GroceryCart extends AppCompatActivity {
                                 addPending();
                                 Date date = new Date();
                                 Timestamp timestamp = new Timestamp(date.getTime());
-                                insertBooking(0,2,"Shopping",timestamp.toString(),mTotalPriceValue,orderId);
+                                insertBooking("2",mTotalPriceValue,orderId,"Shopping");
 
                             }
 
@@ -229,7 +227,7 @@ public class GroceryCart extends AppCompatActivity {
                                 addPending();
                                 Date date = new Date();
                                 Timestamp timestamp = new Timestamp(date.getTime());
-                                insertBooking(0,2,"Shopping",timestamp.toString(),mTotalPriceValue,orderId);
+                                insertBooking("2",mTotalPriceValue,orderId,"Shopping");
 
                             }
 
@@ -278,12 +276,11 @@ public class GroceryCart extends AppCompatActivity {
         }
     }
 
-    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
-        TransactionDatabase db = Room.databaseBuilder(GroceryCart.this,
-                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
-        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
-        TransactionDao transactionDao = db.transactionDao();
-        transactionDao.insert(transactions);
+    private void insertBooking(String type,String amount, String orderId, String title) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GroceryCart.this);
+        String userId = preferences.getString("userEmail","");
+        Transactions transactions = new Transactions(userId, type, title, amount, orderId);
+        transactions.createTransactions();
     }
 
 

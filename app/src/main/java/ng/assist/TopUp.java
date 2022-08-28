@@ -10,8 +10,6 @@ import co.paystack.android.model.Card;
 import co.paystack.android.model.Charge;
 import ng.assist.UIs.Utils.LoadingDialogUtils;
 import ng.assist.UIs.ViewModel.TopUpModel;
-import ng.assist.UIs.ViewModel.TransactionDao;
-import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
 import android.content.Context;
@@ -210,12 +208,11 @@ public class TopUp extends AppCompatActivity {
         }
     }
 
-    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
-        TransactionDatabase db = Room.databaseBuilder(TopUp.this,
-                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
-        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
-        TransactionDao transactionDao = db.transactionDao();
-        transactionDao.insert(transactions);
+    private void insertBooking(String type,String amount, String orderId, String title) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(TopUp.this);
+        String userId = preferences.getString("userEmail","");
+        Transactions transactions = new Transactions(userId, type, title, amount, orderId);
+        transactions.createTransactions();
     }
 
     // function to generate a random string of length n
@@ -262,7 +259,7 @@ public class TopUp extends AppCompatActivity {
             public void onTopUpSucessful(String balance) {
                 Date date = new Date();
                 Timestamp timestamp = new Timestamp(date.getTime());
-                insertBooking(0,5,"Top Up",timestamp.toString(),Integer.toString((topUpAmount)),"");
+                insertBooking("5",Integer.toString((topUpAmount)),"","Top Up");
                 Toast.makeText(TopUp.this, "TopUp Successful", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.putExtra("balance",balance);

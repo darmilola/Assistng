@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
@@ -94,7 +96,6 @@ public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int
             Timestamp timestamp = null;
             Date currentDate = new Date();
             dateFormat.format(currentDate);
-
 
         try {
 
@@ -177,6 +178,17 @@ public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int
         }
         if(holder instanceof WithdrawItemViewHolder){
             ((WithdrawItemViewHolder) holder).amount.setText("₦"+transactions.getAmount());
+
+            if(transactions.getIsWithdrawPaid().equalsIgnoreCase("false")){
+                ((WithdrawItemViewHolder) holder).status.setColorFilter(ContextCompat.getColor(context, R.color.yellow));
+            }
+            else if(transactions.getIsWithdrawPaid().equalsIgnoreCase("true")){
+                ((WithdrawItemViewHolder) holder).status.setColorFilter(ContextCompat.getColor(context, R.color.green));
+            }
+            else {
+                ((WithdrawItemViewHolder) holder).status.setColorFilter(ContextCompat.getColor(context, R.color.mention_color));
+            }
+
             if(DateFormatter.isSameDay(currentDate,chatDate)){
                 ((WithdrawItemViewHolder) holder).date.setText(DateFormatter.format(cal.getTime(), DateFormatter.Template.TIME));
             }
@@ -196,34 +208,34 @@ public int getItemCount() {
     @Override
     public int getItemViewType(int position) {
 
-        if (walletTransactionsList.get(position).getType() == typeAccomodation) {
+        if (Integer.parseInt(walletTransactionsList.get(position).getType()) == typeAccomodation) {
 
             return typeAccomodation;
-        } else if (walletTransactionsList.get(position).getType() == typeBills) {
+        } else if (Integer.parseInt(walletTransactionsList.get(position).getType()) == typeBills) {
 
             return typeBills;
         }
-        else if (walletTransactionsList.get(position).getType() == typeMarketPlace) {
+        else if (Integer.parseInt(walletTransactionsList.get(position).getType()) == typeMarketPlace) {
 
             return typeMarketPlace;
         }
-        else if (walletTransactionsList.get(position).getType() == typeSend) {
+        else if (Integer.parseInt(walletTransactionsList.get(position).getType()) == typeSend) {
 
             return typeSend;
         }
-        else if (walletTransactionsList.get(position).getType() == typeServices) {
+        else if (Integer.parseInt(walletTransactionsList.get(position).getType()) == typeServices) {
 
             return typeServices;
         }
-        else if (walletTransactionsList.get(position).getType() == typeTopUp) {
+        else if (Integer.parseInt(walletTransactionsList.get(position).getType()) == typeTopUp) {
 
             return typeTopUp;
         }
-        else if (walletTransactionsList.get(position).getType() == typeTransports) {
+        else if (Integer.parseInt(walletTransactionsList.get(position).getType()) == typeTransports) {
 
             return typeTransports;
         }
-        else if (walletTransactionsList.get(position).getType() == typeWithdraw) {
+        else if (Integer.parseInt(walletTransactionsList.get(position).getType()) == typeWithdraw) {
 
             return typeWithdraw;
         }
@@ -323,10 +335,12 @@ public int getItemCount() {
     }
     public class WithdrawItemViewHolder extends RecyclerView.ViewHolder{
      TextView date,amount;
+     ImageView status;
      public WithdrawItemViewHolder(View ItemView){
             super(ItemView);
             date = ItemView.findViewById(R.id.transactions_date);
             amount = ItemView.findViewById(R.id.transactions_amount);
+            status = ItemView.findViewById(R.id.withdraw_status);
         }
 
     }

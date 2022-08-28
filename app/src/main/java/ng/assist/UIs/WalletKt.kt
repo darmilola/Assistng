@@ -9,10 +9,7 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -22,8 +19,8 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import ng.assist.*
 import ng.assist.Adapters.WalletAdapter
-import ng.assist.UIs.ViewModel.TransactionDatabase
 import ng.assist.UIs.ViewModel.Transactions
+import ng.assist.UIs.ViewModel.Transactions.getTransactionListener
 import ng.assist.UIs.ViewModel.WalletTransactionsModel
 import java.text.DecimalFormat
 
@@ -47,6 +44,7 @@ class WalletKt : Fragment() {
     internal lateinit var bills: LinearLayout
     internal lateinit var walletBalanceText: TextView
     internal lateinit var pendingImage: ImageView
+    internal lateinit var progressBar: ProgressBar
     internal var mWalletBalance: String? = null
 
 
@@ -75,6 +73,7 @@ class WalletKt : Fragment() {
         topUp = view.findViewById(R.id.top_up_layout)
         withdrawals = view.findViewById(R.id.withdrawals)
         bills = view.findViewById(R.id.bills)
+        progressBar = view.findViewById(R.id.transactions_progress)
         mWalletBalance = requireArguments().getString("walletBalance")
         val amount = java.lang.Double.parseDouble(mWalletBalance!!)
         val formatter = DecimalFormat("#,###.00")
@@ -185,18 +184,32 @@ class WalletKt : Fragment() {
     }
 
 
-
-
     fun initTransactions(){
-        val db = TransactionDatabase.getTransactionDatabase(context = requireActivity().applicationContext!!)
-        val transactionDao = db!!.transactionDao();
-        val transactions: List<Transactions> = transactionDao.getAll()
+        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val userId = preferences.getString("userEmail", "")
 
-        adapter = WalletAdapter(ArrayList(transactions), context)
-        walletRecyclerview.adapter = adapter
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
-        walletRecyclerview.layoutManager = layoutManager
-        walletRecyclerview.adapter = adapter
+        val tr = Transactions(userId)
+
+        walletRecyclerview.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+
+        tr.showTransactions()
+
+        tr.setGetTransactionListener(object : getTransactionListener {
+            override fun isSuccessful(transactions: java.util.ArrayList<Transactions>) {
+                adapter = WalletAdapter(ArrayList(transactions), context)
+                walletRecyclerview.adapter = adapter
+                walletRecyclerview.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+                walletRecyclerview.layoutManager = layoutManager
+                walletRecyclerview.adapter = adapter
+            }
+            override fun isFailed() {
+                progressBar.visibility = View.GONE
+                walletRecyclerview.visibility = View.GONE
+            }
+        })
     }
 
     companion object {

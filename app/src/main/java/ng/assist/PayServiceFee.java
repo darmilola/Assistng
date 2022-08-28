@@ -6,8 +6,6 @@ import androidx.room.Room;
 import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.ProviderBookingsModel;
 import ng.assist.UIs.ViewModel.ServicesModel;
-import ng.assist.UIs.ViewModel.TransactionDao;
-import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
 import android.content.Context;
@@ -96,7 +94,7 @@ public class PayServiceFee extends AppCompatActivity {
                             createBookings(billId,userId,servicesModel.getHandymanId(),Integer.toString(cost));
                             Date date = new Date();
                             Timestamp timestamp = new Timestamp(date.getTime());
-                            insertBooking(0,4,"Paid",timestamp.toString(),Integer.toString(cost),"");
+                            insertBooking("4",Integer.toString(cost),"","Paid");
                         }
 
                         @Override
@@ -147,12 +145,11 @@ public class PayServiceFee extends AppCompatActivity {
         });
     }
 
-    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
-        TransactionDatabase db = Room.databaseBuilder(PayServiceFee.this,
-                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
-        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
-        TransactionDao transactionDao = db.transactionDao();
-        transactionDao.insert(transactions);
+    private void insertBooking(String type,String amount, String orderId, String title) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(PayServiceFee.this);
+        String userId = preferences.getString("userEmail","");
+        Transactions transactions = new Transactions(userId, type, title, amount, orderId);
+        transactions.createTransactions();
     }
 
     @Override

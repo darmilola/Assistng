@@ -49,8 +49,6 @@ import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.AgentModel;
 import ng.assist.UIs.ViewModel.EstateDashboardModel;
 import ng.assist.UIs.ViewModel.ProductImageModel;
-import ng.assist.UIs.ViewModel.TransactionDao;
-import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 import ng.assist.UIs.ViewModel.VerificationModel;
 

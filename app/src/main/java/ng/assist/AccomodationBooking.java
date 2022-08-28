@@ -17,8 +17,6 @@ import ng.assist.UIs.ViewModel.AccomodationListModel;
 import ng.assist.UIs.ViewModel.AgentModel;
 import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.ProductImageModel;
-import ng.assist.UIs.ViewModel.TransactionDao;
-import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
 import android.content.Context;
@@ -251,12 +249,11 @@ public class AccomodationBooking extends AppCompatActivity {
 
     }
 
-    private void insertBooking(int id, int type, String title, String timestamp, String amount, String orderId) {
-        TransactionDatabase db = Room.databaseBuilder(AccomodationBooking.this,
-                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
-        Transactions transactions = new Transactions(id, type, title, timestamp, amount, orderId);
-        TransactionDao transactionDao = db.transactionDao();
-        transactionDao.insert(transactions);
+    private void insertBooking(String type,String amount, String orderId, String title) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(AccomodationBooking.this);
+        String userId = preferences.getString("userEmail","");
+        Transactions transactions = new Transactions(userId, type, title, amount, orderId);
+        transactions.createTransactions();
     }
 
     @Override
@@ -287,7 +284,7 @@ public class AccomodationBooking extends AppCompatActivity {
                                     Toast.makeText(AccomodationBooking.this, "Booking Successful", Toast.LENGTH_SHORT).show();
                                     Date date = new Date();
                                     Timestamp timestamp = new Timestamp(date.getTime());
-                                    insertBooking(0, 3, "Paid", timestamp.toString(), accPay, "");
+                                    insertBooking( "3",  accPay,"", "Paid");
                                     //addPending();
                                     reduceWalletBalanceInSharedPref(AccomodationBooking.this,accPay);
                                     finish();

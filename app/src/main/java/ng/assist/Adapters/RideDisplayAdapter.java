@@ -26,12 +26,12 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+
+import ng.assist.AccomodationBooking;
 import ng.assist.MainActivity;
 import ng.assist.R;
 import ng.assist.UIs.Utils.TransportDialog;
 import ng.assist.UIs.ViewModel.CabHailingModel;
-import ng.assist.UIs.ViewModel.TransactionDao;
-import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
 public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.itemViewHolder> {
@@ -147,7 +147,7 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
                                         reduceWalletBalanceInSharedPref(context,tFare);
                                         Date date = new Date();
                                         Timestamp timestamp = new Timestamp(date.getTime());
-                                        insertTransportBooking(0, 1, "Paid", timestamp.toString(), tFare, "");
+                                        insertTransportBooking("1", tFare, "","Transport");
                                         showAlert();
 
                                     }
@@ -213,12 +213,11 @@ public class RideDisplayAdapter extends RecyclerView.Adapter<RideDisplayAdapter.
 
 
 
-        private void insertTransportBooking(int id,int type, String title, String timestamp, String amount, String orderId){
-            TransactionDatabase db = Room.databaseBuilder(context,
-                    TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
-            Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
-            TransactionDao transactionDao = db.transactionDao();
-            transactionDao.insert(transactions);
+        private void insertTransportBooking(String type,String amount, String orderId, String title) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            String userId = preferences.getString("userEmail","");
+            Transactions transactions = new Transactions(userId, type, title, amount, orderId);
+            transactions.createTransactions();
         }
     }
 

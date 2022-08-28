@@ -32,8 +32,6 @@ import ng.assist.UIs.Utils.RefundDialog;
 import ng.assist.UIs.ViewModel.BillsModel;
 import ng.assist.UIs.ViewModel.CreatBill;
 import ng.assist.UIs.ViewModel.ProviderBookingsModel;
-import ng.assist.UIs.ViewModel.TransactionDao;
-import ng.assist.UIs.ViewModel.TransactionDatabase;
 import ng.assist.UIs.ViewModel.Transactions;
 
 public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHolder> {
@@ -182,15 +180,15 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
                                     int newBalance = Integer.parseInt(currentWalletBalance) + cost;
                                     preferences.edit().putString("walletBalance",Integer.toString(newBalance));
                                     if(billsList.get(getAdapterPosition()).getType().equalsIgnoreCase("1") ){
-                                        insertBooking(0,7,"Transport",timestamp.toString(),Integer.toString(cost),"");
+                                        insertBooking("7",Integer.toString(cost),"","Transport");
                                     }
                                     else if(billsList.get(getAdapterPosition()).getType().equalsIgnoreCase("3") ){
-                                        insertBooking(0,7,"House Inspection",timestamp.toString(),Integer.toString(cost),"");
+                                        insertBooking("7",Integer.toString(cost),"","House Inspection");
                                     }
                                     else if(billsList.get(getAdapterPosition()).getType().equalsIgnoreCase("2") ){
-                                        insertBooking(0,7,"Shopping",timestamp.toString(),Integer.toString(cost),"");
+                                        insertBooking("7",Integer.toString(cost),"","Shopping");
                                     }else if(billsList.get(getAdapterPosition()).getType().equalsIgnoreCase("4") ){
-                                        insertBooking(0,7,"Service",timestamp.toString(),Integer.toString(cost),"");
+                                        insertBooking("7",Integer.toString(cost),"","Services");
                                     }
                                     billsList.remove(getAdapterPosition());
                                     notifyDataSetChanged();
@@ -223,12 +221,11 @@ public class BillsAdapter extends RecyclerView.Adapter<BillsAdapter.itemViewHold
 
 
 
-    private void insertBooking(int id,int type, String title, String timestamp, String amount, String orderId){
-        TransactionDatabase db = Room.databaseBuilder(context,
-                TransactionDatabase.class, "transactions").allowMainThreadQueries().build();
-        Transactions transactions = new Transactions(id,type,title,timestamp,amount,orderId);
-        TransactionDao transactionDao = db.transactionDao();
-        transactionDao.insert(transactions);
+    private void insertBooking(String type,String amount, String orderId, String title) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String userId = preferences.getString("userEmail","");
+        Transactions transactions = new Transactions(userId, type, title, amount, orderId);
+        transactions.createTransactions();
     }
 
     private void UpdateServiceBooking(String billId,String status){

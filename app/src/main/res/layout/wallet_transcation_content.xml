@@ -41,12 +41,19 @@
                 android:fontFamily="@font/clannews"
                 android:textColor="@color/light_text_color"/>
 
+            <ProgressBar
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:id="@+id/transactions_progress"
+                android:layout_marginTop="50dp"/>
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:id="@+id/wallet_transcations_recyclerview"
                 android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/wallet_transactions_marketplace"/>
