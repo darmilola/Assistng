@@ -45,7 +45,7 @@
                 android:layout_marginRight="20dp"
                 android:lineSpacingExtra="5dp"
                 android:fontFamily="@font/kumelianbold"
-                android:text="Need Assist\nGet Assist"/>
+                android:text="Need Assist\nGet Assisted"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/airreg"
-                android:text="Your most convenient marketplace for products and services."/>
+                android:text="Get the things you need today and pay later."/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

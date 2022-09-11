@@ -126,11 +126,11 @@ public class RequestWithdrawal extends AppCompatActivity {
                     withdrawalModel.setWithdrawListener(new WithdrawalModel.WithdrawListener() {
                         @Override
                         public void onSuccess() {
-                            reduceWalletBalanceInSharedPref(RequestWithdrawal.this,amount);
+                            //reduceWalletBalanceInSharedPref(RequestWithdrawal.this,amount);
                             Toast.makeText(RequestWithdrawal.this, "Your withdraw is been processed", Toast.LENGTH_SHORT).show();
-                            Date date = new Date();
-                            Timestamp timestamp = new Timestamp(date.getTime());
-                            insertBooking("8",amount,"","Withdrawal");
+                            //Date date = new Date();
+                            //Timestamp timestamp = new Timestamp(date.getTime());
+                            //insertBooking("8",amount,"","Withdrawal");
                             finish();
                         }
 
